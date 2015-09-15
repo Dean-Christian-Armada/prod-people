@@ -123,7 +123,7 @@ class CurrentAddressForm(forms.ModelForm):
 
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
-	preferred_vessel_type = forms.CharField()
+	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
 	# regex fild for mobile numbers
 	mobile_1 = forms.RegexField(regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
 	mobile_2 = forms.RegexField(regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
@@ -195,8 +195,9 @@ class SpouseForm(forms.ModelForm):
 		Spouse.objects.create(**value)
 
 class CollegeForm(forms.ModelForm):
-	college = forms.CharField()
-	degree = forms.CharField()
+	# college = forms.CharField()
+	college = forms.CharField(widget=autocomplete_light.TextWidget('CollegeAutocomplete'))
+	degree = forms.CharField(widget=autocomplete_light.TextWidget('DegreeAutocomplete'))
 	class Meta:
 		model = ApplicationFormCollege
 		fields = '__all__'
@@ -737,10 +738,10 @@ class TrainingCertificateForm(forms.ModelForm):
 
 class SeaServiceForm(forms.ModelForm):
 	vessel_name = forms.CharField()
-	vessel_type = forms.CharField()
-	flag = forms.CharField()
-	engine_type = forms.CharField()
-	manning_agency = forms.CharField()
+	vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
+	flag = forms.CharField(widget=autocomplete_light.TextWidget('FlagsAutocomplete'))
+	engine_type = forms.CharField(widget=autocomplete_light.TextWidget('EngineTypeAutocomplete'))
+	manning_agency = forms.CharField(widget=autocomplete_light.TextWidget('ManningAgencyAutocomplete'))
 	# Do not make principal autocomplete
 	principal = forms.CharField()
 	rank = forms.CharField()
@@ -839,7 +840,6 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		fields = ('application_date', 'alternative_position', 'position_applied')
 
 	def save(self, commit=True):
-		print self.cleaned_data
 		advertisements = self.cleaned_data['advertisements']
 		internet = self.cleaned_data['internet']
 		referred_by = self.cleaned_data['referred_by']
@@ -900,12 +900,9 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		try:
 			tmp_application_picture = application_picture
 			tmp_application_picture = tmp_application_picture.replace(scheme+"://"+http_host+"/", "")
-			# print tmp_application_picture
 			application_picture = "media/photos/application-form/"+file_name+".jpg"
 			os.rename(tmp_application_picture, application_picture)
-			print application_picture
 			application_picture = application_picture.replace("media/", "")
-			print application_picture
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 

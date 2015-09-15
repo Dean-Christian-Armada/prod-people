@@ -1,0 +1,13 @@
+Aug 11, 2015
+- Models
+	-- Created UserLevel
+	-- Created UserProfile
+- Views
+	-- Created home
+		--- if user is login
+		--- if superuser
+		--- if userlevel
+	-- Created validate
+	-- Created logout
+- Templates
+	-- Created home.html

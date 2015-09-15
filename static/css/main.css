@@ -1,0 +1,387 @@
+body {
+    /*padding-top: 50px;*/
+    padding-bottom: 20px;
+}
+
+body.login {
+    background-image: url(/static/img/test-bg.jpg);
+    font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-repeat:no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    background-color: #fafafa;
+    padding-top: 50px;
+}
+
+.login #container {
+    background-color: #2e76b8;
+    border-radius: 10px;
+    width: 400px;
+    min-width: 350px;
+    /*margin-top: 9%;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login #content-main {
+    width: 100%;
+}
+
+/*#logo {
+    padding: 30px 20px 20px 25px;
+}*/
+
+.login form {
+    margin-top: 1em;
+}
+
+.login .form-row {
+    padding: 4px 0;
+    float: left;
+    width: 100%;
+}
+
+/*.login .form-row label {
+    padding-right: 0.5em;
+    line-height: 2em;
+    font-size: 1em;
+    clear: both;
+    color: #333;
+}*/
+
+.login #content{ padding: 15px; }
+
+.login .form-row #id_username, .login .form-row #id_password {
+    border-radius: 5px;
+    border-style: none;
+    height: 38px;
+    /*padding-left: 5px;*/
+    resize: vertical;
+    /*width: 86%;*/
+    padding-left: 50px;
+    font-size: 16px;
+}
+
+.login .form-row #usernamesubmit, .login .form-row #passwordsubmit{
+    background: transparent url(/static/img/mbtn1.jpg) no-repeat scroll 0 0 / 100% 100%;
+    border: medium none;
+    filter: none;
+    height: 38px;
+    /*margin-left: 1.5px;*/
+    margin-top: -38px;
+    width: 38px;
+    position: absolute;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.login .form-row #passwordsubmit{
+    background: transparent url(/static/img/mbtn2.jpg) no-repeat scroll 0 0 / 100% 100%;
+}
+
+.login span.help {
+    font-size: 10px;
+    display: block;
+}
+
+.login .submit-row {
+/*    clear: both;
+    padding: 1em 0 0 9.4em;*/
+}
+
+.login .submit-row button[type="submit"] {
+    /*height: 30px;*/
+    background-color: #02be9b;
+    border: 0 none;
+    color: #fff;
+    border-radius: 10px;
+    width: 40%;
+    margin-top: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-weight: 700;
+}
+
+.login .submit-row button[type="submit"]:hover{
+    background-color: #04508e; 
+}
+
+.login .password-reset-link, .login .submit-row {
+    text-align: right;
+}
+
+.password-reset-link a{
+    color: #fff;
+}
+
+.login .error{
+    text-align: center;
+    background-color: #ccc;
+    color: red;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+#application-form input, #application-form select, #seaservice input, #seaservice select {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: -moz-use-text-color -moz-use-text-color #c4c1c7;
+    border-image: none;
+    border-style: none none solid;
+    border-width: 0 0 2px;
+    border-radius: 0;
+    box-shadow: none!important;
+    color: #000;
+    padding-left: 0;
+    /*text-transform: uppercase;*/
+}
+/*
+#application-form input[type='text'], #seaservice input[type='text']{
+    text-transform: uppercase;
+}*/
+
+#application-form select, #seaservice select {
+    color: #c4c1c7; background-color: #fff;
+}
+select option {
+    color: #000
+}
+.sidebar .nav>.active:focus>a,
+.sidebar .nav>.active:hover>a,
+.sidebar .nav>.active>a,
+.sidebar .nav>.active>a:hover {
+    color: #2e76b8;
+    border-left: 2px solid #02be9b
+}
+#application-form h3:nth-child(n+2) {
+    text-transform: uppercase;
+    margin-top: 50px
+}
+#application-form textarea {
+    border: 2px solid #c4c1c7;
+    font-weight: 600;
+    padding-left: 5px;
+    resize: none
+    height: 200px;
+}
+.btn-success {
+    background-color: #2e76b8;
+    border-color: #2e76b8;
+}
+.btn-success:hover {
+    background-color: #02be9b;
+    border-color: #02be9b;
+}
+.btn-info {
+    background-color: #2e76b8;
+    border-color: #2e76b8;
+}
+.btn-msmi {
+    background-color: #02be9b;
+    border-color: #02be9b;
+}
+.btn-info:hover {
+    background-color: #02be9b;
+    border-color: #02be9b;
+}
+.ui-widget-header {
+    background-color: #fafafa;
+}
+.certification-input {
+    border-radius: 4px!important;
+    border: 2px solid #c4c1c7!important;
+    padding-left: 4px!important;
+}
+.certification {
+    padding: 15px;
+    border: 2px solid #000;
+}
+.ui-widget-header {
+    background: #2e76b8!important;
+    border-color: #2e76b8!important;
+}
+.ui-state-default {
+    color: #02be9b!important;
+    background: #fff!important;
+}
+.ui-state-hover,
+.ui-state-highlight,
+.ui-state-active {
+    border: 1px solid #2e76b8!important;
+}
+.ui-datepicker {
+    color: #04508e!important;
+}
+.ui-widget-content {
+    border-color: #2e76b8!important;
+    background: #fff!important;
+}
+.form-control[readonly] {
+    background-color: #a1d2f1!important
+}
+.padding-negator {
+    padding-left: 0;
+    padding-right: 0
+}
+.padding-right-negator {
+    padding-right: 0
+}
+.image-holder{
+    margin: -160px 50px -60px 0;  
+}
+#picture-container {
+    margin-top: 30px;
+    width: 220px;
+    height: 180px;
+    border: 1px solid #000;
+}
+.bs-doc-header{
+    background-color: #2e76b8;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    color: #fafafa;
+}
+#footer {
+    padding-top: 20px;
+    color: #fff;
+    font-size: 12px;
+    background-color: #02be9b
+}
+input.date {
+    background-image: url(/static/img/calendar_sign.png);
+    background-repeat: no-repeat;
+    background-position: right
+}
+select.ui-datepicker-year,
+select.ui-datepicker-month {
+    color: #2e76b8!important
+}
+.delete-row,
+.add-row {
+    cursor: pointer
+}
+.modal-dialog {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: auto
+}
+.modal-body {
+    padding: 0
+}
+.hide-calendar .ui-datepicker-calendar {
+    display: none!important;
+    visibility: hidden!important
+}
+.HideTodayButton .ui-datepicker-buttonpane .ui-datepicker-current {
+    visibility: hidden
+}
+.bottom-zero {
+    margin-bottom: 0
+}
+.ui-autocomplete {
+    z-index: 1100!important
+}
+.btn-lg {
+    height: auto;
+    font-size: 25px
+}
+.tablea.sea-services{
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+.table.sea-services th {
+    background-color: #02be9b;
+    color: #04508e
+    width: 50%;
+}
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .5s linear;
+    transition: opacity .5s linear
+}
+.table-responsive::-webkit-scrollbar {
+    width: 15px;
+    background-color: #04508e
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background-color: #02be9b;
+    border-radius: 17px
+}
+.jSignature {
+    z-index: 2000!important;
+}
+
+.half-width{
+    width: 50%;
+} 
+
+.three-fourth-width{
+    width: 75%;
+}
+
+table.sea-services input{
+    width: 110px;
+}
+
+table.sea-services .year_built, table.sea-services .duration{
+    width: 100px;
+}
+
+.td-170{
+    width: 150px !important;
+}
+
+.td-150{
+    width: 150px !important;
+}
+
+#signature input.btn { 
+    width: 50%; background: #ccc; color: #fff;
+}
+
+.search-zip, .emergency-search-zip{
+    text-decoration: underline;
+    color: #2e76b8;
+    cursor: pointer;
+}
+
+select.first-choice option:first-child{
+    display: none
+}
+
+ul.errorlist{ padding-left: 15px !important; font-weight: 700; color:rgb(175, 17, 28); }
+
+ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underline !important; }
+
+.hidden{ display: none; }
+
+#id_source, #id_visa_application, #id_detained, #id_disciplinary_action, #id_flags{ list-style:none !important; padding-left:0 !important; }
+
+#id_source label{ font-weight: 400; }
+
+.text_center{ text-align: center }
+
+.validations{ font-weight: 700; color: rgb(175, 17, 28); font-size: 20px; }
+
+.errorlist-group{ width: 100%; border-radius: 15px; border: 2px solid black; margin-top: 25px; padding: 20px; }
+
+#webcam{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px;}
+
+.application-success{ padding-top: 100px; font-weight: 700; color: #2e76b8; text-align: center }
+
+/*body div.colleges:nth-child(26){ background: blue; }*/
+.delete-college{ display: none; }
+.delete-emergency{ display: none; }
+.sea-service-row:nth-child(n+15){ display: none; }
+label[for='id_source_0']{ display: none }
+.specific{ color: #000 !important; }
+textarea{ resize: none; }
+#application-form-essay{ display:none; }
+.panel-heading{ cursor: pointer; }
+
+/* sidebar css */
+.sidebar.affix{position:static}@media (min-width:768px){.sidebar{padding-left:20px}}.bs-docs-sidenav{margin-top:20px;margin-bottom:20px}.sidebar .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.sidebar .nav>li>a:focus,.sidebar .nav>li>a:hover{padding-left:19px;color:#563d7c;text-decoration:none;background-color:transparent;border-left:1px solid #563d7c}.sidebar .nav>.active:focus>a,.sidebar .nav>.active:hover>a,.sidebar .nav>.active>a{padding-left:18px;font-weight:700;color:#563d7c;background-color:transparent;border-left:2px solid #563d7c}.sidebar .nav .nav{display:none;padding-bottom:10px}.sidebar .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.sidebar .nav .nav>li>a:focus,.sidebar .nav .nav>li>a:hover{padding-left:29px}.sidebar .nav .nav>.active:focus>a,.sidebar .nav .nav>.active:hover>a,.sidebar .nav .nav>.active>a{padding-left:28px;font-weight:500}.back-to-top,.bs-docs-theme-toggle{display:none;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:hover,.bs-docs-theme-toggle:hover{color:#563d7c;text-decoration:none}.bs-docs-theme-toggle{margin-top:0}@media (min-width:768px){.back-to-top,.bs-docs-theme-toggle{display:block}}@media (min-width:992px){.sidebar .nav>.active>ul{display:block}.sidebar.affix,.sidebar.affix-bottom{width:213px}.sidebar.affix{position:fixed;top:20px}.sidebar.affix-bottom{position:absolute}.sidebar.affix .bs-docs-sidenav,.sidebar.affix-bottom .bs-docs-sidenav{margin-top:0;margin-bottom:0}}@media (min-width:1200px){.sidebar.affix,.sidebar.affix-bottom{width:263px}}

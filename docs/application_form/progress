@@ -1,0 +1,55 @@
+August 12, 2015
+	- Made changes as instructed by JR and Lauren
+		-- Autocomplete
+		-- Dropdown
+		-- User Experience of Sea Service
+			--- Come up with an idea of auto pop-up modal
+		-- Having a hard time with the changes of national certiicates due to design issues
+			--- removing issues and place issued
+			--- created two htmls on deanchrisarmada.com
+				---- application-form.html
+				---- application-form-2.html
+August 13, 2015
+	- Meeting with JR and Lauren
+		-- Remove others on "How did you find about manship" : DONE
+		-- Null Fields = Highlighted : PENDING
+			--- For final processes of application form
+		-- Calendars must have better experience on year selections : DONE
+			--- choices on older years
+		-- Month / Days Field must be autocomplete with the Date Joined / Date Left : DONE
+			--- lessen width !! : DONE
+		-- Year Built
+			--- lessen width !! : DONE
+		-- autocomplete is dynamic with DB : PENDING
+		-- Street Input type text must be long !! : DONE
+
+August 18, 2015
+	- Meeting with Felix, Crewing, JR, Captain Albert (LATE!)
+		-- Essay has 50 words : DONE
+			-- check wordcount.html for sample
+		-- Auto pop-up shopuld only scroll from top-down : DONE
+			--- Used conditional boolean on main.js
+		-- Background Information, remove the 'no' defaults : DONE
+		-- Training and Other Certificates will have sub-categories and sections : PENDING FROM CREWING
+		-- Interview Sheet? : PENDING FROM CREWING
+		-- Sea Service, 
+			--new options on the Cause of Discharge : PENDING FROM CREWING
+			-- Rank must be dropdown : PENDING FROM CREWING
+		-- Fix Design of Signature : DONE
+		-- Made all the input widths of sea service smaller : DONE
+			--- Made 180px
+		-- Instructions on the sea services expects changes : PENDING FROM CREWING
+		-- Fixed Current and Permanent Address : DONE
+			--- Put underline for solution
+		-- Sea Service can be blank : 
+		-- KW / HP seperated : DONE
+			--- Computation : PENDING FROM CREWING
+		-- Sea Service if filled out must be complete row
+		-- GRT
+			--- add DWT : DONE
+				---- if DWT, no need GRT vice versa
+		-- Tertiary is now College : DONE
+		-- Age is now auto with birthdate : DONE
+		-- zip must be automatic : CANCELLED
+			--- Instead auto search link to google
+		-- optimize javascript codes

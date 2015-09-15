@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <!-- Main jumbotron for a primary marketing message or call to action -->
+  <body class="login">
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outhated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+    <![endif]-->
+    <div id="container">
+      <div id="content" class="colM">
+        <div id="content-main">
+          <form action="{% url 'validate' %}" method="post" id="login-form">
+            {% csrf_token %}
+            <div id="logo" align="center"><a href="#">
+              <img src="{% static 'img/manshiplg.png' %}" alt="manship-logo" width="300"></a>
+            </div>
+            <div class="error">{{ request.GET.error }}</div>
+            <div class="form-row">
+              <input id="id_username" class="form-control" type="text" name="username" maxlength="254">
+              <div id = "usernamesubmit" /></div>
+            </div>
+            <div class="form-row">
+              <input id="id_password" class="form-control" type="password" name="password">  
+              <div id = "passwordsubmit" /></div>
+              <input type="hidden" name="next" value="" />
+            </div>
+            <div class="password-reset-link">
+              <a href="/admin/password_reset/">Forgotten your password or username?</a>
+            </div>
+            <div class="submit-row">
+              <label>&nbsp;</label><button type="submit" value="{# trans 'Log in' #}" />Login</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div style="color: #2e76b8; text-align: center; margin-top: 50px;">
+      <strong>Copyright © 2015 Manila Shipmanagement & Manning, Inc. All rights reserved.</strong>
+    </div>
+{% endblock %}
+
+
+  

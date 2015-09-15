@@ -1,0 +1,31 @@
+August 11, 2015:
+
+	- As a user in the crew quality, I want the mobile number of the applicant's emergency contact so it can be contact in case of emergency
+	- Add a field for mobile numbers on the "Emergency" section
+
+	- As a user in the crew quality, I want to make sure that the applicants does not miss filling out important information from "Personal Data" to "Emergency" section
+	- Require all the fields on the "Personal Data" to "Emergency" section
+
+	- As a user in the crew quality, I want the address of each applicant to be organized, so we can immediately notify to them regarding area reports
+	- Split the address fields on "Personal Data" and "Emergency" section to more specific sub-address fields like 'street', 'town', 'baranggay' and 'municipality'
+
+	- As an applicant, I want the zip code to automatically be filled-up according to my address, so it would be precise
+	- Automate the zip code and validate according to philippine postal codes
+
+	- As an applicant, I want an easy to use "Sea Service" form and section, so I am able to fill up comfortably and easily
+	- Make the Sea Service into a pop-up
+
+	- As an applicant, I want the buttons to easy to recognize, so I can immediately know that I can "Add" and "Delete" additional inputs in the Sea Services section
+	- Turn the existing "add" and "minus" sign buttons to actual words button
+
+	- As a user in the crew quality, I want applicants to fill out only their last two ranks of sea services, so it would not be harder for applicants to write their course of career
+	- Add instructions on the sea service section and initially put 10 rows of inputs
+
+	- As an applicant, I want fields that concerns the date to have a datepicker so the input will be accurate
+	- Add an easy year navigation calendar
+
+	- As a user in the crew quality, I want the inputs of the applicants to be the same as the existing values on the "position applied for" and "alternative position" of the "Top" section; "town" and "municipality" of the "Personal Data" section, so the upcoming inputs in the application form will be standard
+	- Add a dropdown on the said fields
+
+	- As a user in the crew quality, I want the inputs of the applicants to be the same as the existing values on the "Tertiary School" and "Degree" of the "Education" section; "Vtype", "Flag" and "Manning Agency" of the "Sea Service" section+, so the upcoming inputs in the application form will be standard at the same time flexible for the applicant
+	- Add an Autocomplete

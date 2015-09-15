@@ -1,0 +1,39 @@
+{% if applicant_name.errors or permanent_address.errors or current_address.errors or personal_data.errors or spouse.errors or college.errors or highschool.errors or emergency_contact.errors or visa_application.errors or detained.errors or disciplinary_action.errors or charged_offense.errors or termination.errors or passport.errors or sbook.errors or coc.errors or license.errors or src.errors or goc.errors or us_visa.errors or schengen_visa.errors or yellow_fever.errors or flags.errors or trainings_certificates.errors or sea_service.errors or application.errors %}
+  <div class="form-group">
+    <div class="errorlist-group" >
+      <ul class="errorlist">
+        {% if application.source.errors %}
+          <li><a href="#step-2">Please indicate where you have learned Manship</a></li>
+        {% endif %}
+
+        {% if personal_data.errors or permanent_address.errors or current_address.errors or spouse.errors %}
+          <li><a href="#step-3">Please fill up everything in your Personal Data</a></li>
+        {% endif %}
+
+        {% if college.errors or highschool.errors %}
+          <li><a href="#step-4">Please fill up everything in your Education Information</a></li>
+        {% endif %}
+
+        {% if emergency_contact.errors %}
+          <li><a href="#step-5">Please fill up everything in your Emergency Contact Details</a></li>
+        {% endif %}
+
+        {% if visa_application.errors or detained.errors or disciplinary_action.errors or charged_offense.errors or termination.errors %}
+          <li><a href="#step-7">Please fill up everything in your Background Information</a></li>
+        {% endif %}
+
+        {% if passport.errors or sbook.errors or coc.errors or license.errors or src.errors or goc.errors or us_visa.errors or schengen_visa.errors or yellow_fever.errors %}
+          <li><a href="#step-8">Please fill up everything in your National Certificates and Travel Documents</a></li>
+        {% endif %}
+
+        {% if trainings_certificates.errors %}
+          <li><a href="#step-10">Please select your Trainings and Certificates</a></li>
+        {% endif %}
+
+        {% if application.signature.errors %}
+          <li><a href="#signature" data-toggle="modal">Please do not forget your signature</a></li>
+        {% endif %}
+      </ul>
+    </div>  
+  </div>
+{% endif %}

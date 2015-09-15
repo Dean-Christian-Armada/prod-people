@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load autocomplete_light_tags %}
+
+<style type="text/css">
+	.yourlabs-autocomplete{
+	  max-height: 250px;
+	  overflow: auto;
+	}
+	.yourlabs-autocomplete .choice{
+	  display: inline !important;
+	}
+</style>
+
+{% if choices %}
+    {% for choice in choices %}
+        {{ choice|autocomplete_light_choice_html:autocomplete }}
+    {% endfor %}
+{% else %}
+	<style type="text/css">
+		.yourlabs-autocomplete{
+			display: none !important;
+		}
+	</style>
+{% endif %}

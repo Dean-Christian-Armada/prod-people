@@ -1,0 +1,9 @@
+Javascripts:
+	- Datepicker months only
+		-- Other dates are hiding the calendars too
+		-- Solution:
+			--- onClose: function(dateText, inst){ setTimeout(function(){ $("#ui-datepicker-div").removeClass("hide-calendar"); }, 300);
+            setTimeout(function(){ $("#ui-datepicker-div").removeClass('HideTodayButton'); }, 300); }
+    - Datepicker enable select dropdown on bootstrap modal
+    	-- Solution
+    		--- $.fn.modal.Constructor.prototype.enforceFocus = function () { };

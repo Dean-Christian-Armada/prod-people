@@ -1,0 +1,20 @@
+August 12, 2015
+	- used .on on datepicker and autocomplete
+		-- to enable these jquery functions on dynamic fields
+
+August 13, 2015
+	- Null fields = Highlights / Pending
+		-- for final steps of the application form
+	Datepicker
+		- Disabled backspace on date input fields
+			-- added clear button instead
+		- set min date after the day he joined
+
+August 18, 2015
+	- Used JS Custom Validity
+		-- Essay 50 minimum words validation
+
+
+Suggestions:
+	- Months / Days be hidden instead of readonly : Not Yet Discussed
+		-- DONE, (Auto-Computation on Date Left and Date Joined)

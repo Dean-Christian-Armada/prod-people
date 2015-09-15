@@ -1,0 +1,601 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block content %}
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outhated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+    <![endif]-->
+    
+
+
+    <div id="header">
+      <div class="bs-doc-header">
+        <div class="container">
+          <h1>Step 1 : APPLICATION FORM</h1>
+          <h4>Explore your opportunities here!</h4>
+          <div class="image-holder pull-right"><img src="{% static 'img/mascot.png' %}" ></div>
+        </div>
+      </div>
+    </div>
+
+  <form method="POST" id="myform" class="form-horizontal" autocomplete="off" action="{% url 'application_form' %}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="bs-docs-section" id='application-form'> 
+            {% csrf_token%}
+
+            <h3 id='step-2' style="color: #02be9b;">How did you learn about Manship?</h3>
+          
+            <h3 id='step-3' style="color: #02be9b;">Personal Data</h3>
+            <div class="form-group">
+              {% for name in applicant_name  %}
+                <div class="col-md-4">
+                  {{ name }}
+                  {{ name.errors }}
+                </div>
+              {% endfor %}              
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.birth_date|add_class:"form-control date birth_date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Birth" }}
+                {{ personal_data.birth_date.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.age|add_class:"form-control age"|attr:"data-toggle:tooltip"|attr:"placeholder:Age"|attr:"readonly"|attr:"title: Fill up your Date of Birth" }}
+                {{ personal_data.age.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.birth_place|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Place of Birth" }}
+                {{ personal_data.birth_place.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.landline_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 1" }}
+                {{ personal_data.landline_1.errors }}
+              </div>
+              <div class="col-md-4">
+                <b>+63</b> {{ personal_data.mobile_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 1"|attr:"style:width:89%; display: inline" }}
+                {{ personal_data.mobile_1.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.email_address_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Email Address 1" }}
+                {{ personal_data.email_address_1.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.landline_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 2" }}
+                {{ personal_data.landline_2.errors }}
+              </div>
+              <div class="col-md-4">
+                <b>+63</b> {{ personal_data.mobile_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 2"|attr:"style:width:89%; display: inline" }}
+                {{ personal_data.mobile_2.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.email_address_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Email Address 2" }}
+                {{ personal_data.email_address_2.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ personal_data.preferred_vessel_type|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Preferred Type of Vessel" }}
+                {{ personal_data.preferred_vessel_type.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ personal_data.availability_date|add_class:"form-control date month-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Availability" }}
+                {{ personal_data.availability_date.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ personal_data.sss|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:S.S.S. No." }}
+                {{ personal_data.sss.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ personal_data.philhealth|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Philhealth No." }}
+                {{ personal_data.philhealth.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ personal_data.tin|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:T.I.N." }}
+                {{ personal_data.tin.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ personal_data.pagibig|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Pagibig No." }}
+                {{ personal_data.pagibig.errors }}
+              </div>
+            </div>
+            <div class="form-group" >
+              <div class="form-group bottom-zero">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <i><u>Permanent Address</u></i>
+                    <span class="search-zip pull-right" data-params="permanent" style="">Search zip code</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                {{ permanent_address.permanent_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:permanent_unit" }}
+                {{ permanent_address.permanent_unit.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ permanent_address.permanent_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street"|attr:"id:permanent_street" }}
+                {{ permanent_address.permanent_street.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ permanent_address.permanent_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:permanent_barangay" }}
+                {{ permanent_address.permanent_barangay.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ permanent_address.permanent_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:permanent_municipality" }}
+                {{ permanent_address.permanent_municipality.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ permanent_address.permanent_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP Code"|attr:"id:permanent_zip" }}
+                {{ permanent_address.permanent_zip.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+              <input type="checkbox" id="same_address"> <label for="same_address">Same as above</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group bottom-zero">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <i><u>Current Address</u></i>
+                    <span class="search-zip pull-right" data-params="current" style="">Search zip code</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                {{ current_address.current_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:current_unit" }}
+                {{ current_address.current_unit.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ current_address.current_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street"|attr:"id:current_street" }}
+                {{ current_address.current_street.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ current_address.current_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:current_barangay" }}
+                {{ current_address.current_barangay.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ current_address.current_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:current_municipality" }}
+                {{ current_address.current_municipality.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ current_address.current_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP code"|attr:"id:current_zip" }}
+                {{ current_address.current_zip.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ personal_data.civil_status|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                {{ personal_data.civil_status.errors }}
+              </div> 
+              <div class="col-md-6">
+                <!-- <input type="text" data-toggle="tooltip" class="form-control date" name="date_married" placeholder="Date Married"> -->
+                {{ personaldata_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage" }}
+                {{ personaldata_form.married_date.errors }}
+              </div>
+              <div class="col-md-6">
+                <!-- <input type="text" data-toggle="tooltip" class="form-control date" name="date_married" placeholder="Date Married"> -->
+                {{ spouse_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage" }}
+                {{ spouse_form.married_date.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ spouse_form.spouse_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Last Name" }}
+                {{ spouse_form.spouse_last_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ spouse_form.spouse_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's First Name" }}
+                {{ spouse_form.spouse_first_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ spouse_form.spouse_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Middle Name" }}
+                {{ spouse_form.spouse_middle_name.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ spouse_form.birthdate|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's birthday" }}
+                {{ spouse_form.birthdate.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ spouse_form.spouse_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No." }}
+                {{ spouse_form.spouse_contact.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.father_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Last Name" }}
+                {{ personal_data.father_last_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.father_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's First Name" }}
+                {{ personal_data.father_first_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.father_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Middle Name" }}
+                {{ personal_data.father_middle_name.errors }}
+              </div>
+            </div>
+             <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.mother_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mother's Maiden Last Name" }}
+                {{ personal_data.mother_last_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.mother_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mother's First Name" }}
+                {{ personal_data.mother_first_name.errors }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.mother_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mother's Maiden Middle Name" }}
+                {{ personal_data.mother_middle_name.errors }}
+              </div>
+            </div>
+
+            <h3 id='step-4' style="color: #02be9b;">Educational Information</h3>
+            <div class="form-group bottom-zero">
+              <div class="col-md-12">
+                <i><u>Colleges</u></i> <button type="button" class="btn btn-info add-college">Add more Colleges</button><button type="button" class="btn btn-danger delete-college">Delete College</button>
+              </div>
+            </div>
+            {% for college_form in college %}
+              <div class="form-group colleges">
+                <div class="col-md-4">
+                  
+                  {{ college_form.college|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:College" }}
+                  {{ college_form.college.errors }}
+                  {{ college_form.college.non_form_errors }}
+                </div>
+                <div class="col-md-4">
+                  
+                  {{ college_form.degree|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Degree Obtained" }}
+                  {{ college_form.degree.errors }}
+                  {{ college_form.degree.non_form_errors }}
+                </div>
+                <div class="col-md-2">
+                  
+                  {{ college_form.collegeyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                  {{ college_form.collegeyear_from.errors }}
+                  {{ college_form.collegeyear_from.non_form_errors }}
+                </div>
+                <div class="col-md-2">
+                  
+                  {{ college_form.collegeyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                  {{ college_form.collegeyear_to.errors }}
+                  {{ college_form.collegeyear_to.non_form_errors }}
+                </div>
+              </div>
+            {% endfor %}
+            <div class="form-group bottom-zero">
+              <div class="col-md-12">
+                <i><u>HighSchool</u></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-8">
+                {{ highschool_form.highschool|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Highschool" }}
+                {{ highschool_form.highschool.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ highschool_form.schoolyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                {{ highschool_form.schoolyear_from.errors }}
+              </div>
+              <div class="col-md-2">
+                {{ highschool_form.schoolyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                {{ highschool_form.schoolyear_to.errors }}
+              </div>
+            </div>
+
+            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button><button type="button" class="btn btn-danger delete-emergency">Delete Bottom Emergency Contact</button></h3>
+            {% for emergencycontact_form in emergency %}
+              <div class="emergency-contacts">  
+                <div class="form-group">
+                  <div class="col-md-4">
+                    {{ emergencycontact_form.emergency_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Last Name" }}
+                    {{ emergencycontact_form.emergency_last_name.errors }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ emergencycontact_form.emergency_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:First Name" }}
+                    {{ emergencycontact_form.emergency_first_name.errors }}
+                  </div>
+                  <div class="col-md-4">
+                    {{ emergencycontact_form.emergency_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Middle Name" }}
+                    {{ emergencycontact_form.emergency_middle_name.errors }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-6">
+                    {{ emergencycontact_form.emergency_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Contact No." }}
+                    {{ emergencycontact_form.emergency_contact.errors }}
+                  </div>
+                  <div class="col-md-6">
+                    {{ emergencycontact_form.relationship|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Relationship" }}
+                    {{ emergencycontact_form.relationship.errors }}
+                  </div>
+                </div>
+                <div class="form-group bottom-zero">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter }}" style="">Search zip code</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-3">
+                    {{ emergencycontact_form.emergency_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House" }}
+                    {{ emergencycontact_form.emergency_unit.errors }}
+                  </div>
+                   <div class="col-md-2">
+                    {{ emergencycontact_form.emergency_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street" }}
+                    {{ emergencycontact_form.emergency_street.errors }}
+                  </div>
+                  <div class="col-md-2">
+                    {{ emergencycontact_form.emergency_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay" }}
+                    {{ emergencycontact_form.emergency_barangay.errors }}
+                  </div>
+                  <div class="col-md-3">
+                    {{ emergencycontact_form.emergency_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality" }}
+                    {{ emergencycontact_form.emergency_municipality.errors }}
+                  </div>
+                  <div class="col-md-2">
+                    {{ emergencycontact_form.emergency_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Zip Code" }}
+                    {{ emergencycontact_form.emergency_zip.errors }}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            <h3 id='step-6'><a href = "#seaservice" role="button" data-toggle="modal" rel="tooltip" data-original-title="Click here to add more sea services" class="btn btn-info btn-lg sea-service-button form-control">Sea Service</a></h3>
+
+            <h3 id='step-7' style="color: #02be9b;">Background Information</h3>
+              <p>
+                {{ visa_application.visa_application.errors }}
+                A.) Have you ever been denied an application for any visa or entry into another country?
+                {{ visa_application.visa_application }}
+              </p>
+              <p>
+                {{ detained.detained.errors }}
+                B.) Have you ever been detained or ordered to leave any country?
+                {{ detained.detained }}
+              </p>
+              <p>
+                {{ disciplinary_action.disciplinary_action.errors }}
+                C.) Have you ever been subject of any disciplinary action during an employment contract?
+                {{ disciplinary_action.disciplinary_action }}
+              </p>
+              <p>
+                {{ charged_offense.charged_offense.errors }}
+                D.) Have you ever been charged any offense before an administrative body, prosecutor's office or court of law?
+                {{ charged_offense.charged_offense }}
+              </p>
+              <p>
+                {{ termination.termination.errors }}
+                E.) Have you ever been terminated for cause by any employer?
+                {{ termination.termination }}
+              </p>
+
+            <h3 id='step-8' style="color: #02be9b;">National Certificates and Travel Documents</h3>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ passport_form.passport|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Passport No." }}
+                {{ passport_form.passport.errors }} 
+              </div>
+              <div class="col-md-6">
+                {{ passport_form.passport_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Passport Expiry" }}
+                {{ passport_form.passport_expiry.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ sbook_form.sbook|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:SBook No." }}
+                {{ sbook_form.sbook.errors }} 
+              </div>
+              <div class="col-md-6">
+                {{ sbook_form.sbook_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:SBook Expiry" }}
+                {{ sbook_form.sbook_expiry.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ coc_form.coc|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:COC/COE" }}
+                {{ coc_form.coc.errors }} 
+              </div>
+              <div class="col-md-4">
+                {{ coc_form.coc_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:COC Expiry" }}
+                {{ coc_form.coc_expiry.errors }} 
+              </div>
+              <div class="col-md-4">
+                {{ coc_form.coc_rank|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:COC Rank" }}
+                {{ coc_form.coc_rank.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ license_form.license|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:License" }}
+                {{ license_form.license.errors }} 
+              </div>
+              <div class="col-md-6">
+                {{ license_form.license_rank|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:License Rank" }}
+                {{ license_form.license_rank.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ src_form.src|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:SRC" }}
+                {{ src_form.src.errors }} 
+              </div>
+              <div class="col-md-6">
+                {{ src_form.src_rank|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:SRC Rank" }}
+                {{ src_form.src_rank.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ goc_form.goc|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:GOC" }}
+                {{ goc_form.goc.errors }} 
+              </div>
+              <div class="col-md-6">
+                {{ goc_form.goc_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:GOC Expiry" }}
+                {{ goc_form.goc_expiry.errors }} 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                US Visa(C1/D)
+                {{ usvisa_form.us_visa }}
+                {{ usvisa_form.us_visa.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ usvisa_form.us_visa_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:US Visa Expiry" }}
+                {{ usvisa_form.us_visa_expiry.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                Schengen Visa(Type C)
+                {{ schengenvisa_form.schengen_visa }}
+                {{ schengenvisa_form.schengen_visa.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ schengenvisa_form.schengen_visa_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Schengen Visa Expiry" }}
+                {{ schengenvisa_form.schengen_visa_expiry.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                {{ yellowfever_form.yellow_fever|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Yellow Fever" }}
+                {{ yellowfever_form.yellow_fever.errors }}
+              </div>
+              <div class="col-md-6">
+                {{ yellowfever_form.yellow_fever_expiry|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Yellow Fever Expiry" }}
+                {{ yellowfever_form.yellow_fever_expiry.errors }}
+              </div>
+            </div>
+
+            <h3 id='step-9' style="color: #02be9b;">Flag Documents</h3>
+            <p>Please check the box if you possess any of the specified flag document</p>
+            <div class="form-group">
+                {% for flag in flags.flags %}
+                  <div class="col-md-4 padding-right-negator">
+                    {{ flag }}
+                  </div>
+                {% endfor %}
+            </div>
+
+            <h3 id='step-10' style="color: #02be9b;">Training and Other Certificates</h3>
+            <p>Please check the box if you possess any of the specified flag document</p>
+            <div class="form-group">
+              <div class="col-md-12">
+                {{ trainings_certificates.trainings_certificates.errors }} 
+              </div>
+              {% for certs in trainings_certificates.trainings_certificates %}
+                <div class="col-md-6">
+                  {{ certs }}
+                </div>
+              {% endfor %}
+            </div>
+
+            <button class="btn btn-success form-control submit-application" >Submit Application</button>
+            <br /> &nbsp;  
+          </div>
+<div class="modal fade" id="seaservice" tabindex="-1" role="dialog" aria-labelledby="SeaServiceLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title" id="seaserviceLabel"><b>SEA SERVICE ON LAST TWO RANKS</b><span class="refresh"></span></h4>
+      </div>
+      <div class="modal-body">
+        <div style="padding-left: 15px">
+          <h5><b>PLEASE READ INSTRUCTIONS CAREFULLY BEFORE FILLING OUT</b></h5>
+          <h5>1.) <i>Take note:</i> <b>If you have no Sea Service, do not put anything. Just click on "PROCEED TO APPLICATION" at the bottom of the page</b></h5>
+          <h5>2.) <i>Complete all fields from Vessel Name to Cause of Discharge</i></h5>
+          <h5>4.) <i>Take note:</i> <b>Click "Clear Row" to clear the required fields within the row.</b></h5>
+          <h5>4.) <i>Take note:</i> <b>Click on "Proceed to Application" at the bottom of the page to go to the next step.</b></h5>
+          <h5><button type='button' class='btn btn-info add-sea-service-row'>ADD MORE SEA SERVICES</button></h5>
+          <h5 class="validations"></h5>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-striped sea-services">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Vessel Name</th>
+                <th>Vessel Type</th>
+                <th>Flag</th>
+                <th>GRT</th>
+                <th>DWT</th>
+                <th>Year Built</th>
+                <th>Engine Type</th>
+                <th>HP</th>
+                <th>KW</th>
+                <th>Manning Agency</th>
+                <th>Principal / Shipowner</th>
+                <th>Date Joined</th>
+                <th>Date Left</th>
+                <th>Rank</th>
+                <th>Cause of Discharge</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ seaservice_form.management_form }}
+              {% for seaservice in seaservice_form %}
+                <tr class='sea-service-row'>
+                  <td><button type='button' class='btn btn-warning clear-row'>Clear Row</button></td>
+                  <td>{{ seaservice.vessel_name|attr:"data-toggle:tooltip"|attr:"Placeholder:Vessel Name" }}</td>
+                  <td>{{ seaservice.vessel_type|attr:"data-toggle:tooltip"|attr:"Placeholder:Vessel Type"|add_class:"vtype" }}</td>
+                  <td>{{ seaservice.flag|attr:"data-toggle:tooltip"|attr:"Placeholder:Flag"|add_class:"flag" }}</td>
+                  <td>{{ seaservice.grt|attr:"data-toggle:tooltip"|attr:"Placeholder:GRT"|add_class:"grt" }}</td>
+                  <td>{{ seaservice.dwt|attr:"data-toggle:tooltip"|attr:"Placeholder:DWT"|add_class:"dwt" }}</td>
+                  <td>{{ seaservice.year_built|attr:"data-toggle:tooltip"|attr:"Placeholder:Year Built" }}</td>
+                  <td>{{ seaservice.engine_type|attr:"data-toggle:tooltip"|attr:"Placeholder:Engine Type" }}</td>
+                  <td>{{ seaservice.hp|attr:"data-toggle:tooltip"|attr:"Placeholder:HP"|add_class:"hp" }}</td>
+                  <td>{{ seaservice.kw|attr:"data-toggle:tooltip"|attr:"Placeholder:KW"|add_class:"kw" }}</td>
+                  <td>{{ seaservice.manning_agency|attr:"data-toggle:tooltip"|attr:"Placeholder:Manning Agency"|add_class:"manning_agency"|add_class:"td-150" }}</td>
+                  <td>{{ seaservice.principal|attr:"data-toggle:tooltip"|attr:"Placeholder:Principal / Shipowner"|add_class:"td-170" }}</td>
+                  <td>{{ seaservice.date_joined|add_class:"date date-joined"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Joined" }}</td>
+                  <td>{{ seaservice.date_left|add_class:"date date-left"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Left"|attr:"disabled" }}</td>
+                  <td style="display:none">{{ seaservice.duration|add_class:"duration"|attr:"data-toggle:tooltip"|attr:"Placeholder:Days"|attr:"readonly" }}</td>
+                   <td>{{ seaservice.rank|attr:"data-toggle:tooltip"|attr:"Placeholder:Rank"|add_class:"rank" }}</td>
+                   <td>{{ seaservice.cause_of_discharge|attr:"data-toggle:tooltip"|add_class:"first-choice cause_of_discharge" }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>  
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <center><button type="button" class="btn btn-info half-width" id="proceed-sea-service">Proceed to Application</button></center>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+        {% include "application_form/sidebar.html" %}
+      </div>
+    </div>
+  </form>
+
+    <div id="footer">
+      <div class="container">
+        <p>Princess Building, 104 Esteban Street, Legaspi Village, Makati City 1229, Philippines<br>
+        Tel No.: +63 2 892 4071 to 74; Fax No.: +63 2 816 6993<br>
+        Website:<a href="http://www.manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;www.manship.com</a> 
+        E-mail:<a href="mailto:recruitment@manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;recruitment@manship.com</a></p>
+        <p>&copy 2015 Manila Shipmanagement & Manning, Inc. All rights reserved.</p>
+      </div>
+    </div>
+{% endblock %}
+

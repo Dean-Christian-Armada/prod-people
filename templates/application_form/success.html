@@ -1,0 +1,21 @@
+{% load static %}
+
+{% include "header.html" %}
+<div id="header">
+  <div class="bs-doc-header">
+    <div class="container">
+      <h1>Step 1 : APPLICATION FORM</h1>
+      <h4>Explore your opportunities here!</h4>
+      <div class="image-holder pull-right"><img src="{% static 'img/mascot.png' %}" width="350" height="350"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container application-success">
+	<h1>Thank you for applying at  Manship!</h1>
+	<p><a href="/application-form/" class="btn btn-info half-width btn-lg" role="button">Return to Application Form</a></p>
+<!-- 	<p><a href="/application-form/pdf-report/form/" class="btn btn-info half-width btn-lg" role="button">Print Application Form</a></p>
+	<a href="/application-form/pdf-report/sea-service/" class="btn btn-info half-width btn-lg" role="button">Print Sea Service</a> -->
+</div>
+
+{% include "footer.html" %}

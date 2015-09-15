@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		@page {
+            size: letter landscape;
+        }
+        body{ font-size:8px; }
+		th, td{ padding:5px; padding-bottom:0px; text-align: center; }
+	</style>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<th style="text-align: left; " colspan="16">SEA SERVICE ({{ sea_service_count }} Vessel{% if sea_service_count > 1 %}s{% endif %})</th>
+		</tr>
+		<tr>
+			<th>Vessel Name</th>
+			<th>Vessel Type</th>
+			<th>Vessel Flag</th>
+			<th>GRT</th>
+			<th>DWT</th>
+			<th>Year Built</th>
+			<th>Engine Type</th>
+			<th>HP</th>
+			<th>KW</th>
+			<th>Manning Agency</th>
+			<th>Princiapl / Shipowner</th>
+			<th>Date Joined</th>
+			<th>Date Left</th>
+			<th>Days</th>
+			<th>Rank</th>
+			<th>Cause of Discharge</th>
+		</tr>
+		{% for seaservice in sea_service %}
+		<tr>
+			<td>{{ seaservice.vessel_name }}</td>
+			<td>{{ seaservice.vessel_type }}</td>
+			<td>{{ seaservice.flag }}</td>
+			<td>{{ seaservice.grt }}</td>
+			<td>{{ seaservice.dwt }}</td>
+			<td>{{ seaservice.year_built }}</td>
+			<td>{{ seaservice.engine_type }}</td>
+			<td>{{ seaservice.hp }}</td>
+			<td>{{ seaservice.kw }}</td>
+			<td>{{ seaservice.manning_agency }}</td>
+			<td>{{ seaservice.principal }}</td>
+			<td>{{ seaservice.date_joined }}</td>
+			<td>{{ seaservice.date_left }}</td>
+			<td>{{ seaservice.duration }}</td>
+			<td>{{ seaservice.rank }}</td>
+			<td>{{ seaservice.cause_of_discharge }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

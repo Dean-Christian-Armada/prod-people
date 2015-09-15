@@ -1,0 +1,24 @@
+{% load static %}
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script type="text/javascript" src='http://code.jquery.com/ui/1.11.4/jquery-ui.min.js'></script>
+
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/pace.js' %}"></script>
+    <!-- Jquery for the signature -->
+    {{ application.media }}
+    <script type="text/javascript" src="{% static 'js/webcam.min.js' %}"></script>
+	<script language="JavaScript">
+		{% if not request.POST %}
+			$("#webcam").modal('show');
+		{% endif %}
+        advertisements = '{{ application.advertisements|escapejs }}';
+        internet = '{{ application.internet|escapejs }}';
+        referrer = '{{ application.referred_by }}';
+	</script>
+
+
+    {% include 'autocomplete_light/static.html' %}
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

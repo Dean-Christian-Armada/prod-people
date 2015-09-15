@@ -1,0 +1,848 @@
+{% load widget_tweaks %}
+{% load static %}
+
+{% include "header.html" %}
+  <body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outhated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+    <![endif]-->
+    
+
+    <div id="header">
+      <div class="bs-doc-header">
+        <div class="container">
+          <h1>Step 1 : APPLICATION FORM</h1>
+          <h4>Explore your opportunities here!</h4>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="bs-docs-section" id='application-form'>
+            <form method="POST" class="form-horizontal" autocomplete="off" action="{% url 'application_form' %}">
+              {% csrf_token%}
+              <div class="form-group">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-md-6 padding-negator">
+                      <h3><img src="{% static 'img/small_logo.png' %}"></h3>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-6">
+                      <!-- <input type="text" data-toggle="tooltip" name="application-date" class="form-control application-date" placeholder="Date of Application" readonly=""> -->
+                      {{ appdetails_form.application_date|add_class:"form-control application-date"|attr:"placeholder:Date of Application"|attr:"readonly" }}
+                      {{ appdetails_form.application_date.errors }}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-6">
+ <!--                      <select data-toggle="tooltip" class="form-control first-choice" name="position_applied">
+                        <option selected>Position Applied For</option>
+                        <option>Captain</option>
+                        <option>Chief Mate</option>
+                        <option>Chief Engineer</option>
+                        <option>2nd Engineer</option>
+                      </select> -->
+                      {{ appdetails_form.position_applied|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                      {{ appdetails_form.position_applied.errors }}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-6">
+                      <!-- <select data-toggle="tooltip" class="form-control first-choice" name="alternative_position">
+                        <option selected>Alternative Positions</option>
+                        <option>Captain</option>
+                        <option>Chief Mate</option>
+                        <option>Chief Engineer</option>
+                        <option>2nd Engineer</option>
+                      </select> -->
+                      {{ appdetails_form.alternative_position|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                      {{ appdetails_form.alternative_position.errors }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align:right; color: #02be9b;">
+                  <div class="picture-container">
+                    
+                  </div>
+                </div>
+              </div>
+              <h3 id='step-2' style="color: #02be9b;">How did you learn about Manship?</h3>
+              {{ appsource_form.source.errors }}
+              {{ appsource_form.source|attr:"data-toggle:tooltip" }}
+<!--               <p><input type="radio" data-toggle="tooltip" name="source" value="advertisement"> Advertisement</p>
+              <p><input type="radio" data-toggle="tooltip" name="source" value="internet" value="internet"> Internet</p>
+              <p><input type="radio" data-toggle="tooltip" name="source" value="friends"> Friends or Relatives</p>
+              <p><input type="radio" data-toggle="tooltip" name="source" value="seafarer_center"> Seafarer Center</p> -->
+              <h3 id='step-3' style="color: #02be9b;">Personal Data</h3>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" id="last_name" name="last_name" class="form-control" placeholder="Last Name">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" id="first_name" name="first_name" class="form-control" placeholder="First Name">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" id="middle_name" name="middle_name" class="form-control" placeholder="Middle Name">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control age" name="age" placeholder="Age" readonly="">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control date birth_date" name="birth_date" placeholder="Date of Birth">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="birth_place" placeholder="Place of Birth">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="landline_number_1" placeholder="Landline No. 1">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="mobile_number_1" placeholder="Mobile No. 1">
+                </div>
+                <div class="col-md-4">
+                  <input type="email" data-toggle="tooltip" class="form-control" name="email_address_1" placeholder="Email Address 1">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="landline_number_2" placeholder="Landline No. 2">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="mobile_number_2" placeholder="Mobile No. 2">
+                </div>
+                <div class="col-md-4">
+                  <input type="email" data-toggle="tooltip" class="form-control" name="email_address_2" placeholder="Email Address 2">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="preferred_vessel" placeholder="Preferred Type of Vessel">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date month-only" name="availability" id="availability" placeholder="Date of Availability">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="sss" placeholder="S.S.S. No.">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="philhealth" placeholder="Philhealth No.">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="tin" placeholder="T.I.N.">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="pag_ibig" placeholder="Pagibig No.">
+                </div>
+              </div>
+              <div class="form-group" >
+                <div class="form-group bottom-zero">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <i><u>Permanent Address</u></i>
+                      <span class="search-zip" data-params="permanent" style="">Search zip code</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" id="permanent_street" name="permanent_street" class="form-control" placeholder="Street">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" id="permanent_baranggay" name="permanent_baranggay"  class="form-control" placeholder="Baranggay">
+                </div>
+                <div class="col-md-2">
+                  <select data-toggle="tooltip" id="permanent_town" name="permanent_town" class="form-control">
+                    <option selected>Town</option>
+                    <option>Bustos</option>
+                    <option>Marilao</option>
+                    <option>Bocaue</option>
+                    <option>Plaridel</option>
+                    <option>Sta. Maria</option>
+                  </select>
+                  <!-- <input type="text" data-toggle="tooltip" id="permanent_town" class="form-control" placeholder="Town"> -->
+                </div>
+                <div class="col-md-2">
+                  <select data-toggle="tooltip" id="permanent_municipality" name="permanent_municipality" class="form-control">
+                    <option selected>Municipality</option>
+                    <option>Bacacay</option>
+                    <option>Camalig</option>
+                    <option>Daraga</option>
+                    <option>Guinobatan</option>
+                    <option>Jovellar</option>
+                  </select>
+                  <!-- <input type="text" data-toggle="tooltip" id="permanent_municipality" class="form-control" placeholder="Municipality"> -->
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" id="permanent_zip" name="permanent_zip" class="form-control" placeholder="ZIP Code">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-4">
+                <input type="checkbox" id="same_address"> Same as above
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-group bottom-zero">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <i><u>Current Address</u></i>
+                      <span class="search-zip" data-params="current" style="">Search zip code</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" id="current_street" name="current_street" class="form-control" placeholder="Street">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" id="current_baranggay" name="current_baranggay" class="form-control" placeholder="Baranggay">
+                </div>
+                <div class="col-md-2">
+                  <select data-toggle="tooltip" id="current_town" name="current_town" class="form-control">
+                    <option selected>Town</option>
+                    <option>Bustos</option>
+                    <option>Marilao</option>
+                    <option>Bocaue</option>
+                    <option>Plaridel</option>
+                    <option>Sta. Maria</option>
+                  </select>
+                  <!-- <input type="text" data-toggle="tooltip" id="current_town" class="form-control" placeholder="Town"> -->
+                </div>
+                <div class="col-md-2">
+                  <select data-toggle="tooltip" id="current_municipality" name="current_municipality" class="form-control">
+                    <option selected>Municipality</option>
+                    <option>Bacacay</option>
+                    <option>Camalig</option>
+                    <option>Daraga</option>
+                    <option>Guinobatan</option>
+                    <option>Jovellar</option>
+                  </select>
+                  <!-- <input type="text" data-toggle="tooltip" id="current_municipality" class="form-control" placeholder="Municipality"> -->
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" id="current_zip" name="current_zip" class="form-control" placeholder="ZIP Code">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="civil_status" placeholder="Civil Status">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="date_married" placeholder="Date Married">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="spouse_maiden_name" placeholder="Spouse's Maiden Name">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="spouse_birthday" placeholder="Spouse's Birthday">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="spouse_contact" placeholder="Spouse's Contact No.">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="father_full_name" placeholder="Father's Full Name(include MIDDLE NAME)">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="mother_full_name" placeholder="Mother's Maiden Name(include MIDDLE NAME)">
+                </div>
+              </div>
+           
+              <h3 id='step-4' style="color: #02be9b;">Educational Information</h3>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" id="college" class="form-control" name="college" placeholder="College">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" id="degree" class="form-control" name="degree_obtained" placeholder="Degree Obtained">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" class="form-control date month-only" name="college_from" placeholder="From">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" class="form-control date month-only" name="college_to" placeholder="To">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="col-md-8">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="highschool" placeholder="Highschool">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" class="form-control date month-only" name="highschool_from" placeholder="From">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" class="form-control date month-only" name="highschool_to" placeholder="To">
+                </div>
+              </div>
+
+              <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details</h3>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="emergency_person" placeholder="Person to Contact in Case of Emergency">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="emergency_contact"  placeholder="Contact No.">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="emergency_relationship" placeholder="Relationship">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-10">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="emergency_address" placeholder="Address">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="emergency_zip" placeholder="Zip Code">
+                </div>
+              </div>
+
+              <h3 id='step-6'><a href = "#seaservice" role="button" data-toggle="modal" rel="tooltip" data-original-title="Click here to add more sea services" class="btn btn-info sea-service form-control">Sea Service</a></h3>
+                                
+              <h3 id='step-7' style="color: #02be9b;">Background Information</h3>
+              <p>
+                A.) Have you ever been denied an application for any visa or entry into another country?
+                <input type="radio" data-toggle="tooltip" name="visa_entry" value="yes"> Yes
+                <input type="radio" data-toggle="tooltip" name="visa_entry" value="no"> No
+              </p>
+              <p id="visa_entry_yes"></p>
+              <p>
+                B.) Have you ever been detained or ordered to leave any country?
+                <input type="radio" data-toggle="tooltip" name="leave_order" value="yes"> Yes
+                <input type="radio" data-toggle="tooltip" name="leave_order" value="no"> No
+              </p>
+              <p id="leave_order_yes"></p>
+              <p>
+                C.) Have you ever been subject of any disciplinary action during an employment contract?
+                <input type="radio" data-toggle="tooltip" name="disciplinary_action" value="yes"> Yes
+                <input type="radio" data-toggle="tooltip" name="disciplinary_action" value="no"> No
+              </p>
+              <p id="disciplinary_action_yes"></p>
+              <h3 id='step-8' style="color: #02be9b;">National Certificates and Travel Documents</h3>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="passport_number" placeholder="Passport No.">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="passport_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="sbook_number" placeholder="SBook No.">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="sbook_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="coc" placeholder="COC/COE">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="coc_expiry" placeholder="Expiry">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="coc_rank" placeholder="Rank">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="license" placeholder="License">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="license_rank" placeholder="Rank">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="src" placeholder="SRC">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="src_rank" placeholder="Rank">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="goc_licenses" placeholder="GOC Licenses">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="goc_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  US Visa(C1/D)
+                  <input type="radio" data-toggle="tooltip" name="us_visa" value="yes"> Yes 
+                  <input type="radio" data-toggle="tooltip" name="us_visa" value="no"> No
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="us_visa_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  Schengen Visa(Type C)
+                  <input type="radio" data-toggle="tooltip" name="schengen_visa" value="yes"> Yes 
+                  <input type="radio" data-toggle="tooltip" name="schengen_visa" value="no"> No
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="schengen_visa_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control" name="yellow_fever" placeholder="Yellow Fever">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" data-toggle="tooltip" class="form-control date" name="yellow_fever_expiry" placeholder="Expiry">
+                </div>
+              </div>
+              <h3 id='step-9' style="color: #02be9b;">Flag Documents</h3>
+              <p>Please check the box if you possess any of the specified flag document</p>
+              <div class="form-group">
+                <div class="col-md-2 padding-right-negator">
+                  <input type="checkbox" data-toggle="tooltip" class="flag"> Caymen Islands
+                </div>
+                <div class="col-md-2 padding-right-negator">
+                  <input type="checkbox" data-toggle="tooltip" class="flag"> Marshall Islands
+                </div>
+                <div class="col-md-2">
+                  <input type="checkbox" data-toggle="tooltip" class="flag"> Liberia
+                </div>
+                <div class="col-md-2">
+                  <input type="checkbox" data-toggle="tooltip" class="flag"> Cyprus
+                </div>
+                <div class="col-md-2">
+                  <input type="checkbox" data-toggle="tooltip" class="flag"> Singapore
+                </div>
+                <div class="col-md-2">
+                 <input type="checkbox" data-toggle="tooltip" class="flag"> Greek
+                </div>
+              </div>
+              <h3 id='step-10' style="color: #02be9b;">Training and Other Certificates</h3>
+              <p>Please check the box if you possess any of the specified flag document</p>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Certificate of Proficiency / Basic Training
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Certificate of Proficiency / Basic Training for Oil and Chemical Tanker
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Advance Training for Oil Tanker
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Advance Training for Chemical Tanker
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Proficiency in Fast Rescue Boat
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Advance Fire Fighting
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Medical Emergency First Aid
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates">  Certificate of Proficiency / Meical Care
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Certificate of Proficiency / Ship Security Officer
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Certificate of Proficiency / Proficiency in Survival Craft and Rescue Boat
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Certificate of Proficiency / Ship Security Awareness / Seafarers with Designated Security Duties
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Basic Training
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Proficiency in Survival Craft and Recue Boat
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Advance Fire Fighting
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Medical Emergency First Aid
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Medical Care
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Proficiency in Fast Rescue Boat
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Simulator and Bridge Team Work
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Bridge Resource Management
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Bridge Team Management
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Basic Training for Oil and Chemical Tanker Cargo Operations
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Shore Based Fire Fighting
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Advance Training for Oil Tanker
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Advance Training for Chemical Tanker
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> International Maritime Satellite
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Global Maritime Distress and Safety System
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Prevention of Alcohol and Drug Abuse in the Maritime Sector
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Hazardous Material
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Crude Oil Washing / Inert Gas System
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Engine Room Simulator with Engine Room Management
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Restricted Radiotelephone Operator Course
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> FRAMO
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Security Officer
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Safety Officer Course
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Deck Watch Keeping / Engine Watch Keeping
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Radar Simulator Course
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> International Safety Management
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Shipboard Managerial Skills Enhancement Program
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Accident and Near-miss Investigation
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Security Awareness / Seafarers with Designated Security Duties
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Radar Navigation / Radar Plotting and use of ARPA ROPA
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Marine Pollution I-VI
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Vetting
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Ship Handling
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Maritime Eng.
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Radar Simulator Course
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Management Level Course - Deck
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Management Level Course - Engine
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                  <input type="checkbox" data-toggle="tooltip" class = "training_certificates"> Electronic Chart Display and Information System
+                </div>
+                <div class="col-md-6">
+                  <input type="checkbox" class="ecdis-specific" data-toggle="tooltip" class = "training_certificates"> Electronic Chart Display and Information System Specific
+                </div>
+              </div>
+              <h3 id='step-11' style="color: #02be9b;">Essay</h3>
+              <p>Kindly say something about yourself, your qualifications and any other reasons why we should hire you.</p>
+              <p><b>(Take note: Essay must be at least 50 words)</b></p>
+              <p>Total word count: <span id="display_count">0</span> words</p>
+              <p><textarea class="form-control essay" style="height:200px" name="essay" id="essay"></textarea></p>
+              <div class="certification">
+                <h3 id='step-12' style="margin-top:0px; color: #02be9b;">Certification</h3>
+                <p>1.) I certify that all information I have provided on this Application Form is, to the best of my knowledge true and correct</p>
+                <p>2.) I agree that if I have withheld or misrepresented any information on this Application Form. I alone am responsible and accountable for any consequence of such withholding or misrepresentation</p>
+                <p>3.) I understand that the information I provided in this Application Form shall remain confidential, but I may be held liable for any untruthful statements made therein</p>
+                <div class="form-group">
+                  <div class="col-md-3">
+                    <label class="control-label">Printed Name:</label>
+                    <input type="text" data-toggle="tooltip" id="full_name" class="form-control certification-input" readonly="" placeholder="Printed Name" >
+                  </div>
+                  <div class="col-md-3">
+                    <label class="control-label">Signature:</label>
+                    <input type="text" data-toggle="modal" data-target="#signature" class="form-control certification-input" name="signature" placeholder="Signature" readonly="">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="control-label">Date:</label>
+                    <input type="text" data-toggle="tooltip" class="form-control certification-input application-date" readonly="" placeholder="Date" >
+                  </div>
+                </div>
+              </div>
+              <br />
+              <button class="btn btn-success form-control submit-application" >Submit Application</button>
+              <br /> &nbsp;
+            </form>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="bs-docs-sidebar hidden-print" role="complementary">
+            <ul class="nav bs-docs-sidenav">
+              <li>
+                <a href="#step-2">How did you learn about Manship?</a>
+              </li>
+              <li>
+                <a href="#step-3">Personal Data</a>
+              </li>
+              <!-- <li>
+                <a href="#step-2">Next of Kin</a>
+              </li> -->
+              <li>
+                <a href="#step-4">Educational Information</a>
+              </li>
+              <li>
+                <a href="#step-5">Emergency Contact Details</a>
+              </li>
+              <li>
+                <a href="#step-6">Sea Service</a>
+              </li>
+              <li>
+                <a href="#step-7">Background Information</a>
+              </li>
+              <li>
+                <a href="#step-8">National Certificates and Travel Documents</a>
+              </li>
+              <li>
+                <a href="#step-9">Flag Documents</a>
+              </li>
+              <li>
+                <a href="#step-10">Training and Other Certificates</a>
+              </li>
+              <li>
+                <a href="#step-11">Essay</a>
+              </li>
+              <li>
+                <a href="#step-12">Certification</a>
+              </li>
+              <li>
+                <a class="back-to-top" href="#top">
+                  Back to top
+                </a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="footer">
+    <div class="container">
+    <p>Princess Building, 104 Esteban Street, Legaspi Village, Makati City 1229, Philippines<br>
+    Tel No.: +63 2 892 4071 to 74; Fax No.: +63 2 816 6993<br>
+    Website:<a href="http://www.manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;www.manship.com</a> 
+    E-mail:<a href="mailto:recruitment@manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;recruitment@manship.com</a></p>
+    <p>&copy 2015 Manila Shipmanagement & Manning, Inc. All rights reserved.</p>
+    </div>
+    </div>
+
+    <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Signature</h4>
+          </div>
+          <div class="modal-body" style="text-align: center">
+            {% for forms in form %}
+              {{ forms.error }}
+              {{ forms }}
+            {% endfor %}
+            <button type="button" class="btn btn-info form-control half-width" data-dismiss="modal" style="margin-top: 15px; margin-bottom: 15px;">Proceed to Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="seaservice" tabindex="-1" role="dialog" aria-labelledby="seaserviceLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="seaserviceLabel"><b>SEA SERVICE ON LAST TWO RANKS</b><span class="refresh"></span></h4>
+          </div>
+          <div class="modal-body">
+            <div style="padding-left: 15px">
+              <h5><b>PLEASE READ INSTRUCTIONS CAREFULLY BEFORE FILLING OUT</b></h5>
+              <h5>1.) <i>Please complete the fields per row from left to right</i><b> (Vessel Name, Vessel Type, Flag, GRT, Year Built, Engine Type, HP/KW, Manning Agency, Principal / Shipowner, Date Joined, Date Left, Month / Days, Rank, Cause of Discharge)</b></h5>
+              <h5>2.) <i>Take note:</i> <b>Scroll from left to right</b></h5>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="table table-striped sea-services">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Vessel Name</th>
+                    <th>Vessel Type</th>
+                    <th>Flag</th>
+                    <th>GRT</th>
+                    <th>DWT</th>
+                    <th>Year Built</th>
+                    <th>Engine Type</th>
+                    <th>HP</th>
+                    <th>KW</th>
+                    <th>Manning Agency</th>
+                    <th>Principal / Shipowner</th>
+                    <th>Date Joined</th>
+                    <th>Date Left</th>
+                    <th>Month / Days</th>
+                    <th>Rank</th>
+                    <th>Cause of Discharge</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="display:none" class="first-row">
+                    <td><button type="button" class="btn btn-danger delete-row">Delete</button></td>
+                    <td><button type="button" class="btn btn-info add-row">Add</button></td>
+                    <td><input type="text" data-toggle="tooltip" class="vname" name="vname" placeholder="Vessel Name"></td>
+                    <td><input type="text" data-toggle="tooltip" name="vtype" class="vtype" placeholder="Vessel Type"></td>
+                    <td><input type="text" data-toggle="tooltip" name="flag" class="flag" placeholder="Flag"></td>
+                    <td><input type="text" data-toggle="tooltip" name="grt" class="grt" placeholder="GRT"></td>
+                    <td><input type="text" data-toggle="tooltip" name="dwt" class="dwt" placeholder="DWT"></td>
+                    <td><input type="text" data-toggle="tooltip" name="year_built" class="year_built" placeholder="Year Built"></td>
+                    <td><input type="text" data-toggle="tooltip" name="engine_type" class="engine_type" placeholder="Engine Type"></td>
+                    <td><input type="text" data-toggle="tooltip" name="hp" class="hp" placeholder="HP"></td>
+                    <td><input type="text" data-toggle="tooltip" name="kw" class="kw" placeholder="KW"></td>
+                    <td><input type="text" data-toggle="tooltip" name="manning_agency" class="manning_agency" placeholder="Manning Agency"></td>
+                    <td><input type="text" data-toggle="tooltip" name="principal" class="principal" placeholder="Principal / Shipowner"></td>
+                    <td><input type="text" data-toggle="tooltip" name="date_joined" class="date date-joined" placeholder="Date Joined"></td>
+                    <td><input type="text" data-toggle="tooltip" name="date_left" class="date date-left" placeholder="Date Left" disabled></td>
+                    <td><input type="text" data-toggle="tooltip" name="duration" class="duration" placeholder="Month / Days" readonly></td>
+                    <td><input type="text" data-toggle="tooltip" name="vessel_rank" class="rank" placeholder="Rank"></td>
+                    <td>
+                      <select data-toggle="tooltip" name="discharge_cause">
+                        <option>Cause of Discharge</option>
+                        <option>Finished Contract</option>
+                        <option>Vessel Sold</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><button type="button" class="btn btn-info add-row">Add</button><!-- <img src="../static/img/plus_sign.png" class="add-row" height="25" width="25"> --></td>
+                    <td><input type="text" data-toggle="tooltip" class="vname" name="vname" placeholder="Vessel Name"></td>
+                    <td><input type="text" data-toggle="tooltip" name="vtype" class="vtype" placeholder="Vessel Type"></td>
+                    <td><input type="text" data-toggle="tooltip" name="flag" class="flag" placeholder="Flag"></td>
+                    <td><input type="text" data-toggle="tooltip" name="grt" class="grt" placeholder="GRT"></td>
+                    <td><input type="text" data-toggle="tooltip" name="dwt" class="dwt" placeholder="DWT"></td>
+                    <td><input type="text" data-toggle="tooltip" name="year_built" class="year_built" placeholder="Year Built"></td>
+                    <td><input type="text" data-toggle="tooltip" name="engine_type" class="engine_type" placeholder="Engine Type"></td>
+                    <td><input type="text" data-toggle="tooltip" name="hp" class="hp" placeholder="HP"></td>
+                    <td><input type="text" data-toggle="tooltip" name="kw" class="kw" placeholder="KW"></td>
+                    <td><input type="text" data-toggle="tooltip" name="manning_agency" class="manning_agency" placeholder="Manning Agency"></td>
+                    <td><input type="text" data-toggle="tooltip" name="principal" class="principal" placeholder="Principal / Shipowner"></td>
+                    <td><input type="text" data-toggle="tooltip" name="date_joined" class="date date-joined" placeholder="Date Joined"></td>
+                    <td><input type="text" data-toggle="tooltip" name="date_left" class="date date-left" placeholder="Date Left" disabled></td>
+                    <td><input type="text" data-toggle="tooltip" name="duration" class="duration" placeholder="Month / Days" readonly></td>
+                    <td><input type="text" data-toggle="tooltip" name="vessel_rank" class="rank" placeholder="Rank"></td>
+                    <td>
+                      <select data-toggle="tooltip" name="discharge_cause">
+                        <option>Cause of Discharge</option>
+                        <option>Finished Contract</option>
+                        <option>Vessel Sold</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>  
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "footer.html" %}

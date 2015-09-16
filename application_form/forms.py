@@ -511,7 +511,7 @@ class SbookForm(forms.ModelForm):
 		Sbook.objects.create(**value)
 
 class COCForm(forms.ModelForm):
-	coc_rank = forms.CharField()
+	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('COCRankAutocomplete'))
 	class Meta:
 		model = ApplicationFormCOC
 		fields = ('coc', 'coc_expiry')
@@ -533,7 +533,7 @@ class COCForm(forms.ModelForm):
 		COC.objects.create(**value)
 
 class LicenseForm(forms.ModelForm):
-	license_rank = forms.CharField(required=False)
+	license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
 	class Meta:
 		model = ApplicationFormLicense
 		fields = ('license', )
@@ -570,7 +570,7 @@ class LicenseForm(forms.ModelForm):
 		License.objects.create(**value)
 
 class SRCForm(forms.ModelForm):
-	src_rank = forms.CharField()
+	src_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
 	class Meta:
 		model = ApplicationFormSRC
 		fields = ('src', )
@@ -744,7 +744,7 @@ class SeaServiceForm(forms.ModelForm):
 	manning_agency = forms.CharField(widget=autocomplete_light.TextWidget('ManningAgencyAutocomplete'))
 	# Do not make principal autocomplete
 	principal = forms.CharField()
-	rank = forms.CharField()
+	rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
 	class Meta:
 		model = ApplicationFormSeaService
 		fields = '__all__'

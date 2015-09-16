@@ -634,10 +634,10 @@
                 <th>HP</th>
                 <th>KW</th>
                 <th>Manning Agency</th>
+                <th>Rank</th>
                 <th>Principal / Shipowner</th>
                 <th>Date Joined</th>
                 <th>Date Left</th>
-                <th>Rank</th>
                 <th>Cause of Discharge</th>
               </tr>
             </thead>
@@ -656,11 +656,12 @@
                   <td>{{ seaservice.hp|attr:"data-toggle:tooltip"|attr:"Placeholder:HP"|add_class:"hp" }}</td>
                   <td>{{ seaservice.kw|attr:"data-toggle:tooltip"|attr:"Placeholder:KW"|add_class:"kw" }}</td>
                   <td>{{ seaservice.manning_agency|attr:"data-toggle:tooltip"|attr:"Placeholder:Manning Agency"|add_class:"manning_agency"|add_class:"td-150" }}</td>
+                  <td>{{ seaservice.rank|attr:"data-toggle:tooltip"|attr:"Placeholder:Rank"|add_class:"rank" }}</td>
                   <td>{{ seaservice.principal|attr:"data-toggle:tooltip"|attr:"Placeholder:Principal / Shipowner"|add_class:"td-170" }}</td>
                   <td>{{ seaservice.date_joined|add_class:"date date-joined"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Joined" }}</td>
                   <td>{{ seaservice.date_left|add_class:"date date-left"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Left"|attr:"disabled" }}</td>
                   <td style="display:none">{{ seaservice.duration|add_class:"duration"|attr:"data-toggle:tooltip"|attr:"Placeholder:Days"|attr:"readonly" }}</td>
-                   <td>{{ seaservice.rank|attr:"data-toggle:tooltip"|attr:"Placeholder:Rank"|add_class:"rank" }}</td>
+                   
                    <td>{{ seaservice.cause_of_discharge|attr:"data-toggle:tooltip"|add_class:"first-choice cause_of_discharge" }}</td>
                 </tr>
               {% endfor %}

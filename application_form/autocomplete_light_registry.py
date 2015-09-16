@@ -1,4 +1,4 @@
-from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency
+from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank
 
 import autocomplete_light
 
@@ -83,3 +83,27 @@ class ManningAgencyAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(ManningAgencyAutocomplete)
+
+class RankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Rank.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('rank'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(RankAutocomplete)
+
+class COCRankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      COCRank.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('coc_rank'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(COCRankAutocomplete)

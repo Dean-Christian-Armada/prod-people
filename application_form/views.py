@@ -1,14 +1,16 @@
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 from django.views.decorators.csrf import csrf_exempt
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.conf import settings
 
 # from easy_pdf.rendering import render_to_pdf_response
 
-from . forms import *
+from django.core.files.base import ContentFile
 
-from mariners_profile.models import TrainingCertificatesSegregation
+from . forms import *
 
 import os, shutil, datetime, random, string
 
@@ -35,6 +37,12 @@ class FirstRequiredFormSet(BaseFormSet):
 def form(request):
 	scheme = request.scheme
 	http_host = request.META['HTTP_HOST']
+	today = date.today()
+	today = today.strftime("%m/%d/%y")
+	count_college_errors = 0
+	count_emergency_errors = 0
+
+
 	applicant_name = ApplicantNameForm()
 	personal_data = PersonalDataForm()
 	permanent_address = PermanentAddressForm()
@@ -60,7 +68,7 @@ def form(request):
 	flags = FlagForm()
 	trainings_certificates = TrainingCertificateForm()
 	sea_service = formset_factory(SeaServiceForm, extra=20)
-	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host})
+	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host, 'application_date': today})
 
 	if request.method == "POST":
 		print request.POST
@@ -126,6 +134,15 @@ def form(request):
 			application.save()
 			return HttpResponseRedirect('/application-form/success/')
 		else:
+			# For formset validations on error validations html
+			# To uncount empty dictionary errors made by the formset
+			for college_errors in college.errors:
+				if college_errors != {}:
+					count_college_errors+=1
+
+			for emergency_errors in emergency_contact.errors:
+				if emergency_errors != {}:
+					count_emergency_errors+=1
 			print applicant_name.errors
 			print permanent_address.errors
 			print current_address.errors
@@ -152,7 +169,7 @@ def form(request):
 			print trainings_certificates.errors
 			print sea_service.errors
 			print application.errors
-			
+
 
 	template = "application_form/index.html"
 	context_dict = {"title": "Application Form"}
@@ -162,8 +179,10 @@ def form(request):
 	context_dict['personal_data'] = personal_data
 	context_dict['spouse_form'] = spouse
 	context_dict['college'] = college
+	context_dict['count_college_errors'] = count_college_errors
 	context_dict['highschool_form'] = highschool
 	context_dict['emergency'] = emergency_contact
+	context_dict['count_emergency_errors'] = count_emergency_errors
 	context_dict['visa_application'] = visa_application
 	context_dict['detained'] = detained
 	context_dict['disciplinary_action'] = disciplinary_action
@@ -197,13 +216,15 @@ def success(request):
 def tmp_image(request):
 	if request.method == 'POST':
 		tmp_image_name = ''.join(random.choice(string.lowercase) for i in range(10))
-		# does not work with starting slash
-		x = 'media/photos/tmp/'+tmp_image_name+'.jpg'
-		f = open(x, 'wb')
-		f.write(request.body)
-		f.close()
+		# request file coming from the webcamjs
+		files = request.FILES['webcam']
+		# Script that convert the inmemoryupload to a file
+		files = ContentFile(files.read())
+		x = 'photos/tmp/'+tmp_image_name+'.jpg'
+		# script saving to a folder
+		path = default_storage.save(x, files)
 		scheme = request.scheme
 		http_host = request.META['HTTP_HOST']
-		return HttpResponse(scheme+"://"+http_host+"/"+x)
+		return HttpResponse(scheme+"://"+http_host+"/media/"+x)
 	else:
 		return HttpResponse("No data")

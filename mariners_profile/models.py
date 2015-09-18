@@ -83,7 +83,16 @@ class Relationship(models.Model):
 	def __unicode__(self):
 		return self.relationship
 
+class Departments(models.Model):
+	department = models.CharField(max_length=50, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __unicode__(self):
+		return "%s - %s" % (self.id, self.department)
+
 class Rank(models.Model):
+	department = models.ForeignKey(Departments, default=6)
 	rank = models.CharField(max_length=50, default=None)
 	hiring = models.BooleanField(default=0)
 	company_standard = models.NullBooleanField(max_length=50, default=False)
@@ -228,15 +237,9 @@ class Flags(models.Model):
 	def __unicode__(self):
 		return self.flags
 
-class TrainingCertificatesSegregation(models.Model):
-	segregation = models.CharField(max_length=50, default=None)
-
-	def __unicode__(self):
-		return self.segregation
-
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
-	segregation = models.ForeignKey(TrainingCertificatesSegregation, default=1)
+	department = models.ForeignKey(Departments, default=6)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )

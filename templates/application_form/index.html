@@ -38,7 +38,7 @@
                   </div>
                   <div class="form-group">
                     <div class="col-md-6">
-                      {{ application.application_date }}
+                      {{ application.application_date|add_class:"form-control"|attr:"placeholder:Date of Application"|attr:"readonly" }}
                       {{ application.application_date.errors }}
                     </div>
                   </div>
@@ -65,7 +65,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#webcam" style="width:220px">Change Picture</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#webcam" style="width:220px">Retake Picture</button>
 
                   </div>
                   
@@ -411,26 +411,31 @@
                 {{ visa_application.visa_application.errors }}
                 A.) Have you ever been denied an application for any visa or entry into another country?
                 {{ visa_application.visa_application }}
+                {{ visa_application.visa_application_reason }}
               </p>
               <p>
                 {{ detained.detained.errors }}
                 B.) Have you ever been detained or ordered to leave any country?
                 {{ detained.detained }}
+                {{ detained.detained_reason }}
               </p>
               <p>
                 {{ disciplinary_action.disciplinary_action.errors }}
                 C.) Have you ever been subject of any disciplinary action during an employment contract?
                 {{ disciplinary_action.disciplinary_action }}
+                {{ disciplinary_action.disciplinary_action_reason }}
               </p>
               <p>
                 {{ charged_offense.charged_offense.errors }}
                 D.) Have you ever been charged any offense before an administrative body, prosecutor's office or court of law?
                 {{ charged_offense.charged_offense }}
+                {{ charged_offense.charged_offense_reason }}
               </p>
               <p>
                 {{ termination.termination.errors }}
                 E.) Have you ever been terminated for cause by any employer?
                 {{ termination.termination }}
+                {{ termination.termination_reason }}
               </p>
 
             <h3 id='step-8' style="color: #02be9b;">National Certificates and Travel Documents</h3>
@@ -575,12 +580,12 @@
                     <input type="text" data-toggle="tooltip" id="full_name" class="form-control certification-input" readonly="" placeholder="Printed Name" >
                   </div>
                   <div class="col-md-3">
-                    <label class="control-label">Signature:</label>
+                    <label class="control-label">{% if not application.signature.errors %}{% if request.POST  %}<i><u>Already Signed</u></i>{% else %}Signature:{% endif %}{% else %}Signature:{% endif %} </label>
                     <input type="text" data-toggle="modal" data-target="#signature" class="form-control certification-input" name="signature" placeholder="Signature" readonly="">
                   </div>
                   <div class="col-md-6">
                     <label class="control-label">Date:</label>
-                    {{ application.application_date|attr:"disabled" }}
+                    {{ application.application_date|add_class:"form-control"|attr:"placeholder:Date of Application"|attr:"readonly"|attr:"disabled" }}
                   </div>
                 </div>
               </div>
@@ -594,7 +599,7 @@
       <div class="modal-header">
         <h4 class="modal-title" id="pictureLabel"><b>TAKE PICTURE</b></h4>
       </div>
-      <div class="modal-body webcam-container" style="text-align:center">
+      <div class="modal-body webcam-container" style="margin-left: auto; margin-right: auto;">
       </div>
       <div class="modal-footer">
         <center><button type="button" class="btn btn-info half-width" id="start-application" onClick="take_snapshot()" data-dismiss="modal">Start Application</button></center>
@@ -705,6 +710,41 @@
 {% endblock %}
 {% block extra_scripts %}
   <script language="JavaScript">
+    // Start Webcam Scripts
+    // Placed here because it throws validation alerts on other pages if put in main.js
+    Webcam.set({
+            width: 220,
+            height: 180,
+            dest_width: 220,
+            dest_height: 180,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            force_flash: false,
+            flip_horiz: true,
+            fps: 45
+        });
+
+    Webcam.attach( '.webcam-container' );
+      
+    function take_snapshot() {
+      Webcam.snap( function(data_uri) {
+          Webcam.upload( data_uri, '/application-form/tmp-image/', function(code, text) {
+            d = new Date();
+            if (text != 'No data') {
+              var image_url = text;
+              // show JPEG image in page
+              // Extra parameter for Image Caching
+              document.getElementById('picture-container').innerHTML = '<img src="' + image_url + '?'+d.getTime()+'"><input type="text" name="application_picture" value="'+image_url+'" style="display:none">';
+              // reset camera for another shot
+            }
+            else{
+              alert("Python Error: " + msg);
+            } 
+            } );
+      } );
+    }
+
+    // End Webcam Scripts
     {% if not request.POST %}
         $("#id_civil_status option:first-child").text("Civil Status");
         $("#id_civil_status option:first-child").css("display", "inline");

@@ -77,20 +77,13 @@ $(function(){
       }
       $('#display_count').text(essay);
     }
-    var hp_kw_grt_dwt_validator = function(x){
-      if(x.hasClass('hp')){
-        ul = x.parent();
-        setTimeout(function(){ ul.next("td").children("ul").remove(); ul.next("td").children("input").removeAttr('required'); }, 100);
-      }else if(x.hasClass('kw')){
-        ul2 = x.parent();
-        setTimeout(function(){ ul2.prev("td").children("ul").remove(); ul2.next("td").children("input").removeAttr('required'); }, 100);
-      }
+    var grt_dwt_validator = function(x){
       if(x.hasClass('grt')){
         ul3 = x.parent();
-        setTimeout(function(){ ul3.next("td").children("ul").remove(); ul3.next("td").children("input").removeAttr('required'); }, 100);
+        ul3.next("td").children("ul").remove(); ul3.next("td").children("input").removeAttr('required');
       }else if(x.hasClass('dwt')){
         ul4 = x.parent();
-        setTimeout(function(){ ul4.prev("td").children("ul").remove(); ul4.next("td").children("input").removeAttr('required'); }, 100);
+        ul4.prev("td").children("ul").remove(); ul4.next("td").children("input").removeAttr('required');
       }
     }
     // End Variables
@@ -292,9 +285,12 @@ $(function(){
       val = $(this).val();
       if( name == "visa_application" || name == "detained" || name == "disciplinary_action" || name == "charged_offense" || name == "termination" ){
         if(val == 1){
-          $(this).parent().parent().after("<textarea class='form-control' name='"+name+"_reason' placeholder='Write your reason here' required></textarea>")
+          $(this).parent().next().next().show();
+          $(this).parent().next().next().prop("required", "true");
         }else{
-          $("textarea[name='"+name+"_reason']").remove();
+          $(this).parent().next().hide();
+          $(this).parent().next().val("");
+          $(this).parent().next().removeAttr('required');
         }
       }
       if( name == "us_visa" || name == "schengen_visa" ){
@@ -395,6 +391,7 @@ $(function(){
       alternative_position = $("#id_alternative_position option:selected").text();
       if(position_applied != "Engine Cadet" && position_applied != "Deck Cadet" && alternative_position != "Engine Cadet" && alternative_position != "Deck Cadet"){
         $("#application-form-essay").hide();
+        $("li.essay").hide();
         $("#id_essay").removeAttr('required');
       }
     });
@@ -425,6 +422,9 @@ $(function(){
     $("#id_last_name, #id_first_name, #id_middle_name").keyup(full_name).click(full_name).focusout(full_name);
     $("#permanent_unit, #current_unit, #permanent_street, #permanent_baranggay, #permanent_municipality, #permanent_zip, #current_street, #current_baranggay, #current_municipality, #current_zip").keyup(address).change(address);
     $(".essay").keyup(essay).click(essay).focusout(essay);
+    // $("#application-form").on("keyup", "input[type='text']", function(){
+    //   $(this).val($(this).val().toUpperCase());
+    // });
     // Used for sea-services validation
     // Users can not exit the sea-service unless valid
     $(".sea-services").on("keyup", "input", function(){
@@ -432,11 +432,6 @@ $(function(){
     }).on("change", "select", function(){
       $(this).parent().siblings().children().prop("required", "true");
     });
-
-    // $(".sea-services input").keyup(function(){
-    //   $(this).parent().siblings().children().prop("required", "true");
-      // $(this).parent().siblings("td:nth-child(2)").html("<button type='button' class='btn btn-warning clear-row'>Clear Row</button>");
-    // });
 
     // Start Sea Service Validation
     $("#proceed-sea-service").click(function(){
@@ -448,10 +443,10 @@ $(function(){
         }else if($(this).val().length >= 1 && $(this).next('ul').length == 1){
           // count--;
           x.next('ul').remove();
-          hp_kw_grt_dwt_validator(x);
+          grt_dwt_validator(x);
         }
         else if($(this).val().length >= 1 && $(this).next('ul').length == 0){
-          hp_kw_grt_dwt_validator(x);
+          grt_dwt_validator(x);
         }else if(!$(this).prop('required')){
           // alert('dean');
           // count--;
@@ -501,6 +496,7 @@ $(function(){
     $(".essay").trigger('click');
     $("#id_civil_status").trigger("change");
     // $(".cause_of_discharge").trigger("change");
+    // $("#application-form input[type='radio']").trigger("change");
     $("#application-form input").trigger("keyup");
     $("#application-form input[name='us_visa'], #application-form input[name='schengen_visa'], #id_civil_status").trigger("change");
     $("body").on("change", "select", function(){
@@ -561,6 +557,7 @@ $(function(){
       x = $('option:selected', this).text();
       if( x == 'Deck Cadet' || x == 'Engine Cadet' ){
         $("#application-form-essay").show();
+        $("li.essay").show();
         $("#id_essay").prop("required", "true");
       }
     });
@@ -593,32 +590,10 @@ $(function(){
         $(this).trigger("click");
       }
     });
+    $("p input[type='radio']").each(function(){
+      if($(this).is(':checked') && $(this).val() == 1){
+        $(this).parent().next().next().show();
+        $(this).parent().next().next().prop("required", "true");
+      }
+    });
 }); 
-
-// Start Webcam Scripts
-webcam.set_api_url( '/application-form/tmp-image/?first' );
-webcam.set_quality( 90 ); // JPEG quality (1 - 100)
-webcam.set_shutter_sound( true ); // play shutter click sound
-$(".webcam-container").html(webcam.get_html(220, 180));
-webcam.set_hook( 'onComplete', 'my_completion_handler' );
-  
-function take_snapshot() {
-  webcam.snap();
-}
-
-function my_completion_handler(msg) {
-  d = new Date();
-  if (msg != 'No data') {
-    var image_url = msg;
-    // show JPEG image in page
-    // Extra parameter for Image Caching
-    document.getElementById('picture-container').innerHTML = '<img src="' + image_url + '?'+d.getTime()+'"><input type="text" name="application_picture" value="'+image_url+'" style="display:none">';
-    // reset camera for another shot
-    webcam.reset();
-    // $("#update_image").val("image");
-  }
-  else{
-    alert("Python Error: " + msg);
-  } 
-}
-// End Webcam Scripts

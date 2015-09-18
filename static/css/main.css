@@ -140,10 +140,14 @@ body.login {
     padding-left: 0;
     /*text-transform: uppercase;*/
 }
-/*
-#application-form input[type='text'], #seaservice input[type='text']{
+
+input[type='text'], input[type='text']{
     text-transform: uppercase;
-}*/
+}
+
+input[type='email']{
+    text-transform: lowercase;
+}
 
 #application-form select, #seaservice select {
     color: #c4c1c7; background-color: #fff;

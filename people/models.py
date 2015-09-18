@@ -53,23 +53,6 @@ class AbstractPersonalData(models.Model):
 	def __unicode__(self):
 		return "%s %s %s" % (self.name.first_name, self.name.middle_name, self.name.last_name)
 
-	def save(self, *args, **kwargs):
-		if self.landline_2 == '':
-			self.landline_2 = None
-		if self.philhealth == '':
-			self.philhealth = None
-		if self.tin == '':
-			self.tin = None
-		if self.pagibig == '':
-			self.pagibig = None
-		if self.landline_1 == '':
-			self.landline_1 = None
-		if self.mobile_2 == '':
-			self.mobile_2 = None
-
-		super(AbstractPersonalData, self).save(*args, **kwargs)
-		
-
 class AbstractSpouseData(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	spouse_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)

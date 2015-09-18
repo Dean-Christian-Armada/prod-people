@@ -124,20 +124,20 @@ class CurrentAddressForm(forms.ModelForm):
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
 	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
-	# regex fild for mobile numbers
-	mobile_1 = forms.RegexField(regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
-	mobile_2 = forms.RegexField(regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
+	# regex fild for mobile numbersNumberInput 
+	mobile_1 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
+	mobile_2 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
 	# regex fild for landline numbers
-	landline_1 = forms.RegexField(regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
-	landline_2 = forms.RegexField(regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
+	landline_1 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
+	landline_2 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
 	# regex fild for sss
-	sss = forms.RegexField(regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
+	sss = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
 	# regex fild for philhealth
-	philhealth = forms.RegexField(regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
+	philhealth = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
 	# regex fild for tin
-	tin = forms.RegexField(regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
+	tin = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
 	# regex fild for pagibig
-	pagibig = forms.RegexField(regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
+	pagibig = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
 	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
  
@@ -226,7 +226,7 @@ class CollegeForm(forms.ModelForm):
 			value = self.cleaned_data
 			College.objects.create(**value)
 		except:
-			pass
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
@@ -305,7 +305,7 @@ class VisaApplicationForm(forms.ModelForm):
 			('0', 'No'),
 		)
 	visa_application = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	visa_application_reason = forms.CharField(required=False)
+	visa_application_reason = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Write your reason here", 'rows':"5", 'style':"display:none"}), required=False)
 	class Meta:
 		model = ApplicationFormVisaApplication
 		fields = ('visa_application', )
@@ -340,7 +340,7 @@ class DetainedForm(forms.ModelForm):
 			('0', 'No'),
 		)
 	detained = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	detained_reason = forms.CharField(required=False)
+	detained_reason = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Write your reason here", 'rows':"5", 'style':"display:none"}), required=False)
 	class Meta:
 		model = ApplicationFormDetained
 		fields = ('detained', )
@@ -375,7 +375,7 @@ class DisciplinaryActionForm(forms.ModelForm):
 			('0', 'No'),
 		)
 	disciplinary_action = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	disciplinary_action_reason = forms.CharField(required=False)
+	disciplinary_action_reason = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Write your reason here", 'rows':"5", 'style':"display:none"}), required=False)
 	class Meta:
 		model = ApplicationFormDisciplinaryAction
 		fields = ('disciplinary_action', )
@@ -410,7 +410,7 @@ class ChargedOffenseForm(forms.ModelForm):
 			('0', 'No'),
 		)
 	charged_offense = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	charged_offense_reason = forms.CharField(required=False)
+	charged_offense_reason = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Write your reason here", 'rows':"5", 'style':"display:none"}), required=False)
 	class Meta:
 		model = ApplicationFormChargedOffense
 		fields = ('charged_offense', )
@@ -445,7 +445,7 @@ class TerminationForm(forms.ModelForm):
 			('0', 'No'),
 		)
 	termination = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	termination_reason = forms.CharField(required=False)
+	termination_reason = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Write your reason here", 'rows':"5", 'style':"display:none"}), required=False)
 	class Meta:
 		model = ApplicationFormTermination
 		fields = ('termination', )
@@ -810,10 +810,10 @@ class ApplicationForm(autocomplete_light.ModelForm):
 	# pass
 	# Date today script
 	ADVERTISEMENT_CHOICES = (
-			('Seaway', 'Seaway'),
-			('Buhay Marino', 'Buhay Marino'),
-			('Harbor Scope', 'Harbor Scope'),
-			('Newspaper', 'Newspaper'),
+			('SEAWAY', 'SEAWAY'),
+			('BUHAY MARINO', 'BUHAY MARINO'),
+			('HARBOR SCOPE', 'HARBOR SCOPE'),
+			('NEWSPAPER', 'NEWSPAPER'),
 		)
 	INTERNET_CHOICES = (
 			('www.manship.com', 'www.manship.com'),
@@ -821,9 +821,7 @@ class ApplicationForm(autocomplete_light.ModelForm):
 			('www.pinoyseaman.com', 'www.pinoyseaman.com'),
 			('www.crewtoo.com', 'www.crewtoo.com'),
 		)
-	today = date.today()
-	today = today.strftime("%m/%d/%y")
-	application_date = forms.DateField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Date of Application", 'data-toggle':'tooltip', 'readonly':'readonly', 'value':today}))
+	# application_date = forms.DateField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Date of Application", 'data-toggle':'tooltip', 'readonly':'readonly', 'value':today}))
 	signature = JSignatureField(widget=JSignatureWidget(jsignature_attrs={'color': '#000'}))
 	alternative_position = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
 	position_applied = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
@@ -899,10 +897,13 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		# Webcam script on saving in a folder
 		try:
 			tmp_application_picture = application_picture
-			tmp_application_picture = tmp_application_picture.replace(scheme+"://"+http_host+"/", "")
-			application_picture = "media/photos/application-form/"+file_name+".jpg"
-			os.rename(tmp_application_picture, application_picture)
-			application_picture = application_picture.replace("media/", "")
+			tmp_application_picture = tmp_application_picture.replace(scheme+"://"+http_host+"/media", "")
+			tmp_application_picture = settings.MEDIA_ROOT+tmp_application_picture
+			path_application_picture = "media/photos/application-form/"+file_name+".jpg"
+			# settings.MEDIA_ROOT is declared so it is flexible even in cloud
+			application_picture = settings.MEDIA_ROOT+"/photos/application-form/"+file_name+".jpg"
+			shutil.move(tmp_application_picture, application_picture)
+			application_picture = path_application_picture.replace("media/", "")
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 

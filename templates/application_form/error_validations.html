@@ -1,4 +1,4 @@
-{% if applicant_name.errors or permanent_address.errors or current_address.errors or personal_data.errors or spouse.errors or college.errors or highschool.errors or emergency_contact.errors or visa_application.errors or detained.errors or disciplinary_action.errors or charged_offense.errors or termination.errors or passport.errors or sbook.errors or coc.errors or license.errors or src.errors or goc.errors or us_visa.errors or schengen_visa.errors or yellow_fever.errors or flags.errors or trainings_certificates.errors or sea_service.errors or application.errors %}
+{% if applicant_name.errors or permanent_address.errors or current_address.errors or personal_data.errors or spouse.errors or college.errors or highschool.errors or emergency.errors or visa_application.errors or detained.errors or disciplinary_action.errors or charged_offense.errors or termination.errors or passport_form.errors or sbook_form.errors or coc_form.errors or license_form.errors or src_form.errors or goc_form.errors or usvisa_form.errors or schengenvisa_form.errors or yellowfever_form.errors or flags.errors or trainings_certificates.errors or sea_service.errors or application.errors %}
   <div class="form-group">
     <div class="errorlist-group" >
       <ul class="errorlist">
@@ -10,11 +10,11 @@
           <li><a href="#step-3">Please fill up everything in your Personal Data</a></li>
         {% endif %}
 
-        {% if college.errors or highschool.errors %}
+        {% if count_college_errors or highschool.errors %}
           <li><a href="#step-4">Please fill up everything in your Education Information</a></li>
         {% endif %}
 
-        {% if emergency_contact.errors %}
+        {% if count_emergency_errors %}
           <li><a href="#step-5">Please fill up everything in your Emergency Contact Details</a></li>
         {% endif %}
 
@@ -22,7 +22,7 @@
           <li><a href="#step-7">Please fill up everything in your Background Information</a></li>
         {% endif %}
 
-        {% if passport.errors or sbook.errors or coc.errors or license.errors or src.errors or goc.errors or us_visa.errors or schengen_visa.errors or yellow_fever.errors %}
+        {% if passport_form.errors or sbook_form.errors or coc_form.errors or license_form.errors or src_form.errors or goc_form.errors or usvisa_form.errors or schengenvisa_form.errors or yellowfever_form.errors %}
           <li><a href="#step-8">Please fill up everything in your National Certificates and Travel Documents</a></li>
         {% endif %}
 

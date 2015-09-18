@@ -239,13 +239,16 @@ class Flags(models.Model):
 
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
-	department = models.ForeignKey(Departments, default=6)
+	departments = models.ManyToManyField(Departments, default=5)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
 		return self.trainings_certificates
+
+	def get_departments(self):
+		return "\n, ".join([d.department for d in self.departments.all()])
 
 class TrainingCenter(models.Model):
 	training_center = models.CharField(max_length=50, default=None, blank=True)

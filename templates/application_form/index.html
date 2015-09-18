@@ -710,6 +710,8 @@
 {% endblock %}
 {% block extra_scripts %}
   <script language="JavaScript">
+  trainings_certificates_url = "{% url 'application_form_training_certificates' %}";
+
     // Start Webcam Scripts
     // Placed here because it throws validation alerts on other pages if put in main.js
     Webcam.set({

@@ -596,4 +596,12 @@ $(function(){
         $(this).parent().next().next().prop("required", "true");
       }
     });
+
+    $("#id_position_applied").change(function(){
+      val = $(this).val();
+      alert(val);
+      $.get(trainings_certificates_url, { id: "dean" }, function(data){
+        $('#step-10').next().next().html(data);
+      });
+    });
 }); 

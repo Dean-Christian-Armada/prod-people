@@ -228,3 +228,7 @@ def tmp_image(request):
 		return HttpResponse(scheme+"://"+http_host+"/media/"+x)
 	else:
 		return HttpResponse("No data")
+
+@login_required
+def trainings_certificates(request):
+	return HttpResponse("DEAN ARMADA")

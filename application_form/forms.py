@@ -711,6 +711,10 @@ class FlagForm(forms.ModelForm):
 		for flag_values in flags:
 			x = FlagDocumentsDetailed.objects.get_or_create(flags_documents=flagdocuments, flags=flag_values)
 
+# Will be used for the dyanmic certificates with AJAX
+# class DynamicTrainingCertificateForm(forms.ModelForm):
+# 	pass
+
 class TrainingCertificateForm(forms.ModelForm):
 	trainings_certificates = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=TrainingCertificates.objects.filter(company_standard=1), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
 	class Meta:

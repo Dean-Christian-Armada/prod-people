@@ -176,6 +176,12 @@ $(function(){
         $("#id_spouse_contact").prop("disabled", false);
       }
     });
+    $("#id_position_applied").change(function(){
+      val = $(this).val();
+      $.get(trainings_certificates_url, { id: val }, function(data){
+        $('#step-10').next().next().html(data);
+      });
+    });
 
     $('table.sea-services').find('.date-left').each(function(){
       if($(this).val() != ''){
@@ -495,6 +501,7 @@ $(function(){
 
     $(".essay").trigger('click');
     $("#id_civil_status").trigger("change");
+    $("#id_position_applied").trigger("change");
     // $(".cause_of_discharge").trigger("change");
     // $("#application-form input[type='radio']").trigger("change");
     $("#application-form input").trigger("keyup");
@@ -595,13 +602,5 @@ $(function(){
         $(this).parent().next().next().show();
         $(this).parent().next().next().prop("required", "true");
       }
-    });
-
-    $("#id_position_applied").change(function(){
-      val = $(this).val();
-      alert(val);
-      $.get(trainings_certificates_url, { id: "dean" }, function(data){
-        $('#step-10').next().next().html(data);
-      });
     });
 }); 

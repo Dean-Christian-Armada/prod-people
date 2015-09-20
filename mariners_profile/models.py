@@ -92,7 +92,7 @@ class Departments(models.Model):
 		return "%s - %s" % (self.id, self.department)
 
 class Rank(models.Model):
-	department = models.ForeignKey(Departments, default=6)
+	department = models.ForeignKey(Departments, default=5)
 	rank = models.CharField(max_length=50, default=None)
 	hiring = models.BooleanField(default=0)
 	company_standard = models.NullBooleanField(max_length=50, default=False)

@@ -231,4 +231,13 @@ def tmp_image(request):
 
 @login_required
 def trainings_certificates(request):
-	return HttpResponse("DEAN ARMADA")
+	id = request.GET['id']
+	if id:
+		form = DynamicTrainingCertificateForm(id)
+	else:
+		form = ""
+
+	template = "application_form/training-certificates.html"
+	context_dict = { "form":form }
+
+	return render(request, template, context_dict)

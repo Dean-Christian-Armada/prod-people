@@ -711,7 +711,9 @@
 {% block extra_scripts %}
   <script language="JavaScript">
   trainings_certificates_url = "{% url 'application_form_training_certificates' %}";
-
+  advertisements = '{{ application.advertisements|escapejs }}';
+  internet = '{{ application.internet|escapejs }}';
+  referrer = '{{ application.referred_by }}';
     // Start Webcam Scripts
     // Placed here because it throws validation alerts on other pages if put in main.js
     Webcam.set({
@@ -727,7 +729,7 @@
         });
 
     Webcam.attach( '.webcam-container' );
-      
+    
     function take_snapshot() {
       Webcam.snap( function(data_uri) {
           Webcam.upload( data_uri, '/application-form/tmp-image/', function(code, text) {
@@ -760,6 +762,8 @@
         $("#id_alternative_position option:first-child").text("Alternative Position");
         $("#id_alternative_position option:first-child").css("display", "inline");
         setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
+
+        $("#webcam").modal('show');
     {% else %}
         civil_status = $("#id_civil_status option:selected").text();
         position_applied = $("#id_position_applied option:selected").text();

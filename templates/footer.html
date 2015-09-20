@@ -8,15 +8,6 @@
     <!-- Jquery for the signature -->
     {{ application.media }}
     <script type="text/javascript" src="{% static 'js/webcam.min.js' %}"></script>
-	<script language="JavaScript">
-		{% if not request.POST %}
-			$("#webcam").modal('show');
-		{% endif %}
-        advertisements = '{{ application.advertisements|escapejs }}';
-        internet = '{{ application.internet|escapejs }}';
-        referrer = '{{ application.referred_by }}';
-	</script>
-
 
     {% include 'autocomplete_light/static.html' %}
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>

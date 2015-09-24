@@ -161,4 +161,10 @@ class PrimarySchoolForm(forms.ModelForm):
 class ReferenceForm(forms.ModelForm):
 	class Meta:
 		model = Reference
-		exclude = '__all__'
+		fields = '__all__'
+
+class EvaluationForm(forms.ModelForm):
+	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)
+	class Meta:
+		model = Evaluation
+		fields = '__all__'

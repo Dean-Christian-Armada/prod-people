@@ -153,10 +153,16 @@ def profile(request, id):
 			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
 		try:
 			reference = Reference.objects.filter(user=id)
-			ReferenceFormSet = inlineformset_factory('Reference.user', Reference, fields='__all__', extra=3, can_delete=True )
+			ReferenceFormSet = inlineformset_factory(UserProfile, Reference, fk_name='user', fields='__all__', extra=0, can_delete=True )
 			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		try:
+			evaluation = Evaluation.objects.get(user=id)
+			evaluation_form = EvaluationForm(request.POST or None, instance=evaluation, initial={'evaluation':evaluation.evaluation})
+		except:
+			evaluation = ''
+			evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name} )
 
 
 		college = College.objects.filter(user=id)
@@ -247,6 +253,9 @@ def profile(request, id):
 		# if highschool_form.is_valid():
 		# 	highschool_form.save()
 
+		if evaluation_form.is_valid():
+			evaluation_form.save()
+
 
 
 		# if vocational_form.is_valid() and primaryschool_form.is_valid():
@@ -310,6 +319,7 @@ def profile(request, id):
 		# context_dict['highschool_form'] = highschool_form
 		context_dict['vocational_form'] = vocational_form
 		context_dict['primaryschool_form'] = primaryschool_form
+		context_dict['evaluation_form'] = evaluation_form
 		context_dict['reference_form'] = reference_form
 
 		context_dict['title'] = "Applicants Profile - "+str(personal_data)

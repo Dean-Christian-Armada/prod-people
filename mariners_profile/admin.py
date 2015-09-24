@@ -32,6 +32,7 @@ class RankAdmin(admin.ModelAdmin):
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000
 
+admin.site.register(Evaluation)
 admin.site.register(Zip)
 admin.site.register(CurrentAddress)
 admin.site.register(PermanentAddress)

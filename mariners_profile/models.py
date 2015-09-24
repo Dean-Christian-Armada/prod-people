@@ -7,6 +7,10 @@ from django_date_extensions.fields import ApproximateDateField
 from login.models import UserProfile
 from people.models import *
 
+class Evaluations(models.Model):
+	evaluations = models.TextField(null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+
 class PersonReference(models.Model):
 	person_reference = models.CharField(max_length=100, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -465,3 +469,13 @@ class Reference(models.Model):
 	rehiring_prospects = models.NullBooleanField()
 	character = models.TextField(null=True, blank=True, default=None)
 	comments = models.TextField(null=True, blank=True, default=None)
+
+class Evaluation(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	# evalutation = models.ForeignKey(Evaluations, default=None)
+	evaluation = models.TextField(null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __str__(self):
+		return "%s - %s" % (self.user, self.evaluation)

@@ -12,7 +12,7 @@ from django.core.files.base import ContentFile
 
 from . forms import *
 
-import os, shutil, datetime, random, string
+import os, shutil, datetime, random, string, urllib, ast
 
 
 
@@ -41,6 +41,7 @@ def form(request):
 	today = today.strftime("%m/%d/%y")
 	count_college_errors = 0
 	count_emergency_errors = 0
+	request_training_certificates = ''
 
 
 	applicant_name = ApplicantNameForm()
@@ -98,6 +99,9 @@ def form(request):
 		trainings_certificates = TrainingCertificateForm(request.POST)
 		sea_service = sea_service(request.POST)
 		application = ApplicationForm(request.POST)
+
+		request_training_certificates = request.POST.getlist('trainings_certificates')
+		request_training_certificates = [int(x) for x in request_training_certificates]
 
 		if applicant_name.is_valid() and personal_data.is_valid() and permanent_address.is_valid() and current_address.is_valid() and spouse.is_valid() and college.is_valid() and highschool.is_valid() and emergency_contact.is_valid() and visa_application.is_valid() and detained.is_valid() and disciplinary_action.is_valid() and charged_offense.is_valid() and termination.is_valid() and passport.is_valid() and sbook.is_valid()and coc.is_valid()and license.is_valid()and src.is_valid()and goc.is_valid()and us_visa.is_valid()and schengen_visa.is_valid()and yellow_fever.is_valid() and flags.is_valid() and trainings_certificates.is_valid() and sea_service.is_valid() and application.is_valid():
 			applicant_name.save()
@@ -201,6 +205,8 @@ def form(request):
 	context_dict['trainings_certificates'] = trainings_certificates
 	context_dict['seaservice_form'] = sea_service
 	context_dict['application'] = application
+	
+	context_dict['request_training_certificates'] = request_training_certificates
 
 	return render(request, template, context_dict)
 
@@ -232,12 +238,15 @@ def tmp_image(request):
 @login_required
 def trainings_certificates(request):
 	id = request.GET['id']
+	requests = request.GET.get('request', '')
+	# ast.literal_eval converts the whole unicode list structure into an actual list
+	if requests:
+		requests = ast.literal_eval(requests)
 	if id:
-		form = DynamicTrainingCertificateForm(id)
+		form = DynamicTrainingCertificateForm(id, initial={'trainings_certificates': requests})
 	else:
-		form = ""
+		form = "Please Select the Applied Position First for the Certificates and Trainigns to show"
 
 	template = "application_form/training-certificates.html"
 	context_dict = { "form":form }
-
 	return render(request, template, context_dict)

@@ -8,7 +8,7 @@ from . models import *
 
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 
-from application_profile.forms import MarinersDataTables
+from mariners_profile.forms import MarinersDataTables
 
 import sys
 
@@ -38,11 +38,17 @@ def index(request):
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=1)
 	search = MarinersDataTables()
+	# Sets are used for dynamic value filtering
 	age = set()
 	vessel_type = set()
 	rank = set()
 	params = {}
 	params2 = {}
+
+	template = "mariner-profile/index.html"
+	context_dict = {"title": "Mariners Profile"}
+
+	choice_visa = ''
 
 	if request.method == 'POST':
 		# used for multiple returns
@@ -59,31 +65,40 @@ def index(request):
 		if 'rank' in request.GET:
 			_rank = Rank.objects.get(rank=request.GET['rank'])
 			params2['position'] = _rank
+		if 'us_visa' in request.GET:
+			choice_visa = request.GET['us_visa']
+			# To enable False boolean on the variable
+			choice_visa = choice_visa in ['True']
+			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=choice_visa)
+			choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
 
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
 			searches = request.GET['search']
-			# print searches
 			searches = searches.partition(' ')[0]
-			print searches
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches))
-			print x
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
-
+	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
 	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
-	zipped_data = zip(mariners_profile, personal_data)
+	
+	# US Visa Dynamic Filtering
+	us_visa_choices_values = USVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('us_visa', flat=True).distinct().order_by('us_visa')
+	us_visa_choices = us_visa_choices_values
+	us_visa = USVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	for x, y in zipped_data:
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa)
+
+	for x, y, z in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		rank.add(x.position)
 
-	template = "mariner-profile/index.html"
-	context_dict = {"title": "Mariners Profile"}
+	
 	# [0] is put to break the instance into the unicode value
 	try:
 		context_dict['personaldata'] = personal_data
@@ -94,6 +109,13 @@ def index(request):
 		context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+	context_dict['us_visa'] = us_visa_choices
+	# used for dynamic choices in us visa
+	try:
+		context_dict['choice_visa'] = us_visa_choices[choice_visa]
 	except:
 		pass
 	return render(request, template, context_dict)

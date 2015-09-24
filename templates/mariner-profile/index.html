@@ -232,6 +232,11 @@ tr:hover{
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
+
+select{
+  text-transform: uppercase !important;
+}
+
 </style>
 <body>
 <div id="wrapper">
@@ -293,7 +298,7 @@ tr:hover{
                          </div><!--End of Row-->
                          <div class="row">
                          	<div class="form-inline">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <label>Rank:&nbsp;</label>
                                <select name="rank" class="form-control">
                                   <option>{% if request.GET.rank %}{{ request.GET.rank }}{% endif %}</option>
@@ -306,7 +311,7 @@ tr:hover{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                             <label>Vessel Type:&nbsp;</label>
                                 <select name="vessel_type" class="form-control">
                                   <option>{% if request.GET.vessel_type %}{{ request.GET.vessel_type }}{% endif %}</option>
@@ -319,7 +324,7 @@ tr:hover{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                             <label>Age:&nbsp;</label>
                                 <select name="age" class="form-control">
                                  <option>{% if request.GET.age %}{{ request.GET.age }}{% endif %}</option>
@@ -328,6 +333,18 @@ tr:hover{
                                       <option>
                                         {{ ages }}
                                       </option>
+                                    {% endfor %}
+                                  {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                            <label>US Visa:&nbsp;</label>
+                                <select name="us_visa" class="form-control">
+                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "True" %}Yes{% else %}No{% endif %}{% endif %}</option>
+                                  {% if not request.GET.us_visa %}
+                                    {% for choices in us_visa reversed %}
+                                      <option value="{{ choices }}">{% if choices == True %}Yes{% else %}No{% endif %}</option>
+                                      }
                                     {% endfor %}
                                   {% endif %}
                                 </select>
@@ -374,24 +391,26 @@ tr:hover{
                         <th>Vessel Type</th>
                         <th>Mobile No.</th>
                         <th>Email</th>
+                        <th>US Visa Expiry</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% if mariners_profile %}
-                        {% for mariners_profile, personal_data in zipped_data %}
+                        {% for mariners_profile, personal_data, us_visa in zipped_data %}
                           <tr onclick="window.open('{% url 'mariners_profile' id=mariners_profile.user.id %}', '_blank')">
                             <td>{{ forloop.revcounter }}</td>  
-                            <td>{{ mariners_profile }}</td>
-                            <td>{{ mariners_profile.position }}</td>
+                            <td>{{ mariners_profile|upper }}</td>
+                            <td>{{ mariners_profile.position|upper }}</td>
                             <td>{{ personal_data.age }}</td>
-                            <td>{{ personal_data.preferred_vessel_type }}</td>
+                            <td>{{ personal_data.preferred_vessel_type|upper }}</td>
                             <td>+63{{ personal_data.mobile_1 }}</td>
                             <td>{{ personal_data.email_address_1 }}</td>
+                            <td>{{ us_visa.us_visa_expiry }}</td>
                           </tr>
                         {% endfor %}
                       {% else %}
                         <tr>
-                          <td colspan="7" align="center"><strong>There are no applicants left in the pool at the moment.</strong></td>
+                          <td colspan="7" align="center"><strong>There are no mariners left in the pool at the moment.</strong></td>
                         </tr>
                       {% endif %}
                     </tbody>

@@ -41,17 +41,17 @@ class ApplicantNameForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		userprofile = super(ApplicantNameForm, self).save(commit=False)
-		user = User.objects.get(username='applicant')
-		userlevel = Userlevel.objects.get(userlevel='applicant')
+		user = User.objects.get(username__iexact='applicant')
+		userlevel = Userlevel.objects.get(userlevel__iexact='applicant')
 		userprofile.user = user
 		userprofile.userlevel = userlevel
 		userprofile.save()
 		return userprofile
 
 class PermanentAddressForm(forms.ModelForm):
-	permanent_zip = forms.IntegerField()
-	permanent_barangay = forms.CharField()
-	permanent_municipality = forms.CharField()
+	permanent_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
+	permanent_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	permanent_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
 	
 	class Meta:
 		model = ApplicationFormPermanentAddress
@@ -63,12 +63,12 @@ class PermanentAddressForm(forms.ModelForm):
 		permanent_municipality = self.cleaned_data['permanent_municipality']
 
 		permanent_address = super(PermanentAddressForm, self).save(commit=False)
-		municipality = Municipality.objects.get_or_create(municipality=permanent_municipality)
+		municipality = Municipality.objects.get_or_create({'municipality':permanent_municipality}, municipality__iexact=permanent_municipality)
 		if municipality:
-			municipality = Municipality.objects.get(municipality=permanent_municipality)
-		barangay = Barangay.objects.get_or_create(barangay=permanent_barangay)
+			municipality = Municipality.objects.get(municipality__iexact=permanent_municipality)
+		barangay = Barangay.objects.get_or_create({'barangay':permanent_barangay}, barangay__iexact=permanent_barangay)
 		if barangay:
-			barangay = Barangay.objects.get(barangay=permanent_barangay)
+			barangay = Barangay.objects.get(barangay__iexact=permanent_barangay)
 		try:
 			zip = Zip.objects.get_or_create(zip=permanent_zip, barangay=barangay, municipality=municipality)[0]	
 		except:
@@ -86,9 +86,9 @@ class PermanentAddressForm(forms.ModelForm):
 
 
 class CurrentAddressForm(forms.ModelForm):
-	current_zip = forms.IntegerField()
-	current_barangay = forms.CharField()
-	current_municipality = forms.CharField()
+	current_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
+	current_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	current_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
 	
 	class Meta:
 		model = ApplicationFormCurrentAddress
@@ -100,12 +100,12 @@ class CurrentAddressForm(forms.ModelForm):
 		current_municipality = self.cleaned_data['current_municipality']
 
 		current_address = super(CurrentAddressForm, self).save(commit=False)
-		municipality = Municipality.objects.get_or_create(municipality=current_municipality)
+		municipality = Municipality.objects.get_or_create({'municipality':current_municipality}, municipality__iexact=current_municipality)
 		if municipality:
-			municipality = Municipality.objects.get(municipality=current_municipality)
-		barangay = Barangay.objects.get_or_create(barangay=current_barangay)
+			municipality = Municipality.objects.get(municipality__iexact=current_municipality)
+		barangay = Barangay.objects.get_or_create({'barangay':current_barangay}, barangay__iexact=current_barangay)
 		if barangay:
-			barangay = Barangay.objects.get(barangay=current_barangay)
+			barangay = Barangay.objects.get(barangay__iexact=current_barangay)
 		try:
 			zip = Zip.objects.get_or_create(zip=current_zip, barangay=barangay, municipality=municipality)[0]
 		except:
@@ -124,20 +124,20 @@ class CurrentAddressForm(forms.ModelForm):
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
 	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
-	# regex fild for mobile numbersNumberInput 
-	mobile_1 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
-	mobile_2 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
+	# regex field for mobile numbersNumberInput 
+	mobile_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
+	mobile_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
 	# regex fild for landline numbers
-	landline_1 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
-	landline_2 = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
+	landline_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
+	landline_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
 	# regex fild for sss
-	sss = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
-	# regex fild for philhealth
-	philhealth = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
+	sss = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
+	# regex field for philhealth
+	philhealth = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
 	# regex fild for tin
-	tin = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
+	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
 	# regex fild for pagibig
-	pagibig = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
+	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
 	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
  
@@ -154,12 +154,12 @@ class PersonalDataForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		permanent_address = ApplicationFormPermanentAddress.objects.latest('id')
 		current_address = ApplicationFormCurrentAddress.objects.latest('id')
-		birth_place = BirthPlace.objects.get_or_create(birth_place=birthplace)
+		birth_place = BirthPlace.objects.get_or_create({'birth_place':birthplace}, birth_place__iexact=birthplace)
 		if birth_place:
-			birth_place = BirthPlace.objects.get(birth_place=birthplace)
-		preferred_vessel_type = VesselType.objects.get_or_create(vessel_type=vessel_type)
+			birth_place = BirthPlace.objects.get(birth_place__iexact=birthplace)
+		preferred_vessel_type = VesselType.objects.get_or_create({'vessel_type':vessel_type}, vessel_type__iexact=vessel_type)
 		if preferred_vessel_type:
-			preferred_vessel_type = VesselType.objects.get(vessel_type=vessel_type)
+			preferred_vessel_type = VesselType.objects.get(vessel_type__iexact=vessel_type)
 		personal_data.name = userprofile
 		personal_data.birth_place = birth_place
 		personal_data.preferred_vessel_type = preferred_vessel_type
@@ -210,12 +210,12 @@ class CollegeForm(forms.ModelForm):
 			degree_obtained = self.cleaned_data['degree']
 			college = super(CollegeForm, self).save(commit=False)
 			userprofile = UserProfile.objects.latest('id')
-			colleges = Colleges.objects.get_or_create(college_name=college_name)
+			colleges = Colleges.objects.get_or_create({'college_name':college_name}, college_name__iexact=college_name)
 			if colleges:
-				colleges = Colleges.objects.get(college_name=college_name)
-			degree = Degree.objects.get_or_create(degree=degree_obtained)
+				colleges = Colleges.objects.get(college_name__iexact=college_name)
+			degree = Degree.objects.get_or_create({'degree':degree_obtained}, degree__iexact=degree_obtained)
 			if degree:
-				degree = Degree.objects.get(degree=degree_obtained)
+				degree = Degree.objects.get(degree__iexact=degree_obtained)
 			college.user = userprofile
 			college.college = colleges
 			college.degree = degree
@@ -239,9 +239,9 @@ class HighSchoolForm(forms.ModelForm):
 		highschool_name = self.cleaned_data['highschool']
 		highschool = super(HighSchoolForm, self).save(commit=False)
 		userprofile = UserProfile.objects.latest('id')
-		highschools = HighSchools.objects.get_or_create(highschool_name=highschool_name)
+		highschools = HighSchools.objects.get_or_create({'highschool_name':highschool_name}, highschool_name__iexact=highschool_name)
 		if highschools:
-			highschools = HighSchools.objects.get(highschool_name=highschool_name)
+			highschools = HighSchools.objects.get(highschool_name__iexact=highschool_name)
 		highschool.user = userprofile
 		highschool.highschool = highschools
 		highschool.save()
@@ -251,11 +251,11 @@ class HighSchoolForm(forms.ModelForm):
 		HighSchool.objects.create(**value)
 
 class EmergencyContactForm(forms.ModelForm):
-	relationship = forms.CharField()
-	emergency_zip = forms.IntegerField()
-	emergency_municipality = forms.CharField()
-	emergency_barangay = forms.CharField()
-	emergency_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"})
+	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'))
+	emergency_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
+	emergency_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
+	emergency_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	emergency_contact = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"})
 	class Meta:
 		model = ApplicationFormEmergencyContact
 		fields = '__all__'
@@ -270,15 +270,15 @@ class EmergencyContactForm(forms.ModelForm):
 			relationship = self.cleaned_data['relationship']
 			emergency_contact = super(EmergencyContactForm, self).save(commit=False)
 			userprofile = UserProfile.objects.latest('id')
-			municipality = Municipality.objects.get_or_create(municipality=emergency_municipality)
+			municipality = Municipality.objects.get_or_create({'municipality':emergency_municipality}, municipality__iexact=emergency_municipality)
 			if municipality:
-				municipality = Municipality.objects.get(municipality=emergency_municipality)
-			barangay = Barangay.objects.get_or_create(barangay=emergency_barangay)
+				municipality = Municipality.objects.get(municipality__iexact=emergency_municipality)
+			barangay = Barangay.objects.get_or_create({'barangay':emergency_barangay}, barangay__iexact=emergency_barangay)
 			if barangay:
-				barangay = Barangay.objects.get(barangay=emergency_barangay)
-			relationships = Relationship.objects.get_or_create(relationship=relationship)
+				barangay = Barangay.objects.get(barangay__iexact=emergency_barangay)
+			relationships = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
 			if relationships:
-				relationships = Relationship.objects.get(relationship=relationship)
+				relationships = Relationship.objects.get(relationship__iexact=relationship)
 			try:
 				zip = Zip.objects.get_or_create(zip=emergency_zip, barangay=barangay, municipality=municipality)[0]
 			except:
@@ -510,65 +510,6 @@ class SbookForm(forms.ModelForm):
 		value = self.cleaned_data
 		Sbook.objects.create(**value)
 
-class COCForm(forms.ModelForm):
-	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('COCRankAutocomplete'))
-	class Meta:
-		model = ApplicationFormCOC
-		fields = ('coc', 'coc_expiry')
-
-	def save(self, commit=True):
-		rank = self.cleaned_data['coc_rank']
-		coc = super(COCForm, self).save(commit=False)
-		userprofile = UserProfile.objects.latest('id')
-		coc.user = userprofile
-		coc_rank = COCRank.objects.get_or_create(coc_rank=rank)
-		if coc_rank:
-			coc_rank = COCRank.objects.get(coc_rank=rank)
-		coc.coc_rank = coc_rank
-		coc.save()
-		self.cleaned_data['user'] = userprofile
-		self.cleaned_data['coc_rank'] = coc_rank
-		self.cleaned_data['coc_date_issued'] = None
-		value = self.cleaned_data
-		COC.objects.create(**value)
-
-class LicenseForm(forms.ModelForm):
-	license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
-	class Meta:
-		model = ApplicationFormLicense
-		fields = ('license', )
-
-	def clean(self):
-		try:
-			license = selfdata['license']
-			license_rank = selfdata['license_rank']
-		except:
-			license = self.cleaned_data['license']
-			license_rank = self.cleaned_data['license_rank']
-		if license == '' and license_rank != '':
-			msg = "Please input license"
-			self.add_error('license', msg)
-		elif license_rank == '' and license != '':
-			msg_rank = "Please choose a rank"
-			self.add_error('license_rank', msg_rank)
-
-	def save(self, commit=True):
-		rank = self.cleaned_data['license_rank']
-		license = super(LicenseForm, self).save(commit=False)
-		userprofile = UserProfile.objects.latest('id')
-		license.user = userprofile
-		license_rank = Rank.objects.get_or_create(rank=rank)
-		if license_rank:
-			license_rank = Rank.objects.get(rank=rank)
-		license.license_rank = license_rank
-		license.save()
-		self.cleaned_data['user'] = userprofile
-		self.cleaned_data['license_rank'] = license_rank
-		self.cleaned_data['license_expiry'] = None
-		self.cleaned_data['license_date_issued'] = None
-		value = self.cleaned_data
-		License.objects.create(**value)
-
 class SRCForm(forms.ModelForm):
 	src_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
 	class Meta:
@@ -580,9 +521,9 @@ class SRCForm(forms.ModelForm):
 		src = super(SRCForm, self).save(commit=False)
 		userprofile = UserProfile.objects.latest('id')
 		src.user = userprofile
-		src_rank = Rank.objects.get_or_create(rank=rank)
+		src_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
 		if src_rank:
-			src_rank = Rank.objects.get(rank=rank)
+			src_rank = Rank.objects.get(rank__iexact=rank)
 		src.src_rank = src_rank
 		src.save()
 		self.cleaned_data['user'] = userprofile
@@ -591,21 +532,6 @@ class SRCForm(forms.ModelForm):
 		self.cleaned_data['src_date_issued'] = None
 		value = self.cleaned_data
 		SRC.objects.create(**value)
-
-class GOCForm(forms.ModelForm):
-	class Meta:
-		model = ApplicationFormGOC
-		fields = ('goc', 'goc_expiry')
-
-	def save(self, commit=True):
-		goc = super(GOCForm, self).save(commit=False)
-		userprofile = UserProfile.objects.latest('id')
-		goc.user = userprofile
-		goc.save()
-		self.cleaned_data['user'] = userprofile
-		self.cleaned_data['goc_date_issued'] = None
-		value = self.cleaned_data
-		GOC.objects.create(**value)
 
 class USVisaForm(forms.ModelForm):
 	CHOICES = (
@@ -773,27 +699,27 @@ class SeaServiceForm(forms.ModelForm):
 			rank = self.cleaned_data['rank']
 			sea_services = super(SeaServiceForm, self).save(commit=False)
 			userprofile = UserProfile.objects.latest('id')
-			vesselname = VesselName.objects.get_or_create(vessel_name=vessel_name)
+			vesselname = VesselName.objects.get_or_create({'vessel_name':vessel_name}, vessel_name__iexact=vessel_name)
 			if vesselname:
-				vesselname = VesselName.objects.get(vessel_name=vessel_name)
-			vesseltype = VesselType.objects.get_or_create(vessel_type=vessel_type)
+				vesselname = VesselName.objects.get(vessel_name__iexact=vessel_name)
+			vesseltype = VesselType.objects.get_or_create({'vessel_type':vessel_type}, vessel_type__iexact=vessel_type)
 			if vesseltype:
-				vesseltype = VesselType.objects.get(vessel_type=vessel_type)
-			flags = Flags.objects.get_or_create(flags=flag)
+				vesseltype = VesselType.objects.get(vessel_type__iexact=vessel_type)
+			flags = Flags.objects.get_or_create({'flags':flag}, flags__iexact=flag)
 			if flags:
-				flags = Flags.objects.get(flags=flag)
-			enginetype = EngineType.objects.get_or_create(engine_type=engine_type)
+				flags = Flags.objects.get(flags__iexact=flag)
+			enginetype = EngineType.objects.get_or_create({'engine_type':engine_type}, engine_type__iexact=engine_type)
 			if enginetype:
-				enginetype = EngineType.objects.get(engine_type=engine_type)
-			manningagency = ManningAgency.objects.get_or_create(manning_agency=manning_agency)
+				enginetype = EngineType.objects.get(engine_type__iexact=engine_type)
+			manningagency = ManningAgency.objects.get_or_create({'manning_agency':manning_agency}, manning_agency__iexact=manning_agency)
 			if manningagency:
-				manningagency = ManningAgency.objects.get(manning_agency=manning_agency)
-			principals = Principal.objects.get_or_create(principal=principal)
+				manningagency = ManningAgency.objects.get(manning_agency__iexact=manning_agency)
+			principals = Principal.objects.get_or_create({'principal':principal}, principal__iexact=principal)
 			if principals:
-				principals = Principal.objects.get(principal=principal)
-			ranks = Rank.objects.get_or_create(rank=rank)
+				principals = Principal.objects.get(principal__iexact=principal)
+			ranks = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
 			if ranks:
-				ranks = Rank.objects.get(rank=rank)
+				ranks = Rank.objects.get(rank__iexact=rank)
 			sea_services.user = userprofile
 			sea_services.vessel_name = vesselname
 			sea_services.vessel_type = vesseltype
@@ -847,6 +773,38 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		model = ApplicationForm
 		fields = ('application_date', 'alternative_position', 'position_applied')
 
+	def clean(self):
+		try:
+			position_applied = self.cleaned_data['position_applied']
+			alternative_position = self.cleaned_data['alternative_position']
+		except:
+			pass
+		try:
+			position_applied = Rank.objects.get(rank=position_applied)
+			alternative_position = Rank.objects.get(rank=alternative_position)
+
+			if "Cadet".lower() in position_applied.rank.lower() or "Cadet".lower() in alternative_position.rank.lower():
+				msg = "The Essay must be at least 50 words"
+				try:
+					essay = selfdata['essay']
+				except:
+					essay = self.cleaned_data['essay']
+				words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
+				if len(words) < 50:
+					self.add_error('essay', msg)
+		except:
+			pass
+
+		try:
+			print self.cleaned_data
+			referred_by = self.cleaned_data['referred_by']
+			source = self.cleaned_data['source']
+			if referred_by == '':
+				msg = "Please pick your referrer"
+				self.add_error('referred_by', msg)
+		except:
+			pass
+
 	def save(self, commit=True):
 		advertisements = self.cleaned_data['advertisements']
 		internet = self.cleaned_data['internet']
@@ -866,9 +824,9 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		# If not in the referrers Pool it will be considerer as a friend or relative
 		elif referred_by:
 			try:
-				referred_by = ReferrersPool.objects.get(name=referred_by)
+				referred_by = ReferrersPool.objects.get(name__iexact=referred_by)
 			except:
-				self.cleaned_data['source'] = Sources.objects.get(source='Friends or Relatives')
+				self.cleaned_data['source'] = Sources.objects.get(source__iexact='Friends or Relatives')
 			self.cleaned_data['specific'] = referred_by
 			self.cleaned_data.pop("referred_by")
 		else:
@@ -886,9 +844,9 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		file_name = "".join(file_name.split())
 		
 		application = super(ApplicationForm, self).save(commit=False)
-		specifics = Specifics.objects.get_or_create(specific=specific)
+		specifics = Specifics.objects.get_or_create({'specific':specific}, specific__iexact=specific)
 		if specifics:
-			specifics = Specifics.objects.get(specific=specific)
+			specifics = Specifics.objects.get(specific__iexact=specific)
 
 		# Signature script on saving in a folder
 		signature_path = "media/signature/application-form/"+file_name+".png"
@@ -927,7 +885,7 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		application.signature = _signature_file_path
 		application.save()
 		try:
-			referrer = ReferrersPool.objects.get(name=referred_by)
+			referrer = ReferrersPool.objects.get(name__iexact=referred_by)
 		except:
 			referrer = ReferrersPool.objects.get_or_create(name='')
 			referrer =ReferrersPool.objects.get(name='')
@@ -962,6 +920,138 @@ class ApplicationForm(autocomplete_light.ModelForm):
 			pass
 		value = self.cleaned_data
 		MarinersProfile.objects.create(**value)
+
+class LicenseForm(forms.ModelForm):
+	license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+	alternative_position = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+	position_applied = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+
+	class Meta:
+		model = ApplicationFormLicense
+		fields = ('license', )
+
+	def clean(self):
+		print self.cleaned_data
+		try:
+			position_applied = self.cleaned_data['position_applied']
+			alternative_position = self.cleaned_data['alternative_position']
+		except:
+			pass
+
+		try:
+			position_applied = Rank.objects.get(rank=position_applied)
+			alternative_position = Rank.objects.get(rank=alternative_position)
+
+			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
+				msg = "This field is required"
+				self.add_error('license', msg)
+				self.add_error('license_rank', msg)
+		except:
+			pass
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['license_rank']
+		license = super(LicenseForm, self).save(commit=False)
+		userprofile = UserProfile.objects.latest('id')
+		license.user = userprofile
+		license_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if license_rank:
+			license_rank = Rank.objects.get(rank__iexact=rank)
+		license.license_rank = license_rank
+		license.save()
+		self.cleaned_data['user'] = userprofile
+		self.cleaned_data['license_rank'] = license_rank
+		self.cleaned_data['license_expiry'] = None
+		self.cleaned_data['license_date_issued'] = None
+		value = self.cleaned_data
+		self.cleaned_data.pop("position_applied")
+		self.cleaned_data.pop("alternative_position")
+		License.objects.create(**value)
+
+class COCForm(forms.ModelForm):
+	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('COCRankAutocomplete'), required=False)
+	alternative_position = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+	position_applied = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+
+	class Meta:
+		model = ApplicationFormCOC
+		fields = ('coc', 'coc_expiry')
+
+	def clean(self):
+		print self.cleaned_data
+		try:
+			position_applied = self.cleaned_data['position_applied']
+			alternative_position = self.cleaned_data['alternative_position']
+		except:
+			pass
+
+		try:
+			position_applied = Rank.objects.get(rank=position_applied)
+			alternative_position = Rank.objects.get(rank=alternative_position)
+
+			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
+				msg = "This field is required"
+				self.add_error('coc', msg)
+				self.add_error('coc_rank', msg)
+				self.add_error('coc_expiry', msg)
+		except:
+			pass
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['coc_rank']
+		coc = super(COCForm, self).save(commit=False)
+		userprofile = UserProfile.objects.latest('id')
+		coc.user = userprofile
+		coc_rank = COCRank.objects.get_or_create({'coc_rank':rank}, coc_rank__iexact=rank)
+		if coc_rank:
+			coc_rank = COCRank.objects.get(coc_rank__iexact=rank)
+		coc.coc_rank = coc_rank
+		coc.save()
+		self.cleaned_data['user'] = userprofile
+		self.cleaned_data['coc_rank'] = coc_rank
+		self.cleaned_data['coc_date_issued'] = None
+		value = self.cleaned_data
+		self.cleaned_data.pop("position_applied")
+		self.cleaned_data.pop("alternative_position")
+		COC.objects.create(**value)
+
+class GOCForm(forms.ModelForm):
+	alternative_position = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+	position_applied = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
+	class Meta:
+		model = ApplicationFormGOC
+		fields = ('goc', 'goc_expiry')
+
+	def clean(self):
+		print self.cleaned_data
+		try:
+			position_applied = self.cleaned_data['position_applied']
+			alternative_position = self.cleaned_data['alternative_position']
+		except:
+			pass
+
+		try:
+			position_applied = Rank.objects.get(rank=position_applied)
+			alternative_position = Rank.objects.get(rank=alternative_position)
+
+			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
+				msg = "This field is required"
+				self.add_error('goc', msg)
+				self.add_error('goc_expiry', msg)
+		except:
+			pass
+
+	def save(self, commit=True):
+		goc = super(GOCForm, self).save(commit=False)
+		userprofile = UserProfile.objects.latest('id')
+		goc.user = userprofile
+		goc.save()
+		self.cleaned_data['user'] = userprofile
+		self.cleaned_data['goc_date_issued'] = None
+		value = self.cleaned_data
+		self.cleaned_data.pop("position_applied")
+		self.cleaned_data.pop("alternative_position")
+		GOC.objects.create(**value)
 
 class StatusForm(forms.Form):
 	status = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalRadioRenderer), queryset=Status.objects.filter(), required=False)

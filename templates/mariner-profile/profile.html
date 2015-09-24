@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<style type="text/css">#header{background: #2e76b8;color: #fff;padding: 30px;}.tooltip-left .tooltip-arrow {top: 50%;right: 0;margin-top: -5px;border-left-color: #000000;border-width: 5px 0 5px 5px;}.main-menu{padding-top: 30px;padding-bottom: 30px;}.btn-main{font-size: 12px;}.btn{border: 1px solid transparent !important; }.thead{background: #82ca9c; color: #fff;"}.picture-container{width:220px;height:180px;margin-top: 15px;border:1px solid black;float:right;}.container-picture{ text-align:center; }.input-group-addon{background: none;border: none;font-size: 12px;font-weight: bold; }.input-group{margin-top: 10px; } .sea-tb{font-size: 12px;}.panel-heading{border-bottom: 4px solid #000;}/* Button Custom */.btn-msmi {color: #fff;background-color: #82ca9c;margin-top: 5px;margin-left: 5px;border-bottom: 4px solid #02be9b !important;}.btn-msmi:focus,.btn-msmi.focus {color: #fff;background-color: #02be9b;border-color: #02be9b;border-bottom: 1px solid #02be9b !important;}.btn-msmi:hover {color: #fff;background-color: #82ca9c;border-color: #82ca9c;    }/* Custom Panel */.panel-msmi-blue{border-color: #2e76b8;border-bottom: 5px solid #04508e;}.panel-msmi-blue > .panel-heading {color: #fff;background-color: #2e76b8;border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading .badge {color: #dff0d8;background-color: #3c763d;}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {border-color: 1px solid 2e76b8;}
+<style type="text/css">
+#header{background:#2e76b8;color:#fff;padding:30px}.tooltip-left .tooltip-arrow{top:50%;right:0;margin-top:-5px;border-left-color:#000;border-width:5px 0 5px 5px}.main-menu{padding-top:30px;padding-bottom:30px}.btn-main{font-size:12px}.btn{border:1px solid transparent!important}.thead{background:#82ca9c;color:#fff}.picture-container{width:220px;height:180px;margin-top:15px;border:1px solid #000;float:right}.container-picture{text-align:center}.input-group-addon{background:none;border:none;font-size:12px;font-weight:700}.input-group{margin-top:10px}.sea-tb{font-size:12px;text-transform:uppercase!important}.panel-heading{border-bottom:4px solid #000}.btn-msmi{color:#fff;background-color:#82ca9c;margin-top:5px;margin-left:5px;border-bottom:4px solid #02be9b!important}.btn-msmi:focus,.btn-msmi.focus{color:#fff;background-color:#02be9b;border-color:#02be9b;border-bottom:1px solid #02be9b!important}.btn-msmi:hover{color:#fff;background-color:#82ca9c;border-color:#82ca9c}.panel-msmi-blue{border-color:#2e76b8;border-bottom:5px solid #04508e}.panel-msmi-blue > .panel-heading{color:#fff;background-color:#2e76b8;border-color:#1px solid #2e76b8}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body{border-color:#1px solid #2e76b8}.panel-msmi-blue > .panel-heading .badge{color:#dff0d8;background-color:#3c763d}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green{border-color:#1px solid #2e76b8}
+
+
 </style>
 <div id="wrapper">
   <div id="header">
@@ -80,7 +83,7 @@
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Email Address 1:</span>
-                  <input type="text" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}">
+                  <input type="email" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -89,7 +92,7 @@
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Landline No. 2:</span>
-                  <input type="text" class="form-control" placeholder="Landline Number" aria-describedby="basic-addon1" value="{{ personal_data.landline_2 }}">
+                  <input type="email" class="form-control" placeholder="Landline Number" aria-describedby="basic-addon1" value="{{ personal_data.landline_2 }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">

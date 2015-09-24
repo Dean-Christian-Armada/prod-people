@@ -3,11 +3,6 @@
 $(function(){
     // Start Variables
     var sea_service = $(".sea-service-button");
-    // var d = new Date();
-    // var month = d.getMonth()+1;
-    // var day = d.getDate();
-    // var date = ((''+month).length<2 ? '0' : '') + month + '/' +
-    //     ((''+day).length<2 ? '0' : '') + day + '/' + d.getFullYear(); 
     var x = ''; 
     count = 0;
     var seaservice_count = 9;
@@ -69,12 +64,6 @@ $(function(){
       catch(err){
         return false;
       }
-      if(essay < 50){
-        _essay.setCustomValidity('Please answer the essay with a minimum of fifty words');
-        
-      }else{
-        _essay.setCustomValidity('');
-      }
       $('#display_count').text(essay);
     }
     var grt_dwt_validator = function(x){
@@ -105,7 +94,8 @@ $(function(){
         }else if(text == "Referred By"){
           label = '<label class="specific">:</label> ';
           inputs = referrer;
-          $("#id_referred_by").prop("required", "true");
+          referred_by_focus();
+          // setTimeout(function(){ $("#id_referred_by").focus(); }, 300);
         }
         $(this).parent().append(label+inputs);
       }
@@ -178,8 +168,8 @@ $(function(){
     });
     $("#id_position_applied").change(function(){
       val = $(this).val();
-      $.get(trainings_certificates_url, { id: val }, function(data){
-        $('#step-10').next().next().html(data);
+      $.get(trainings_certificates_url, { id: val, request: certificates_initial }, function(data){
+        $('.dynamic-training-certificates-section').html(data);
       });
     });
 
@@ -379,7 +369,7 @@ $(function(){
       });
     }).on("keydown", ".date", function(e){
       // prevents erasing via backspace
-      if (e.which === 8) {
+      if (e.which === 8 || ( e.which >= 48 && e.which <= 57 ) || ( e.which >= 96 && e.which <= 105 )) {
             e.preventDefault();
       }
     });
@@ -395,10 +385,12 @@ $(function(){
       }
       position_applied = $("#id_position_applied option:selected").text();
       alternative_position = $("#id_alternative_position option:selected").text();
-      if(position_applied != "Engine Cadet" && position_applied != "Deck Cadet" && alternative_position != "Engine Cadet" && alternative_position != "Deck Cadet"){
+      if(position_applied != "ENGINE CADET" && position_applied != "DECK CADET" && alternative_position != "ENGINE CADET" && alternative_position != "DECK CADET"){
         $("#application-form-essay").hide();
-        $("li.essay").hide();
-        $("#id_essay").removeAttr('required');
+        $(".li-essay").hide();
+        // $("#id_essay").removeAttr('required');
+        $("#id_essay").val('');
+        $('#display_count').text(0);
       }
     });
     $.fn.modal.Constructor.prototype.enforceFocus = function () { };
@@ -499,17 +491,11 @@ $(function(){
     });
     // End Sea Service Validation
 
-    $(".essay").trigger('click');
-    $("#id_civil_status").trigger("change");
-    $("#id_position_applied").trigger("change");
-    // $(".cause_of_discharge").trigger("change");
-    // $("#application-form input[type='radio']").trigger("change");
-    $("#application-form input").trigger("keyup");
-    $("#application-form input[name='us_visa'], #application-form input[name='schengen_visa'], #id_civil_status").trigger("change");
     $("body").on("change", "select", function(){
       val = $(this).val();
       $(this).css("color", "#000");
-    });
+    });    
+    
     $(".sea-services").on("click", ".clear-row", function(){
       count = 0;
       $(this).parent().siblings().children("input").val("");
@@ -562,10 +548,10 @@ $(function(){
 
     $("#id_alternative_position, #id_position_applied").change(function(){
       x = $('option:selected', this).text();
-      if( x == 'Deck Cadet' || x == 'Engine Cadet' ){
+      if( x == 'DECK CADET' || x == 'ENGINE CADET' ){
         $("#application-form-essay").show();
-        $("li.essay").show();
-        $("#id_essay").prop("required", "true");
+        $(".li-essay").show();
+        // $("#id_essay").prop("required", "true");
       }
     });
 
@@ -603,4 +589,13 @@ $(function(){
         $(this).parent().next().next().prop("required", "true");
       }
     });
+
+    $("#id-application-form").submit(function(){
+      $("#loading").modal('show');
+      // return false;
+    });
+    $(".essay").trigger('click');
+    $("#id_civil_status").trigger("change");
+    $("#id_position_applied").trigger("change");
+    $("#application-form input").trigger("keyup");
 }); 

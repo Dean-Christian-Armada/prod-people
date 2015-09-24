@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.forms.models import modelformset_factory, inlineformset_factory
+from django.forms.formsets import formset_factory
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db.models import Q
@@ -6,6 +8,8 @@ from django.db.models import Q
 from easy_pdf.rendering import render_to_pdf_response
 
 from mariners_profile.models import *
+from mariners_profile.forms import *
+
 from application_form.models import *
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 
@@ -32,27 +36,23 @@ def xyz(request, method):
 
 	return (params, url)
 
-# def abc(request, getparam, model, student):
-# 	if getparam in request.GET:
-# 		params = request.GET[getparam]
-# 		params = {getparam:param}
-# 		params = model.objects.get(**param)
-# 		return params
-# 	else:
-# 		params = {}
-# 		return params
-
 @login_required()
 def index(request):
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=0)
 	search = ApplicantsDataTables
+	# Sets are used for dynamic value filtering
 	age = set()
 	vessel_type = set()
 	rank = set()
 	params = {}
 	params2 = {}
+
+	template = "application-profile/index.html"
+	context_dict = {"title": "Applicants Profile"}
+
+	choice_visa = ''
 
 	if request.method == 'POST':
 		# used for multiple returns
@@ -64,36 +64,47 @@ def index(request):
 		if 'age' in request.GET:
 			params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
-			_vessel_type = VesselType.objects.get(vessel_type=request.GET['vessel_type'])
+			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type
 		if 'rank' in request.GET:
-			_rank = Rank.objects.get(rank=request.GET['rank'])
+			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
+		if 'us_visa' in request.GET:
+			choice_visa = request.GET['us_visa']
+			# To enable False boolean on the variable
+			choice_visa = choice_visa in ['True']
+			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=choice_visa)
+			choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
 
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
 			searches = request.GET['search']
-			# print searches
 			searches = searches.partition(' ')[0]
-			print searches
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches))
-			print x
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
+	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
 	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
-	zipped_data = zip(mariners_profile, personal_data)
+	
+	# US Visa Dynamic Filtering
+	us_visa_choices_values = USVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('us_visa', flat=True).distinct().order_by('us_visa')
+	us_visa_choices = us_visa_choices_values
+	us_visa = USVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	for x, y in zipped_data:
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa)
+
+	for x, y, z in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		rank.add(x.position)
 
-	template = "application-profile/index.html"
-	context_dict = {"title": "Applicants Profile"}
+	
 	# [0] is put to break the instance into the unicode value
+	print age
 	try:
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
@@ -103,6 +114,13 @@ def index(request):
 		context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+	context_dict['us_visa'] = us_visa_choices
+	# used for dynamic choices in us visa
+	try:
+		context_dict['choice_visa'] = us_visa_choices[choice_visa]
 	except:
 		pass
 	return render(request, template, context_dict)
@@ -115,8 +133,32 @@ def profile(request, id):
 		personal_data = PersonalData.objects.get(name=id)
 		try:
 			spouse = Spouse.objects.get(user=id)
+			spouse_form = SpouseForm(request.POST or None, instance=spouse)
 		except:
 			spouse = ''
+			spouse_form = SpouseForm(request.POST or None, initial={'user': personal_data.name} )
+
+		try:
+			vocational = Vocational.objects.get(user=id)
+			vocational_form = VocationalForm(request.POST or None, instance=vocational, initial={'vocational':vocational.vocational})
+		except:
+			vocational = ''
+			vocational_form = VocationalForm(request.POST or None, initial={'user': personal_data.name} )
+
+		try:
+			primaryschool = PrimarySchool.objects.get(user=id)
+			primaryschool_form = PrimarySchoolForm(request.POST or None, instance=primaryschool, initial={'primaryschool':primaryschool.primaryschool})
+		except:
+			primaryschool = ''
+			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
+		try:
+			reference = Reference.objects.filter(user=id)
+			ReferenceFormSet = inlineformset_factory('Reference.user', Reference, fields='__all__', extra=3, can_delete=True )
+			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile)
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+
 		college = College.objects.filter(user=id)
 		highschool = HighSchool.objects.get(user=id)
 		emergency_contact = EmergencyContact.objects.filter(user=id)
@@ -165,21 +207,69 @@ def profile(request, id):
 			training_certificate_list.append(training_certificate.trainings_certificates.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
 		trainings_certificates = TrainingCertificateForm(initial=training_certificates)
+		# print user_profile
 
-		if request.POST:
+		# applicant_name_form = ApplicantNameForm(request.POST or None, instance=user_profile)
+		# personal_data_form = PersonalDataForm(request.POST or None, instance=personal_data, initial={'birth_place':personal_data.birth_place})
+		# permanent_address_form = PermanentAddressForm(request.POST or None, instance=personal_data.permanent_address, initial={'permanent_zip':personal_data.permanent_address.permanent_zip.zip, 'permanent_barangay':personal_data.permanent_address.permanent_zip.barangay, 'permanent_municipality':personal_data.permanent_address.permanent_zip.municipality})
+		# current_address_form = CurrentAddressForm(request.POST or None, instance=personal_data.current_address, initial={'current_zip':personal_data.current_address.current_zip.zip, 'current_barangay':personal_data.current_address.current_zip.barangay, 'current_municipality':personal_data.current_address.current_zip.municipality})
+
+		# CollegeFormSet = modelformset_factory(College, form=CollegeForm)
+		# college_form = CollegeFormSet(request.POST or None, queryset=college)
+
+		# Used for formset updating
+		# CollegeFormSet = inlineformset_factory(UserProfile, College, fields='__all__', extra=0, can_delete=True )
+		# college_form = CollegeFormSet(request.POST or None, instance=user_profile)
+
+		# highschool_form = HighSchoolForm(request.POST or None, instance=highschool, initial={'highschool':highschool.highschool})
+
+
+		# if applicant_name_form.is_valid():
+		# 	applicant_name_form.save()
+
+		# if personal_data_form.is_valid():
+		# 	personal_data_form.save()
+
+		# if permanent_address_form.is_valid():
+		# 	permanent_address_form.save()
+
+		# if current_address_form.is_valid():
+		# 	current_address_form.save()
+
+		# if spouse_form.is_valid():
+		# 	spouse_form.save()
+
+		# if college_form.is_valid():
+		# 	print "dean"
+		# 	for college in college_form:
+		# 		college.save()
+
+		# if highschool_form.is_valid():
+		# 	highschool_form.save()
+
+
+
+		# if vocational_form.is_valid() and primaryschool_form.is_valid():
+		# 	vocational_form.save()
+		# 	primaryschool_form.save()
+		# else:
+		# 	print vocational_form.errors
+		# 	print primaryschool_form.errors
+
+		# if request.POST and 'status' in request.POST:
 			# print request.POST
-			_status = request.POST['status']
-			_status = Status.objects.get(id=_status)
-			application_form.status = _status
-			application_form.save()
-			mariners_profile.status = 1
-			mariners_profile.save()
-			if str(application_form.status) == 'Passed':
-				print "dean"
-				return HttpResponseRedirect('/mariners-profile/'+id)
+			# _status = request.POST['status']
+			# _status = Status.objects.get(id=_status)
+			# application_form.status = _status
+			# application_form.save()
+			# mariners_profile.status = 1
+			# mariners_profile.save()
+			# if str(application_form.status) == 'Passed':
+			# 	return HttpResponseRedirect('/mariners-profile/'+id)
 
 		status = StatusForm(initial={'status':str(application_form.status.id)})
 		
+		# Script used to count essay words
 		count_words = ''.join(c if c.isalnum() else ' ' for c in application_form.essay.essay).split()
 		count_words = len(count_words)
 
@@ -210,6 +300,18 @@ def profile(request, id):
 		context_dict['us_visa'] = us_visa
 		context_dict['schengen_visa'] = schengen_visa
 		context_dict['yellow_fever'] = yellow_fever
+		
+		# context_dict['personal_data_form'] = personal_data_form
+		# context_dict['applicant_name_form'] = applicant_name_form
+		# context_dict['permanent_address_form'] = permanent_address_form
+		# context_dict['current_address_form'] = current_address_form
+		# context_dict['spouse_form'] = spouse_form
+		# context_dict['college_form'] = college_form
+		# context_dict['highschool_form'] = highschool_form
+		context_dict['vocational_form'] = vocational_form
+		context_dict['primaryschool_form'] = primaryschool_form
+		context_dict['reference_form'] = reference_form
+
 		context_dict['title'] = "Applicants Profile - "+str(personal_data)
 		# context_dict['FlagDocuments'] = FlagDocuments
 		# context_dict['FlagDocumentsDetailed'] = FlagDocumentsDetailed

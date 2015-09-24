@@ -7,7 +7,13 @@ from django_date_extensions.fields import ApproximateDateField
 from login.models import UserProfile
 from people.models import *
 
+class PersonReference(models.Model):
+	person_reference = models.CharField(max_length=100, null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
 
+class Company(models.Model):
+	company = models.CharField(max_length=100, null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
 
 class BirthPlace(models.Model):
 	birth_place = models.CharField(max_length=50, default=None)
@@ -74,6 +80,22 @@ class HighSchools(models.Model):
 	def __unicode__(self):
 		return self.highschool_name
 
+class Vocationals(models.Model):
+	vocational_name = models.CharField(max_length=100, null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True)
+	# full_name = models.CharField(max_length=100, default=None)
+
+	def __unicode__(self):
+		return self.vocational_name
+
+class PrimarySchools(models.Model):
+	primaryschool_name = models.CharField(max_length=100, null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	# full_name = models.CharField(max_length=100, default=None)
+
+	def __unicode__(self):
+		return self.primaryschool_name
+
 class Relationship(models.Model):
 	relationship = models.CharField(max_length=50, default=None)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
@@ -105,7 +127,7 @@ class Rank(models.Model):
 		return self.rank
 
 class COCRank(models.Model):
-	coc_rank = models.CharField(max_length=50, default=None)
+	coc_rank = models.CharField(max_length=50, null=True, blank=True, default=None)
 	company_standard = models.NullBooleanField(max_length=50, default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
@@ -288,6 +310,27 @@ class College(AbstractCollege):
 class HighSchool(AbstractHighSchool):
 	pass
 
+class Vocational(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	vocational = models.ForeignKey(Vocationals, null=True, blank=True, default=None)
+	vocationalyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
+	vocationalyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s - %s / %s-%s" % (user, self.vocational, self.vocationalyear_from, self.vocationalyear_to)
+
+class PrimarySchool(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	primaryschool = models.ForeignKey(PrimarySchools, null=True, blank=True, default=None)
+	primaryschoolyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
+	primaryschoolyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
+
+
 class EmergencyContact(AbstractEmergencyContact):
 	pass
 
@@ -392,7 +435,33 @@ class MarinersProfile(models.Model):
 	position = models.ForeignKey(Rank)
 	picture = models.ImageField(upload_to='photos/mariners-profile', blank=True, default=None)
 	signature = models.ImageField(upload_to='signatures/mariners-profile', blank=True, default=None)
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
+
+class NegativeSeagoingHistory(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	seagoing_comments = models.TextField()
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+class NegativeHealthProblems(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	health_problems = models.TextField()
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+class Reference(models.Model):
+	user = models.ForeignKey(UserProfile, related_name="user_mariner", default=None)
+	verified_by = models.ForeignKey(UserProfile, related_name="verified_by", default=None)
+	company = models.ForeignKey(Company, default=None)
+	date = models.DateField(null=True, blank=True, default=None)
+	person_contacted = models.ForeignKey(PersonReference, default=None)
+	veracity_seagoing_history = models.NullBooleanField()
+	health_problem = models.NullBooleanField()
+	financial_liability = models.NullBooleanField()
+	rehiring_prospects = models.NullBooleanField()
+	character = models.TextField(null=True, blank=True, default=None)
+	comments = models.TextField(null=True, blank=True, default=None)

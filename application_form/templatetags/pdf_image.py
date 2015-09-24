@@ -12,3 +12,8 @@ def get64(value, url):
         image = cStringIO.StringIO(urllib.urlopen(url).read())
         return 'data:image/jpg;base64,' + base64.b64encode(image.read())
     return url
+
+
+@register.filter
+def get_type(value):
+	return type(value)

@@ -1,13 +1,19 @@
-from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank
-
+from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality
 import autocomplete_light
 
 
 class ReferrerAutocomplete(autocomplete_light.AutocompleteModelTemplate):
-    search_fields = ['^name', ]
-    model = ReferrersPool
+    # search_fields = ['^name', ]
+    # model = ReferrersPool
+    choices = (
+      ReferrersPool.objects.filter()
+      )
+
+    search_fields = (
+      ('name'), 
+      )
     # Template that removes the "Results not Found"
-    autocomplete_template = 'autocomplete_template.html'
+    # autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(ReferrerAutocomplete)
 
 class FlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
@@ -107,3 +113,39 @@ class COCRankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(COCRankAutocomplete)
+
+class RelationshipAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Relationship.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('relationship'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(RelationshipAutocomplete)
+
+class BarangayAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Barangay.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('barangay'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(BarangayAutocomplete)
+
+class MunicipalityAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Municipality.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('municipality'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(MunicipalityAutocomplete)

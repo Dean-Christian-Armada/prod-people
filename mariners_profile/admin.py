@@ -29,6 +29,9 @@ class TrainingCertficatesAdmin(admin.ModelAdmin):
 class RankAdmin(admin.ModelAdmin):
 	list_filter = ('hiring', )
 
+class ReferrerAdmin(admin.ModelAdmin):
+	list_per_page = 4000
+
 admin.site.register(Zip)
 admin.site.register(CurrentAddress)
 admin.site.register(PermanentAddress)
@@ -40,6 +43,10 @@ admin.site.register(Degree)
 admin.site.register(College)
 admin.site.register(HighSchools)
 admin.site.register(HighSchool)
+admin.site.register(Vocationals)
+admin.site.register(Vocational)
+admin.site.register(PrimarySchools)
+admin.site.register(PrimarySchool)
 admin.site.register(EmergencyContact)
 admin.site.register(Barangay)
 admin.site.register(Municipality)

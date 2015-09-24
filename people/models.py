@@ -15,12 +15,8 @@ class AbstractPersonalData(models.Model):
 	birth_place = models.ForeignKey('mariners_profile.BirthPlace', default=None)
 	preferred_vessel_type = models.ForeignKey('mariners_profile.VesselType', default=None)
 	civil_status = models.ForeignKey('mariners_profile.CivilStatus', default=None)
-	# current_address = models.ForeignKey(ApplicationFormCurrentAddress, default=None)
-	# permanent_address = models.ForeignKey(ApplicationFormPermanentAddress, default=None)
 
 	# CharFields
-	mobile_1 = models.PositiveIntegerField(null=True, default=None)
-	mobile_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	father_first_name = models.CharField(max_length=50, null=True, default=None)
 	father_middle_name = models.CharField(max_length=50, null=True, default=None)
 	father_last_name = models.CharField(max_length=50, null=True, default=None)
@@ -32,6 +28,8 @@ class AbstractPersonalData(models.Model):
 	age = models.PositiveIntegerField(default=None)
 	landline_1 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	landline_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
+	mobile_1 = models.PositiveIntegerField(null=True, default=None)
+	mobile_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	sss = models.PositiveIntegerField(null=True, default=None)
 	philhealth = models.BigIntegerField(null=True, blank=True, default=None)
 	tin = models.BigIntegerField(null=True, blank=True, default=None)
@@ -52,6 +50,23 @@ class AbstractPersonalData(models.Model):
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.name.first_name, self.name.middle_name, self.name.last_name)
+
+	# Do not remove to avoid ValueError
+	def save(self, *args, **kwargs):
+		if self.landline_2 == '':
+			self.landline_2 = None
+		if self.philhealth == '':
+			self.philhealth = None
+		if self.tin == '':
+			self.tin = None
+		if self.pagibig == '':
+			self.pagibig = None
+		if self.landline_1 == '':
+			self.landline_1 = None
+		if self.mobile_2 == '':
+			self.mobile_2 = None
+
+		super(AbstractPersonalData, self).save(*args, **kwargs)
 
 class AbstractSpouseData(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -208,9 +223,9 @@ class AbstractSbook(models.Model):
 	
 class AbstractCOC(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
-	coc = models.CharField(max_length=100, unique=True, default=None)
-	coc_expiry = models.DateField(default=None)
-	coc_rank = models.ForeignKey('mariners_profile.COCRank', default=None)
+	coc = models.CharField(max_length=100, null=True, blank=True, default=None, )
+	coc_expiry = models.DateField(null=True, blank=True, default=None)
+	coc_rank = models.ForeignKey('mariners_profile.COCRank', default=None, blank=True)
 
 	class Meta:
 		abstract = True
@@ -245,8 +260,8 @@ class AbstractSRC(models.Model):
 	
 class AbstractGOC(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
-	goc = models.CharField(max_length=100, unique=True, default=None)
-	goc_expiry = models.DateField(default=None)
+	goc = models.CharField(max_length=100, 	null=True, blank=True, default=None, )
+	goc_expiry = models.DateField(null=True, blank=True, default=None)
 
 	class Meta:
 		abstract = True

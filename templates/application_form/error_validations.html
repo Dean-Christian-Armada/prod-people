@@ -1,6 +1,7 @@
 {% if applicant_name.errors or permanent_address.errors or current_address.errors or personal_data.errors or spouse.errors or college.errors or highschool.errors or emergency.errors or visa_application.errors or detained.errors or disciplinary_action.errors or charged_offense.errors or termination.errors or passport_form.errors or sbook_form.errors or coc_form.errors or license_form.errors or src_form.errors or goc_form.errors or usvisa_form.errors or schengenvisa_form.errors or yellowfever_form.errors or flags.errors or trainings_certificates.errors or sea_service.errors or application.errors %}
   <div class="form-group">
     <div class="errorlist-group" >
+      <h3 style="margin-top:10px;">PLEASE CLICK ON THE FOLLOWING SUMMARY LIST OF ERRORS</h3>
       <ul class="errorlist">
         {% if application.source.errors %}
           <li><a href="#step-2">Please indicate where you have learned Manship</a></li>
@@ -28,6 +29,10 @@
 
         {% if trainings_certificates.errors %}
           <li><a href="#step-10">Please select your Trainings and Certificates</a></li>
+        {% endif %}
+
+        {% if application.essay.errors %}
+          <li><a href="#step-11">Please Write an essay with at least 50 words</a></li>
         {% endif %}
 
         {% if application.signature.errors %}

@@ -29,10 +29,6 @@ body.login {
     width: 100%;
 }
 
-/*#logo {
-    padding: 30px 20px 20px 25px;
-}*/
-
 .login form {
     margin-top: 1em;
 }
@@ -43,23 +39,13 @@ body.login {
     width: 100%;
 }
 
-/*.login .form-row label {
-    padding-right: 0.5em;
-    line-height: 2em;
-    font-size: 1em;
-    clear: both;
-    color: #333;
-}*/
-
 .login #content{ padding: 15px; }
 
 .login .form-row #id_username, .login .form-row #id_password {
     border-radius: 5px;
     border-style: none;
     height: 38px;
-    /*padding-left: 5px;*/
     resize: vertical;
-    /*width: 86%;*/
     padding-left: 50px;
     font-size: 16px;
 }
@@ -69,7 +55,6 @@ body.login {
     border: medium none;
     filter: none;
     height: 38px;
-    /*margin-left: 1.5px;*/
     margin-top: -38px;
     width: 38px;
     position: absolute;
@@ -84,11 +69,6 @@ body.login {
 .login span.help {
     font-size: 10px;
     display: block;
-}
-
-.login .submit-row {
-/*    clear: both;
-    padding: 1em 0 0 9.4em;*/
 }
 
 .login .submit-row button[type="submit"] {
@@ -140,17 +120,23 @@ body.login {
     padding-left: 0;
 }
 
-/*input[type='text'], input[type='text']{
+input[type='text'], input[type='number']{
     text-transform: uppercase;
-}*/
+}
 
-/*input[type='email']{
-    text-transform: lowercase;
-}*/
+.login input{
+    text-transform: initial;
+}
 
 #application-form select, #seaservice select {
     color: #c4c1c7; background-color: #fff;
+    
 }
+
+#seaservice select {
+    text-transform: uppercase;
+}
+
 select option {
     color: #000
 }
@@ -373,11 +359,11 @@ ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underlin
 
 .errorlist-group{ width: 100%; border-radius: 15px; border: 2px solid black; margin-top: 25px; padding: 20px; }
 
-#webcam{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px;}
+#webcam, #loading{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px;}
+#loading{ margin-top: 100px; }
 
 .application-success{ padding-top: 100px; font-weight: 700; color: #2e76b8; text-align: center }
 
-/*body div.colleges:nth-child(26){ background: blue; }*/
 .delete-college{ display: none; }
 .delete-emergency{ display: none; }
 .sea-service-row:nth-child(n+15){ display: none; }
@@ -386,6 +372,17 @@ label[for='id_source_0']{ display: none }
 textarea{ resize: none; }
 #application-form-essay{ display:none; }
 .panel-heading{ cursor: pointer; }
+.submit-application{ margin-top: 20px; }
+
+/* Autocomplete Light Styling */
+.yourlabs-autocomplete{
+  max-height: 250px !important;
+  overflow: auto !important;
+  text-transform: uppercase !important;
+}
+.yourlabs-autocomplete .choice{
+  display: inline !important;
+}
 
 /* sidebar css */
 .sidebar.affix{position:static}@media (min-width:768px){.sidebar{padding-left:20px}}.bs-docs-sidenav{margin-top:20px;margin-bottom:20px}.sidebar .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.sidebar .nav>li>a:focus,.sidebar .nav>li>a:hover{padding-left:19px;color:#563d7c;text-decoration:none;background-color:transparent;border-left:1px solid #563d7c}.sidebar .nav>.active:focus>a,.sidebar .nav>.active:hover>a,.sidebar .nav>.active>a{padding-left:18px;font-weight:700;color:#563d7c;background-color:transparent;border-left:2px solid #563d7c}.sidebar .nav .nav{display:none;padding-bottom:10px}.sidebar .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.sidebar .nav .nav>li>a:focus,.sidebar .nav .nav>li>a:hover{padding-left:29px}.sidebar .nav .nav>.active:focus>a,.sidebar .nav .nav>.active:hover>a,.sidebar .nav .nav>.active>a{padding-left:28px;font-weight:500}.back-to-top,.bs-docs-theme-toggle{display:none;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:hover,.bs-docs-theme-toggle:hover{color:#563d7c;text-decoration:none}.bs-docs-theme-toggle{margin-top:0}@media (min-width:768px){.back-to-top,.bs-docs-theme-toggle{display:block}}@media (min-width:992px){.sidebar .nav>.active>ul{display:block}.sidebar.affix,.sidebar.affix-bottom{width:213px}.sidebar.affix{position:fixed;top:20px}.sidebar.affix-bottom{position:absolute}.sidebar.affix .bs-docs-sidenav,.sidebar.affix-bottom .bs-docs-sidenav{margin-top:0;margin-bottom:0}}@media (min-width:1200px){.sidebar.affix,.sidebar.affix-bottom{width:263px}}

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 {% load static %}
 {% block content %}
-<style type="text/css">#header{background: #2e76b8;color: #fff;padding: 30px;}.tooltip-left .tooltip-arrow {top: 50%;right: 0;margin-top: -5px;border-left-color: #000000;border-width: 5px 0 5px 5px;}.main-menu{padding-top: 30px;padding-bottom: 30px;}.btn-main{font-size: 12px;}.btn{border: 1px solid transparent !important; }.thead{background: #82ca9c; color: #fff;"}.picture-container{width:220px;height:180px;margin-top: 15px;border:1px solid black;float:right;}.container-picture{ text-align:center; }.input-group-addon{background: none;border: none;font-size: 12px;font-weight: bold; }.input-group{margin-top: 10px; } .sea-tb{font-size: 12px;}.panel-heading{border-bottom: 4px solid #000;}/* Button Custom */.btn-msmi {color: #fff;background-color: #82ca9c;margin-top: 5px;margin-left: 5px;border-bottom: 4px solid #02be9b !important;}.btn-msmi:focus,.btn-msmi.focus {color: #fff;background-color: #02be9b;border-color: #02be9b;border-bottom: 1px solid #02be9b !important;}.btn-msmi:hover {color: #fff;background-color: #82ca9c;border-color: #82ca9c;    }/* Custom Panel */.panel-msmi-blue{border-color: #2e76b8;border-bottom: 5px solid #04508e;}.panel-msmi-blue > .panel-heading {color: #fff;background-color: #2e76b8;border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading .badge {color: #dff0d8;background-color: #3c763d;}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {border-color: 1px solid 2e76b8;}
+<style type="text/css">#header{background: #2e76b8;color: #fff;padding: 30px;}.tooltip-left .tooltip-arrow {top: 50%;right: 0;margin-top: -5px;border-left-color: #000000;border-width: 5px 0 5px 5px;}.main-menu{padding-top: 30px;padding-bottom: 30px;}.btn-main{font-size: 12px;}.btn{border: 1px solid transparent !important; }.thead{background: #82ca9c; color: #fff;"}.picture-container{width:220px;height:180px;margin-top: 15px;border:1px solid black;float:right;}.container-picture{ text-align:center; }.input-group-addon{background: none;border: none;font-size: 12px;font-weight: bold; }.input-group{margin-top: 10px; } .sea-tb{font-size: 12px;}.panel-heading{border-bottom: 4px solid #000;}/* Button Custom */.btn-msmi {color: #fff;background-color: #82ca9c;margin-top: 5px;margin-left: 5px;border-bottom: 4px solid #02be9b !important;}.btn-msmi:focus,.btn-msmi.focus {color: #fff;background-color: #02be9b;border-color: #02be9b;border-bottom: 1px solid #02be9b !important;}.btn-msmi:hover {color: #fff;background-color: #82ca9c;border-color: #82ca9c;    }/* Custom Panel */.panel-msmi-blue{border-color: #2e76b8;border-bottom: 5px solid #04508e;}.panel-msmi-blue > .panel-heading {color: #fff;background-color: #2e76b8;border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading .badge {color: #dff0d8;background-color: #3c763d;}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {border-color: 1px solid #2e76b8;}
 </style>
 <div id="wrapper">
   <div id="header">
@@ -104,7 +105,7 @@
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Email Address 1:</span>
-                  <input type="text" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}">
+                  <a href="mailto:{{ personal_data.email_address_1 }}"><input type="email" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}" style="cursor:pointer" readonly=""></a>
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -125,7 +126,7 @@
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Email Address 2:</span>
-                  <input type="text" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_2 }}">
+                  <input type="email" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_2 }}" style="cursor:pointer" readonly="">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -435,24 +436,30 @@
                             </div><!--End of Col 3-->
                       </div><!--End of Row--> 
  {% endfor %}
+ <form method="POST" autocomplete="off">
+ {% csrf_token %}
 <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Vocational</strong></p>                            
-                            <div class="row">
+                            <div class="row vocational-row">
                             <div class="col-md-8">
                       <div class="input-group">
                   <span class="input-group-addon">Vocational:</span>
-                  <input type="text" class="form-control" placeholder="Vocational" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="Vocational" aria-describedby="basic-addon1"> -->
+                  {{ vocational_form.user|attr:"style:display:none" }}
+                  {{ vocational_form.vocational|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Vocational" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
                   <span class="input-group-addon">From:</span>
-                  <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1"> -->
+                  {{ vocational_form.vocationalyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
                   <span class="input-group-addon">To:</span>
-                  <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1"> -->
+                  {{ vocational_form.vocationalyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row--> 
@@ -478,23 +485,26 @@
                             </div><!--End of Col 3-->
                       </div><!--End of Row-->
 <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Primary</strong></p>
-                            <div class="row">
+                            <div class="row primary-row">
                             <div class="col-md-8">
                       <div class="input-group">
                   <span class="input-group-addon">Primary:</span>
-                  <input type="text" class="form-control" placeholder="Primary" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="Primary" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschool|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:PrimarySchool" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
                   <span class="input-group-addon">From:</span>
-                  <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschoolyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
                   <span class="input-group-addon">To:</span>
-                  <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1">
+                  <!-- <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschoolyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row-->    
@@ -810,7 +820,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;"></textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;">{{ visa_application.visa_application_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -833,7 +843,7 @@
                           <div class="row">
                               <div class="col-md-12">
                         <div class="form-group">
-                              <textarea class="form-control" rows="5" style="width: 100%;"></textarea>
+                              <textarea class="form-control" rows="5" style="width: 100%;">{{ detained.detained_reason }}</textarea>
                           </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                           </div><!--End of Row-->
@@ -856,7 +866,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;"></textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;">{{ disciplinary_action.disciplinary_action_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -879,7 +889,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;"></textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;">{{ charged_offense.charged_offense_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -902,7 +912,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;"></textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;">{{ termination.termination_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -943,10 +953,10 @@
 <div id="step13" class="panel panel-primary" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>REFERENCE</strong></div>
     <div id="reference" class="panel-collapse collapse" aria-expanded="false"> 
-                    <div class="panel-body"> 
+                    <div class="panel-body "> 
             
-                  <a data-toggle="collapse" data-parent="#accordion" href="#refer1" aria-expanded="false" style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>Verifier No.1</strong></p></a>
-                            <div id="refer1" class="panel-collapse collapse" aria-expanded="false">
+                  <a style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>Verifier</strong></p></a>
+                            <div class="verifier-section">
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
@@ -982,12 +992,27 @@
                       <div class="input-group">
                   <span class="input-group-addon">Veracity of Seagoing history:</span>
                   <input type="text" class="form-control" placeholder="Veracity of Seagoing history" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
+              </div>
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Health Problem:</span>
                   <input type="text" class="form-control" placeholder="Health Problem" aria-describedby="basic-addon1">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                    </div><!--End of Row-->
+
+                    <div class="row">
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon">Seagoing History Comments:</span>
+                  <textarea class="form-control" placeholder="SEAGOING HISTORY COMMENTS"></textarea>
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon">Health Comments:</span>
+                  <textarea class="form-control" placeholder="HEALTH COMMENTS"></textarea>
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1011,98 +1036,20 @@
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Character:</span>
-                  <input type="text" class="form-control" placeholder="Charater" aria-describedby="basic-addon1">
+                  <textarea class="form-control" placeholder="CHARACTER"></textarea>
+                  <!-- <input type="text" class="form-control" placeholder="Charater" aria-describedby="basic-addon1"> -->
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Comments:</span>
-                  <input type="text" class="form-control" placeholder="Comments" aria-describedby="basic-addon1">
+                   <textarea class="form-control" placeholder="COMMENTS"></textarea>
+                  <!-- <input type="text" class="form-control" placeholder="Comments" aria-describedby="basic-addon1"> -->
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
                        
                         </div>
-                        
-                        <a data-toggle="collapse" data-parent="#accordion" href="#refer2" aria-expanded="false" style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>Verifier No.2</strong></p></a> 
-                            <div id="refer2" class="panel-collapse collapse" aria-expanded="false">
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Verified by:</span>
-                  <input type="text" class="form-control" placeholder="Verified By" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Date:</span>
-                  <input type="text" class="form-control" placeholder="Date" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Company Name:</span>
-                  <input type="text" class="form-control" placeholder="Company Name" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Person Contacted:</span>
-                  <input type="text" class="form-control" placeholder="Person Contacted" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Veracity of Seagoing history:</span>
-                  <input type="text" class="form-control" placeholder="Veracity of Seagoing history" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Health Problem:</span>
-                  <input type="text" class="form-control" placeholder="Health Problem" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Financial Liability:</span>
-                  <input type="text" class="form-control" placeholder="Financial Liability" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Rehiring Prospects:</span>
-                  <input type="text" class="form-control" placeholder="Rehiring Prospects" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Character:</span>
-                  <input type="text" class="form-control" placeholder="Charater" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Comments:</span>
-                  <input type="text" class="form-control" placeholder="Comments" aria-describedby="basic-addon1">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                       
-                        </div>
-                        
                   </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->
@@ -1116,8 +1063,9 @@
                         <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}" width="100%">
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
-      </div><!--End of Panel Primary-->             
-            
+      </div><!--End of Panel Primary-->  
+<button class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Submit Application</button>           
+</form>            
   </div><!--End of Col-9-->          
 <!--End of Sidebar Fixed-->
 <div class="col-md-3">
@@ -1125,7 +1073,7 @@
   <!--<h3><strong>APPLICATION FORM</strong></h3>
   <p>FORM REF. MANSHIP QP07-04-07</p>-->
     <div class="container-picture"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"></div>
-          <div class="input-group" style="width: 100%; text-align: center">
+          <div class="input-group" style="width: 100%; text-align: center; text-transform: uppercase">
           <!-- <input type="text" class="form-control" placeholder="Name of the Seaferer" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}"> -->
           <strong><u>{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}</u></strong>
       </div><!--End of Input Group-->
@@ -1193,11 +1141,11 @@
 {% endblock %}
 {% block extra_scripts %}
   <script type="text/javascript">
+    // Script to auto-toggle when clicked in the sidebar
     $(".sidebar a").click(function(){
       href = $(this).attr("href");
       href = href.replace("#", "");
       aria_expanded = $("#"+href).children().attr("aria-expanded");
-      // alert(aria_expanded);
       if(aria_expanded == 'false'){
         $("#"+href).children().click();
       }
@@ -1205,8 +1153,17 @@
 
     $("input[name='status']").change(function(){
       val = $(this).val();
-      // alert(val);
       $("form#status").submit();
+    });
+    // $("input").prop("disabled", "true");
+    $("input[type='text']").each(function(){
+      // $(this).css("background-color", "red");
+      if($(this).parent().parent().parent().hasClass('vocational-row') || $(this).parent().parent().parent().hasClass('primary-row') || $(this).attr("name") == "csrfmiddlewaretoken" || $(this).parent().parent().parent().parent().hasClass('verifier-section')){
+        // $(this).css("background-color", "blue");
+      }else{
+        $(this).prop("disabled", "true");
+        // $(this).css("background-color", "green");
+      }
     });
   </script>
 {% endblock %}

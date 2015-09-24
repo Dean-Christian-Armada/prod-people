@@ -20,7 +20,7 @@
       </div>
     </div>
 
-  <form method="POST" id="myform" class="form-horizontal" autocomplete="off" action="{% url 'application_form' %}">
+  <form method="POST" id="id-application-form" class="form-horizontal" autocomplete="off" action="{% url 'application_form' %}">
     <div class="container">
       <div class="row">
         <div class="col-md-9">
@@ -75,6 +75,7 @@
             <h3 id='step-2' style="color: #02be9b;">How did you learn about Manship?</h3>
             {{ application.source.errors }}
             {{ application.source }}
+            {{ application.referred_by.errors }}
 
             <h3 id='step-3' style="color: #02be9b;">Personal Data</h3>
             <div class="form-group">
@@ -109,7 +110,7 @@
                 {{ personal_data.mobile_1.errors }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.email_address_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Email Address 1" }}
+                {{ personal_data.email_address_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:EMAIL ADDRESS 1" }}
                 {{ personal_data.email_address_1.errors }}
               </div>
             </div>
@@ -123,7 +124,7 @@
                 {{ personal_data.mobile_2.errors }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.email_address_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Email Address 2" }}
+                {{ personal_data.email_address_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:EMAIL ADDRESS 2" }}
                 {{ personal_data.email_address_2.errors }}
               </div>
             </div>
@@ -299,13 +300,13 @@
             </div>
             {% for college_form in college %}
               <div class="form-group colleges">
-                <div class="col-md-4">
+                <div class="col-md-5">
                   
                   {{ college_form.college|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:College" }}
                   {{ college_form.college.errors }}
                   {{ college_form.college.non_form_errors }}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   
                   {{ college_form.degree|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Degree Obtained" }}
                   {{ college_form.degree.errors }}
@@ -547,16 +548,10 @@
             </div>
 
             <h3 id='step-10' style="color: #02be9b;">Training and Other Certificates</h3>
-            <p>Please check the box if you possess any of the specified flag document</p>
-            <div class="form-group">
-              <div class="col-md-12">
-                {{ trainings_certificates.trainings_certificates.errors }} 
-              </div>
-              {% for certs in trainings_certificates.trainings_certificates %}
-                <div class="col-md-6">
-                  {{ certs }}
-                </div>
-              {% endfor %}
+            <p>Please check the box if you possess any of the specified certificates</p>
+            <p>{{ trainings_certificates.trainings_certificates.errors }}</p>
+            <div class="form-group dynamic-training-certificates-section">  
+              
             </div>
 
             <div id="application-form-essay">
@@ -575,7 +570,7 @@
                 <p>2.) I agree that if I have withheld or misrepresented any information on this Application Form. I alone am responsible and accountable for any consequence of such withholding or misrepresentation</p>
                 <p>3.) I understand that the information I provided in this Application Form shall remain confidential, but I may be held liable for any untruthful statements made therein</p>
                 <div class="form-group">
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <label class="control-label">Printed Name:</label>
                     <input type="text" data-toggle="tooltip" id="full_name" class="form-control certification-input" readonly="" placeholder="Printed Name" >
                   </div>
@@ -583,7 +578,7 @@
                     <label class="control-label">{% if not application.signature.errors %}{% if request.POST  %}<i><u>Already Signed</u></i>{% else %}Signature:{% endif %}{% else %}Signature:{% endif %} </label>
                     <input type="text" data-toggle="modal" data-target="#signature" class="form-control certification-input" name="signature" placeholder="Signature" readonly="">
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-3">
                     <label class="control-label">Date:</label>
                     {{ application.application_date|add_class:"form-control"|attr:"placeholder:Date of Application"|attr:"readonly"|attr:"disabled" }}
                   </div>
@@ -684,7 +679,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="signatureLabel">Signature {{ application.signature.errors }}</h4>
+        <h4 class="modal-title" id="signatureLabel">Signature</h4>
       </div>
       <div class="modal-body" style="text-align: center">
         {{ application.signature }}
@@ -692,7 +687,20 @@
       </div>
     </div>
   </div> 
-</div>   
+</div>
+
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signatureLabel"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <img src="{% static 'img/loading-x.gif' %}">
+      </div>
+    </div>
+  </div> 
+</div>
         {% include "application_form/sidebar.html" %}
       </div>
     </div>
@@ -714,6 +722,7 @@
   advertisements = '{{ application.advertisements|escapejs }}';
   internet = '{{ application.internet|escapejs }}';
   referrer = '{{ application.referred_by }}';
+  certificates_initial = '';
     // Start Webcam Scripts
     // Placed here because it throws validation alerts on other pages if put in main.js
     Webcam.set({
@@ -764,10 +773,15 @@
         setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
 
         $("#webcam").modal('show');
+
+        // Used in the input[name='source'] click function
+        function referred_by_focus(){ setTimeout(function(){ $("#id_referred_by").focus(); }, 300); }; 
     {% else %}
+        certificates_initial = '{{ request_training_certificates }}';
         civil_status = $("#id_civil_status option:selected").text();
         position_applied = $("#id_position_applied option:selected").text();
         alternative_position = $("#id_alternative_position option:selected").text();
+        function referred_by_focus(){ }; 
         // cause_of_discharge = $(".cause_of_discharge option:selected").text();
         if(civil_status == "---------"){
             $("#id_civil_status option:first-child").text("Civil Status");

@@ -1,5 +1,14 @@
-{% for certs in form.trainings_certificates %}
-	<div class="col-md-6">
-	  {{ certs }}
+{% load get_type %}
+{% if form|get_type == "<type 'str'>" %}
+	<div class="col-md-12">
+		<ul class="errorlist">
+			<li><h4 style="rgb(175, 17, 28)"><b><a href="#top">Please Select the Position to be Applied for the Certificates and Trainings to show</a></b></h4></li>
+		</ul>
 	</div>
-{% endfor %}
+{% else %}
+	{% for certs in form.trainings_certificates %}
+		<div class="col-md-6">
+		  {{ certs }}
+		</div>
+	{% endfor %}
+{% endif %}

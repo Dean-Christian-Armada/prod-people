@@ -795,11 +795,11 @@ class ApplicationForm(autocomplete_light.ModelForm):
 		except:
 			pass
 
+		# script to make sure that the referrer's are filled up if selected
 		try:
-			print self.cleaned_data
 			referred_by = self.cleaned_data['referred_by']
 			source = self.cleaned_data['source']
-			if referred_by == '':
+			if referred_by == '' and source == 'Referred By':
 				msg = "Please pick your referrer"
 				self.add_error('referred_by', msg)
 		except:
@@ -930,8 +930,10 @@ class LicenseForm(forms.ModelForm):
 		model = ApplicationFormLicense
 		fields = ('license', )
 
+	# script to make sure that the applicants except the cadets are required to fill the license
 	def clean(self):
-		print self.cleaned_data
+		license = self.cleaned_data['license']
+		license_rank = self.cleaned_data['license_rank']
 		try:
 			position_applied = self.cleaned_data['position_applied']
 			alternative_position = self.cleaned_data['alternative_position']
@@ -944,8 +946,10 @@ class LicenseForm(forms.ModelForm):
 
 			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
 				msg = "This field is required"
-				self.add_error('license', msg)
-				self.add_error('license_rank', msg)
+				if license == '':
+					self.add_error('license', msg)
+				if license_rank == '':
+					self.add_error('license_rank', msg)
 		except:
 			pass
 
@@ -977,8 +981,11 @@ class COCForm(forms.ModelForm):
 		model = ApplicationFormCOC
 		fields = ('coc', 'coc_expiry')
 
+	# script to make sure that the applicants except the cadets are required to fill the coc
 	def clean(self):
-		print self.cleaned_data
+		coc = self.cleaned_data['coc']
+		coc_rank = self.cleaned_data['coc_rank']
+		coc_expiry = self.cleaned_data['coc_expiry']
 		try:
 			position_applied = self.cleaned_data['position_applied']
 			alternative_position = self.cleaned_data['alternative_position']
@@ -991,9 +998,12 @@ class COCForm(forms.ModelForm):
 
 			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
 				msg = "This field is required"
-				self.add_error('coc', msg)
-				self.add_error('coc_rank', msg)
-				self.add_error('coc_expiry', msg)
+				if coc == '':
+					self.add_error('coc', msg)
+				if coc_rank == '':
+					self.add_error('coc_rank', msg)
+				if coc_expiry == None:
+					self.add_error('coc_expiry', msg)
 		except:
 			pass
 
@@ -1022,8 +1032,10 @@ class GOCForm(forms.ModelForm):
 		model = ApplicationFormGOC
 		fields = ('goc', 'goc_expiry')
 
+	# script to make sure that the applicants except the cadets are required to fill the goc
 	def clean(self):
-		print self.cleaned_data
+		goc = self.cleaned_data['goc']
+		goc_expiry = self.cleaned_data['goc_expiry']
 		try:
 			position_applied = self.cleaned_data['position_applied']
 			alternative_position = self.cleaned_data['alternative_position']
@@ -1036,8 +1048,10 @@ class GOCForm(forms.ModelForm):
 
 			if "Cadet".lower() not in position_applied.rank.lower() or "Cadet".lower() not in alternative_position.rank.lower():
 				msg = "This field is required"
-				self.add_error('goc', msg)
-				self.add_error('goc_expiry', msg)
+				if goc == '':
+					self.add_error('goc', msg)
+				if goc_expiry == None:
+					self.add_error('goc_expiry', msg)
 		except:
 			pass
 

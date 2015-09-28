@@ -159,9 +159,37 @@ class PrimarySchoolForm(forms.ModelForm):
 		primaryschool.save()
 
 class ReferenceForm(forms.ModelForm):
+	company = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Company"}), required=False)
+	person_contacted = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Person Contacted"}), required=False)
 	class Meta:
 		model = Reference
 		fields = '__all__'
+
+	def clean(self):
+		company = self.cleaned_data['company']
+		_company = Company.objects.get_or_create({'company':company}, company__iexact=company)
+		if _company:
+			_company = Company.objects.get(company__iexact=company)
+		self.cleaned_data['company'] = _company
+
+		person_contacted = self.cleaned_data['person_contacted']
+		_person_contacted = PersonReference.objects.get_or_create({'person_reference':person_contacted}, person_reference__iexact=person_contacted)
+		if _person_contacted:
+			_person_contacted = PersonReference.objects.get(person_reference__iexact=person_contacted)
+		self.cleaned_data['person_contacted'] = _person_contacted
+
+		
+	def save(self, commit=True):
+		try:
+			company = self.cleaned_data['company']
+			person_contacted = self.cleaned_data['person_contacted']
+			reference = super(ReferenceForm, self).save(commit=False)
+
+			reference.company = company
+			reference.person_contacted = person_contacted
+			reference.save()
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class EvaluationForm(forms.ModelForm):
 	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)

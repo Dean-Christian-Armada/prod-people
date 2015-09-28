@@ -15,9 +15,15 @@ class PersonReference(models.Model):
 	person_reference = models.CharField(max_length=100, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
+	def __unicode__(self):
+		return self.person_reference
+
 class Company(models.Model):
 	company = models.CharField(max_length=100, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
+
+	def __unicode__(self):
+		return self.company
 
 class BirthPlace(models.Model):
 	birth_place = models.CharField(max_length=50, default=None)
@@ -463,12 +469,15 @@ class Reference(models.Model):
 	company = models.ForeignKey(Company, default=None)
 	date = models.DateField(null=True, blank=True, default=None)
 	person_contacted = models.ForeignKey(PersonReference, default=None)
-	veracity_seagoing_history = models.NullBooleanField()
-	health_problem = models.NullBooleanField()
-	financial_liability = models.NullBooleanField()
-	rehiring_prospects = models.NullBooleanField()
+	veracity_seagoing_history = models.NullBooleanField(default=1)
+	health_problem = models.NullBooleanField(default=0)
+	financial_liability = models.NullBooleanField(default=1)
+	rehiring_prospects = models.NullBooleanField(default=1)
 	character = models.TextField(null=True, blank=True, default=None)
 	comments = models.TextField(null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		return unicode(self.verified_by)
 
 class Evaluation(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
+{% load get_data %}
 {% load static %}
 {% block content %}
 <style type="text/css">#header{background: #2e76b8;color: #fff;padding: 30px;}.tooltip-left .tooltip-arrow {top: 50%;right: 0;margin-top: -5px;border-left-color: #000000;border-width: 5px 0 5px 5px;}.main-menu{padding-top: 30px;padding-bottom: 30px;}.btn-main{font-size: 12px;}.btn{border: 1px solid transparent !important; }.thead{background: #82ca9c; color: #fff;"}.picture-container{width:220px;height:180px;margin-top: 15px;border:1px solid black;float:right;}.container-picture{ text-align:center; }.input-group-addon{background: none;border: none;font-size: 12px;font-weight: bold; }.input-group{margin-top: 10px; } .sea-tb{font-size: 12px;}.panel-heading{border-bottom: 4px solid #000;}/* Button Custom */.btn-msmi {color: #fff;background-color: #82ca9c;margin-top: 5px;margin-left: 5px;border-bottom: 4px solid #02be9b !important;}.btn-msmi:focus,.btn-msmi.focus {color: #fff;background-color: #02be9b;border-color: #02be9b;border-bottom: 1px solid #02be9b !important;}.btn-msmi:hover {color: #fff;background-color: #82ca9c;border-color: #82ca9c;    }/* Custom Panel */.panel-msmi-blue{border-color: #2e76b8;border-bottom: 5px solid #04508e;}.panel-msmi-blue > .panel-heading {color: #fff;background-color: #2e76b8;border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading .badge {color: #dff0d8;background-color: #3c763d;}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {border-color: 1px solid #2e76b8;}
@@ -41,10 +42,10 @@
 
 <!--Personal Data
 ==========================================-->
-
+ <form method="POST" autocomplete="off" id="id-application-profile">
               <div id="step1" class="panel panel-primary" style="margin-top: 20px;">
-            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>PERSONAL DATA</strong></div>
-                    <div id="detail1" class="panel-collapse collapse-in" aria-expanded="true">              
+            <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" style="color: #fff; text-decoration: none;" aria-expanded="true"><strong>PERSONAL DATA</strong></div>
+                    <div id="detail1" class="collapse in" aria-expanded="true">              
                     <div class="panel-body">
                           <div class="form-group">  
                             <div class="row">
@@ -263,19 +264,19 @@
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Spouse's Maiden Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
+                  <input type="text" class="form-control" placeholder="Spouse's Maiden Last Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Spouse's Maiden First Name:</span>
-                  <input type="text" class="form-control" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
+                  <input type="text" class="form-control" placeholder="Spouse's Maiden First Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
                   <span class="input-group-addon">Spouse's Maiden Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
+                  <input type="text" class="form-control" placeholder="Spouse's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -347,7 +348,7 @@
 ============================-->            
             <div id="step2" class="panel panel-primary" style="margin-top: 10px;">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>SEAFARER'S SEAGOING HISTORY</strong></a></div>                  
-                <div id="detail2" class="panel-collapse collapse-in" aria-expanded="false"> 
+                <div id="detail2" class="collapse in" aria-expanded="false"> 
                     <div class="panel-body"> 
             
                   <div class="table-responsive">
@@ -405,7 +406,7 @@
 ====================================-->
 <div id="step4" class="panel panel-primary" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>EDUCATIONAL INFORMATION</strong></div>  
-                    <div id="detail4" class="panel-collapse collapse-in" aria-expanded="false">             
+                    <div id="detail4" class="panel-collapse collapse in" aria-expanded="false">             
                     <div class="panel-body">
                           <div class="form-group">
 <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>College</strong></p>                {% for colleges in college %}
@@ -436,7 +437,6 @@
                             </div><!--End of Col 3-->
                       </div><!--End of Row--> 
  {% endfor %}
- <form method="POST" autocomplete="off">
  {% csrf_token %}
 <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Vocational</strong></p>                            
                             <div class="row vocational-row">
@@ -811,8 +811,8 @@
                             </div><!--End of Col 9-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <input type="radio" name="visa_application" {% if visa_application.visa_application %}checked{% endif %}> Yes
-                                <input type="radio" name="visa_application" {% if not visa_application.visa_application %}checked{% endif %}> No
+                  <input type="radio" name="visa_application" {% if visa_application.visa_application %}checked{% endif %} disabled> Yes
+                                <input type="radio" name="visa_application" {% if not visa_application.visa_application %}checked{% endif %} disabled> No
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -820,7 +820,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;">{{ visa_application.visa_application_reason }}</textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;" disabled>{{ visa_application.visa_application_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -833,8 +833,8 @@
                             </div><!--End of Col 9-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <input type="radio" name="detained" {% if detained.detained %}checked{% endif %}> Yes
-                                <input type="radio" name="detained" {% if not detained.detained %}checked{% endif %}> No
+                  <input type="radio" name="detained" {% if detained.detained %}checked{% endif %} disabled> Yes
+                                <input type="radio" name="detained" {% if not detained.detained %}checked{% endif %} disabled> No
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -843,7 +843,7 @@
                           <div class="row">
                               <div class="col-md-12">
                         <div class="form-group">
-                              <textarea class="form-control" rows="5" style="width: 100%;">{{ detained.detained_reason }}</textarea>
+                              <textarea class="form-control" rows="5" style="width: 100%;" disabled>{{ detained.detained_reason }}</textarea>
                           </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                           </div><!--End of Row-->
@@ -857,8 +857,8 @@
                             </div><!--End of Col 9-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <input type="radio" name="disciplinary_action" {% if disciplinary_action.disciplinary_action %}checked{% endif %}> Yes
-                                <input type="radio" name="disciplinary_action" {% if not disciplinary_action.disciplinary_action %}checked{% endif %}> No
+                  <input type="radio" name="disciplinary_action" {% if disciplinary_action.disciplinary_action %}checked{% endif %} disabled> Yes
+                                <input type="radio" name="disciplinary_action" {% if not disciplinary_action.disciplinary_action %}checked{% endif %} disabled> No
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -866,7 +866,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;">{{ disciplinary_action.disciplinary_action_reason }}</textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;" disabled>{{ disciplinary_action.disciplinary_action_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -880,8 +880,8 @@
                             </div><!--End of Col 9-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <input type="radio" name="charged_offense" {% if charged_offense.charged_offense %}checked{% endif %}> Yes
-                                <input type="radio" name="charged_offense" {% if not charged_offense.charged_offense %}checked{% endif %}> No
+                  <input type="radio" name="charged_offense" {% if charged_offense.charged_offense %}checked{% endif %} disabled> Yes
+                                <input type="radio" name="charged_offense" {% if not charged_offense.charged_offense %}checked{% endif %} disabled> No
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -889,7 +889,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;">{{ charged_offense.charged_offense_reason }}</textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;" disabled>{{ charged_offense.charged_offense_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -903,8 +903,8 @@
                             </div><!--End of Col 9-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <input type="radio" name="termination" {% if termination.termination %}checked{% endif %}> Yes
-                                <input type="radio" name="termination" {% if not termination.termination %}checked{% endif %}> No
+                  <input type="radio" name="termination" {% if termination.termination %}checked{% endif %} disabled> Yes
+                                <input type="radio" name="termination" {% if not termination.termination %}checked{% endif %} disabled> No
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -912,7 +912,7 @@
                         <div class="row">
                             <div class="col-md-12">
                       <div class="form-group">
-                            <textarea class="form-control" rows="5" style="width: 100%;">{{ termination.termination_reason }}</textarea>
+                            <textarea class="form-control" rows="5" style="width: 100%;" disabled>{{ termination.termination_reason }}</textarea>
                         </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         </div><!--End of Row-->
@@ -949,26 +949,42 @@
       </div><!--End of Panel Primary-->            
 {% endif %}
 
+{{ reference_form.management_form }}
 <!--Reference
 =================================-->
 <div id="step13" class="panel panel-primary" style="margin-top: 10px;">
+    
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>REFERENCE</strong></div>
     <div id="reference" class="panel-collapse collapse" aria-expanded="false"> 
+    <div class="panel-body" style="padding-bottom:0px"> 
+      <div class="row">
+        <div class="col-md-12">
+          <p>Take note:</p>
+          <p><i><u><strong>Please complete all the fields to save a personal reference</strong></u></i></p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+
+    {% for reference_forms in reference_form %}
+    {{ reference_forms.id }}
+    {{ reference_forms.user }}
                     <div class="panel-body "> 
-            
+                  
                   <a style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>Verifier</strong></p></a>
                             <div class="verifier-section">
+
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Verified by:</span>
-                  <input type="text" class="form-control" placeholder="Verified By" aria-describedby="basic-addon1">
+                  {{ reference_forms.verified_by|add_class:"form-control" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Date:</span>
-                  <input type="text" class="form-control" placeholder="Date" aria-describedby="basic-addon1">
+                  {{ reference_forms.date|add_class:"form-control date" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -976,14 +992,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Company Name:</span>
-                  <input type="text" class="form-control" placeholder="Company Name" aria-describedby="basic-addon1">
+                  <span class="input-group-addon">Company Name: </span>
+                  <input class="form-control" id="id_user_mariner-{{ forloop.counter0 }}-company" name="user_mariner-{{ forloop.counter0 }}-company" placeholder="Company" type="text" value="{{ reference_forms.company.value|get_data_company }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Person Contacted:</span>
-                  <input type="text" class="form-control" placeholder="Person Contacted" aria-describedby="basic-addon1">
+                  <input class="form-control" id="id_user_mariner-{{ forloop.counter0 }}-person_contacted" name="user_mariner-{{ forloop.counter0 }}-person_contacted" placeholder="Person Contacted" type="text" value="{{ reference_forms.person_contacted.value|get_data_person_contacted }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -992,43 +1008,30 @@
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Veracity of Seagoing history:</span>
-                  <input type="text" class="form-control" placeholder="Veracity of Seagoing history" aria-describedby="basic-addon1">
+                  {{ reference_forms.veracity_seagoing_history|add_class:"form-control first-choice mariner_veracity_seagoing_history" }}
               </div>
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Health Problem:</span>
-                  <input type="text" class="form-control" placeholder="Health Problem" aria-describedby="basic-addon1">
+                  {{ reference_forms.health_problem|add_class:"form-control first-choice mariner_health_problem" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
 
-                    <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Seagoing History Comments:</span>
-                  <textarea class="form-control" placeholder="SEAGOING HISTORY COMMENTS"></textarea>
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Health Comments:</span>
-                  <textarea class="form-control" placeholder="HEALTH COMMENTS"></textarea>
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
+        
                         
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Financial Liability:</span>
-                  <input type="text" class="form-control" placeholder="Financial Liability" aria-describedby="basic-addon1">
+                  {{ reference_forms.financial_liability|add_class:"form-control first-choice mariner_financial_liability" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Rehiring Prospects:</span>
-                  <input type="text" class="form-control" placeholder="Rehiring Prospects" aria-describedby="basic-addon1">
+                  {{ reference_forms.rehiring_prospects|add_class:"form-control first-choice mariner_rehiring_prospects" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1037,22 +1040,22 @@
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Character:</span>
-                  <textarea class="form-control" placeholder="CHARACTER"></textarea>
-                  <!-- <input type="text" class="form-control" placeholder="Charater" aria-describedby="basic-addon1"> -->
+                  {{ reference_forms.character|add_class:"form-control"|attr:"rows:3" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon">Comments:</span>
-                   <textarea class="form-control" placeholder="COMMENTS"></textarea>
-                  <!-- <input type="text" class="form-control" placeholder="Comments" aria-describedby="basic-addon1"> -->
+                  {{ reference_forms.comments|add_class:"form-control"|attr:"rows:3" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
                        
                         </div>
                   </div><!--End of Panel Body-->
+                  {% endfor %}
               </div><!--End of Collapse-->
+
       </div><!--End of Panel Primary-->
 
  <!--Signature
@@ -1065,8 +1068,22 @@
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->  
-<button class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Submit Application</button>           
-</form>            
+<button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Submit Application</button>
+
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signatureLabel"></h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <img src="{% static 'img/loading-x.gif' %}">
+      </div>
+    </div>
+  </div> 
+</div>
+
+</form>
   </div><!--End of Col-9-->          
 <!--End of Sidebar Fixed-->
 <div class="col-md-3">
@@ -1142,29 +1159,59 @@
 {% endblock %}
 {% block extra_scripts %}
   <script type="text/javascript">
-    // Script to auto-toggle when clicked in the sidebar
-    $(".sidebar a").click(function(){
-      href = $(this).attr("href");
-      href = href.replace("#", "");
-      aria_expanded = $("#"+href).children().attr("aria-expanded");
-      if(aria_expanded == 'false'){
-        $("#"+href).children().click();
-      }
-    });
+    $(function(){
+      // Script to auto-toggle when clicked in the sidebar
+      $(".sidebar a").click(function(){
+        href = $(this).attr("href");
+        href = href.replace("#", "");
+        aria_expanded = $("#"+href).children().attr("aria-expanded");
+        if(aria_expanded == 'false'){
+          $("#"+href).children().click();
+        }
+      });
 
-    $("input[name='status']").change(function(){
-      val = $(this).val();
-      $("form#status").submit();
-    });
-    // $("input").prop("disabled", "true");
-    $("input[type='text']").each(function(){
-      // $(this).css("background-color", "red");
-      if($(this).parent().parent().parent().hasClass('vocational-row') || $(this).parent().parent().parent().hasClass('primary-row') || $(this).attr("name") == "csrfmiddlewaretoken" || $(this).parent().parent().parent().parent().hasClass('verifier-section')){
-        // $(this).css("background-color", "blue");
-      }else{
+      $("input[name='status']").change(function(){
+        val = $(this).val();
+        $("form#status").submit();
+      });
+      // $("input").prop("disabled", "true");
+      // Script that disables everything in the profile page
+      $("input[type='text']").each(function(){
+        // $(this).css("background-color", "red");
+        if($(this).parent().parent().parent().hasClass('vocational-row') || $(this).parent().parent().parent().hasClass('primary-row') || $(this).attr("name") == "csrfmiddlewaretoken" || $(this).parent().parent().parent().parent().hasClass('verifier-section')){
+          // $(this).css("background-color", "blue");
+        }else{
+          $(this).prop("disabled", "true");
+          // $(this).css("background-color", "green");
+        }
+      });
+      $("input[name='trainings_certificates'], input[name='flags']").each(function(){
         $(this).prop("disabled", "true");
-        // $(this).css("background-color", "green");
-      }
+      });
+      $("#reference select option").each(function(){
+        if($(this).text() == "application-form application-form application-form"){
+          $(this).remove();
+        }
+        $(this).text($(this).text().toUpperCase());
+      });
+
+      // Altering Select Choices
+      $(".mariner_veracity_seagoing_history").each(function(){
+        $("option:nth-child(2)", this).text("OK");
+        $("option:nth-child(3)", this).text("NOT OK");
+      });
+      $(".mariner_health_problem").each(function(){
+        $("option:nth-child(3)", this).text("NONE");
+      });
+      $(".mariner_financial_liability").each(function(){
+        $("option:nth-child(2)", this).text("WITH");
+        $("option:nth-child(3)", this).text("NONE");
+      });
+      $(".mariner_rehiring_prospects").each(function(){
+        $("option:nth-child(2)", this).text("REHIRABLE");
+        $("option:nth-child(3)", this).text("NOT REHIRABLE");
+      });
+
     });
   </script>
 {% endblock %}

@@ -13,7 +13,7 @@ class ReferrerAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       ('name'), 
       )
     # Template that removes the "Results not Found"
-    # autocomplete_template = 'autocomplete_template.html'
+    autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(ReferrerAutocomplete)
 
 class FlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):

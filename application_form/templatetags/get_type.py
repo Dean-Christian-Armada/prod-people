@@ -3,6 +3,7 @@ import urllib, cStringIO, base64
 
 register = template.Library()
 
+# Used in training-certificates.html
 @register.filter
 def get_type(value):
 	return str(type(value))

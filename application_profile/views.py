@@ -131,6 +131,7 @@ def profile(request, id):
 	if id:
 		user_profile = UserProfile.objects.get(id=id)
 		personal_data = PersonalData.objects.get(name=id)
+		num_extra = 0 # Used in evaluation for controlling inline formset
 		try:
 			spouse = Spouse.objects.get(user=id)
 			spouse_form = SpouseForm(request.POST or None, instance=spouse)
@@ -153,8 +154,17 @@ def profile(request, id):
 			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
 		try:
 			reference = Reference.objects.filter(user=id)
-			ReferenceFormSet = inlineformset_factory(UserProfile, Reference, fk_name='user', fields='__all__', extra=0, can_delete=True )
-			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile)
+			# print len(reference)
+			if len(reference) == 1:
+				num_extra = 1
+			elif len(reference) < 1:
+				num_extra = 2
+			elif len(reference) > 1:
+				num_extra = 0
+			ReferenceFormSet = inlineformset_factory(UserProfile, Reference, fk_name='user', extra=num_extra, can_delete=True, form=ReferenceForm )
+			# reference_form = ReferenceFormSet(request.POST or None, )
+			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile )
+
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 		try:
@@ -182,21 +192,16 @@ def profile(request, id):
 		us_visa = USVisa.objects.get(user=id)
 		schengen_visa = SchengenVisa.objects.get(user=id)
 		yellow_fever = YellowFever.objects.get(user=id)
-		# FlagDocuments = FlagDocuments.objects.get(user=id)
-		# FlagDocumentsDetailed = FlagDocumentsDetailed.objects.get(user=id)
-		# TrainingCertificateDocuments = TrainingCertificateDocuments.objects.get(user=id)
-		# TrainingCertificateDocumentsDetailed = TrainingCertificateDocumentsDetailed.objects.get(user=id)
 		sea_service = SeaService.objects.filter(user=id)
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		application_form = ApplicationForm.objects.get(user=id)
 
+		# Queries out the list of flags
 		try:
 			flag_documents = FlagDocuments.objects.get(user=user_profile)
 			flag_list = []
 			flags = get_list_or_404(FlagDocumentsDetailed, flags_documents=flag_documents.id)
-			# print flags
 			for flag in flags:
-				# print flag.id
 				flag_list.append(flag.flags.id)
 			flags = {'flags': flag_list}
 			flags = FlagForm(initial=flags)
@@ -212,7 +217,7 @@ def profile(request, id):
 			# print training_certificate.trainings_certificates.id
 			training_certificate_list.append(training_certificate.trainings_certificates.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
-		trainings_certificates = TrainingCertificateForm(initial=training_certificates)
+		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position_id, initial=training_certificates)
 		# print user_profile
 
 		# applicant_name_form = ApplicantNameForm(request.POST or None, instance=user_profile)
@@ -253,28 +258,43 @@ def profile(request, id):
 		# if highschool_form.is_valid():
 		# 	highschool_form.save()
 
-		if evaluation_form.is_valid():
-			evaluation_form.save()
-
-
-
-		# if vocational_form.is_valid() and primaryschool_form.is_valid():
-		# 	vocational_form.save()
-		# 	primaryschool_form.save()
+		# if evaluation_form.is_valid():
+		# 	evaluation_form.save()
+		# print len(reference_form)
+		# if reference_form.is_valid():
+		# 	for reference in reference_form:
+		# 		reference.save()
+		# 	return HttpResponseRedirect('')
 		# else:
-		# 	print vocational_form.errors
-		# 	print primaryschool_form.errors
-
-		# if request.POST and 'status' in request.POST:
+		# 	pass
 			# print request.POST
-			# _status = request.POST['status']
-			# _status = Status.objects.get(id=_status)
-			# application_form.status = _status
-			# application_form.save()
-			# mariners_profile.status = 1
-			# mariners_profile.save()
-			# if str(application_form.status) == 'Passed':
-			# 	return HttpResponseRedirect('/mariners-profile/'+id)
+			# print reference_form.errors
+
+
+
+		if vocational_form.is_valid() and primaryschool_form.is_valid() and reference_form.is_valid() and evaluation_form.is_valid():
+			vocational_form.save()
+			primaryschool_form.save()
+			evaluation_form.save()
+			for reference in reference_form:
+				reference.save()
+			return HttpResponseRedirect('')
+		else:
+			print vocational_form.errors
+			print primaryschool_form.errors
+			print reference_form.errors
+			print evaluation_form.errors
+
+		if request.POST and 'status' in request.POST:
+			print request.POST
+			_status = request.POST['status']
+			_status = Status.objects.get(id=_status)
+			application_form.status = _status
+			application_form.save()
+			mariners_profile.status = 1
+			mariners_profile.save()
+			if str(application_form.status) == 'Passed':
+				return HttpResponseRedirect('/mariners-profile/'+id)
 
 		status = StatusForm(initial={'status':str(application_form.status.id)})
 		
@@ -310,23 +330,12 @@ def profile(request, id):
 		context_dict['schengen_visa'] = schengen_visa
 		context_dict['yellow_fever'] = yellow_fever
 		
-		# context_dict['personal_data_form'] = personal_data_form
-		# context_dict['applicant_name_form'] = applicant_name_form
-		# context_dict['permanent_address_form'] = permanent_address_form
-		# context_dict['current_address_form'] = current_address_form
-		# context_dict['spouse_form'] = spouse_form
-		# context_dict['college_form'] = college_form
-		# context_dict['highschool_form'] = highschool_form
 		context_dict['vocational_form'] = vocational_form
 		context_dict['primaryschool_form'] = primaryschool_form
 		context_dict['evaluation_form'] = evaluation_form
 		context_dict['reference_form'] = reference_form
 
 		context_dict['title'] = "Applicants Profile - "+str(personal_data)
-		# context_dict['FlagDocuments'] = FlagDocuments
-		# context_dict['FlagDocumentsDetailed'] = FlagDocumentsDetailed
-		# context_dict['TrainingCertificateDocuments'] = TrainingCertificateDocuments
-		# context_dict['TrainingCertificateDocumentsDetailed'] = TrainingCertificateDocumentsDetailed
 		context_dict['sea_service'] = sea_service
 		context_dict['application_form'] = application_form
 		context_dict['mariners_profile'] = mariners_profile

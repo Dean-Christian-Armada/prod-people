@@ -456,8 +456,10 @@ tr:hover{
 {% endblock %}
 {% block extra_scripts %}
 <script type="text/javascript">
-  $("select").change(function(){
-    $("#myform").submit();
+  $(function(){
+    $("select").change(function(){
+      $("#myform").submit();
+    });
   });
 </script>
 {% endblock %}

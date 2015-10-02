@@ -161,6 +161,12 @@ class PrimarySchoolForm(forms.ModelForm):
 class ReferenceForm(forms.ModelForm):
 	company = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Company"}), required=False)
 	person_contacted = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Person Contacted"}), required=False)
+	# Try is used in case the database was deleted
+	try:
+		verified_by = Userlevel.objects.get(userlevel='crewing')
+		verified_by = forms.ModelChoiceField(widget=forms.Select, queryset=UserProfile.objects.filter(userlevel=verified_by))
+	except:
+		pass
 	class Meta:
 		model = Reference
 		fields = '__all__'

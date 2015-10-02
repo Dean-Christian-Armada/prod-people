@@ -370,7 +370,7 @@ ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underlin
 label[for='id_source_0']{ display: none }
 .specific{ color: #000 !important; }
 textarea{ resize: none; }
-#application-form-essay{ display:none; }
+/*#application-form-essay{ display:none; }*/
 .panel-heading{ cursor: pointer; }
 .submit-application{ margin-top: 20px; }
 
@@ -382,6 +382,9 @@ textarea{ resize: none; }
 }
 .yourlabs-autocomplete .choice{
   display: inline !important;
+}
+.vertical-align-top{
+    vertical-align:top
 }
 
 /* sidebar css */

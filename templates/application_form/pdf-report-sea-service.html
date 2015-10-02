@@ -35,22 +35,22 @@
 		</tr>
 		{% for seaservice in sea_service %}
 		<tr>
-			<td>{{ seaservice.vessel_name }}</td>
-			<td>{{ seaservice.vessel_type }}</td>
-			<td>{{ seaservice.flag }}</td>
+			<td>{{ seaservice.vessel_name|upper }}</td>
+			<td>{{ seaservice.vessel_type|upper }}</td>
+			<td>{{ seaservice.flag|upper }}</td>
 			<td>{{ seaservice.grt }}</td>
 			<td>{{ seaservice.dwt }}</td>
 			<td>{{ seaservice.year_built }}</td>
-			<td>{{ seaservice.engine_type }}</td>
+			<td>{{ seaservice.engine_type|upper }}</td>
 			<td>{{ seaservice.hp }}</td>
 			<td>{{ seaservice.kw }}</td>
-			<td>{{ seaservice.manning_agency }}</td>
-			<td>{{ seaservice.principal }}</td>
+			<td>{{ seaservice.manning_agency|upper }}</td>
+			<td>{{ seaservice.principal|upper }}</td>
 			<td>{{ seaservice.date_joined }}</td>
 			<td>{{ seaservice.date_left }}</td>
 			<td>{{ seaservice.duration }}</td>
-			<td>{{ seaservice.rank }}</td>
-			<td>{{ seaservice.cause_of_discharge }}</td>
+			<td>{{ seaservice.rank|upper }}</td>
+			<td>{{ seaservice.cause_of_discharge|upper }}</td>
 		</tr>
 		{% endfor %}
 	</table>

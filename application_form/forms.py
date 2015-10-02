@@ -743,8 +743,6 @@ class SeaServiceForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class ApplicationForm(autocomplete_light.ModelForm):
-	# pass
-	# Date today script
 	ADVERTISEMENT_CHOICES = (
 			('SEAWAY', 'SEAWAY'),
 			('BUHAY MARINO', 'BUHAY MARINO'),
@@ -768,30 +766,31 @@ class ApplicationForm(autocomplete_light.ModelForm):
 	application_picture = forms.CharField()
 	scheme = forms.CharField()
 	http_host = forms.CharField()
-	essay = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control essay"}), required=False)
+	essay = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control essay"}))
 	class Meta:
 		model = ApplicationForm
 		fields = ('application_date', 'alternative_position', 'position_applied')
 
 	def clean(self):
+
 		try:
 			position_applied = self.cleaned_data['position_applied']
 			alternative_position = self.cleaned_data['alternative_position']
 		except:
 			pass
 		try:
-			position_applied = Rank.objects.get(rank=position_applied)
-			alternative_position = Rank.objects.get(rank=alternative_position)
-
-			if "Cadet".lower() in position_applied.rank.lower() or "Cadet".lower() in alternative_position.rank.lower():
-				msg = "The Essay must be at least 50 words"
-				try:
-					essay = selfdata['essay']
-				except:
-					essay = self.cleaned_data['essay']
-				words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
-				if len(words) < 50:
-					self.add_error('essay', msg)
+			# Script to let cadets only take the essay
+			# position_applied = Rank.objects.get(rank=position_applied)
+			# alternative_position = Rank.objects.get(rank=alternative_position)
+			# if "Cadet".lower() in position_applied.rank.lower() or "Cadet".lower() in alternative_position.rank.lower():
+			msg = "The Essay must be at least 50 words"
+			try:
+				essay = selfdata['essay']
+			except:
+				essay = self.cleaned_data['essay']
+			words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
+			if len(words) < 50:
+				self.add_error('essay', msg)
 		except:
 			pass
 

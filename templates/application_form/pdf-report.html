@@ -24,9 +24,9 @@
 		<tr>
 			<td valign="top">
 				<img style="float:left" src="{{ ressource.image.url|get64:logo }}"><br />
-				Date of Application: <u>{{ appform.application_date }}</u><br />
-				Position Applied For: <u>{{ appform.position_applied }}</u><br />
-				Alternative Position: <u>{{ appform.alternative_position }}</u>
+				Date of Application: <b>{{ appform.application_date }}</b><br />
+				Position Applied For: <b>{{ appform.position_applied }}</b><br />
+				Alternative Position: <b>{{ appform.alternative_position }}</b>
 			</td>
 			<td style="text-align:right">
 				<span style="font-size:24px; font-weight:700">APPLICATION FORM</span><br />
@@ -48,19 +48,19 @@
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Advertisements {% if appform.application_source.source.source == "Advertisements" %}: <u>{{ appform.application_source.specific }}</u> {% endif %}<br />
+					Advertisements {% if appform.application_source.source.source == "Advertisements" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
 				{% if appform.application_source.source.source == "Internet" %}
 					<img src="{{ ressource.image.url|get64:check }}">
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Internet {% if appform.application_source.source.source == "Internet" %}: <u>{{ appform.application_source.specific }}</u> {% endif %}<br />
+					Internet {% if appform.application_source.source.source == "Internet" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
 				{% if appform.application_source.source.source == "Friends or Relatives" %}
 					<img src="{{ ressource.image.url|get64:check }}">
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <u>{{ appform.application_source.specific }}</u> {% endif %}<br />
+					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
 				{% if appform.application_source.source.source == "Seafarer Center" %}
 					<img src="{{ ressource.image.url|get64:check }}">
 				{% else %}
@@ -72,7 +72,7 @@
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Referred By {% if appform.application_source.source.source == "Referred By" %}: <u>{{ appform.application_source.specific }}</u> {% endif %}<br />&nbsp;
+					Referred By {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />&nbsp;
 			</td>
 		</tr>
 	</table>
@@ -84,60 +84,60 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Surname: <u>{{ user_profile.last_name }}</u></td>
-					<td>First Name: <u>{{ user_profile.first_name }}</u></td>
-					<td>Middle Name: <u>{{ user_profile.middle_name }}</u></td>
+					<td>Surname: <b>{{ user_profile.last_name|upper }}</b></td>
+					<td>First Name: <b>{{ user_profile.first_name|upper }}</b></td>
+					<td>Middle Name: <b>{{ user_profile.middle_name|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Age: <u>{{ personaldata.age }}</u></td>
-					<td>Birthday: <u>{{ personaldata.birth_date }}</u></td>
-					<td>Birthplace: <u>{{ personaldata.birth_placeyy }}</u></td>
+					<td>Age: <b>{{ personaldata.age }}</b></td>
+					<td>Birthday: <b>{{ personaldata.birth_date }}</b></td>
+					<td>Birthplace: <b>{{ personaldata.birth_place|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Landline No. 1: <u>{{ personaldata.landline_1 }}</u></td>
-					<td>Mobile No. 1: <u>{% if personaldata.mobile_1 %}+63{% endif %}{{ personaldata.mobile_1 }}</u></td>
-					<td>Email 1: <u>{{ personaldata.email_address_1 }}</u></td>
+					<td>Landline No. 1: <b>{% if personaldata.landline_1 != None %}{{ personaldata.landline_1 }}{% endif %}</b></td>
+					<td>Mobile No. 1: <b>{{ personaldata.prefix_mobile_1 }}</b></td>
+					<td>Email 1: <b>{{ personaldata.email_address_1 }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Landline No. 2: <u>{{ personaldata.landline_2 }}</u></td>
-					<td>Mobile No. 2: <u>{% if personaldata.mobile_2 %}+63{% endif %}{{ personaldata.mobile_2 }}</u></td>
-					<td>Email 2: <u>{{ personaldata.email_address_2 }}</u></td>
+					<td>Landline No. 2: <b>{% if personaldata.landline_2 != None %}{{ personaldata.landline_2 }}{% endif %}</b></td>
+					<td>Mobile No. 2: <b>{% if personaldata.mobile_2 != None %}{{ personaldata.prefix_mobile_2 }}{% endif %}</b></td>
+					<td>Email 2: <b>{{ personaldata.email_address_2 }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Preferred Vessel Type: <u>{{ personaldata.preferred_vessel_type }}</u></td>
-					<td>Date of Availability: <u>{{ personaldata.availability_date }}</u></td>
+					<td>Preferred Vessel Type: <b>{{ personaldata.preferred_vessel_type|upper }}</b></td>
+					<td>Date of Availability: <b>{{ personaldata.availability_date|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>SSS No.: <u>{{ personaldata.sss }}</u></td>
-					<td>Philhealth No.: <u>{{ personaldata.philhealth }}</u></td>
+					<td>SSS No.: <b>{{ personaldata.sss }}</b></td>
+					<td>Philhealth No.: <b>{% if personaldata.philhealth != None %}{{ personaldata.philhealth }}{% endif %}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>T.I.N: <u>{{ personaldata.tin }}</u></td>
-					<td>Pagibig No.: <u>{{ personaldata.pagibig }}</u></td>
+					<td>T.I.N: <b>{% if personaldata.tin != None %}{{ personaldata.tin }}{% endif %}</b></td>
+					<td>Pagibig No.: <b>{% if personaldata.pagibig != None %}{{ personaldata.pagibig }}{% endif %}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -147,11 +147,11 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Unit: <br /><u>{{ personaldata.permanent_address.permanent_unit }}</u></td>
-					<td>Street: <br /><u>{{ personaldata.permanent_address.permanent_street }}</u></td>
-					<td>Barangay: <br /><u>{{ personaldata.permanent_address.permanent_zip.barangay }}</u></td>
-					<td>City/Municipality: <br /><u>{{ personaldata.permanent_address.permanent_zip.municipality }}</u></td>
-					<td>Zip Code: <br /><u>{{ personaldata.permanent_address.permanent_zip }}</u></td>
+					<td>Unit: <br /><b>{{ personaldata.permanent_address.permanent_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ personaldata.permanent_address.permanent_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ personaldata.permanent_address.permanent_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ personaldata.permanent_address.permanent_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ personaldata.permanent_address.permanent_zip }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -161,19 +161,19 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Unit: <br /><u>{{ personaldata.current_address.current_unit }}</u></td>
-					<td>Street: <br /><u>{{ personaldata.current_address.current_street }}</u></td>
-					<td>Barangay: <br /><u>{{ personaldata.current_address.current_zip.barangay }}</u></td>
-					<td>City/Municipality: <br /><u>{{ personaldata.current_address.current_zip.municipality }}</u></td>
-					<td>Zip Code: <br /><u>{{ personaldata.current_address.current_zip }}</u></td>
+					<td>Unit: <br /><b>{{ personaldata.current_address.current_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ personaldata.current_address.current_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ personaldata.current_address.current_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ personaldata.current_address.current_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ personaldata.current_address.current_zip }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Civil Status: <u>{{ personaldata.civil_status }}</u></td>
-					<td>Date Married: <u>{{ spouse.married_date }}</u></td>
+					<td>Civil Status: <b>{{ personaldata.civil_status|upper }}</b></td>
+					<td>Date Married: <b>{{ spouse.married_date }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -181,35 +181,36 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					
-					<td>{{ partner }}'s Maiden Last Name: <u>{{ spouse.spouse_last_name }}</u></td>
-					<td>{{ partner }}'s First Name: <u>{{ spouse.spouse_first_name }}</u></td>
-					<td>{{ partner }}'s Maiden Middle Name: <u>{{ spouse.spouse_middle_name }}</u></td>
+					<td>{{ partner }}'s Maiden Last Name: <b>{{ spouse.spouse_last_name|upper }}</b></td>
+					<td>{{ partner }}'s First Name: <b>{{ spouse.spouse_first_name|upper }}</b></td>
+					<td>{{ partner }}'s Maiden Middle Name: <b>{{ spouse.spouse_middle_name|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>{{ partner }}'s Birthday: <u>{{ spouse.birthdate }}</u></td>
-					<td>Date Married: <u>{{ spouse.spouse_contact }}</u></td>
+					<td>{{ partner }}'s Birthday: <b>{{ spouse.birthdate }}</b></td>
+					<td>{{ partner }}'s Contact: <b>{{ spouse.prefix_spouse_contact }}</b></td>
+					<td>Date Married: <b>{{ spouse.married_date }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Father's Last Name: <u>{{ personaldata.father_last_name }}</u></td>
-					<td>Father's First Name: <u>{{ personaldata.father_first_name }}</u></td>
-					<td>Father's Middle Name: <u>{{ personaldata.father_middle_name }}</u></td>
+					<td>Father's Last Name: <b>{{ personaldata.father_last_name|upper }}</b></td>
+					<td>Father's First Name: <b>{{ personaldata.father_first_name|upper }}</b></td>
+					<td>Father's Middle Name: <b>{{ personaldata.father_middle_name|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Mother's Last Name: <u>{{ personaldata.mother_last_name }}</u></td>
-					<td>Mother's First Name: <u>{{ personaldata.mother_first_name }}</u></td>
-					<td>Mother's Middle Name: <u>{{ personaldata.mother_middle_name }}</u></td>
+					<td>Mother's Last Name: <b>{{ personaldata.mother_last_name|upper }}</b></td>
+					<td>Mother's First Name: <b>{{ personaldata.mother_first_name|upper }}</b></td>
+					<td>Mother's Middle Name: <b>{{ personaldata.mother_middle_name|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -230,18 +231,18 @@
 		<tr>
 			<td colspan="3" style="padding:0px">
 				<table border="1">
-					<td width="60%">Name of College: <u>{{ colleges.college }}</u></td>
-					<td width="40%">Degree Obtained: <u>{{ colleges.degree }}</u></td>
-					<td width="20%" align="center">{{ colleges.collegeyear_from }}</td>
-					<td width="20%" align="center">{{ colleges.collegeyear_to }}</td>
+					<td width="60%">Name of College: <b>{{ colleges.college|upper }}</b></td>
+					<td width="40%">Degree Obtained: <b>{{ colleges.degree|upper }}</b></td>
+					<td width="20%" align="center"><b>{{ colleges.collegeyear_from }}</b></td>
+					<td width="20%" align="center"><b>{{ colleges.collegeyear_to }}</b></td>
 				</table>
 			</td>
 		</tr>
 		{% endfor %}
 		<tr>
-			<td width="100%" style="text-align: left; ">Highschool: <u>{{ highschool.highschool }}</u></th>
-			<td width="20%" align="center">{{ highschool.schoolyear_from }}</td>
-			<td width="20%" align="center">{{ highschool.schoolyear_to }}</td>
+			<td width="100%" style="text-align: left; ">Highschool: <b>{{ highschool.highschool|upper }}</b></th>
+			<td width="20%" align="center"><b>{{ highschool.schoolyear_from }}</b></td>
+			<td width="20%" align="center"><b>{{ highschool.schoolyear_to }}</b></td>
 		</tr>
 	</table>
 	<br />
@@ -251,24 +252,24 @@
 		</tr>
 		{% for emergencies in emergency %}
 		<tr>
-			<th style="text-align: left">Person to Contact in Case of Emergency: <u>{{ emergencies }}</u></th>
+			<th style="text-align: left">Person to Contact in Case of Emergency: <b>{{ emergencies|upper }}</b></th>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Contact No.: <u>{{ emergencies.emergency_contact }}</u></td>
-					<td>Relationship: <u>{{ emergencies.relationship }}</u></td>
+					<td>Contact No.: <b>{{ emergencies.prefix_emergency_contact }}</b></td>
+					<td>Relationship: <b>{{ emergencies.relationship|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Unit: <br /><u>{{ emergencies.emergency_unit }}</u></td>
-					<td>Street: <br /><u>{{ emergencies.emergency_street }}</u></td>
-					<td>Barangay: <br /><u>{{ emergencies.emergency_zip.barangay }}</u></td>
-					<td>City/Municipality: <br /><u>{{ emergencies.emergency_zip.municipality }}</u></td>
-					<td>Zip Code: <br /><u>{{ emergencies.emergency_zip }}</u></td>
+					<td>Unit: <br /><b>{{ emergencies.emergency_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ emergencies.emergency_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ emergencies.emergency_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ emergencies.emergency_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ emergencies.emergency_zip }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -290,7 +291,7 @@
 		</tr>
 		{% if visa_application.visa_application %}
 		<tr>
-			<td colspan="3"><b>{{ visa_application.visa_application_reason }}</b><br /></td>
+			<td colspan="3"><b>Reason: <b>{{ visa_application.visa_application_reason }}</b></b><br /></td>
 		</tr>
 		{% endif %}
 		<tr>
@@ -302,7 +303,7 @@
 		</tr>
 		{% if detained.detained %}
 		<tr>
-			<td colspan="3"><b>{{ detained.detained_reason }}</b><br /></td>
+			<td colspan="3"><b>Reason: <b>{{ detained.detained_reason }}</b></b><br /></td>
 		</tr>
 		{% endif %}
 		<tr>
@@ -314,7 +315,7 @@
 		</tr>
 		{% if disciplinary_action.disciplinary_action %}
 		<tr>
-			<td colspan="3"><b>{{ disciplinary_action.disciplinary_action_reason }}</b><br /></td>
+			<td colspan="3"><b>Reason: <b>{{ disciplinary_action.disciplinary_action_reason }}</b></b><br /></td>
 		</tr>
 		{% endif %}
 		<tr>
@@ -326,7 +327,7 @@
 		</tr>
 		{% if charged_offense.charged_offense %}
 		<tr>
-			<td colspan="3"><b>{{ charged_offense.charged_offense_reason }}</b><br /></td>
+			<td colspan="3"><b>Reason: <b>{{ charged_offense.charged_offense_reason }}</b></b><br /></td>
 		</tr>
 		{% endif %}
 		<tr>
@@ -338,7 +339,7 @@
 		</tr>
 		{% if termination.termination %}
 		<tr>
-			<td colspan="3"><b>{{ termination.termination_reason }}</b><br /></td>
+			<td colspan="3"><b>Reason: <b>{{ termination.termination_reason }}</b></b><br /></td>
 		</tr>
 		{% endif %}
 	</table>
@@ -350,49 +351,49 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Passport No.: <u>{{ passport.passport }}</u></td>
-					<td>Expiry: <u>{{ passport.passport_expiry }}</u></td>
+					<td>Passport No.: <b>{{ passport.passport }}</b></td>
+					<td>Expiry: <b>{{ passport.passport_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>SBook No.: <u>{{ sbook.sbook }}</u></td>
-					<td>Expiry: <u>{{ sbook.sbook_expiry }}</u></td>
+					<td>SBook No.: <b>{{ sbook.sbook }}</b></td>
+					<td>Expiry: <b>{{ sbook.sbook_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>COC/COE: <u>{{ coc.coc }}</u></td>
-					<td>Expiry: <u>{{ coc.coc_expiry }}</u></td>
-					<td>Rank: <u>{{ coc.coc_rank.coc_rank }}</u></td>
+					<td>COC/COE: <b>{{ coc.coc }}</b></td>
+					<td>Expiry: <b>{{ coc.coc_expiry }}</b></td>
+					<td>Rank: <b>{{ coc.coc_rank.coc_rank }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>License: <u>{{ license.license }}</u></td>
-					<td>Rank: <u>{{ license.license_rank }}</u></td>
+					<td>License: <b>{{ license.license }}</b></td>
+					<td>Rank: <b>{{ license.license_rank }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>SRC: <u>{{ src.src }}</u></td>
-					<td>Rank: <u>{{ src.src_rank }}</u></td>
+					<td>SRC: <b>{{ src.src }}</b></td>
+					<td>Rank: <b>{{ src.src_rank }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>GOC: <u>{{ goc.goc }}</u></td>
-					<td>Expiry: <u>{{ goc.goc_expiry }}</u></td>
+					<td>GOC: <b>{{ goc.goc }}</b></td>
+					<td>Expiry: <b>{{ goc.goc_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -400,7 +401,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
-					<td>Expiry: <u>{{ us_visa.us_visa_expiry }}</u></td>
+					<td>Expiry: <b>{{ us_visa.us_visa_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -408,7 +409,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td style="padding-top:0px">Schengen Visa (Type C) {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
-					<td>Expiry: <u>{{ schengen_visa.schengen_visa_expiry }}</u></td>
+					<td>Expiry: <b>{{ schengen_visa.schengen_visa_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -416,187 +417,26 @@
 	<br />
 	<table border="1">
 		<tr>
-			<th style="text-align: left">FLAG DOCUMENTS {% for flags in personaldata.flags.all %} {{ flags }} {% endfor %} </th>
+			<th style="text-align: left">FLAG DOCUMENTS</th>
 		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">
-						{% if cayman_islands %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Cayman Islands
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if marshall_islands %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Marshall Islands
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if liberia %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Liberia
-					</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">
-						{% if cyprus %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Cyprus
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if singapore %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Singapore
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if greek %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Greek
-					</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">
-						{% if barbados %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Barbados
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if german %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						German
-					</td>
-					<td style="padding-bottom:5px;">
-						{% if bahamas %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} 
-						Bahamas
-					</td>
-				</table>
-			</td>
-		</tr>
+		{{ flags_html | safe }}
 	</table>
-	<br />
+
+	<br /><br /><br /><br /><br /><br /><br /><br />
 	<table border="1">
 		<tr>
-			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES</th>
+			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES (<i>{{department}}</i>) </th>
 		</tr>
-		<tr>
-			<th style="text-align: left"><i>Certificate of Proficiency</i></th>
+		{{ certificates_html | safe }}
 		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if cop_bt %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-BT</td>
-					<td style="padding-bottom:5px;">{% if cop_btoc %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-BTOC</td>
-					<td style="padding-bottom:5px;">{% if cop_atot %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-ATOT</td>
-					<td style="padding-bottom:5px;">{% if cop_atct %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-ATCT</td>
-					<td style="padding-bottom:5px;">{% if cop_pfrb %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-PFRB</td>
-					<td style="padding-bottom:5px;">{% if cop_aff %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-AFF</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if cop_mefa %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-MEFA</td>
-					<td style="padding-bottom:5px;">{% if cop_meca %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-MECA</td>
-					<td style="padding-bottom:5px;">{% if cop_sso %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-SSO</td>
-					<td style="padding-bottom:5px;">{% if cop_pscrb %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-PSCRB</td>
-					<td style="padding-bottom:5px;" colspan="2">{% if cop_ssa_sdsd %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COP-SSA/SDSD</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<th style="text-align: left"><i>Segregate on Process</i></th>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if bt %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} BT</td>
-					<td style="padding-bottom:5px;">{% if pscrb %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} PSCRB</td>
-					<td style="padding-bottom:5px;">{% if aff %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} AFF</td>
-					<td style="padding-bottom:5px;">{% if mefa %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MEFA</td>
-					<td style="padding-bottom:5px;">{% if meca %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MECA</td>
-					<td style="padding-bottom:5px;">{% if pfrb %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} PFRB</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if ssbt %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SSBT</td>
-					<td style="padding-bottom:5px;">{% if brm %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} BRM</td>
-					<td style="padding-bottom:5px;">{% if btm %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} BTM</td>
-					<td style="padding-bottom:5px;">{% if btoc %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} BTOC</td>
-					<td style="padding-bottom:5px;">{% if sbff %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SBFF</td>
-					<td style="padding-bottom:5px;">{% if atot %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ATOT</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if atct %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ATCT</td>
-					<td style="padding-bottom:5px;">{% if inmarsat %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} INMARSAT</td>
-					<td style="padding-bottom:5px;">{% if gmdss %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} GMDSS</td>
-					<td style="padding-bottom:5px;">{% if padams %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} PADAMS</td>
-					<td style="padding-bottom:5px;">{% if hazmat %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} HAZMAT</td>
-					<td style="padding-bottom:5px;">{% if cow_igs %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} COW/IGS</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if ers_erm %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ERS/ERM</td>
-					<td style="padding-bottom:5px;">{% if srroc %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SRROC</td>
-					<td style="padding-bottom:5px;">{% if framo %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} FRAMO</td>
-					<td style="padding-bottom:5px;">{% if sos %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SOS</td>
-					<td style="padding-bottom:5px;">{% if soc %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SOC</td>
-					<td style="padding-bottom:5px;">{% if bwk_ewk %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} BWK/EWK</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if rsc %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} RSC</td>
-					<td style="padding-bottom:5px;">{% if ism %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ISM</td>
-					<td style="padding-bottom:5px;">{% if ssmep %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SSMEP</td>
-					<td style="padding-bottom:5px;">{% if acni %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ACNI</td>
-					<td style="padding-bottom:5px;">{% if ssa_sdsd %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SSA/SDSD</td>
-					<td style="padding-bottom:5px;">{% if arpa_ropa %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ARPA/ROPA</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td style="padding-bottom:5px;">{% if ecdis_generic %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ECDIS GENERIC</td>
-					<td style="padding-bottom:5px;">{% if mlc_deck %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MLC - DECK</td>
-					<td style="padding-bottom:5px;">{% if marpol %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MARPOL I-VI</td>
-					<td style="padding-bottom:5px;">{% if mlc_engine %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MLC - ENGINE</td>
-					<td style="padding-bottom:5px;">{% if ecdis_specific %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ECDIS SPECIFIC</td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					
-					<td style="padding-bottom:5px;" colspan="2">{% if ship_vetting %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SHIP VETTING</td>
-					<td style="padding-bottom:5px;" colspan="2">{% if ship_handling %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} SHIP HANDLING</td>
-					<td style="padding-bottom:5px;" colspan="2">{% if maritime_eng %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} MARITIME ENG.</td>
-					
-				</table>
-			</td>
-		</tr>	
 	</table>
-	<br />
+	<br /><br /><br /><br /><br /><br />
 	<table border="1">
 		<tr>
 			<th align="left">ESSAY <i>({{ count_words }}) words</i></th>
 		</tr>
 		<tr>
-			<td>{{ appform.essay }}</td>
+			<td><b>{{ appform.essay }}</b></td>
 		</tr>
 	</table>
 	<br />
@@ -616,16 +456,16 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td valign="top"><b>Printed Name:</b> <br ><u>{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}</u></td>
+					<td valign="top"><b>Printed Name:</b> <br ><b>{{ user_profile.first_name|upper }} {{ user_profile.middle_name|upper }} {{ user_profile.last_name|upper }}</b></td>
 					<td style="padding-bottom:5px;" colspan="2"><b>Signature:</b> <br ><img src="{{ ressource.image.url|get64:signature }}"></td>
-					<td valign="top"><b>Date:</b> <br /> <u>{{ appform.application_date }}</u></td>
+					<td valign="top"><b>Date:</b> <br /> <b>{{ appform.application_date }}</b></td>
 				</table>
 			</td>
 		</tr>	
 	</table>
 	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-	<a href="{{ domain }}{% url 'pdf_sea_services' id=appform.user.id %}" style="width: 100%; border-radius: 15px; text-align:center; background: #02be9b;">
+	<!-- <a href="{{ domain }}{% url 'pdf_sea_services' id=appform.user.id %}" style="width: 100%; border-radius: 15px; text-align:center; background: #02be9b;">
 		CLICK TO PRINT SEA SERVICES
-	</a>
+	</a> -->
 </body>
 </html>

@@ -12,10 +12,11 @@ from mariners_profile.forms import *
 
 from application_form.models import *
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
+from application_form.templatetags.pdf_image import get64
 
 from . forms import ApplicantsDataTables
 
-import sys
+import sys, urllib, cStringIO, base64
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -70,11 +71,17 @@ def index(request):
 			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
 		if 'us_visa' in request.GET:
-			choice_visa = request.GET['us_visa']
+			us_choice_visa = request.GET['us_visa']
 			# To enable False boolean on the variable
-			choice_visa = choice_visa in ['True']
-			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=choice_visa)
-			choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
+			us_choice_visa = us_choice_visa in ['YES']
+			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=us_choice_visa)
+			us_choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
+		if 'schengen_visa' in request.GET:
+			schengen_choice_visa = request.GET['schengen_visa']
+			# To enable False boolean on the variable
+			schengen_choice_visa = schengen_choice_visa in ['YES']
+			mariners_profile = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).filter(schengen_visa=schengen_choice_visa)
+			schengen_choice_visa = int(mariners_profile.values('schengen_visa').distinct()[0]['schengen_visa'])
 
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
@@ -94,10 +101,16 @@ def index(request):
 	us_visa_choices = us_visa_choices_values
 	us_visa = USVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	# Zipped is used for the table data
-	zipped_data = zip(mariners_profile, personal_data, us_visa)
+	# Schengen Visa Dynamic Filtering
+	schengen_visa_choices_values = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('schengen_visa', flat=True).distinct().order_by('schengen_visa')
+	schengen_visa_choices = schengen_visa_choices_values
+	schengen_visa = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	for x, y, z in zipped_data:
+
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
+
+	for x, y, z, xx in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		rank.add(x.position)
@@ -117,12 +130,13 @@ def index(request):
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
-	context_dict['us_visa'] = us_visa_choices
 	# used for dynamic choices in us visa
-	try:
-		context_dict['choice_visa'] = us_visa_choices[choice_visa]
-	except:
-		pass
+	context_dict['us_visa'] = us_visa_choices
+
+	# used for dynamic choices in us visa
+	context_dict['schengen_visa'] = schengen_visa_choices
+	
+
 	return render(request, template, context_dict)
 
 
@@ -174,7 +188,6 @@ def profile(request, id):
 			evaluation = ''
 			evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name} )
 
-
 		college = College.objects.filter(user=id)
 		highschool = HighSchool.objects.get(user=id)
 		emergency_contact = EmergencyContact.objects.filter(user=id)
@@ -192,8 +205,9 @@ def profile(request, id):
 		us_visa = USVisa.objects.get(user=id)
 		schengen_visa = SchengenVisa.objects.get(user=id)
 		yellow_fever = YellowFever.objects.get(user=id)
-		sea_service = SeaService.objects.filter(user=id)
+		sea_service = SeaService.objects.filter(user=id).order_by('-date_left')
 		mariners_profile = MarinersProfile.objects.get(user=id)
+		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
 
 		# Queries out the list of flags
@@ -211,10 +225,7 @@ def profile(request, id):
 		training_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
 		training_certificate_list = []
 		training_certificates = get_list_or_404(TrainingCertificateDocumentsDetailed, trainings_certificate_documents=training_certificate_documents.id)
-		# print training_certificates
 		for training_certificate in training_certificates:
-			# print training_certificate.id
-			# print training_certificate.trainings_certificates.id
 			training_certificate_list.append(training_certificate.trainings_certificates.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
 		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position_id, initial=training_certificates)
@@ -258,20 +269,6 @@ def profile(request, id):
 		# if highschool_form.is_valid():
 		# 	highschool_form.save()
 
-		# if evaluation_form.is_valid():
-		# 	evaluation_form.save()
-		# print len(reference_form)
-		# if reference_form.is_valid():
-		# 	for reference in reference_form:
-		# 		reference.save()
-		# 	return HttpResponseRedirect('')
-		# else:
-		# 	pass
-			# print request.POST
-			# print reference_form.errors
-
-
-
 		if vocational_form.is_valid() and primaryschool_form.is_valid() and reference_form.is_valid() and evaluation_form.is_valid():
 			vocational_form.save()
 			primaryschool_form.save()
@@ -282,12 +279,16 @@ def profile(request, id):
 		else:
 			print vocational_form.errors
 			print primaryschool_form.errors
-			print reference_form.errors
+			# Used for management form error in status request
+			try:
+				print reference_form.errors
+			except:
+				pass
 			print evaluation_form.errors
 
-		if request.POST and 'status' in request.POST:
-			print request.POST
-			_status = request.POST['status']
+		if request.GET and 'status' in request.GET:
+			print request.GET
+			_status = request.GET['status']
 			_status = Status.objects.get(id=_status)
 			application_form.status = _status
 			application_form.save()
@@ -301,10 +302,6 @@ def profile(request, id):
 		# Script used to count essay words
 		count_words = ''.join(c if c.isalnum() else ' ' for c in application_form.essay.essay).split()
 		count_words = len(count_words)
-
-		
-			
-
 
 		template = "application-profile/profile.html"
 
@@ -335,10 +332,11 @@ def profile(request, id):
 		context_dict['evaluation_form'] = evaluation_form
 		context_dict['reference_form'] = reference_form
 
-		context_dict['title'] = "Applicants Profile - "+str(personal_data)
+		context_dict['title'] = "Applicants Profile - "+str(personal_data).upper()
 		context_dict['sea_service'] = sea_service
 		context_dict['application_form'] = application_form
 		context_dict['mariners_profile'] = mariners_profile
+		context_dict['department'] = department.department
 
 		context_dict['flags'] = flags
 		context_dict['trainings_certificates'] = trainings_certificates
@@ -351,6 +349,26 @@ def profile(request, id):
 @login_required()
 def pdf(request, id):
 	if id:
+		flags_html = ""
+		certificates_html = ""
+
+		domain = request.scheme
+		domain += "://"
+		# returns domain name
+		domain += request.META["HTTP_HOST"]
+		media = domain+"/media/"
+		check = domain+"/static/img/check.jpg"
+		uncheck = domain+"/static/img/uncheck.jpg"
+		logo = domain+"/static/img/small_logo.png"
+
+		_flags_all = set()
+		_flags = set()
+
+		_certificates_all = set()
+		_certificates = set()
+
+		td_count_flags_and_certificates_and_per_row = range(3)
+
 		user_profile = UserProfile.objects.get(id=id)
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)
 		try:
@@ -374,85 +392,61 @@ def pdf(request, id):
 		us_visa = ApplicationFormUSVisa.objects.get(user=id)
 		schengen_visa = ApplicationFormSchengenVisa.objects.get(user=id)
 		yellow_fever = ApplicationFormYellowFever.objects.get(user=id)
+
+		# Variables for application form object
 		application_form = ApplicationForm.objects.get(user=id)
-
-		flags = ApplicationFormFlagDocuments.objects.get(user=user_profile)
-		certificates_documents = ApplicationFormTrainingCertificateDocuments.objects.get(user=user_profile)
-			
-		cayman_islands = flags.flags.filter(flags='Cayman Islands')
-		marshall_islands = flags.flags.filter(flags='Marshall Islands')
-		liberia = flags.flags.filter(flags='Liberia')
-		cyprus = flags.flags.filter(flags='Cyprus')
-		singapore = flags.flags.filter(flags='Singapore')
-		greek = flags.flags.filter(flags='Greek')
-		barbados = flags.flags.filter(flags='Barbados')
-		german = flags.flags.filter(flags='German')
-		bahamas = flags.flags.filter(flags='Bahamas')
-
-		cop_bt = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Basic Training')
-		cop_btoc = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Basic Training for Oil and Chemical Tanker')
-		cop_atot = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Advance Training for Oil Tanker')
-		cop_atct = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Advance Training for Chemical Tanker')
-		cop_pfrb = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Proficiency in Fast Rescue Boat')
-		cop_aff = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Advance Fire Fighting')
-		cop_mefa = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Medical Emergency First Aid')
-		cop_meca = certificates_documents.trainings_certificates.filter(trainings_certificates='	Certificate of Proficiency / Meical Care')
-		cop_sso = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Ship Security Officer')
-		cop_pscrb = certificates_documents.trainings_certificates.filter(trainings_certificates='	Certificate of Proficiency / Proficiency in Survival Craft and Rescue Boat')
-		cop_ssa_sdsd = certificates_documents.trainings_certificates.filter(trainings_certificates='Certificate of Proficiency / Ship Security Awareness / Seafarers with Designated Security Duties')
-		bt = certificates_documents.trainings_certificates.filter(trainings_certificates='Basic Training')
-		pscrb = certificates_documents.trainings_certificates.filter(trainings_certificates='Proficiency in Survival Craft and Recue Boat')
-		aff = certificates_documents.trainings_certificates.filter(trainings_certificates='Advance Fire Fighting')
-		mefa = certificates_documents.trainings_certificates.filter(trainings_certificates='Medical Emergency First Aid')
-		meca = certificates_documents.trainings_certificates.filter(trainings_certificates='Medical Care')
-		pfrb = certificates_documents.trainings_certificates.filter(trainings_certificates='Proficiency in Fast Rescue Boat')
-		ssbt = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Simulator and Bridge Team Work')
-		brm = certificates_documents.trainings_certificates.filter(trainings_certificates='Bridge Resource Management')
-		btm = certificates_documents.trainings_certificates.filter(trainings_certificates='Bridge Team Management')
-		btoc = certificates_documents.trainings_certificates.filter(trainings_certificates='Basic Training for Oil and Chemical Tanker Cargo Operations')
-		sbff = certificates_documents.trainings_certificates.filter(trainings_certificates='Shore Based Fire Fighting')
-		atot = certificates_documents.trainings_certificates.filter(trainings_certificates='Advance Training for Oil Tanker')
-		atct = certificates_documents.trainings_certificates.filter(trainings_certificates='Advance Training for Chemical Tanker')
-		inmarsat = certificates_documents.trainings_certificates.filter(trainings_certificates='International Maritime Satellite')
-		gmdss = certificates_documents.trainings_certificates.filter(trainings_certificates='Global Maritime Distress and Safety System')
-		padams = certificates_documents.trainings_certificates.filter(trainings_certificates='Prevention of Alcohol and Drug Abuse in the Maritime Sector')
-		hazmat = certificates_documents.trainings_certificates.filter(trainings_certificates='Hazardous Material')
-		cow_igs = certificates_documents.trainings_certificates.filter(trainings_certificates='Crude Oil Washing / Inert Gas System')
-		ers_erm = certificates_documents.trainings_certificates.filter(trainings_certificates='Engine Room Simulator with Engine Room Management')
-		srroc = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Restricted Radiotelephone Operator Course')
-		framo = certificates_documents.trainings_certificates.filter(trainings_certificates='FRAMO')
-		sos = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Security Officer')
-		soc = certificates_documents.trainings_certificates.filter(trainings_certificates='Safety Officer Course')
-		bwk_ewk = certificates_documents.trainings_certificates.filter(trainings_certificates='Deck Watch Keeping / Engine Watch Keeping')
-		rsc = certificates_documents.trainings_certificates.filter(trainings_certificates='Radar Simulator Course')
-		ism = certificates_documents.trainings_certificates.filter(trainings_certificates='International Safety Management')
-		ssmep = certificates_documents.trainings_certificates.filter(trainings_certificates='Shipboard Managerial Skills Enhancement Program')
-		acni = certificates_documents.trainings_certificates.filter(trainings_certificates='Accident and Near-miss Investigation')
-		ssa_sdsd = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Security Awareness / Seafarers with Designated Security Duties')
-		arpa_ropa = certificates_documents.trainings_certificates.filter(trainings_certificates='Radar Navigation / Radar Plotting and use of ARPA ROPA')
-		ecdis_generic = certificates_documents.trainings_certificates.filter(trainings_certificates='Electronic Chart Display and Information System')
-		mlc_deck = certificates_documents.trainings_certificates.filter(trainings_certificates='Management Level Course - Deck')
-		marpol = certificates_documents.trainings_certificates.filter(trainings_certificates='Marine Pollution I-VI')
-		mlc_engine = certificates_documents.trainings_certificates.filter(trainings_certificates='Management Level Course - Engine')
-		ecdis_specific = certificates_documents.trainings_certificates.filter(trainings_certificates='Electronic Chart Display and Information System Specific')
-		ship_vetting = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Vetting')
-		ship_handling = certificates_documents.trainings_certificates.filter(trainings_certificates='Ship Handling')
-		maritime_eng = certificates_documents.trainings_certificates.filter(trainings_certificates='Maritime Eng.')
-
-		domain = request.scheme
-		domain += "://"
-		# returns domain name
-		domain += request.META["HTTP_HOST"]
-		media = domain+"/media/"
 		picture = media+str(application_form.picture)
 		signature = media+str(application_form.signature)
-		check = domain+"/static/img/check.jpg"
-		uncheck = domain+"/static/img/uncheck.jpg"
-		logo = domain+"/static/img/small_logo.png"
-
 		# count essay words
 		count_words = ''.join(c if c.isalnum() else ' ' for c in application_form.essay.essay).split()
 		count_words = len(count_words)
+		department = application_form.position_applied.department
+
+
+		flags = ApplicationFormFlagDocuments.objects.get(user=user_profile)
+		certificates_documents = ApplicationFormTrainingCertificateDocuments.objects.get(user=user_profile)
+
+		
+		flags = flags.flags.filter()
+		for flag in flags:
+			_flags.add(flag.flags)
+		
+		flags_all = Flags.objects.filter(company_standard=1)
+		for flags in flags_all:
+			_flags_all.add(flags.flags)
+		flags_all_by_3 = zip(*(iter(_flags_all),) * 3)
+		count_flags_all_by_3 = range(len(flags_all_by_3))
+		
+		# Script for parsing and returning a multi-dimensioned array of the flags filter in a 3x3 matrix
+		for k in count_flags_all_by_3:
+			flags_html += '<tr><td style="padding: 0px;"><table border="1">'
+			for l in td_count_flags_and_certificates_and_per_row:
+				checkbox = get64('', uncheck)
+				if flags_all_by_3[k-1][l-1] in _flags:
+					checkbox = get64('', check)
+				flags_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, flags_all_by_3[k-1][l-1])
+			flags_html += '</table></td></tr>' 
+
+
+		certificates = certificates_documents.trainings_certificates.filter(departments=department)
+		for certificate in certificates:
+			_certificates.add(certificate.trainings_certificates)
+
+		certificates_all = TrainingCertificates.objects.filter()
+		for certificates in certificates_all:
+			_certificates_all.add(certificates.trainings_certificates)
+		certificates_all_by_3 = zip(*(iter(_certificates_all),) * 3)
+		count_certificates_all_by_3 = range(len(certificates_all_by_3))
+
+		# Script for parsing and returning a multi-dimensioned array of the certificates filtered with department in a 3x3 matrix
+		for k in count_certificates_all_by_3:
+			certificates_html += '<tr><td style="padding: 0px;"><table border="1">'
+			for l in td_count_flags_and_certificates_and_per_row:
+				checkbox = get64('', uncheck)
+				if certificates_all_by_3[k-1][l-1] in _certificates:
+					checkbox = get64('', check)
+				certificates_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, certificates_all_by_3[k-1][l-1])
+			certificates_html += '</table></td></tr>' 
 
 		if str(personal_data.civil_status) == "Domestic Partner":
 			partner = "Live-In"
@@ -460,7 +454,7 @@ def pdf(request, id):
 			partner = "Spouse"
 
 		template = "application_form/pdf-report.html"
-		context_dict = { "appform":application_form, "personaldata":personal_data, "emergency":emergency_contact, "domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo, "cayman_islands": cayman_islands, "marshall_islands": marshall_islands, "liberia":liberia, "cyprus":cyprus, "singapore":singapore, "greek":greek, "cop_bt":cop_bt, "cop_btoc":cop_btoc, "cop_atot":cop_atot, "cop_atct":cop_atct, "cop_pfrb":cop_pfrb, "cop_aff":cop_aff, "cop_mefa":cop_mefa, "cop_meca":cop_meca, "cop_sso":cop_sso, "cop_pscrb":cop_pscrb, "cop_ssa_sdsd":cop_ssa_sdsd, "bt":bt, "pscrb":pscrb, "aff":aff, "mefa":mefa, "meca":meca, "pfrb":pfrb, "ssbt":ssbt, "brm":brm, "btm":btm, "btoc":btoc, "sbff":sbff, "atot":atot, "atct":atct, "inmarsat":inmarsat, "gmdss":gmdss, "padams":padams, "hazmat":hazmat, "cow_igs":cow_igs, "ers_erm":ers_erm, "srroc":srroc, "framo":framo, "sos":sos, "soc":soc, "bwk_ewk":bwk_ewk, "rsc":rsc, "ism":ism, "ssmep":ssmep, "acni":acni, "ssa_sdsd":ssa_sdsd, "arpa_ropa":arpa_ropa, "ecdis_generic":ecdis_generic, "mlc_deck":mlc_deck, "marpol":marpol, "mlc_engine":mlc_engine, "ecdis_specific":ecdis_specific, "ship_vetting":ship_vetting, "ship_handling":ship_handling, "maritime_eng":maritime_eng, "count_words":count_words}
+		context_dict = { "appform":application_form, "personaldata":personal_data, "emergency":emergency_contact, "domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo, "count_words":count_words}
 		context_dict['user_profile'] = user_profile
 		context_dict['spouse'] = spouse
 		context_dict['college'] = college
@@ -479,8 +473,18 @@ def pdf(request, id):
 		context_dict['us_visa'] = us_visa
 		context_dict['schengen_visa'] = schengen_visa
 		context_dict['yellow_fever'] = yellow_fever
+
+		# Partner is used for dynamic variable and parameter for spouse or live-in
 		context_dict['partner'] = partner
+
+		context_dict['flags_html'] = flags_html
+		context_dict['certificates_html'] = certificates_html
+
+		context_dict['department'] = department.department
+
+
 		return render_to_pdf_response(request, template, context_dict)
+		# return render(request, template, context_dict)
 	else:
 		raise Http404("System Error.")
 

@@ -51,6 +51,7 @@ class VesselType(models.Model):
 
 class Principal(models.Model):
 	principal = models.CharField(max_length=50, default=None)
+	company_standard = models.NullBooleanField(max_length=50, default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -227,8 +228,8 @@ class English(models.Model):
 class Dialect(models.Model):
 	dialect = models.CharField(max_length=50, default=None)
 
-class Position(models.Model):
-	position = models.CharField(max_length=50, default=None)
+# class Position(models.Model):
+# 	position = models.CharField(max_length=50, default=None)
 
 class Bank(models.Model):
 	bank = models.CharField(max_length=50, default=None,)
@@ -290,8 +291,8 @@ class TrainingCenter(models.Model):
 
 class CurrentAddress(models.Model):
 	current_zip = models.ForeignKey(Zip, default=None)
-	current_unit = models.CharField(max_length=50, default=None)
-	current_street = models.CharField(max_length=50, default=None)
+	current_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	current_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
@@ -299,8 +300,8 @@ class CurrentAddress(models.Model):
 
 class PermanentAddress(models.Model):
 	permanent_zip = models.ForeignKey(Zip, default=None)
-	permanent_unit = models.CharField(max_length=50, default=None)
-	permanent_street = models.CharField(max_length=50, default=None)
+	permanent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	permanent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):

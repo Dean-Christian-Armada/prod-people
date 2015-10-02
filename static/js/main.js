@@ -49,9 +49,9 @@ $(function(){
             permanent_baranggay == current_baranggay &&
             permanent_municipality == current_municipality && 
             permanent_zip == current_zip){
-          $("#same_address").prop("checked", true);
+          $(".same_address").prop("checked", true);
         }else{
-          $("#same_address").prop("checked", false);
+          $(".same_address").prop("checked", false);
         }
     };         
 
@@ -66,6 +66,31 @@ $(function(){
       }
       $('#display_count').text(essay);
     }
+    
+    // word count validation script
+    var word_count_validate = function(event){
+      var word_count_limit = event.data.word_count_limit; 
+      var id = $(this).attr("id");
+      var message = event.data.message;
+      var _word_count = document.getElementById(id);
+      try{
+        word_count = _word_count.value.match(/\S+/g).length;
+      }
+      catch(err){
+        return false;
+      }
+      if(word_count < word_count_limit){
+        _word_count.setCustomValidity(message);
+        
+      }else{
+        _word_count.setCustomValidity('');
+      }
+      $(this).next('.display_count').html('<b>Word count:</b> '+word_count);
+    }
+
+    word_count_validate_params = { word_count_limit: 25, message: "Please enter at least 25 words" }
+    $(".reference-character, .reference-comment").keyup(word_count_validate_params, word_count_validate).click(word_count_validate_params, word_count_validate).focusout(word_count_validate_params, word_count_validate);
+
     var grt_dwt_validator = function(x){
       if(x.hasClass('grt')){
         ul3 = x.parent();
@@ -103,7 +128,10 @@ $(function(){
         $('.specific').remove();
       }
     });
-    $("#same_address").change(function(){
+    $(".same_address").change(function(){
+      params = $(this).attr('data-params');
+      // Attribute for the dynamic emergencies
+      counter = "";
       if($(this).is(':checked')){
         unit = $("#permanent_unit").val();
         street = $("#permanent_street").val();
@@ -117,12 +145,23 @@ $(function(){
         municipality = "";
         zip = "";
       }
-      $("#current_unit").val(unit);
-      $("#current_street").val(street);
-      // $("#current_town").val(town);
-      $("#current_barangay").val(barangay);
-      $("#current_municipality").val(municipality);
-      $("#current_zip").val(zip);
+      if(params == "emergency"){
+        counter = $(this).attr('data-counter');
+        $("#id_form-"+counter+"-"+params+"_unit").val(unit);
+        $("#id_form-"+counter+"-"+params+"_street").val(street);
+        $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
+        $("#id_form-"+counter+"-"+params+"_municipality").val(municipality);
+        $("#id_form-"+counter+"-"+params+"_zip").val(zip);
+      }else{
+        $("#"+params+"_unit"+counter).val(unit);
+        $("#"+params+"_street"+counter).val(street);
+        $("#"+params+"_barangay"+counter).val(barangay);
+        $("#"+params+"_municipality"+counter).val(municipality);
+        $("#"+params+"_zip"+counter).val(zip);
+      }
+      
+
+      
     });
     $("#id_civil_status").change(function(){
       val = $('option:selected', this).text();
@@ -222,7 +261,7 @@ $(function(){
     $(".emergency-contacts:not(:eq(0))").hide();
     // Makes sure the form group shows if fields are not null upon post request
     $(".emergency-contacts").each(function(){
-      $(this).children().children().find('input').each(function(){
+      $(this).children().children().find('input[type="text"]').each(function(){
         val = $(this).val();
         if(val != ''){
           $(this).parent().parent().parent().show();
@@ -383,15 +422,15 @@ $(function(){
       if ($(this).find("li.active").text().trim() == 'Sea Service' && x == 1){
         $(sea_service).click();
       }
-      position_applied = $("#id_position_applied option:selected").text();
-      alternative_position = $("#id_alternative_position option:selected").text();
-      if(position_applied != "ENGINE CADET" && position_applied != "DECK CADET" && alternative_position != "ENGINE CADET" && alternative_position != "DECK CADET"){
-        $("#application-form-essay").hide();
-        $(".li-essay").hide();
-        // $("#id_essay").removeAttr('required');
-        $("#id_essay").val('');
-        $('#display_count').text(0);
-      }
+      // position_applied = $("#id_position_applied option:selected").text();
+      // alternative_position = $("#id_alternative_position option:selected").text();
+      // if(position_applied != "ENGINE CADET" && position_applied != "DECK CADET" && alternative_position != "ENGINE CADET" && alternative_position != "DECK CADET"){
+      //   $("#application-form-essay").hide();
+      //   $(".li-essay").hide();
+      //   // $("#id_essay").removeAttr('required');
+      //   $("#id_essay").val('');
+      //   $('#display_count').text(0);
+      // }
     });
     $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 
@@ -531,7 +570,7 @@ $(function(){
       var myWindow = window.open("http://windowww.google.com.ph/#q="+address, "", "width=1000, height=700");
     });
     $("body").on("click", ".emergency-search-zip", function(){
-      params = $(this).attr('data-params')-1;
+      params = $(this).attr('data-params');
       barangay = $("#id_form-"+params+"-emergency_barangay").val();
       municipality = $("#id_form-"+params+"-emergency_municipality").val();
       address = barangay+"+"+municipality+"+"+"zip code";
@@ -546,14 +585,14 @@ $(function(){
       $("#id_position_applied").css("color", "#000");
     }
 
-    $("#id_alternative_position, #id_position_applied").change(function(){
-      x = $('option:selected', this).text();
-      if( x == 'DECK CADET' || x == 'ENGINE CADET' ){
-        $("#application-form-essay").show();
-        $(".li-essay").show();
-        // $("#id_essay").prop("required", "true");
-      }
-    });
+    // $("#id_alternative_position, #id_position_applied").change(function(){
+    //   x = $('option:selected', this).text();
+    //   if( x == 'DECK CADET' || x == 'ENGINE CADET' ){
+    //     $("#application-form-essay").show();
+    //     $(".li-essay").show();
+    //     // $("#id_essay").prop("required", "true");
+    //   }
+    // });
 
     // Start Input Validations
     $("body").on("keydown", "input[type='number']", function(e){

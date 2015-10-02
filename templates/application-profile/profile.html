@@ -3,7 +3,123 @@
 {% load get_data %}
 {% load static %}
 {% block content %}
-<style type="text/css">#header{background: #2e76b8;color: #fff;padding: 30px;}.tooltip-left .tooltip-arrow {top: 50%;right: 0;margin-top: -5px;border-left-color: #000000;border-width: 5px 0 5px 5px;}.main-menu{padding-top: 30px;padding-bottom: 30px;}.btn-main{font-size: 12px;}.btn{border: 1px solid transparent !important; }.thead{background: #82ca9c; color: #fff;"}.picture-container{width:220px;height:180px;margin-top: 15px;border:1px solid black;float:right;}.container-picture{ text-align:center; }.input-group-addon{background: none;border: none;font-size: 12px;font-weight: bold; }.input-group{margin-top: 10px; } .sea-tb{font-size: 12px;}.panel-heading{border-bottom: 4px solid #000;}/* Button Custom */.btn-msmi {color: #fff;background-color: #82ca9c;margin-top: 5px;margin-left: 5px;border-bottom: 4px solid #02be9b !important;}.btn-msmi:focus,.btn-msmi.focus {color: #fff;background-color: #02be9b;border-color: #02be9b;border-bottom: 1px solid #02be9b !important;}.btn-msmi:hover {color: #fff;background-color: #82ca9c;border-color: #82ca9c;    }/* Custom Panel */.panel-msmi-blue{border-color: #2e76b8;border-bottom: 5px solid #04508e;}.panel-msmi-blue > .panel-heading {color: #fff;background-color: #2e76b8;border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {border-color: 1px solid #2e76b8;}.panel-msmi-blue > .panel-heading .badge {color: #dff0d8;background-color: #3c763d;}.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {border-color: 1px solid #2e76b8;}
+<style type="text/css">
+  #header
+{
+  background: #2e76b8;
+  color: #fff;
+  padding: 30px
+}
+.tooltip-left .tooltip-arrow 
+{
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-left-color: #000000;
+  border-width: 5px 0 5px 5px
+}
+.main-menu
+{
+  padding-top: 30px;
+  padding-bottom: 30px
+}
+.btn-main
+{
+  font-size: 12px
+}
+.btn
+{
+  border: 1px solid transparent !important;
+   
+}
+.thead
+{
+  background: #82ca9c;
+   color: #fff;
+  "
+}
+.picture-container
+{
+  width:220px;
+  height:180px;
+  margin-top: 15px;
+  border:1px solid black;
+  float:right
+}
+.container-picture
+{
+   text-align:center;
+   
+}
+.input-group-addon
+{
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+   
+}
+.input-group
+{
+  margin-top: 10px;
+   
+}
+   .sea-tb
+{
+  font-size: 12px
+}
+.panel-heading
+{
+  border-bottom: 4px solid #000
+}
+  /* Button Custom */.btn-msmi 
+{
+  color: #fff;
+  background-color: #82ca9c;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-bottom: 4px solid #02be9b !important
+}
+.btn-msmi:focus,.btn-msmi.focus 
+{
+  color: #fff;
+  background-color: #02be9b;
+  border-color: #02be9b;
+  border-bottom: 1px solid #02be9b !important
+}
+.btn-msmi:hover 
+{
+  color: #fff;
+  background-color: #82ca9c;
+  border-color: #82ca9c;
+      
+}
+  /* Custom Panel */.panel-msmi-blue
+{
+  border-color: #2e76b8;
+  border-bottom: 5px solid #04508e
+}
+.panel-msmi-blue > .panel-heading 
+{
+  color: #fff;
+  background-color: #2e76b8;
+  border-color: 1px solid #2e76b8
+}
+.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body 
+{
+  border-color: 1px solid #2e76b8
+}
+.panel-msmi-blue > .panel-heading .badge 
+{
+  color: #dff0d8;
+  background-color: #3c763d
+}
+.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green 
+{
+  border-color: 1px solid #2e76b8
+}
+
+
 </style>
 <div id="wrapper">
   <div id="header">
@@ -26,7 +142,7 @@
     <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
                     <div class="panel-body">
                             <div class="row" style="margin-top:">
-                      <form method="POST" id="status">
+                      <form method="GET" id="status">
                         {% csrf_token %}
                         {% for statii in status.status %}
                           <div class="col-md-2">
@@ -774,7 +890,7 @@
 <!--National Certificates and Travel Documents
 ================================================-->                                    
 <div  id="step11" class="panel panel-primary" style="margin-top: 10px;">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS / OTHER CERTIFICATES</strong></div>
+    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS / OTHER CERTIFICATES (<i>{{ department }}</i>)</strong></div>
                 <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
                   <div class="panel-body"> 
                     {% for certs in trainings_certificates.trainings_certificates %}
@@ -939,7 +1055,7 @@
 =================================-->
 {% if application_form.essay  %}
 <div id="step22" class="panel panel-primary" style="margin-top: 10px;">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>Essay (<i>{{ count_words }} words</i>)</strong></div>
+    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>ESSAY (<i>{{ count_words }} WORDS</i>)</strong></div>
     <div id="essay" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
                         <textarea class="form-control" id="essay">{{ application_form.essay }}</textarea>
@@ -1024,13 +1140,13 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Financial Liability:</span>
+                  <span class="input-group-addon vertical-align-top">Financial Liability:</span>
                   {{ reference_forms.financial_liability|add_class:"form-control first-choice mariner_financial_liability" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Rehiring Prospects:</span>
+                  <span class="input-group-addon vertical-align-top">Rehiring Prospects:</span>
                   {{ reference_forms.rehiring_prospects|add_class:"form-control first-choice mariner_rehiring_prospects" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
@@ -1039,14 +1155,16 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Character:</span>
-                  {{ reference_forms.character|add_class:"form-control"|attr:"rows:3" }}
+                  <span class="input-group-addon vertical-align-top">Character:</span>
+                  {{ reference_forms.character|add_class:"form-control reference-character"|attr:"rows:4" }}
+                  <span class='display_count'></span>
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Comments:</span>
-                  {{ reference_forms.comments|add_class:"form-control"|attr:"rows:3" }}
+                  <span class="input-group-addon vertical-align-top">Comments:</span>
+                  {{ reference_forms.comments|add_class:"form-control reference-comment"|attr:"rows:4" }}
+                  <span class='display_count'></span>
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1068,7 +1186,7 @@
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->  
-<button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Submit Application</button>
+<button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Update Application</button>
 
 <div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
   <div class="modal-dialog" role="document">
@@ -1096,15 +1214,32 @@
           <strong><u>{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}</u></strong>
       </div><!--End of Input Group-->
             <div class="input-group" style="width: 100%; text-align: center">
-           <!-- <input type="text" class="form-control" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
-           Position Applied: &nbsp;<strong><u>{{ application_form.position_applied }}</u></strong><br />
-           Alternative Position: <strong><u>{{ application_form.alternative_position }}</u></strong><br />
-           Application Date: <strong><u>{{ application_form.application_date }}</u></strong>
+          <!-- <input type="text" class="form-control" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
+          Position Applied: &nbsp;<strong><u>{{ application_form.position_applied }}</u></strong><br />
+          Alternative Position: <strong><u>{{ application_form.alternative_position }}</u></strong><br />
+          Application Date: <strong><u>{{ application_form.application_date }}</u></strong><br />
       </div><!--End of Input Group-->
       <div class="input-group" style="width:100%; text-align: center;">
                 <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong> Print</strong></span></a>
-                <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a>
+               <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
             </div><!--End of Input Group-->
+            <br /><br />
+            <label for="qualifield-principal">Qualified Principal:</label>
+          <select class="form-control" id="qualified-principal">
+            <option></option>
+            <option>ATHENIAN</option>
+            <option>ENESEL</option>
+            <option>HELLESPONT</option>
+            <option>IONIC</option>
+            <option>JUMBO</option>
+            <option>PSV</option>
+            <option>SEA PIONEER</option>      
+          </select>
+          <div id="qualified-principals-optional-button"></div>
+          <!-- <div class="input-group" style="width:100%; text-align: center;">
+                <a href="#" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a>
+                <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a>
+            </div> --><!--End of Input Group-->
             <ul class="nav bs-docs-sidenav" style="margin-top: 10px;">
               <li>
                 <a href="#step1">Personal Data</a>
@@ -1210,6 +1345,15 @@
       $(".mariner_rehiring_prospects").each(function(){
         $("option:nth-child(2)", this).text("REHIRABLE");
         $("option:nth-child(3)", this).text("NOT REHIRABLE");
+      });
+
+      $("#qualified-principal").change(function(){
+        text = $('option:selected', this).text();
+        if(text != ''){
+          $("#qualified-principals-optional-button").html('<div class="input-group" style="width:100%; text-align: center;"><a href="#" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a><a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a></div> ');
+        }else{
+          $("#qualified-principals-optional-button").html('');
+        }
       });
 
     });

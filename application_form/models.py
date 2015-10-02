@@ -11,16 +11,16 @@ from mariners_profile.models import Zip, Flags, TrainingCertificates, Sources, S
 
 class ApplicationFormCurrentAddress(models.Model):
 	current_zip = models.ForeignKey(Zip, default=None)
-	current_unit = models.CharField(max_length=50, default=None)
-	current_street = models.CharField(max_length=50, null=True, default=None)
+	current_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	current_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 
 	def __unicode__(self):
 		return "%s %s %s %s %s" % (self.current_unit, self.current_street, self.current_zip.barangay, self.current_zip.municipality, self.current_zip)
 
 class ApplicationFormPermanentAddress(models.Model):
 	permanent_zip = models.ForeignKey(Zip, default=None)
-	permanent_unit = models.CharField(max_length=50, default=None)
-	permanent_street = models.CharField(max_length=50, null=True, default=None)
+	permanent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	permanent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 
 	def __unicode__(self):
 		return "%s %s %s %s %s" % (self.permanent_unit, self.permanent_street, self.permanent_zip.barangay, self.permanent_zip.municipality, self.permanent_zip)
@@ -126,3 +126,7 @@ class ApplicationForm(models.Model):
 	
 	# Text Field
 	essay = models.ForeignKey(Essay, default=None)
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return user

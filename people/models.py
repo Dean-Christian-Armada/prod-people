@@ -68,6 +68,18 @@ class AbstractPersonalData(models.Model):
 
 		super(AbstractPersonalData, self).save(*args, **kwargs)
 
+	def prefix_mobile_1(self):
+		count =  len(str(self.mobile_1))
+		if count == 10:
+			self.mobile_1 = '+63'+str(self.mobile_1)
+		return self.mobile_1
+
+	def prefix_mobile_2(self):
+		count =  len(str(self.mobile_2))
+		if count == 10:
+			self.mobile_2 = '+63'+str(self.mobile_2)
+		return self.mobile_2
+
 class AbstractSpouseData(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	spouse_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
@@ -89,6 +101,12 @@ class AbstractSpouseData(models.Model):
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.spouse_first_name, self.spouse_middle_name, self.spouse_last_name)
+
+	def prefix_spouse_contact(self):
+		count =  len(str(self.spouse_contact))
+		if count == 10:
+			self.spouse_contact = '+63'+str(self.spouse_contact)
+		return self.spouse_contact
 
 class AbstractCollege(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -124,9 +142,9 @@ class AbstractEmergencyContact(models.Model):
 	emergency_first_name = models.CharField(max_length=50, null=True, default=None)
 	emergency_middle_name = models.CharField(max_length=50, null=True, default=None)
 	emergency_last_name = models.CharField(max_length=50, null=True, default=None)
-	emergency_contact = models.CharField(max_length=100, null=True, default=None)
-	emergency_street = models.CharField(max_length=50, null=True, default=None)
-	emergency_unit = models.CharField(max_length=50, null=True, default=None)
+	emergency_contact = models.BigIntegerField(null=True, blank=True, default=None)
+	emergency_street = models.CharField(max_length=50, null=True, blank=True, default=None)
+	emergency_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 
 	class Meta:
 		abstract = True
@@ -134,6 +152,12 @@ class AbstractEmergencyContact(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.emergency_first_name, self.emergency_middle_name, self.emergency_last_name)
 		return user
+
+	def prefix_emergency_contact(self):
+		count =  len(str(self.emergency_contact))
+		if count == 10:
+			self.emergency_contact = '+63'+str(self.emergency_contact)
+		return self.emergency_contact
 
 # START Background Info
 class AbstractVisaApplication(models.Model):

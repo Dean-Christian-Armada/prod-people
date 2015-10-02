@@ -319,7 +319,7 @@ tr:hover{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                             <label>Age:&nbsp;</label>
                                 <select name="age" class="form-control">
                                  <option>{% if request.GET.age %}{{ request.GET.age }}{% endif %}</option>
@@ -332,13 +332,25 @@ tr:hover{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                             <label>US Visa:&nbsp;</label>
                                 <select name="us_visa" class="form-control">
-                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "True" %}Yes{% else %}No{% endif %}{% endif %}</option>
+                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
                                   {% if not request.GET.us_visa %}
                                     {% for choices in us_visa reversed %}
-                                      <option value="{{ choices }}">{% if choices == True %}YES{% else %}NO{% endif %}</option>
+                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
+                                      }
+                                    {% endfor %}
+                                  {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                            <label>Schengen Visa:&nbsp;</label>
+                                <select name="schengen_visa" class="form-control">
+                                 <option>{% if request.GET.schengen_visa %}{% if request.GET.schengen_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
+                                  {% if not request.GET.schengen_visa %}
+                                    {% for choices in schengen_visa reversed %}
+                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
                                       }
                                     {% endfor %}
                                   {% endif %}
@@ -387,13 +399,14 @@ tr:hover{
                         <th>Age</th>
                         <th>Vessel Type</th>
                         <th>Mobile No.</th>
-                        <th>Email</th>
+                        <th>Landline No.</th>
                         <th>US Visa Expiry</th>
+                        <th>Schengen Visa Expiry</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% if mariners_profile %}
-                        {% for mariners_profile, personal_data, us_visa in zipped_data %}
+                        {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
                           <tr onclick="window.open('{% url 'application_profile' id=mariners_profile.user.id %}', '_blank')">
                             <td>{{ forloop.revcounter }}</td>  
                             <td>{{ mariners_profile|upper }}</td>
@@ -401,8 +414,9 @@ tr:hover{
                             <td>{{ personal_data.age }}</td>
                             <td>{{ personal_data.preferred_vessel_type|upper }}</td>
                             <td>+63{{ personal_data.mobile_1 }}</td>
-                            <td>{{ personal_data.email_address_1 }}</td>
+                            <td>{{ personal_data.landline_1 }}</td>
                             <td>{% if us_visa.us_visa_expiry == None %}NO VISA{% else %}{{ us_visa.us_visa_expiry }}{% endif %}</td>
+                            <td>{% if schengen_visa.schengen_visa_expiry == None %}NO VISA{% else %}{{ schengen_visa.schengen_visa_expiry }}{% endif %}</td>
                           </tr>
                         {% endfor %}
                       {% else %}

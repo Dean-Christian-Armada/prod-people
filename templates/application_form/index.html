@@ -190,7 +190,7 @@
             </div>
             <div class="form-group">
               <div class="col-md-4">
-              <input type="checkbox" id="same_address"> <label for="same_address">Same as above</label>
+              <input type="checkbox" id="same_address_current" class="same_address" data-params="current"> <label for="same_address_current">Same as above</label>
               </div>
             </div>
             <div class="form-group">
@@ -295,7 +295,7 @@
             <h3 id='step-4' style="color: #02be9b;">Educational Information</h3>
             <div class="form-group bottom-zero">
               <div class="col-md-12">
-                <i><u>Colleges</u></i> <button type="button" class="btn btn-info add-college">Add more Colleges</button><button type="button" class="btn btn-danger delete-college">Delete College</button>
+                <i><u>Colleges</u></i> &nbsp;&nbsp;<button type="button" class="btn btn-info add-college">Add more Colleges</button><button type="button" class="btn btn-danger delete-college">Delete College</button>
               </div>
             </div>
             {% for college_form in college %}
@@ -346,7 +346,7 @@
               </div>
             </div>
 
-            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button><button type="button" class="btn btn-danger delete-emergency">Delete Bottom Emergency Contact</button></h3>
+            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details &nbsp;<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button><button type="button" class="btn btn-danger delete-emergency">Delete Bottom Emergency Contact</button></h3>
             {% for emergencycontact_form in emergency %}
               <div class="emergency-contacts">  
                 <div class="form-group">
@@ -374,9 +374,12 @@
                   </div>
                 </div>
                 <div class="form-group bottom-zero">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
+                    <input type="checkbox" id="same_address_emergency_{{ forloop.counter0 }}" class="same_address" data-params="emergency" data-counter="{{ forloop.counter0 }}"> <label for="same_address_emergency_{{ forloop.counter0 }}">Same as Permanent Address</label>
+                  </div>
+                  <div class="col-md-6">
                     <div class="col-md-12">
-                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter }}" style="">Search zip code</span>
+                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter0 }}" style="">Search zip code</span>
                     </div>
                   </div>
                 </div>

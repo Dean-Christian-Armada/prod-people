@@ -134,6 +134,9 @@ class Rank(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
+	# def __init__(self):
+	# 	self.fields['order'].initial_value = 3
+
 	def __unicode__(self):
 		return self.rank
 

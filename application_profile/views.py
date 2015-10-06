@@ -220,7 +220,7 @@ def profile(request, id):
 			flags = {'flags': flag_list}
 			flags = FlagForm(initial=flags)
 		except:
-			flags = ''
+			flags = FlagForm()
 
 		training_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
 		training_certificate_list = []

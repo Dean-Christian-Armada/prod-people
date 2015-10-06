@@ -60,7 +60,7 @@
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
+					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />
 				{% if appform.application_source.source.source == "Seafarer Center" %}
 					<img src="{{ ressource.image.url|get64:check }}">
 				{% else %}
@@ -72,7 +72,7 @@
 				{% else %}
 					<img src="{{ ressource.image.url|get64:uncheck }}">
 				{% endif %}
-					Referred By {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />&nbsp;
+					Referred By {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />&nbsp;
 			</td>
 		</tr>
 	</table>

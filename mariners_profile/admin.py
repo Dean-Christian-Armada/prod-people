@@ -28,6 +28,8 @@ class TrainingCertficatesAdmin(admin.ModelAdmin):
 
 class RankAdmin(admin.ModelAdmin):
 	list_filter = ('hiring', )
+	list_display = ('rank', 'hiring', 'order', )
+	ordering = ('-hiring', )
 
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000

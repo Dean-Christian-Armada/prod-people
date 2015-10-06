@@ -62,9 +62,17 @@
 .input-group
 {
   margin-top: 10px;
-   
 }
-   .sea-tb
+
+.input-form{
+  border: 2px solid #2e76b8;
+  border-radius: 0px;
+}
+
+.input-label{
+  color: #02be9b;
+}
+.sea-tb
 {
   font-size: 12px
 }
@@ -94,7 +102,8 @@
   border-color: #82ca9c;
       
 }
-  /* Custom Panel */.panel-msmi-blue
+
+.panel-msmi-blue .panel-heading 
 {
   border-color: #2e76b8;
   border-bottom: 5px solid #04508e
@@ -103,7 +112,9 @@
 {
   color: #fff;
   background-color: #2e76b8;
-  border-color: 1px solid #2e76b8
+  border-color: 1px solid #2e76b8;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
 }
 .panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body 
 {
@@ -118,8 +129,6 @@
 {
   border-color: 1px solid #2e76b8
 }
-
-
 </style>
 <div id="wrapper">
   <div id="header">
@@ -137,7 +146,7 @@
 
  <!--Application Status
 =================================-->
-<div id="" class="panel panel-primary" style="margin-top: 20px;">
+<div id="" class="panel panel-msmi-blue" style="margin-top: 20px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>APPLICATION STATUS</strong></div>
     <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
                     <div class="panel-body">
@@ -159,7 +168,7 @@
 <!--Personal Data
 ==========================================-->
  <form method="POST" autocomplete="off" id="id-application-profile">
-              <div id="step1" class="panel panel-primary" style="margin-top: 20px;">
+              <div id="step1" class="panel panel-msmi-blue" style="margin-top: 20px;">
             <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" style="color: #fff; text-decoration: none;" aria-expanded="true"><strong>PERSONAL DATA</strong></div>
                     <div id="detail1" class="collapse in" aria-expanded="true">              
                     <div class="panel-body">
@@ -167,41 +176,20 @@
                             <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Lastname" aria-describedby="basic-addon1" value="{{ user_profile.last_name }}">
+                  <span class="input-group-addon input-label">Last Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Lastname" aria-describedby="basic-addon1" value="{{ user_profile.last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">First Name:</span>
-                  <input type="text" class="form-control" placeholder="Firstname" aria-describedby="basic-addon1" value="{{ user_profile.first_name }}">
+                  <span class="input-group-addon input-label">First Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Firstname" aria-describedby="basic-addon1" value="{{ user_profile.first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Middlename" aria-describedby="basic-addon1" value="{{ user_profile.middle_name }}">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-4">
-                      <div class="input-group">
-                  <span class="input-group-addon">Age:</span>
-                  <input type="text" class="form-control" placeholder="Age" aria-describedby="basic-addon1" value="{{ personal_data.age }}">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                            <div class="col-md-4">
-                      <div class="input-group">
-                  <span class="input-group-addon">Date of Birth:</span>
-                  <input type="text" class="form-control" placeholder="Date of Birth" aria-describedby="basic-addon1" value="{{ personal_data.birth_date }}">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                            <div class="col-md-4">
-                      <div class="input-group">
-                  <span class="input-group-addon">Place of Birth:</span>
-                  <input type="text" class="form-control" placeholder="Place of Birth" aria-describedby="basic-addon1" value="{{ personal_data.birth_place }}">
+                  <span class="input-group-addon input-label">Middle Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Middlename" aria-describedby="basic-addon1" value="{{ user_profile.middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -209,20 +197,20 @@
                         <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Landline No. 1:</span>
-                  <input type="text" class="form-control" placeholder="Landline" aria-describedby="basic-addon1" value="{{ personal_data.landline_1 }}">
+                  <span class="input-group-addon input-label">Age:</span>
+                  <input type="text" class="form-control input-form" placeholder="Age" aria-describedby="basic-addon1" value="{{ personal_data.age }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Mobile No. 1:</span>
-                  <input type="text" class="form-control" placeholder="Mobile" aria-describedby="basic-addon1" value="{% if personal_data.mobile_1 %}+63{% endif %}{{ personal_data.mobile_1 }}">
+                  <span class="input-group-addon input-label">Date of Birth:</span>
+                  <input type="text" class="form-control input-form" placeholder="Date of Birth" aria-describedby="basic-addon1" value="{{ personal_data.birth_date }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Email Address 1:</span>
-                  <a href="mailto:{{ personal_data.email_address_1 }}"><input type="email" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}" style="cursor:pointer" readonly=""></a>
+                  <span class="input-group-addon input-label">Place of Birth:</span>
+                  <input type="text" class="form-control input-form" placeholder="Place of Birth" aria-describedby="basic-addon1" value="{{ personal_data.birth_place }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -230,20 +218,41 @@
                         <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Landline No. 2:</span>
-                  <input type="text" class="form-control" placeholder="Landline Number" aria-describedby="basic-addon1" value="{{ personal_data.landline_2 }}">
+                  <span class="input-group-addon input-label">Landline No. 1:</span>
+                  <input type="text" class="form-control input-form" placeholder="Landline" aria-describedby="basic-addon1" value="{{ personal_data.landline_1 }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Mobile No. 2:</span>
-                  <input type="text" class="form-control" placeholder="Mobile Number" aria-describedby="basic-addon1" value="{% if personal_data.mobile_2 %}+63{% endif %}{{ personal_data.mobile_2 }}">
+                  <span class="input-group-addon input-label">Mobile No. 1:</span>
+                  <input type="text" class="form-control input-form" placeholder="Mobile" aria-describedby="basic-addon1" value="{% if personal_data.mobile_1 %}+63{% endif %}{{ personal_data.mobile_1 }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Email Address 2:</span>
-                  <input type="email" class="form-control" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_2 }}" style="cursor:pointer" readonly="">
+                  <span class="input-group-addon input-label">Email Address 1:</span>
+                  <a href="mailto:{{ personal_data.email_address_1 }}"><input type="email" class="form-control input-form" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_1 }}" style="cursor:pointer" readonly=""></a>
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                    </div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Landline No. 2:</span>
+                  <input type="text" class="form-control input-form" placeholder="Landline Number" aria-describedby="basic-addon1" value="{{ personal_data.landline_2 }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Mobile No. 2:</span>
+                  <input type="text" class="form-control input-form" placeholder="Mobile Number" aria-describedby="basic-addon1" value="{% if personal_data.mobile_2 %}+63{% endif %}{{ personal_data.mobile_2 }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Email Address 2:</span>
+                  <input type="email" class="form-control input-form" placeholder="Email Address" aria-describedby="basic-addon1" value="{{ personal_data.email_address_2 }}" style="cursor:pointer" readonly="">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -251,14 +260,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Perferred Type of Vessel:</span>
-                  <input type="text" class="form-control" placeholder="Perferred Type of Vessel" aria-describedby="basic-addon1" value="{{ personal_data.preferred_vessel_type }}">
+                  <span class="input-group-addon input-label">Perferred Type of Vessel:</span>
+                  <input type="text" class="form-control input-form" placeholder="Perferred Type of Vessel" aria-describedby="basic-addon1" value="{{ personal_data.preferred_vessel_type }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Date of Availability:</span>
-                  <input type="text" class="form-control" placeholder="Date of Availability" aria-describedby="basic-addon1" value="{{ personal_data.availability_date }}">
+                  <span class="input-group-addon input-label">Date of Availability:</span>
+                  <input type="text" class="form-control input-form" placeholder="Date of Availability" aria-describedby="basic-addon1" value="{{ personal_data.availability_date }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -266,14 +275,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">SSS No.:</span>
-                  <input type="text" class="form-control" placeholder="SSS Number" aria-describedby="basic-addon1" value="{{ personal_data.sss }}">
+                  <span class="input-group-addon input-label">SSS No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="SSS Number" aria-describedby="basic-addon1" value="{{ personal_data.sss }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Philhealth No.:</span>
-                  <input type="text" class="form-control" placeholder="Philhealth Number" aria-describedby="basic-addon1" value="{{ personal_data.philhealth }}">
+                  <span class="input-group-addon input-label">Philhealth No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Philhealth Number" aria-describedby="basic-addon1" value="{{ personal_data.philhealth }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -281,14 +290,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">TIN No.:</span>
-                  <input type="text" class="form-control" placeholder="TIN Number" aria-describedby="basic-addon1" value="{{ personal_data.tin }}">
+                  <span class="input-group-addon input-label">TIN No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="TIN Number" aria-describedby="basic-addon1" value="{{ personal_data.tin }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Pagibig No.:</span>
-                  <input type="text" class="form-control" placeholder="Pagibig Number" aria-describedby="basic-addon1" value="{{ personal_data.pagibig }}">
+                  <span class="input-group-addon input-label">Pagibig No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Pagibig Number" aria-describedby="basic-addon1" value="{{ personal_data.pagibig }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -297,32 +306,32 @@
                         <div class="row">
                             <div class="col-md-2 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon">Unit:</span>
-                  <input type="text" class="form-control" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_unit }}">
+                              <span class="input-group-addon input-label">Unit:</span>
+                  <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">Street:</span>
-                  <input type="text" class="form-control" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_street }}">
+                              <span class="input-group-addon input-label">Street:</span>
+                  <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Barangay:</span>
-                  <input type="text" class="form-control" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}">
+                              <span class="input-group-addon input-label">Barangay:</span>
+                  <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Municipality:</span>
-                  <input type="text" class="form-control" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.municipality }}">
+                              <span class="input-group-addon input-label">Municipality:</span>
+                  <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">ZIP Code:</span>
-                  <input type="text" class="form-control" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
+                              <span class="input-group-addon input-label">ZIP Code:</span>
+                  <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                     </div><!--End of Row-->
@@ -331,32 +340,32 @@
                         <div class="row">
                             <div class="col-md-2 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon">Unit:</span>
-                  <input type="text" class="form-control" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_unit }}">
+                              <span class="input-group-addon input-label">Unit:</span>
+                  <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">Street:</span>
-                  <input type="text" class="form-control" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_street }}">
+                              <span class="input-group-addon input-label">Street:</span>
+                  <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Barangay:</span>
-                  <input type="text" class="form-control" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}">
+                              <span class="input-group-addon input-label">Barangay:</span>
+                  <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Municipality:</span>
-                  <input type="text" class="form-control" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.municipality }}">
+                              <span class="input-group-addon input-label">Municipality:</span>
+                  <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">ZIP Code:</span>
-                  <input type="text" class="form-control" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
+                              <span class="input-group-addon input-label">ZIP Code:</span>
+                  <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                     </div><!--End of Row-->
@@ -364,14 +373,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Civil Status:</span>
-                  <input type="text" class="form-control" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ personal_data.civil_status }}">
+                  <span class="input-group-addon input-label">Civil Status:</span>
+                  <input type="text" class="form-control input-form" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ personal_data.civil_status }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Date of Marriage:</span>
-                  <input type="text" class="form-control" placeholder="Date of Marriage" aria-describedby="basic-addon1" value="{{ spouse.married_date }}">
+                  <span class="input-group-addon input-label">Date of Marriage:</span>
+                  <input type="text" class="form-control input-form" placeholder="Date of Marriage" aria-describedby="basic-addon1" value="{{ spouse.married_date }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -379,20 +388,20 @@
                         <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Spouse's Maiden Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Spouse's Maiden Last Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
+                  <span class="input-group-addon input-label">Spouse's Maiden Last Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Last Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Spouse's Maiden First Name:</span>
-                  <input type="text" class="form-control" placeholder="Spouse's Maiden First Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
+                  <span class="input-group-addon input-label">Spouse's Maiden First Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Spouse's Maiden First Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Spouse's Maiden Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Spouse's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
+                  <span class="input-group-addon input-label">Spouse's Maiden Middle Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -400,14 +409,14 @@
                     <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Spouse's Birthday:</span>
-                  <input type="text" class="form-control" placeholder="Spouse's Birthday" aria-describedby="basic-addon1" value="{{ spouse.birthdate }}">
+                  <span class="input-group-addon input-label">Spouse's Birthday:</span>
+                  <input type="text" class="form-control input-form" placeholder="Spouse's Birthday" aria-describedby="basic-addon1" value="{{ spouse.birthdate }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Spouse's Contact No.:</span>
-                  <input type="text" class="form-control" placeholder="Spouse's Contact No." aria-describedby="basic-addon1" value="{{ spouse.spouse_contact }}">
+                  <span class="input-group-addon input-label">Spouse's Contact No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Spouse's Contact No." aria-describedby="basic-addon1" value="{{ spouse.spouse_contact }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -415,20 +424,20 @@
                         <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Father's Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Father's Last Name" aria-describedby="basic-addon1" value="{{ personal_data.father_last_name }}">
+                  <span class="input-group-addon input-label">Father's Last Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Father's Last Name" aria-describedby="basic-addon1" value="{{ personal_data.father_last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Father's First Name:</span>
-                  <input type="text" class="form-control" placeholder="Father's First Name" aria-describedby="basic-addon1" value="{{ personal_data.father_first_name }}">
+                  <span class="input-group-addon input-label">Father's First Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Father's First Name" aria-describedby="basic-addon1" value="{{ personal_data.father_first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Father's Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Father's Middle Name" aria-describedby="basic-addon1" value="{{ personal_data.father_middle_name }}">
+                  <span class="input-group-addon input-label">Father's Middle Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Father's Middle Name" aria-describedby="basic-addon1" value="{{ personal_data.father_middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -436,20 +445,20 @@
                     <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Mother's Maiden Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Mother's Maiden Last Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_last_name }}">
+                  <span class="input-group-addon input-label">Mother's Maiden Last Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Mother's Maiden Last Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Mother's First Name:</span>
-                  <input type="text" class="form-control" placeholder="Mother's First Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_first_name }}">
+                  <span class="input-group-addon input-label">Mother's First Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Mother's First Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Mother's Maiden Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Mother's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_middle_name }}">
+                  <span class="input-group-addon input-label">Mother's Maiden Middle Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Mother's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ personal_data.mother_middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->
@@ -462,7 +471,7 @@
                 
 <!--Seaferer Seagoing History
 ============================-->            
-            <div id="step2" class="panel panel-primary" style="margin-top: 10px;">
+            <div id="step2" class="panel panel-msmi-blue" style="margin-top: 10px;">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>SEAFARER'S SEAGOING HISTORY</strong></a></div>                  
                 <div id="detail2" class="collapse in" aria-expanded="false"> 
                     <div class="panel-body"> 
@@ -492,22 +501,22 @@
                                           <tbody>
                                             {% for sea_services in sea_service %}
                                               <tr>
-                                                <td>{{ sea_services.vessel_name }}</td>
-                                                <td>{{ sea_services.vessel_type }}</td>
-                                                <td>{{ sea_services.flag }}</td>
+                                                <td>{{ sea_services.vessel_name|upper }}</td>
+                                                <td>{{ sea_services.vessel_type|upper }}</td>
+                                                <td>{{ sea_services.flag|upper }}</td>
                                                 <td>{{ sea_services.grt }}</td>
                                                 <td>{{ sea_services.dwt }}</td>
                                                 <td>{{ sea_services.engine_type }}</td>
                                                 <td>{{ sea_services.year_built }}</td>
                                                 <td>{{ sea_services.hp }}</td>
                                                 <td>{{ sea_services.kw }}</td>
-                                                <td>{{ sea_services.manning_agency }}</td>
-                                                <td>{{ sea_services.principal }}</td>
+                                                <td>{{ sea_services.manning_agency|upper }}</td>
+                                                <td>{{ sea_services.principal|upper }}</td>
                                                 <td>{{ sea_services.date_joined }}</td>
                                                 <td>{{ sea_services.date_left }}</td>
                                                 <td>{{ sea_services.duration }}</td>
-                                                <td>{{ sea_services.rank }}</td>
-                                                <td>{{ sea_services.cause_of_discharge }}</td>
+                                                <td>{{ sea_services.rank|upper }}</td>
+                                                <td>{{ sea_services.cause_of_discharge|upper }}</td>
                                               </tr>
                                             {% endfor %}
                                           </tbody>
@@ -520,7 +529,7 @@
 
 <!--Educational Information
 ====================================-->
-<div id="step4" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step4" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>EDUCATIONAL INFORMATION</strong></div>  
                     <div id="detail4" class="panel-collapse collapse in" aria-expanded="false">             
                     <div class="panel-body">
@@ -529,26 +538,26 @@
                             <div class="row">
                             <div class="col-md-5">
                       <div class="input-group">
-                  <span class="input-group-addon">College:</span>
-                  <input type="text" class="form-control" placeholder="College" aria-describedby="basic-addon1" value="{{ colleges.college }}">
+                  <span class="input-group-addon input-label">College:</span>
+                  <input type="text" class="form-control input-form" placeholder="College" aria-describedby="basic-addon1" value="{{ colleges.college }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Degree Obtained:</span>
-                  <input type="text" class="form-control" placeholder="Degree Obtained" aria-describedby="basic-addon1" value="{{ colleges.degree }}">
+                  <span class="input-group-addon input-label">Degree Obtained:</span>
+                  <input type="text" class="form-control input-form" placeholder="Degree Obtained" aria-describedby="basic-addon1" value="{{ colleges.degree }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">From:</span>
-                  <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1" value="{{ colleges.collegeyear_from }}">
+                  <span class="input-group-addon input-label">From:</span>
+                  <input type="text" class="form-control input-form" placeholder="From" aria-describedby="basic-addon1" value="{{ colleges.collegeyear_from }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">To:</span>
-                  <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1" value="{{ colleges.collegeyear_to }}">
+                  <span class="input-group-addon input-label">To:</span>
+                  <input type="text" class="form-control input-form" placeholder="To" aria-describedby="basic-addon1" value="{{ colleges.collegeyear_to }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row--> 
@@ -558,24 +567,24 @@
                             <div class="row vocational-row">
                             <div class="col-md-8">
                       <div class="input-group">
-                  <span class="input-group-addon">Vocational:</span>
-                  <!-- <input type="text" class="form-control" placeholder="Vocational" aria-describedby="basic-addon1"> -->
+                  <span class="input-group-addon input-label">Vocational:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="Vocational" aria-describedby="basic-addon1"> -->
                   {{ vocational_form.user|attr:"style:display:none" }}
-                  {{ vocational_form.vocational|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Vocational" }}
+                  {{ vocational_form.vocational|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:Vocational" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">From:</span>
-                  <!-- <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1"> -->
-                  {{ vocational_form.vocationalyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                  <span class="input-group-addon input-label">From:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="From" aria-describedby="basic-addon1"> -->
+                  {{ vocational_form.vocationalyear_from|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">To:</span>
-                  <!-- <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1"> -->
-                  {{ vocational_form.vocationalyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                  <span class="input-group-addon input-label">To:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="To" aria-describedby="basic-addon1"> -->
+                  {{ vocational_form.vocationalyear_to|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row--> 
@@ -583,20 +592,20 @@
                             <div class="row">
                             <div class="col-md-8">
                       <div class="input-group">
-                  <span class="input-group-addon">Highschool:</span>
-                  <input type="text" class="form-control" placeholder="Highschool" aria-describedby="basic-addon1" value="{{ highschool.highschool }}">
+                  <span class="input-group-addon input-label">Highschool:</span>
+                  <input type="text" class="form-control input-form" placeholder="Highschool" aria-describedby="basic-addon1" value="{{ highschool.highschool }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">From:</span>
-                  <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1" value="{{ highschool.schoolyear_from }}">
+                  <span class="input-group-addon input-label">From:</span>
+                  <input type="text" class="form-control input-form" placeholder="From" aria-describedby="basic-addon1" value="{{ highschool.schoolyear_from }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">To:</span>
-                  <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1" value="{{ highschool.schoolyear_to }}">
+                  <span class="input-group-addon input-label">To:</span>
+                  <input type="text" class="form-control input-form" placeholder="To" aria-describedby="basic-addon1" value="{{ highschool.schoolyear_to }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row-->
@@ -604,23 +613,23 @@
                             <div class="row primary-row">
                             <div class="col-md-8">
                       <div class="input-group">
-                  <span class="input-group-addon">Primary:</span>
-                  <!-- <input type="text" class="form-control" placeholder="Primary" aria-describedby="basic-addon1"> -->
-                  {{ primaryschool_form.primaryschool|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:PrimarySchool" }}
+                  <span class="input-group-addon input-label">Primary:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="Primary" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschool|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:PrimarySchool" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">From:</span>
-                  <!-- <input type="text" class="form-control" placeholder="From" aria-describedby="basic-addon1"> -->
-                  {{ primaryschool_form.primaryschoolyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                  <span class="input-group-addon input-label">From:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="From" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschoolyear_from|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
                       <div class="input-group">
-                  <span class="input-group-addon">To:</span>
-                  <!-- <input type="text" class="form-control" placeholder="To" aria-describedby="basic-addon1"> -->
-                  {{ primaryschool_form.primaryschoolyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                  <span class="input-group-addon input-label">To:</span>
+                  <!-- <input type="text" class="form-control input-form" placeholder="To" aria-describedby="basic-addon1"> -->
+                  {{ primaryschool_form.primaryschoolyear_to|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row-->    
@@ -631,7 +640,7 @@
                 
 <!--Licenses National Certificate
 =========================================-->   
-<div id="step8" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step8" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
                 <div id="detail8" class="panel-collapse collapse" aria-expanded="false">             
                     <div class="panel-body">  
@@ -639,27 +648,27 @@
                         <div class="row">
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Passport No.:</span>
-                  <input type="text" class="form-control" placeholder="Passport Number" aria-describedby="basic-addon1" value="{{ passport.passport }}">
+                  <span class="input-group-addon input-label">Passport No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Passport Number" aria-describedby="basic-addon1" value="{{ passport.passport }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                            
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Issued" aria-describedby="basic-addon1" value="{{ passport.passport_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Issued" aria-describedby="basic-addon1" value="{{ passport.passport_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Seaman's Book No.:</span>
-                  <input type="text" class="form-control" placeholder="Seaman's Book Number" aria-describedby="basic-addon1" value="{{ sbook.sbook }}">
+                  <span class="input-group-addon input-label">Seaman's Book No.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Seaman's Book Number" aria-describedby="basic-addon1" value="{{ sbook.sbook }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Issued" aria-describedby="basic-addon1" value="{{ sbook.sbook_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Issued" aria-describedby="basic-addon1" value="{{ sbook.sbook_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                           
@@ -668,31 +677,31 @@
                         <div class="row">
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">S.R.C.:</span>
-                  <input type="text" class="form-control" placeholder="SRC" aria-describedby="basic-addon1" value="{{ src.src }}">
+                  <span class="input-group-addon input-label">S.R.C.:</span>
+                  <input type="text" class="form-control input-form" placeholder="SRC" aria-describedby="basic-addon1" value="{{ src.src }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                            
                           
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Rank:</span>
-                  <input type="text" class="form-control" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ src.src_rank }}">
+                  <span class="input-group-addon input-label">Rank:</span>
+                  <input type="text" class="form-control input-form" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ src.src_rank }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
 
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">PRC License:</span>
-                  <input type="text" class="form-control" placeholder="PRC License" aria-describedby="basic-addon1" value="{{ license.license }}">
+                  <span class="input-group-addon input-label">PRC License:</span>
+                  <input type="text" class="form-control input-form" placeholder="PRC License" aria-describedby="basic-addon1" value="{{ license.license }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                            
                            
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Rank:</span>
-                  <input type="text" class="form-control" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ license.license_rank }}">
+                  <span class="input-group-addon input-label">Rank:</span>
+                  <input type="text" class="form-control input-form" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ license.license_rank }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                     </div><!--End of Row-->
@@ -702,28 +711,28 @@
                         <div class="row">
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">G.O.C.:</span>
-                  <input type="text" class="form-control" placeholder="G.O.C." aria-describedby="basic-addon1" value="{{ goc.goc }}">
+                  <span class="input-group-addon input-label">G.O.C.:</span>
+                  <input type="text" class="form-control input-form" placeholder="G.O.C." aria-describedby="basic-addon1" value="{{ goc.goc }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                           
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Issued" aria-describedby="basic-addon1" value="{{ goc.goc_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Issued" aria-describedby="basic-addon1" value="{{ goc.goc_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                         <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Yellow Fever:</span>
-                  <input type="text" class="form-control" placeholder="Yellow Fever" aria-describedby="basic-addon1" value="{{ yellow_fever.yellow_fever }}">
+                  <span class="input-group-addon input-label">Yellow Fever:</span>
+                  <input type="text" class="form-control input-form" placeholder="Yellow Fever" aria-describedby="basic-addon1" value="{{ yellow_fever.yellow_fever }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                            
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ yellow_fever.yellow_fever_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ yellow_fever.yellow_fever_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                     </div><!--End of Row-->
@@ -731,28 +740,28 @@
                         <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">TESDA C.O.C.:</span>
-                  <input type="text" class="form-control" placeholder="TESDA C.O.C." aria-describedby="basic-addon1" value="{{ coc.coc }}">
+                  <span class="input-group-addon input-label">TESDA C.O.C.:</span>
+                  <input type="text" class="form-control input-form" placeholder="TESDA C.O.C." aria-describedby="basic-addon1" value="{{ coc.coc }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Issued" aria-describedby="basic-addon1" value="{{ coc.coc_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Issued" aria-describedby="basic-addon1" value="{{ coc.coc_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Rank:</span>
-                  <input type="text" class="form-control" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ coc.coc_rank }}">
+                  <span class="input-group-addon input-label">Rank:</span>
+                  <input type="text" class="form-control input-form" placeholder="Place Issued" aria-describedby="basic-addon1" value="{{ coc.coc_rank }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                     </div><!--End of Row-->
                         <div class="row">
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">US Visa(C1/D):</span>
+                  <span class="input-group-addon input-label">US Visa(C1/D):</span>
                   <input type="radio" name="us_visa" {% if us_visa.us_visa %}checked{% endif %}> Yes 
                                 <input type="radio" name="us_visa" {% if not us_visa.us_visa %}checked{% endif %} > No
               </div><!--End of Input Group-->
@@ -760,14 +769,14 @@
                             
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ us_visa.us_visa_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ us_visa.us_visa_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
 
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Schengen Visa(Type C):</span>
+                  <span class="input-group-addon input-label">Schengen Visa(Type C):</span>
                   <input type="radio" name="schengen_visa" {% if schengen_visa.schengen_visa %}checked{% endif %}> Yes
                                 <input type="radio" name="schengen_visa" {% if not schengen_visa.schengen_visa %}checked{% endif %}> No
               </div><!--End of Input Group-->
@@ -775,8 +784,8 @@
                            
                             <div class="col-md-3">
                       <div class="input-group">
-                  <span class="input-group-addon">Expiry:</span>
-                  <input type="text" class="form-control" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ schengen_visa.schengen_visa_expiry }}">
+                  <span class="input-group-addon input-label">Expiry:</span>
+                  <input type="text" class="form-control input-form" placeholder="Expiry" aria-describedby="basic-addon1" value="{{ schengen_visa.schengen_visa_expiry }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                       </div><!--End of Row-->
@@ -788,7 +797,7 @@
             
 <!--Flag Document
 =================================-->            
-<div id="step9" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step9" class="panel panel-msmi-blue" style="margin-top: 10px;">
   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>FLAG DOCUMENTS</strong></div>
                 <div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
                     <div class="panel-body"> 
@@ -803,30 +812,30 @@
     
 <!--Emergency Details
 ==============================-->
-<div id="step10" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step10" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>EMERGENCY DETAILS</strong></div>  
            <div id="detail10" class="panel-collapse collapse" aria-expanded="false">             
                     <div class="panel-body">
                           <div class="form-group">  
         {% for emergencies in emergency_contact %}                 
-<p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{{ emergencies }} (<i>{{ emergencies.relationship }}</i>)</strong></p>
+<p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{{ emergencies|upper }} (<i>{{ emergencies.relationship }}</i>)</strong></p>
                       <div class="row">
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Emergency Last Name:</span>
-                  <input type="text" class="form-control" placeholder="Emergency Last Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_last_name }}">
+                  <span class="input-group-addon input-label">Emergency Last Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Emergency Last Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_last_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Emergency First Name:</span>
-                  <input type="text" class="form-control" placeholder="Emergency First Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_first_name }}">
+                  <span class="input-group-addon input-label">Emergency First Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Emergency First Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_first_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                       <div class="input-group">
-                  <span class="input-group-addon">Emergency Middle Name:</span>
-                  <input type="text" class="form-control" placeholder="Emergency Middle Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_middle_name }}">
+                  <span class="input-group-addon input-label">Emergency Middle Name:</span>
+                  <input type="text" class="form-control input-form" placeholder="Emergency Middle Name" aria-describedby="basic-addon1" value="{{ emergencies.emergency_middle_name }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                     </div><!--End of Row-->                        
@@ -836,14 +845,14 @@
                       <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Relationship:</span>
-                  <input type="text" class="form-control" placeholder="Relationship" aria-describedby="basic-addon1" value="{{ emergencies.relationship }}">
+                  <span class="input-group-addon input-label">Relationship:</span>
+                  <input type="text" class="form-control input-form" placeholder="Relationship" aria-describedby="basic-addon1" value="{{ emergencies.relationship }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Contact Nos.:</span>
-                  <input type="text" class="form-control" placeholder="Contact Numbers" aria-describedby="basic-addon1" value="{{ emergencies.emergency_contact }}">
+                  <span class="input-group-addon input-label">Contact Nos.:</span>
+                  <input type="text" class="form-control input-form" placeholder="Contact Numbers" aria-describedby="basic-addon1" value="{{ emergencies.emergency_contact }}">
                             </div><!--End of Col 3-->
               </div><!--End of Input Group-->
                       </div><!--End of Row-->
@@ -851,32 +860,32 @@
                        <div class="row">
                             <div class="col-md-2 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon">Unit:</span>
-                  <input type="text" class="form-control" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ emergencies.emergency_unit }}">
+                              <span class="input-group-addon input-label">Unit:</span>
+                  <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ emergencies.emergency_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">Street:</span>
-                  <input type="text" class="form-control" placeholder="Street" aria-describedby="basic-addon1" value="{{ emergencies.emergency_street }}">
+                              <span class="input-group-addon input-label">Street:</span>
+                  <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ emergencies.emergency_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Barangay:</span>
-                  <input type="text" class="form-control" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}">
+                              <span class="input-group-addon input-label">Barangay:</span>
+                  <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-3">
                       <div class="input-group">
-                              <span class="input-group-addon">Municipality:</span>
-                  <input type="text" class="form-control" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.municipality }}">
+                              <span class="input-group-addon input-label">Municipality:</span>
+                  <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                             <div class="col-md-2">
                       <div class="input-group">
-                              <span class="input-group-addon">ZIP Code:</span>
-                  <input type="text" class="form-control" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >
+                              <span class="input-group-addon input-label">ZIP Code:</span>
+                  <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
                     </div><!--End of Row-->
@@ -889,7 +898,7 @@
 
 <!--National Certificates and Travel Documents
 ================================================-->                                    
-<div  id="step11" class="panel panel-primary" style="margin-top: 10px;">
+<div  id="step11" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS / OTHER CERTIFICATES (<i>{{ department }}</i>)</strong></div>
                 <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
                   <div class="panel-body"> 
@@ -904,18 +913,18 @@
 
  <!--How did you learn about Manship
 =================================-->
-<div id="step15" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step15" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#sources" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>HOW DID YOU LEARN ABOUT MANSHIP</strong></div>
     <div id="sources" class="panel-collapse collapse" aria-expanded="false"> 
       <div class="panel-body">
-        {{ application_form.application_source }}
+        {{ application_form.application_source|upper }}
       </div><!--End of Panel Body-->
     </div><!--End of Collapse-->
 </div><!--End of Panel Primary-->   
 
 <!--Background Information
 =================================-->
-<div id="step23" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step23" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#backgroundinformation" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>BACKGROUND INFORMATION</strong></div>
     <div id="backgroundinformation" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
@@ -1041,12 +1050,12 @@
             
 <!--Evaluation
 =================================-->
-<div id="step12" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step12" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>EVALUATION</strong></div>
     <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
                         <!-- <b>EVALUATIONS OR REMARKS CAN BE PUT HERE</b> -->
-                        {{ evaluation_form.evaluation }}
+                        {{ evaluation_form.evaluation|add_class:"input-form" }}
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->     
@@ -1054,11 +1063,11 @@
 <!--Essay
 =================================-->
 {% if application_form.essay  %}
-<div id="step22" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step22" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>ESSAY (<i>{{ count_words }} WORDS</i>)</strong></div>
     <div id="essay" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
-                        <textarea class="form-control" id="essay">{{ application_form.essay }}</textarea>
+                        <textarea class="form-control input-form" id="essay">{{ application_form.essay }}</textarea>
                         
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
@@ -1068,7 +1077,7 @@
 {{ reference_form.management_form }}
 <!--Reference
 =================================-->
-<div id="step13" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step13" class="panel panel-msmi-blue" style="margin-top: 10px;">
     
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>REFERENCE</strong></div>
     <div id="reference" class="panel-collapse collapse" aria-expanded="false"> 
@@ -1093,29 +1102,14 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Verified by:</span>
-                  {{ reference_forms.verified_by|add_class:"form-control" }}
+                  <span class="input-group-addon input-label">Verified by:</span>
+                  {{ reference_forms.verified_by|add_class:"form-control input-form" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Date:</span>
-                  {{ reference_forms.date|add_class:"form-control date" }}
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                    </div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Company Name: </span>
-                  <input class="form-control" id="id_user_mariner-{{ forloop.counter0 }}-company" name="user_mariner-{{ forloop.counter0 }}-company" placeholder="Company" type="text" value="{{ reference_forms.company.value|get_data_company }}">
-              </div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                      <div class="input-group">
-                  <span class="input-group-addon">Person Contacted:</span>
-                  <input class="form-control" id="id_user_mariner-{{ forloop.counter0 }}-person_contacted" name="user_mariner-{{ forloop.counter0 }}-person_contacted" placeholder="Person Contacted" type="text" value="{{ reference_forms.person_contacted.value|get_data_person_contacted }}">
+                  <span class="input-group-addon input-label">Date:</span>
+                  {{ reference_forms.date|add_class:"form-control date input-form" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1123,31 +1117,46 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Veracity of Seagoing history:</span>
-                  {{ reference_forms.veracity_seagoing_history|add_class:"form-control first-choice mariner_veracity_seagoing_history" }}
+                  <span class="input-group-addon input-label">Company Name: </span>
+                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-company" name="user_mariner-{{ forloop.counter0 }}-company" placeholder="Company" type="text" value="{{ reference_forms.company.value|get_data_company }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Person Contacted:</span>
+                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-person_contacted" name="user_mariner-{{ forloop.counter0 }}-person_contacted" placeholder="Person Contacted" type="text" value="{{ reference_forms.person_contacted.value|get_data_person_contacted }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                    </div><!--End of Row-->
+                        
+                        <div class="row">                                         
+                            <div class="col-md-6">                                  
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Veracity of Seagoing history:</span>
+                  {{ reference_forms.veracity_seagoing_history|add_class:"form-control first-choice input-form mariner_veracity_seagoing_history" }}
               </div>
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon">Health Problem:</span>
-                  {{ reference_forms.health_problem|add_class:"form-control first-choice mariner_health_problem" }}
+                  <span class="input-group-addon input-label">Health Problem:</span>
+                  {{ reference_forms.health_problem|add_class:"form-control first-choice mariner_health_problem input-form" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
 
-        
+                                                                                                    
                         
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon vertical-align-top">Financial Liability:</span>
-                  {{ reference_forms.financial_liability|add_class:"form-control first-choice mariner_financial_liability" }}
+                  <span class="input-group-addon vertical-align-top input-label                                                 ">Financial Liability:</span>
+                  {{ reference_forms.financial_liability|add_class:"form-control first-choice mariner_financial_liability input-form" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon vertical-align-top">Rehiring Prospects:</span>
-                  {{ reference_forms.rehiring_prospects|add_class:"form-control first-choice mariner_rehiring_prospects" }}
+                  <span class                                                                                         ="input-group-addon vertical-align-top input-label                                                 ">Rehiring Prospects:</span>
+                  {{ reference_forms.rehiring_prospects|add_class:"form-control first-choice mariner_rehiring_prospects input-form" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1155,15 +1164,15 @@
                         <div class="row">
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon vertical-align-top">Character:</span>
-                  {{ reference_forms.character|add_class:"form-control reference-character"|attr:"rows:4" }}
+                  <span class="input-group-addon vertical-align-top input-label                                                 ">Character:</span>
+                  {{ reference_forms.character|add_class:"form-control reference-character input-form"|attr:"rows:4" }}
                   <span class='display_count'></span>
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
-                  <span class="input-group-addon vertical-align-top">Comments:</span>
-                  {{ reference_forms.comments|add_class:"form-control reference-comment"|attr:"rows:4" }}
+                  <span class="input-group-addon vertical-align-top input-label                                                 ">Comments:</span>
+                  {{ reference_forms.comments|add_class:"form-control reference-comment input-form"|attr:"rows:4" }}
                   <span class='display_count'></span>
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
@@ -1178,7 +1187,7 @@
 
  <!--Signature
 =================================-->
-<div id="step14" class="panel panel-primary" style="margin-top: 10px;">
+<div id="step14" class="panel panel-msmi-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>SIGNATURE</strong></div>
     <div id="signature" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
@@ -1205,36 +1214,45 @@
   </div><!--End of Col-9-->          
 <!--End of Sidebar Fixed-->
 <div class="col-md-3">
-  <div class="sidebar" style="position: fixed; margin-top: 20px;">
+  <div class="sidebar" style="position: fixed; margin-top: 20px; width: 310px;">
   <!--<h3><strong>APPLICATION FORM</strong></h3>
   <p>FORM REF. MANSHIP QP07-04-07</p>-->
-    <div class="container-picture"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"></div>
+    <div class="container-picture"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  width="215px" height="215px" style="border: 5px solid #2e76b8"></div>
           <div class="input-group" style="width: 100%; text-align: center; text-transform: uppercase">
-          <!-- <input type="text" class="form-control" placeholder="Name of the Seaferer" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}"> -->
-          <strong><u>{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}</u></strong>
+          <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}">
       </div><!--End of Input Group-->
             <div class="input-group" style="width: 100%; text-align: center">
-          <!-- <input type="text" class="form-control" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
-          Position Applied: &nbsp;<strong><u>{{ application_form.position_applied }}</u></strong><br />
-          Alternative Position: <strong><u>{{ application_form.alternative_position }}</u></strong><br />
-          Application Date: <strong><u>{{ application_form.application_date }}</u></strong><br />
+          <!-- <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
+          <div class="input-group" style="width:100%; text-align: center;">
+            <span class="input-group-addon">Position Applied:</span><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}">
+          </div>
+          <div class="input-group" style="width:100%; text-align: center;">
+            <span class="input-group-addon">Alternative Position:</span>
+            <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.alternative_position }}">
+          </div>
+          <div class="input-group" style="width:100%; text-align: center;">
+            <span class="input-group-addon">Application Date:</span>
+            <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.application_date }}">
+          </div>
       </div><!--End of Input Group-->
       <div class="input-group" style="width:100%; text-align: center;">
                 <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong> Print</strong></span></a>
                <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
             </div><!--End of Input Group-->
             <br /><br />
-            <label for="qualifield-principal">Qualified Principal:</label>
-          <select class="form-control" id="qualified-principal">
-            <option></option>
-            <option>ATHENIAN</option>
-            <option>ENESEL</option>
-            <option>HELLESPONT</option>
-            <option>IONIC</option>
-            <option>JUMBO</option>
-            <option>PSV</option>
-            <option>SEA PIONEER</option>      
-          </select>
+            <div class="input-group" style="width:100%; text-align: center;">
+              <span class="input-group-addon">Qualified Principal:</span>
+              <select class="form-control input-form" id="qualified-principal">
+                <option></option>
+                <option>ATHENIAN</option>
+                <option>ENESEL</option>
+                <option>HELLESPONT</option>
+                <option>IONIC</option>
+                <option>JUMBO</option>
+                <option>PSV</option>
+                <option>SEA PIONEER</option>      
+              </select>
+           </div>
           <div id="qualified-principals-optional-button"></div>
           <!-- <div class="input-group" style="width:100%; text-align: center;">
                 <a href="#" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a>

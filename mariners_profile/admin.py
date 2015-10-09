@@ -27,9 +27,9 @@ class TrainingCertficatesAdmin(admin.ModelAdmin):
 	list_display = ('trainings_certificates', 'get_departments', )
 
 class RankAdmin(admin.ModelAdmin):
-	list_filter = ('hiring', )
-	list_display = ('rank', 'hiring', 'order', )
-	ordering = ('-hiring', )
+	list_filter = ('hiring', 'department')
+	list_display = ('rank', 'hiring', 'order', 'department')
+	ordering = ('order', )
 
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000
@@ -94,3 +94,15 @@ admin.site.register(Status)
 admin.site.register(MarinersProfile)
 admin.site.register(Departments)
 admin.site.register(Reference)
+admin.site.register(PrincipalVesselType)
+admin.site.register(PassportPlaceIssued)
+admin.site.register(SBookPlaceIssued)
+admin.site.register(USVisaPlaceIssued)
+admin.site.register(SchengenVisaPlaceIssued)
+admin.site.register(YellowFeverPlaceIssued)
+admin.site.register(LicensePlaceIssued)
+admin.site.register(COCPlaceIssued)
+admin.site.register(TradeArea)
+admin.site.register(Dialect)
+admin.site.register(English)
+admin.site.register(LandEmployment)

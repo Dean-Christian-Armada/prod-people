@@ -47,7 +47,7 @@ class VesselType(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.vessel_type
+		return self.vessel_type.upper()
 
 class Principal(models.Model):
 	principal = models.CharField(max_length=50, default=None)
@@ -56,7 +56,7 @@ class Principal(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.principal
+		return self.principal.upper()
 
 class CivilStatus(models.Model):
 	civil_status = models.CharField(max_length=50, default=None)
@@ -127,27 +127,33 @@ class Departments(models.Model):
 class Rank(models.Model):
 	department = models.ForeignKey(Departments, default=5)
 	rank = models.CharField(max_length=50, default=None)
-	hiring = models.BooleanField(default=0)
-	company_standard = models.NullBooleanField(max_length=50, default=False)
+	hiring = models.BooleanField(default=False)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
 	# Application Form Ordering Dorpdown Purposes
 	order = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	# def __init__(self):
-	# 	self.fields['order'].initial_value = 3
-
 	def __unicode__(self):
-		return self.rank
+		return self.rank.upper()
 
 class COCRank(models.Model):
 	coc_rank = models.CharField(max_length=50, null=True, blank=True, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=False)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.coc_rank
+		return self.coc_rank.upper()
+
+class LandPosition(models.Model):
+	land_position = models.CharField(max_length=50, null=True, blank=True, default=None)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __unicode__(self):
+		return self.land_position
 
 class EngineType(models.Model):
 	engine_type = models.CharField(max_length=50, default=None)
@@ -226,10 +232,16 @@ class Status(models.Model):
 		return self.status
 
 class English(models.Model):
-	english = models.CharField(max_length=50, default=None)
+	english = models.CharField(max_length=50, default=None, null=True, blank=True)
+
+	def __unicode__(self):
+		return self.english
 
 class Dialect(models.Model):
-	dialect = models.CharField(max_length=50, default=None)
+	dialect = models.CharField(max_length=50, default=None, null=True, blank=True)
+
+	def __unicode__(self):
+		return self.dialect
 
 # class Position(models.Model):
 # 	position = models.CharField(max_length=50, default=None)
@@ -241,18 +253,53 @@ class Branch(models.Model):
 	branch = models.CharField(max_length=50, default=None,)
 
 class PassportPlaceIssued(models.Model):
-	place = models.CharField(max_length=50, default=None, blank=True)
+	passport_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
 
 	def __unicode__(self):
-		return self.place
+		return self.passport_place
 
 class SBookPlaceIssued(models.Model):
-	place = models.CharField(max_length=50, default=None, blank=True)
+	sbook_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
 
 	def __unicode__(self):
-		return self.place
+		return self.sbook_place
+
+class USVisaPlaceIssued(models.Model):
+	us_visa_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.us_visa_place
+
+class SchengenVisaPlaceIssued(models.Model):
+	schengen_visa_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.schengen_visa_place
+
+class YellowFeverPlaceIssued(models.Model):
+	yellow_fever_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.yellow_fever_place
+
+class LicensePlaceIssued(models.Model):
+	license_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.license_place
+
+class COCPlaceIssued(models.Model):
+	coc_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.coc_place
 
 class Zip(models.Model):
 	zip = models.PositiveIntegerField(unique=True, default=None)
@@ -292,6 +339,12 @@ class TrainingCenter(models.Model):
 	def __unicode__(self):
 		return self.training_center
 
+class TradeArea(models.Model):
+	trade_area = models.CharField(max_length=50, default=None, null=True, blank=True)
+
+	def __unicode__(self):
+		return self.trade_area
+
 class CurrentAddress(models.Model):
 	current_zip = models.ForeignKey(Zip, default=None)
 	current_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
@@ -314,6 +367,8 @@ class PersonalData(AbstractPersonalData):
 	# pass
 	current_address = models.ForeignKey(CurrentAddress, default=None)
 	permanent_address = models.ForeignKey(PermanentAddress, default=None)
+	dialect = models.ForeignKey(Dialect, default=1)
+	english = models.ForeignKey(English, default=1)
 
 class Spouse(AbstractSpouseData):
 	pass
@@ -373,10 +428,14 @@ class Sbook(AbstractSbook):
 
 class COC(AbstractCOC):
 	coc_date_issued = models.DateField(default=None, null=True, blank=True)
+	coc_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
+	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=1, blank=True)
 
 class License(AbstractLicense):
 	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_date_issued = models.DateField(default=None, null=True, blank=True)
+	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
+	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=1, blank=True)
 
 class SRC(AbstractSRC):
 	src_expiry = models.DateField(default=None, null=True, blank=True)
@@ -387,17 +446,19 @@ class GOC(AbstractGOC):
 	# goc_rank = models.ForeignKey('mariners_profile.Rank', default=None)
 
 class USVisa(AbstractUSVisa):
-	pass
-	# us_visa_place_issued = models.ForeignKey(USVisaPlaceIssued, default=None, blank=True)
+	# pass
+	us_visa_place_issued = models.ForeignKey(USVisaPlaceIssued, blank=True)
+	us_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 
 class SchengenVisa(AbstractSchengenVisa):
-	pass
-	# schengen_visa_place_issued = models.ForeignKey(SchengenVisaPlaceIssued, default=None, blank=True)
+	# pass
+	schengen_visa_place_issued = models.ForeignKey(SchengenVisaPlaceIssued, blank=True)
+	schengen_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 
 class YellowFever(AbstractYellowFever):
-	pass
-	# yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, default=None, blank=True)
-	# yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
+	# pass
+	yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, blank=True)
+	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
 
 class FlagDocuments(AbstractFlagDocuments):
 	flags = models.ManyToManyField(Flags, through='mariners_profile.FlagDocumentsDetailed', blank=True, default=None)
@@ -409,6 +470,7 @@ class FlagDocumentsDetailed(models.Model):
 	sbook_expiry = models.DateField(null=True, blank=True)
 	license_number = models.PositiveIntegerField(null = True, blank=True)
 	license_expiry = models.DateField(null=True, blank=True)
+	# flags_rank = models.ForeignKey('mariners_profile.Rank', default=None)
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.flags_documents.user.first_name, self.flags_documents.user.middle_name, self.flags_documents.user.last_name)
@@ -424,8 +486,22 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	issued = models.DateField(null=True, blank=True)
 	place_trained = models.ForeignKey(TrainingCenter)
 
+class PrincipalVesselType(models.Model):
+	principal = models.ForeignKey(Principal)
+	vessel_type = models.ManyToManyField(VesselType)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __unicode__(self):
+		return self.principal.principal
+
 class SeaService(AbstractSeaService):
-	pass
+	# pass
+	trade_area = models.ForeignKey(TradeArea)
+	def bhp(self):
+		bhp = float(self.kw) * 0.746
+		return bhp
+
 
 # This is a temporary model object for the referrer's pool
 class ReferrersPool(models.Model):
@@ -449,6 +525,7 @@ class MarinersProfile(models.Model):
 	position = models.ForeignKey(Rank)
 	picture = models.ImageField(upload_to='photos/mariners-profile', blank=True, default=None)
 	signature = models.ImageField(upload_to='signatures/mariners-profile', blank=True, default=None)
+	date_hired = models.DateField(default=None, null=True, blank=True)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
@@ -492,3 +569,56 @@ class Evaluation(models.Model):
 
 	def __str__(self):
 		return "%s - %s" % (self.user, self.evaluation)
+
+class Dependents(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	dependent_relationship = models.ForeignKey('mariners_profile.Relationship', default=None)
+	dependent_zip = models.ForeignKey('mariners_profile.Zip', default=None)
+	dependent_first_name = models.CharField(max_length=50, null=True, default=None)
+	dependent_middle_name = models.CharField(max_length=50, null=True, default=None)
+	dependent_last_name = models.CharField(max_length=50, null=True, default=None)
+	dependent_contact = models.BigIntegerField(null=True, blank=True, default=None)
+	dependent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
+	dependent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.dependent_first_name, self.dependent_middle_name, self.dependent_last_name)
+		return user
+
+	def prefix_dependent_contact(self):
+		count =  len(str(self.dependent_contact))
+		if count == 10:
+			self.dependent_contact = '+63'+str(self.dependent_contact)
+		return self.dependent_contact
+
+class LandEmployment(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	employer_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	employer_middle_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	employer_last_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	land_position = models.ForeignKey(LandPosition, default=None)
+	start_date = models.DateField(default=None, null=True, blank=True)
+	end_date = models.DateField(default=None, null=True, blank=True)
+	contact_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	contact_middle_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	contact_last_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	contact_person_number =  models.BigIntegerField(null=True, blank=True, default=None)
+	employer_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	employer_street = models.CharField(max_length=50, null=True, blank=True, default=None)
+	employer_zip = models.ForeignKey('mariners_profile.Zip', default=None)
+
+	def __unicode__(self):
+		employer = "%s %s %s" % (self.employer_first_name, self.employer_middle_name, self.employer_last_name)
+		return employer
+
+class Beneficiary(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	beneficiary_first_name = models.CharField(max_length=50, null=True, default=None)
+	beneficiary_middle_name = models.CharField(max_length=50, null=True, default=None)
+	beneficiary_last_name = models.CharField(max_length=50, null=True, default=None)
+	relationship = models.ForeignKey(Relationship, default=None)
+	beneficiary_number = models.BigIntegerField(null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		beneficiary = "%s %s %s" % (self.beneficiary_first_name, self.beneficiary_middle_name, self.beneficiary_last_name)
+		return beneficiary

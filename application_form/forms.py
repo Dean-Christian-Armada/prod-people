@@ -484,9 +484,9 @@ class PassportForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		passport.user = userprofile
 		passport.save()
-		place_issued = PassportPlaceIssued.objects.get_or_create(place='')
+		place_issued = PassportPlaceIssued.objects.get_or_create(passport_place='')
 		if place_issued:
-			place_issued = PassportPlaceIssued.objects.get(place='')
+			place_issued = PassportPlaceIssued.objects.get(passport_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['passport_place_issued'] = place_issued
 		value = self.cleaned_data
@@ -502,9 +502,9 @@ class SbookForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		sbook.user = userprofile
 		sbook.save()
-		place_issued = SBookPlaceIssued.objects.get_or_create(place='')
+		place_issued = SBookPlaceIssued.objects.get_or_create(sbook_place='')
 		if place_issued:
-			place_issued = SBookPlaceIssued.objects.get(place='')
+			place_issued = SBookPlaceIssued.objects.get(sbook_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['sbook_place_issued'] = place_issued
 		value = self.cleaned_data
@@ -562,6 +562,10 @@ class USVisaForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		us_visa.user = userprofile
 		us_visa.save()
+		place_issued = USVisaPlaceIssued.objects.get_or_create(us_visa_place='')
+		if place_issued:
+			place_issued = USVisaPlaceIssued.objects.get(us_visa_place='')
+		self.cleaned_data['us_visa_place_issued'] = place_issued
 		self.cleaned_data['user'] = userprofile
 		value = self.cleaned_data
 		USVisa.objects.create(**value)
@@ -595,6 +599,10 @@ class SchengenVisaForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		schengen_visa.user = userprofile
 		schengen_visa.save()
+		place_issued = SchengenVisaPlaceIssued.objects.get_or_create(schengen_visa_place='')
+		if place_issued:
+			place_issued = SchengenVisaPlaceIssued.objects.get(schengen_visa_place='')
+		self.cleaned_data['schengen_visa_place_issued'] = place_issued
 		self.cleaned_data['user'] = userprofile
 		value = self.cleaned_data
 		SchengenVisa.objects.create(**value)
@@ -609,6 +617,10 @@ class YellowFeverForm(forms.ModelForm):
 		userprofile = UserProfile.objects.latest('id')
 		yellow_fever.user = userprofile
 		yellow_fever.save()
+		place_issued = YellowFeverPlaceIssued.objects.get_or_create(yellow_fever_place='')
+		if place_issued:
+			place_issued = YellowFeverPlaceIssued.objects.get(yellow_fever_place='')
+		self.cleaned_data['yellow_fever_place_issued'] = place_issued
 		self.cleaned_data['user'] = userprofile
 		value = self.cleaned_data
 		YellowFever.objects.create(**value)
@@ -962,10 +974,14 @@ class LicenseForm(forms.ModelForm):
 			license_rank = Rank.objects.get(rank__iexact=rank)
 		license.license_rank = license_rank
 		license.save()
+		place_issued = LicensePlaceIssued.objects.get_or_create(license_place='')
+		if place_issued:
+			place_issued = LicensePlaceIssued.objects.get(license_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['license_rank'] = license_rank
-		self.cleaned_data['license_expiry'] = None
-		self.cleaned_data['license_date_issued'] = None
+		# self.cleaned_data['license_expiry'] = None
+		# self.cleaned_data['license_date_issued'] = None
+		self.cleaned_data['license_place_issued'] = place_issued
 		value = self.cleaned_data
 		self.cleaned_data.pop("position_applied")
 		self.cleaned_data.pop("alternative_position")
@@ -1016,9 +1032,13 @@ class COCForm(forms.ModelForm):
 			coc_rank = COCRank.objects.get(coc_rank__iexact=rank)
 		coc.coc_rank = coc_rank
 		coc.save()
+		place_issued = COCPlaceIssued.objects.get_or_create(coc_place='')
+		if place_issued:
+			place_issued = COCPlaceIssued.objects.get(coc_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['coc_rank'] = coc_rank
-		self.cleaned_data['coc_date_issued'] = None
+		# self.cleaned_data['coc_date_issued'] = None
+		self.cleaned_data['coc_place_issued'] = place_issued
 		value = self.cleaned_data
 		self.cleaned_data.pop("position_applied")
 		self.cleaned_data.pop("alternative_position")

@@ -3,88 +3,88 @@
 
 {% block content %}
 <style type="text/css">
-	.navbar {
-	background: #2e76b8;
-	}
+  .navbar {
+  background: #2e76b8;
+  }
 .navbar-toggle{
-		height: 40px;
-	}
+    height: 40px;
+  }
 .navbar-right{
-	margin-top: 10px;
-	}
+  margin-top: 10px;
+  }
 .footer{
 font-size: 12px; 
 padding-top: 5px;
 background: #fff;
 height: 100%;
 margin: 15px -25px 0 -20px;   
-border-top: 3px solid #2e76b8;	
-	}
+border-top: 3px solid #2e76b8;  
+  }
 .navbar-header{
-	margin-top: -5px;
-	}
+  margin-top: -5px;
+  }
 .thead-main{
-	background: #82ca9c;	
-	
-	}
+  background: #82ca9c;  
+  
+  }
 .icon-bar{
-	background-color: #fff;
-	}
+  background-color: #fff;
+  }
 .navbar-fixed-top{
-	height: 90px;
-	border-bottom: 5px solid #04508e;
+  height: 90px;
+  border-bottom: 5px solid #04508e;
 }
 .navbar-brand{
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .navbar-collapse{
-	margin-top: 10px;
+  margin-top: 10px;
 }
 .sidebar{
-	position: fixed;
-	top: 90px;
-	border-right: 2px solid #c0c0c0;
-	left: -15px;
-	bottom: 0;
-	background-color: #ebebeb;
+  position: fixed;
+  top: 90px;
+  border-right: 2px solid #c0c0c0;
+  left: -15px;
+  bottom: 0;
+  background-color: #ebebeb;
   padding-left: 0px;
-	}
+  }
 .nav-sidebar > li > a{
-	padding-left: 20px;
-	padding-right: -20px;
-	color: #fff !important;
-	background-color: #02be9b !important;
-	margin-right: -15px;
-	}
+  padding-left: 20px;
+  padding-right: -20px;
+  color: #fff !important;
+  background-color: #02be9b !important;
+  margin-right: -15px;
+  }
 .nav-sidebar > li > a:hover{
-	background-color: #82ca9c;
-	color: #fff;
-	}
+  background-color: #82ca9c;
+  color: #fff;
+  }
 .main{
-	margin-top: 80px;
-	color: #04508e;
-	padding-right: 40px;
-	}
+  margin-top: 80px;
+  color: #04508e;
+  padding-right: 40px;
+  }
 .search-btn{
-	border-radius: none;
-	background: #2e76b8;
-	border: 1px solid #2e76b8;	
-	}
+  border-radius: none;
+  background: #2e76b8;
+  border: 1px solid #2e76b8;  
+  }
 .search-btn:hover {
   color: #fff;
   background-color: #04508e;
   border-color: #04508e;
 }
 .search-input{
-	border: 1px solid #2e76b8;	
-	}
+  border: 1px solid #2e76b8;  
+  }
 body{
-	background: #fafafa;	
-	}
+  background: #fafafa;  
+  }
 .thead-main{
-	color: #fff;
-	}
-	
+  color: #fff;
+  }
+  
 .pagination > li > a,
 .pagination > li > span {
   position: relative;
@@ -97,40 +97,40 @@ body{
   text-decoration: none;
   border: 1px solid #82ca9c;
 }
-	
+  
 /* Custom Panel */
-	
+  
 .panel-body-blue{
-	border-bottom: 3px solid #c0c0c0;
-	}
+  border-bottom: 3px solid #c0c0c0;
+  }
 .panel-msmi-blue .panel-heading{
-	  border-bottom: 4px solid #04508e;
-	}
+    border-bottom: 4px solid #04508e;
+  }
 .panel-body-green{
-		border-bottom: 3px solid #c0c0c0;
-	}
+    border-bottom: 3px solid #c0c0c0;
+  }
 .panel-msmi-green .panel-heading{
-	  border-bottom: 4px solid #02be9b;
-	}
+    border-bottom: 4px solid #02be9b;
+  }
 .panel-info .panel-heading{
-	background-color: #f15922;
-	color: #fff;
-	}
+  background-color: #f15922;
+  color: #fff;
+  }
 .panel-info{
-	border-color: #f15922;
-	}
+  border-color: #f15922;
+  }
 .filter-drop{
-	background: #fafafa;
-	box-shadow: none;
-	}
+  background: #fafafa;
+  box-shadow: none;
+  }
 .nav-dropdown{
-	background: #2e76b8;	
-	}
+  background: #2e76b8;  
+  }
 .navmenu{
-	background: #2e76b8;
-	border-color: #2e76b8;
-	box-shadow: none;"
-	}	
+  background: #2e76b8;
+  border-color: #2e76b8;
+  box-shadow: none;"
+  } 
 /* Panel Custom */
 
 
@@ -212,10 +212,10 @@ body{
 /* Input Group Custom */
 
 .msmi-search{
-	background: #2e76b8;
-	color: #fff;
-	border-color: #2e76b8;
-	}
+  background: #2e76b8;
+  color: #fff;
+  border-color: #2e76b8;
+  }
 
 tr:hover{
   cursor: pointer;
@@ -232,51 +232,46 @@ tr:hover{
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-
-select{
-  text-transform: uppercase !important;
-}
-
 </style>
 <body>
 <div id="wrapper">
-		<nav class="navbar navbar-fixed-top">
-				<div class="container-fluid">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
 
-				<div class="navbar-header">
-							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-										<span class="sr-only">Toggle navigation</span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-										<span class="icon-bar"></span>
-							</button>
+        <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+              </button>
 
-		<a class="navbar-brand" href="#"><img src="/static/img/main.png" width="125" height="60"></a>
-        		
+    <a class="navbar-brand" href="#"><img src="/static/img/main.png" width="125" height="60"></a>
+            
                 </div><!--End of Navbar Header-->
                 
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav navbar-right">
-        								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{{ name }} ({{ request.user }})</a></li>
-        								<li class="dropdown">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{{ name }} ({{ request.user }})</a></li>
+                        <li class="dropdown">
 <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8;"><img src="{% static 'img/mrad.pix' %}" width="30" height="30"> <span class="caret"></span></a>
-							<ul class="dropdown-menu navmenu ">
-            							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
-            							<li><a href="#">Setting</a></li>
-            							<li role="separator" class="divider"></li>
-            							<li><a href="{% url 'logout' %}">Logout</a></li>
-          					</ul>
-        								</li>
-      						</ul>
-    			</div><!--End of Navbar Collapse-->
-  				</div><!--End of Container Fluid-->
-		</nav>
+              <ul class="dropdown-menu navmenu ">
+                          <li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
+                          <li><a href="#">Setting</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                        </li>
+                  </ul>
+          </div><!--End of Navbar Collapse-->
+          </div><!--End of Container Fluid-->
+    </nav>
 
 <div class="row">
-	<div class="col-sm-3 col-md-2 sidebar">
-		    <ul class="nav nav-sidebar">
-            	<li class="active"><a href="#">Crew Application<span class="sr-only">(current)</span></a></li>
-            	<!--<li><a href="#">Payroll</a></li>-->
+  <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+              <li class="active"><a href="#">Mariner Profiles<span class="sr-only">(current)</span></a></li>
+              <!--<li><a href="#">Payroll</a></li>-->
             
             
             
@@ -285,19 +280,19 @@ select{
     </div><!--End of Sidebar-->
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		  <div class="page-header"><h1>Crew Application</h1></div>
-          	<div class="panel panel-msmi-blue">
-            	<div class="panel-heading"><strong>Filter</strong></div>
-                	<div class="panel-body panel-body-blue">
-                    	<div class="row">
+      <div class="page-header"><h1>Mariner Profiles</h1></div>
+            <div class="panel panel-msmi-blue">
+              <div class="panel-heading"><strong>Filter</strong></div>
+                  <div class="panel-body panel-body-blue">
+                      <div class="row">
                         <form method="POST" id="myform" action="{% url 'mariners_profiles' %}">
                           {% csrf_token %}
-                        	<div class="col-md-12">
-                            	<p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i><a href="{% url 'mariners_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></p>
+                          <div class="col-md-12">
+                              <p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i><a href="{% url 'mariners_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></p>
                             </div><!--End of Col 12-->
                          </div><!--End of Row-->
                          <div class="row">
-                         	<div class="form-inline">
+                          <div class="form-inline">
                             <div class="col-md-3">
                               <label>Rank:&nbsp;</label>
                                <select name="rank" class="form-control">
@@ -305,7 +300,7 @@ select{
                                   {% if not request.GET.rank %}
                                     {% for ranks in rank %}
                                       <option>
-                                        {{ ranks }}
+                                        {{ ranks|upper }}
                                       </option>
                                     {% endfor %}
                                   {% endif %}
@@ -318,13 +313,13 @@ select{
                                   {% if not request.GET.vessel_type %}
                                     {% for vessel_types in vessel_type %}
                                       <option>
-                                        {{ vessel_types }}
+                                        {{ vessel_types|upper }}
                                       </option>
                                     {% endfor %}
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                             <label>Age:&nbsp;</label>
                                 <select name="age" class="form-control">
                                  <option>{% if request.GET.age %}{{ request.GET.age }}{% endif %}</option>
@@ -337,13 +332,25 @@ select{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                             <label>US Visa:&nbsp;</label>
                                 <select name="us_visa" class="form-control">
-                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "True" %}Yes{% else %}No{% endif %}{% endif %}</option>
+                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
                                   {% if not request.GET.us_visa %}
                                     {% for choices in us_visa reversed %}
-                                      <option value="{{ choices }}">{% if choices == True %}Yes{% else %}No{% endif %}</option>
+                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
+                                      }
+                                    {% endfor %}
+                                  {% endif %}
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                            <label>Schengen Visa:&nbsp;</label>
+                                <select name="schengen_visa" class="form-control">
+                                 <option>{% if request.GET.schengen_visa %}{% if request.GET.schengen_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
+                                  {% if not request.GET.schengen_visa %}
+                                    {% for choices in schengen_visa reversed %}
+                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
                                       }
                                     {% endfor %}
                                   {% endif %}
@@ -351,37 +358,39 @@ select{
                             </div>
                           </div><!--Form Inline-->
                         </form>
-                        </div><!--End of Row-->
-
-               		</div><!--End of Panel Body-->
+                      </div><!--End of Row-->
+                  </div><!--End of Panel Body-->
           </div>
-          <form method="GET">
+           <form method="GET">
 <div class="panel panel-msmi-green">
-	<div class="panel-heading" style="padding: 15px;"><strong>Crew Applicants</strong>
-			<div class="form-inline pull-right" style="margin-top: -6px;">
-            		<label>Per Page:</label>
+  <div class="panel-heading" style="padding: 15px;"><strong>Crew Applicants</strong>
+      <div class="form-inline pull-right" style="margin-top: -6px;">
+                <label>Per Page:</label>
                     <select class="form-control">
-                    	<option>10</option>
+                      <option>10</option>
                         <option>50</option>
                         <option>100</option>
                     </select>
-			<div class="input-group">
-      				<span class="input-group-btn">
-        				<button class="btn btn-default search-btn"><span class="glyphicon glyphicon-search" style="color: #fff;"></span></button>
-      				</span>
-      					<!-- <input type="text" name="search" class="form-control search-input" placeholder="Search for..."> -->
-                {{ search.search }}
-    		</div><!-- /input-group -->
-                    
-            </div>	    
- </div>
-   </form>
 
+      <div class="input-group">
+        
+              <span class="input-group-btn">
+                <button class="btn btn-default search-btn" name="submit"><span class="glyphicon glyphicon-search" style="color: #fff;"></span></button>
+              </span>
+                
+                {{ search.search }}
+        </div><!-- /input-group -->
+       
+                    
+            </div>      
+ </div>
+  </form>
+ 
  <!--Second Panel-->
-    	<div class="panel-body panel-body-green">
-        	<p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i></p>
-        	<div class="table table-bordered">
-        		<table class="table table-striped">
+      <div class="panel-body panel-body-green">
+          <p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i></p>
+          <div class="table table-bordered">
+            <table class="table table-striped">
               <thead class="thead-main">
                       <tr>
                         <th>#</th>
@@ -390,13 +399,14 @@ select{
                         <th>Age</th>
                         <th>Vessel Type</th>
                         <th>Mobile No.</th>
-                        <th>Email</th>
+                        <th>Landline No.</th>
                         <th>US Visa Expiry</th>
+                        <th>Schengen Visa Expiry</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% if mariners_profile %}
-                        {% for mariners_profile, personal_data, us_visa in zipped_data %}
+                        {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
                           <tr onclick="window.open('{% url 'mariners_profile' id=mariners_profile.user.id %}', '_blank')">
                             <td>{{ forloop.revcounter }}</td>  
                             <td>{{ mariners_profile|upper }}</td>
@@ -404,8 +414,9 @@ select{
                             <td>{{ personal_data.age }}</td>
                             <td>{{ personal_data.preferred_vessel_type|upper }}</td>
                             <td>+63{{ personal_data.mobile_1 }}</td>
-                            <td>{{ personal_data.email_address_1 }}</td>
-                            <td>{{ us_visa.us_visa_expiry }}</td>
+                            <td>{{ personal_data.landline_1 }}</td>
+                            <td>{% if us_visa.us_visa_expiry == None %}NO VISA{% else %}{{ us_visa.us_visa_expiry }}{% endif %}</td>
+                            <td>{% if schengen_visa.schengen_visa_expiry == None %}NO VISA{% else %}{{ schengen_visa.schengen_visa_expiry }}{% endif %}</td>
                           </tr>
                         {% endfor %}
                       {% else %}
@@ -415,31 +426,31 @@ select{
                       {% endif %}
                     </tbody>
             </table>
-		</div>
+    </div>
 <div class="row">
-		<div class="form-inline">
-        	<div class="col-md-12">
+    <div class="form-inline">
+          <div class="col-md-12">
         
-		<!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
+    <!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
     <p><strong>Showing 1 of 1 entries</strong></p>
         <nav class="pull-right" style="margin-top: -55px;">
-  			<ul class="pagination">
-   				 <!-- <li>
-     				 <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    			</li> -->
-    			<li class="active"><a href="#">1</a></li>
-    			<!-- <li><a href="#">2</a></li>
-    			<li><a href="#">3</a></li>
-    			<li><a href="#">4</a></li>
-   				 <li><a href="#">5</a></li> -->
-    			<!-- <li>
-     		 		<a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    			</li> -->
-  			</ul>
+        <ul class="pagination">
+           <!-- <li>
+             <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+          </li> -->
+          <li class="active"><a href="#">1</a></li>
+          <!-- <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+           <li><a href="#">5</a></li> -->
+          <!-- <li>
+            <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+          </li> -->
+        </ul>
         </nav>
         
      </div>
-  </div>	
+  </div>  
 </div>
 
   
@@ -459,8 +470,10 @@ select{
 {% endblock %}
 {% block extra_scripts %}
 <script type="text/javascript">
-  $("select").change(function(){
-    $("#myform").submit();
+  $(function(){
+    $("select").change(function(){
+      $("#myform").submit();
+    });
   });
 </script>
 {% endblock %}

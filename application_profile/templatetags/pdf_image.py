@@ -3,6 +3,7 @@ import urllib, cStringIO, base64
 
 register = template.Library()
 
+# Used in pdf templates inside application form folder
 @register.filter
 def get64(value, url):
     """

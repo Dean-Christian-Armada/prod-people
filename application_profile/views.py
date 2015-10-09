@@ -14,7 +14,7 @@ from application_form.models import *
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 from application_form.templatetags.pdf_image import get64
 
-from . forms import ApplicantsDataTables
+from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
 
 import sys, urllib, cStringIO, base64
 
@@ -146,6 +146,9 @@ def profile(request, id):
 		user_profile = UserProfile.objects.get(id=id)
 		personal_data = PersonalData.objects.get(name=id)
 		num_extra = 0 # Used in evaluation for controlling inline formset
+		principal_select_form = PrincipalSelectForm()
+		today = date.today()
+
 		try:
 			spouse = Spouse.objects.get(user=id)
 			spouse_form = SpouseForm(request.POST or None, instance=spouse)
@@ -229,7 +232,6 @@ def profile(request, id):
 			training_certificate_list.append(training_certificate.trainings_certificates.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
 		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position_id, initial=training_certificates)
-		# print user_profile
 
 		# applicant_name_form = ApplicantNameForm(request.POST or None, instance=user_profile)
 		# personal_data_form = PersonalDataForm(request.POST or None, instance=personal_data, initial={'birth_place':personal_data.birth_place})
@@ -293,6 +295,7 @@ def profile(request, id):
 			application_form.status = _status
 			application_form.save()
 			mariners_profile.status = 1
+			mariners_profile.date_hired = today
 			mariners_profile.save()
 			if str(application_form.status) == 'Passed':
 				return HttpResponseRedirect('/mariners-profile/'+id)
@@ -331,6 +334,7 @@ def profile(request, id):
 		context_dict['primaryschool_form'] = primaryschool_form
 		context_dict['evaluation_form'] = evaluation_form
 		context_dict['reference_form'] = reference_form
+		context_dict['principal_select_form'] = principal_select_form
 
 		context_dict['title'] = "Applicants Profile - "+str(personal_data).upper()
 		context_dict['sea_service'] = sea_service
@@ -500,3 +504,16 @@ def pdf_sea_services(request, id):
 		return render_to_pdf_response(request, template, context_dict)
 	else:
 		raise Http404("System Error.")
+
+@login_required
+def dynamic_vessel_types_via_principal(request):
+	principal = request.GET['principal']
+	if principal:
+		pass
+		dynamic_principal_vessel_type_form = DynamicPrincipalVesselTypeSelectForm(principal)
+	else:
+		dynamic_principal_vessel_type_form = ""
+
+	template = "application-profile/vessel_types.html"
+	context_dict = { "dynamic_principal_vessel_type_form": dynamic_principal_vessel_type_form }
+	return render(request, template, context_dict)

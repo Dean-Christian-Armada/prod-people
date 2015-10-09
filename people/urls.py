@@ -43,7 +43,10 @@ urlpatterns = [
     url(r'^application-profile/', include('application_profile.urls')),
 
     # Django autocomplete
-    url(r'^autocomplete/', include('autocomplete_light.urls'))
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
+
+    # Real Time delete on a formset
+    url(r'^delete-on-form-set/', 'mariners_profile.views.delete_on_form_set', name='delete_on_form_set'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

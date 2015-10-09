@@ -37,7 +37,7 @@ def index(request):
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=1)
-	search = MarinersDataTables()
+	search = MarinersDataTables
 	# Sets are used for dynamic value filtering
 	age = set()
 	vessel_type = set()
@@ -60,17 +60,23 @@ def index(request):
 		if 'age' in request.GET:
 			params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
-			_vessel_type = VesselType.objects.get(vessel_type=request.GET['vessel_type'])
+			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type
 		if 'rank' in request.GET:
-			_rank = Rank.objects.get(rank=request.GET['rank'])
+			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
 		if 'us_visa' in request.GET:
-			choice_visa = request.GET['us_visa']
+			us_choice_visa = request.GET['us_visa']
 			# To enable False boolean on the variable
-			choice_visa = choice_visa in ['True']
-			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=choice_visa)
-			choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
+			us_choice_visa = us_choice_visa in ['YES']
+			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=us_choice_visa)
+			us_choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
+		if 'schengen_visa' in request.GET:
+			schengen_choice_visa = request.GET['schengen_visa']
+			# To enable False boolean on the variable
+			schengen_choice_visa = schengen_choice_visa in ['YES']
+			mariners_profile = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).filter(schengen_visa=schengen_choice_visa)
+			schengen_choice_visa = int(mariners_profile.values('schengen_visa').distinct()[0]['schengen_visa'])
 
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
@@ -90,16 +96,23 @@ def index(request):
 	us_visa_choices = us_visa_choices_values
 	us_visa = USVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	# Zipped is used for the table data
-	zipped_data = zip(mariners_profile, personal_data, us_visa)
+	# Schengen Visa Dynamic Filtering
+	schengen_visa_choices_values = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('schengen_visa', flat=True).distinct().order_by('schengen_visa')
+	schengen_visa_choices = schengen_visa_choices_values
+	schengen_visa = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-	for x, y, z in zipped_data:
+
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
+
+	for x, y, z, xx in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		rank.add(x.position)
 
 	
 	# [0] is put to break the instance into the unicode value
+	print age
 	try:
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
@@ -112,14 +125,14 @@ def index(request):
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
-	context_dict['us_visa'] = us_visa_choices
 	# used for dynamic choices in us visa
-	try:
-		context_dict['choice_visa'] = us_visa_choices[choice_visa]
-	except:
-		pass
-	return render(request, template, context_dict)
+	context_dict['us_visa'] = us_visa_choices
 
+	# used for dynamic choices in us visa
+	context_dict['schengen_visa'] = schengen_visa_choices
+	
+
+	return render(request, template, context_dict)
 @login_required()
 def profile(request, id):
 	if id:
@@ -163,8 +176,9 @@ def profile(request, id):
 				flag_list.append(flag.flags.id)
 			flags = {'flags': flag_list}
 			flags = FlagForm(initial=flags)
+			print "dean"
 		except:
-			flags = ''
+			flags = FlagForm()
 
 		training_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
 		training_certificate_list = []
@@ -180,6 +194,7 @@ def profile(request, id):
 		template = "mariner-profile/profile.html"
 
 		context_dict = {}
+		# Database querysets variables
 		context_dict['user_profile'] = user_profile
 		context_dict['personal_data'] = personal_data
 		context_dict['spouse'] = spouse
@@ -208,7 +223,17 @@ def profile(request, id):
 		context_dict['sea_service'] = sea_service
 		context_dict['mariners_profile'] = mariners_profile
 
+		# Many-to-many variables
 		context_dict['flags'] = flags
 		context_dict['trainings_certificates'] = trainings_certificates
 
 		return render(request, template, context_dict)
+
+# Real Time delete on a formset
+@login_required()
+def delete_on_form_set(request):
+	id=request.GET['id']
+	if id:	
+		college = College.objects.get(id=id)
+		college.delete()
+	return HttpResponse('')

@@ -752,6 +752,7 @@
               // Extra parameter for Image Caching
               document.getElementById('picture-container').innerHTML = '<img src="' + image_url + '?'+d.getTime()+'"><input type="text" name="application_picture" value="'+image_url+'" style="display:none">';
               // reset camera for another shot
+              $("#picture-container").css("border", "0px")
             }
             else{
               alert("Python Error: " + msg);

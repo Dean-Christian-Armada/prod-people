@@ -64,14 +64,19 @@
   margin-top: 10px;
 }
 
+.sidebar .input-group{
+  margin-top: 5px;
+}
+
 .input-form{
-  border: 2px solid #2e76b8;
+  border: 2px solid #02be9b ;
   border-radius: 0px;
 }
 
-.input-label{
-  color: #02be9b;
+.input-label, ul.profile-sidebar li a{
+  color: #2e76b8!important;
 }
+
 .sea-tb
 {
   font-size: 12px
@@ -103,12 +108,17 @@
       
 }
 
-.panel-msmi-blue .panel-heading 
+.panel-blue{
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;  
+}
+
+.panel-blue .panel-heading 
 {
   border-color: #2e76b8;
   border-bottom: 5px solid #04508e
 }
-.panel-msmi-blue > .panel-heading 
+.panel-blue > .panel-heading 
 {
   color: #fff;
   background-color: #2e76b8;
@@ -116,19 +126,45 @@
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
 }
-.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body 
+.panel-blue > .panel-heading + .panel-collapse > .panel-body 
 {
   border-color: 1px solid #2e76b8
 }
-.panel-msmi-blue > .panel-heading .badge 
+.panel-blue > .panel-heading .badge 
 {
   color: #dff0d8;
   background-color: #3c763d
 }
-.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green 
+.panel-blue > .panel-footer + .panel-collapse > .panel-body-green 
 {
   border-color: 1px solid #2e76b8
 }
+.sidebar{
+  margin-top: 20px;
+}
+.affix{
+  margin-top: 0px;
+}
+
+#back-top {
+  position: fixed;
+  bottom: 47%;
+  left: 30px;
+}
+
+.main-table > thead > tr > th,
+.main-table > tbody > tr > th,
+.main-table > tfoot > tr > th,
+.main-table > thead > tr > td,
+.main-table > tbody > tr > td,
+.main-table > tfoot > tr > td {
+  border: 1px solid #02be9b;  
+}
+.main-table > thead > tr > th,
+.main-table > thead > tr > td {
+  border-bottom-width: 2px;
+} 
+
 </style>
 <div id="wrapper">
   <div id="header">
@@ -146,7 +182,7 @@
 
  <!--Application Status
 =================================-->
-<div id="" class="panel panel-msmi-blue" style="margin-top: 20px;">
+<div id="" class="panel panel-blue" style="margin-top: 20px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>APPLICATION STATUS</strong></div>
     <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
                     <div class="panel-body">
@@ -168,7 +204,10 @@
 <!--Personal Data
 ==========================================-->
  <form method="POST" autocomplete="off" id="id-application-profile">
-              <div id="step1" class="panel panel-msmi-blue" style="margin-top: 20px;">
+<p id="back-top">
+  <button id="id-application-profile" class="btn btn-success submit-application" style="background-color: #02be9b;"><span class="glyphicon glyphicon-pencil"></span> <strong>Update <br /> Application</strong></button>
+</p>
+              <div id="step1" class="panel panel-blue" style="margin-top: 20px;">
             <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" style="color: #fff; text-decoration: none;" aria-expanded="true"><strong>PERSONAL DATA</strong></div>
                     <div id="detail1" class="collapse in" aria-expanded="true">              
                     <div class="panel-body">
@@ -471,7 +510,7 @@
                 
 <!--Seaferer Seagoing History
 ============================-->            
-            <div id="step2" class="panel panel-msmi-blue" style="margin-top: 10px;">
+            <div id="step2" class="panel panel-blue" style="margin-top: 10px;">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>SEAFARER'S SEAGOING HISTORY</strong></a></div>                  
                 <div id="detail2" class="collapse in" aria-expanded="false"> 
                     <div class="panel-body"> 
@@ -506,8 +545,8 @@
                                                 <td>{{ sea_services.flag|upper }}</td>
                                                 <td>{{ sea_services.grt }}</td>
                                                 <td>{{ sea_services.dwt }}</td>
-                                                <td>{{ sea_services.engine_type }}</td>
                                                 <td>{{ sea_services.year_built }}</td>
+                                                <td>{{ sea_services.engine_type|upper }}</td>
                                                 <td>{{ sea_services.hp }}</td>
                                                 <td>{{ sea_services.kw }}</td>
                                                 <td>{{ sea_services.manning_agency|upper }}</td>
@@ -529,7 +568,7 @@
 
 <!--Educational Information
 ====================================-->
-<div id="step4" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step4" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>EDUCATIONAL INFORMATION</strong></div>  
                     <div id="detail4" class="panel-collapse collapse in" aria-expanded="false">             
                     <div class="panel-body">
@@ -609,13 +648,13 @@
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                       </div><!--End of Row-->
-<p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Primary</strong></p>
+<p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Elementary</strong></p>
                             <div class="row primary-row">
                             <div class="col-md-8">
                       <div class="input-group">
-                  <span class="input-group-addon input-label">Primary:</span>
+                  <span class="input-group-addon input-label">Elementary:</span>
                   <!-- <input type="text" class="form-control input-form" placeholder="Primary" aria-describedby="basic-addon1"> -->
-                  {{ primaryschool_form.primaryschool|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:PrimarySchool" }}
+                  {{ primaryschool_form.primaryschool|add_class:"form-control input-form"|attr:"data-toggle:tooltip"|attr:"placeholder:Elementary School" }}
               </div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                             <div class="col-md-2">
@@ -640,7 +679,7 @@
                 
 <!--Licenses National Certificate
 =========================================-->   
-<div id="step8" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step8" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
                 <div id="detail8" class="panel-collapse collapse" aria-expanded="false">             
                     <div class="panel-body">  
@@ -797,7 +836,7 @@
             
 <!--Flag Document
 =================================-->            
-<div id="step9" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step9" class="panel panel-blue" style="margin-top: 10px;">
   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>FLAG DOCUMENTS</strong></div>
                 <div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
                     <div class="panel-body"> 
@@ -812,7 +851,7 @@
     
 <!--Emergency Details
 ==============================-->
-<div id="step10" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step10" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>EMERGENCY DETAILS</strong></div>  
            <div id="detail10" class="panel-collapse collapse" aria-expanded="false">             
                     <div class="panel-body">
@@ -898,7 +937,7 @@
 
 <!--National Certificates and Travel Documents
 ================================================-->                                    
-<div  id="step11" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div  id="step11" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS / OTHER CERTIFICATES (<i>{{ department }}</i>)</strong></div>
                 <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
                   <div class="panel-body"> 
@@ -913,18 +952,18 @@
 
  <!--How did you learn about Manship
 =================================-->
-<div id="step15" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step15" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#sources" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>HOW DID YOU LEARN ABOUT MANSHIP</strong></div>
     <div id="sources" class="panel-collapse collapse" aria-expanded="false"> 
       <div class="panel-body">
-        {{ application_form.application_source|upper }}
+        {{ application_form.application_source.source|upper }}{% if application_form.application_source.source|upper != "SEAFARER CENTER" %} - {{ application_form.application_source.specific|upper }}{% endif %}
       </div><!--End of Panel Body-->
     </div><!--End of Collapse-->
 </div><!--End of Panel Primary-->   
 
 <!--Background Information
 =================================-->
-<div id="step23" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step23" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#backgroundinformation" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>BACKGROUND INFORMATION</strong></div>
     <div id="backgroundinformation" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
@@ -1046,24 +1085,12 @@
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->            
-
-            
-<!--Evaluation
-=================================-->
-<div id="step12" class="panel panel-msmi-blue" style="margin-top: 10px;">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>EVALUATION</strong></div>
-    <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
-                    <div class="panel-body">
-                        <!-- <b>EVALUATIONS OR REMARKS CAN BE PUT HERE</b> -->
-                        {{ evaluation_form.evaluation|add_class:"input-form" }}
-                        </div><!--End of Panel Body-->
-              </div><!--End of Collapse-->
-      </div><!--End of Panel Primary-->     
+  
 
 <!--Essay
 =================================-->
 {% if application_form.essay  %}
-<div id="step22" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step22" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>ESSAY (<i>{{ count_words }} WORDS</i>)</strong></div>
     <div id="essay" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
@@ -1077,7 +1104,7 @@
 {{ reference_form.management_form }}
 <!--Reference
 =================================-->
-<div id="step13" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step13" class="panel panel-blue" style="margin-top: 10px;">
     
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>REFERENCE</strong></div>
     <div id="reference" class="panel-collapse collapse" aria-expanded="false"> 
@@ -1118,13 +1145,13 @@
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon input-label">Company Name: </span>
-                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-company" name="user_mariner-{{ forloop.counter0 }}-company" placeholder="Company" type="text" value="{{ reference_forms.company.value|get_data_company }}">
+                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-company" name="user_mariner-{{ forloop.counter0 }}-company" placeholder="Company" type="text" value="{{ reference_forms.company.value|get_data:'Company' }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                       <div class="input-group">
                   <span class="input-group-addon input-label">Person Contacted:</span>
-                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-person_contacted" name="user_mariner-{{ forloop.counter0 }}-person_contacted" placeholder="Person Contacted" type="text" value="{{ reference_forms.person_contacted.value|get_data_person_contacted }}">
+                  <input class="form-control input-form" id="id_user_mariner-{{ forloop.counter0 }}-person_contacted" name="user_mariner-{{ forloop.counter0 }}-person_contacted" placeholder="Person Contacted" type="text" value="{{ reference_forms.person_contacted.value|get_data:'PersonReference' }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                     </div><!--End of Row-->
@@ -1187,7 +1214,7 @@
 
  <!--Signature
 =================================-->
-<div id="step14" class="panel panel-msmi-blue" style="margin-top: 10px;">
+<div id="step14" class="panel panel-blue" style="margin-top: 10px;">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>SIGNATURE</strong></div>
     <div id="signature" class="panel-collapse collapse" aria-expanded="false"> 
                     <div class="panel-body">
@@ -1195,7 +1222,7 @@
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->  
-<button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;">Update Application</button>
+<button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;"><span class="glyphicon glyphicon-pencil"></span> <strong>Update Application</strong></button>
 
 <div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
   <div class="modal-dialog" role="document">
@@ -1214,7 +1241,7 @@
   </div><!--End of Col-9-->          
 <!--End of Sidebar Fixed-->
 <div class="col-md-3">
-  <div class="sidebar" style="position: fixed; margin-top: 20px; width: 310px;">
+  <div class="sidebar" style="position: fixed; width: 310px;">
   <!--<h3><strong>APPLICATION FORM</strong></h3>
   <p>FORM REF. MANSHIP QP07-04-07</p>-->
     <div class="container-picture"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  width="215px" height="215px" style="border: 5px solid #2e76b8"></div>
@@ -1224,41 +1251,20 @@
             <div class="input-group" style="width: 100%; text-align: center">
           <!-- <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
           <div class="input-group" style="width:100%; text-align: center;">
-            <span class="input-group-addon">Position Applied:</span><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}">
+            <span class="input-group-addon input-label">Position Applied:</span><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}">
           </div>
           <div class="input-group" style="width:100%; text-align: center;">
-            <span class="input-group-addon">Alternative Position:</span>
-            <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.alternative_position }}">
-          </div>
-          <div class="input-group" style="width:100%; text-align: center;">
-            <span class="input-group-addon">Application Date:</span>
+            <span class="input-group-addon input-label">Application Date:</span>
             <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.application_date }}">
           </div>
       </div><!--End of Input Group-->
       <div class="input-group" style="width:100%; text-align: center;">
-                <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong> Print</strong></span></a>
+                <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print</strong></a>
                <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
             </div><!--End of Input Group-->
-            <br /><br />
-            <div class="input-group" style="width:100%; text-align: center;">
-              <span class="input-group-addon">Qualified Principal:</span>
-              <select class="form-control input-form" id="qualified-principal">
-                <option></option>
-                <option>ATHENIAN</option>
-                <option>ENESEL</option>
-                <option>HELLESPONT</option>
-                <option>IONIC</option>
-                <option>JUMBO</option>
-                <option>PSV</option>
-                <option>SEA PIONEER</option>      
-              </select>
-           </div>
-          <div id="qualified-principals-optional-button"></div>
-          <!-- <div class="input-group" style="width:100%; text-align: center;">
-                <a href="#" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a>
-                <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a>
-            </div> --><!--End of Input Group-->
-            <ul class="nav bs-docs-sidenav" style="margin-top: 10px;">
+            <br />
+
+            <ul class="nav bs-docs-sidenav profile-sidebar">
               <li>
                 <a href="#step1">Personal Data</a>
               </li>
@@ -1287,13 +1293,8 @@
                 <a href="#step23">Background Information</a>
               </li>
               <li>
-                <a href="#step12">Evaluation</a>
+                <a href="#step22">Essay</a>
               </li>
-              {% if application_form.essay  %}
-                <li>
-                  <a href="#step22">Essay</a>
-                </li>
-              {% endif %}
               <li>
                 <a href="#step13">Reference</a>
               </li>
@@ -1312,6 +1313,9 @@
 {% endblock %}
 {% block extra_scripts %}
   <script type="text/javascript">
+    dynamic_vessel_type_url = "{% url 'dynamic_vessel_types_via_principal' %}";
+    // fleet_application_form_url = "{# url 'fleet_application_form' principal='principal' vessel_type='vessel_type' #}";
+    fleet_application_form_url = "{% url 'fleet_application_form' principal='principal' id=user_profile.id %}";
     $(function(){
       // Script to auto-toggle when clicked in the sidebar
       $(".sidebar a").click(function(){
@@ -1365,15 +1369,50 @@
         $("option:nth-child(3)", this).text("NOT REHIRABLE");
       });
 
-      $("#qualified-principal").change(function(){
-        text = $('option:selected', this).text();
-        if(text != ''){
-          $("#qualified-principals-optional-button").html('<div class="input-group" style="width:100%; text-align: center;"><a href="#" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a><a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a></div> ');
-        }else{
-          $("#qualified-principals-optional-button").html('');
+      // $("#id_principal").change(function(){
+      //   principal = $('option:selected', this).text();
+      //   if(principal != '---------'){
+      //     $.get(dynamic_vessel_type_url, { principal: principal }, function(data){
+      //       $("#qualified-principals-vessel-type").html(data);
+      //     });
+      //   }else{
+      //     $("#qualified-principals-vessel-type").html('');
+      //   }
+      // });
+
+      // $("#qualified-principals-vessel-type").on("change", "#id_vessel_type", function(){
+      //   vessel_type = $('option:selected', this).text();
+      //   fleet_application_form_url = fleet_application_form_url.replace('principal', principal.toLowerCase());
+      //   fleet_application_form_url = fleet_application_form_url.replace('vessel_type', vessel_type.toLowerCase());
+      //   fleet_application_form_url = fleet_application_form_url.replace(/ /g,"-");
+      //   qualified_principals_optional_buttons = '<div class="input-group" style="width:100%; text-align: center;"><a href="'+fleet_application_form_url+'" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a><a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a></div> ';
+      //   if(vessel_type != '---------'){
+      //     $("#qualified-principals-optional-button").html(qualified_principals_optional_buttons);
+      //   }else{
+      //     $("#qualified-principals-optional-button").html('');
+      //   }
+      // });
+
+      // $("#id_principal").change(function(){
+      //   x = fleet_application_form_url
+
+      //   principal = $('option:selected', this).text();
+      //   fleet_application_form_url = fleet_application_form_url.replace('principal', principal.toLowerCase());
+      //   qualified_principals_optional_buttons = '<div class="input-group" style="width:100%; text-align: center;"><a href="'+fleet_application_form_url+'" class="btn btn-msmi" target="_blank"><span class="glyphicon glyphicon-print"><strong>Export</strong></span></a><a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong>Interview Form</strong></span></a></div> ';
+      //   if(principal != '---------'){
+      //     $("#qualified-principals-optional-button").html(qualified_principals_optional_buttons);
+      //   }else{
+      //     $("#qualified-principals-optional-button").html('');
+      //   }
+      // });
+
+      $(window).scroll(function () {
+        if ($(this).scrollTop() > 100) {
+          $('#back-top').fadeIn();
+        } else {
+          $('#back-top').fadeOut();
         }
       });
-
     });
   </script>
 {% endblock %}

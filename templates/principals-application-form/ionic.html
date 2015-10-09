@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load get_data %}
+{% load static %}
+
+{% block content %}
+	<form method="POST">
+		{% csrf_token %}
+	
+<!-- 		<h2>PERSONAL DATA</h2>
+		{#applicant_name_form#} -->
+
+		<!-- <br /><br />
+		{{personal_data_form.age}}
+		{{personal_data_form.birth_date}}
+		{{personal_data_form.birth_place}}
+		{{personal_data_form.landline_1}}
+		{{personal_data_form.mobile_1}}
+		{{personal_data_form.email_address_1}}
+		{{personal_data_form.landline_2}}
+		{{personal_data_form.mobile_2}}
+		{{personal_data_form.email_address_2}}
+		{{personal_data_form.preferred_vessel_type}}
+		{{personal_data_form.sss}}
+		{{personal_data_form.tin}}
+		{{personal_data_form.pagibig}}
+		{{personal_data_form.philhealth}}
+		{{personal_data_form.dialect}}
+		{{personal_data_form.civil_status}}
+		{{personal_data_form.english}}
+		{{personal_data_form.father_last_name}}
+		{{personal_data_form.father_first_name}}
+		{{personal_data_form.father_middle_name}}
+		{{personal_data_form.mother_last_name}}
+		{{personal_data_form.mother_first_name}}
+		{{personal_data_form.mother_middle_name}} -->
+
+<!-- 		<br /><br />
+		{{permanent_address_form.permanent_barangay}}
+		{{permanent_address_form.permanent_municipality}}
+		{{permanent_address_form.permanent_unit}}
+		{{permanent_address_form.permanent_street}}
+		{{permanent_address_form.permanent_zip}} -->
+
+<!-- 		<br /><br />
+		{{current_address_form.current_barangay}}
+		{{current_address_form.current_municipality}}
+		{{current_address_form.current_unit}}
+		{{current_address_form.current_street}}
+		{{current_address_form.current_zip}} -->
+
+		{{spouse_form.user}}
+<!-- 		
+		Last Name: {{spouse_form.spouse_last_name}}
+		First Name: {{spouse_form.spouse_first_name}}
+		Middle Name: {{spouse_form.spouse_middle_name}}
+		Married Date: {{spouse_form.married_date}}
+		Birth Date: {{spouse_form.birthdate}}
+		Contact: {{spouse_form.spouse_contact}} -->
+
+		<!-- {{ college_form.management_form }}
+ 		 <h3>College</h3>
+ 		{#college_form#}
+ 		
+ 		{% for college in college_form %}
+ 			<p>
+ 				<button class="btn btn-warning update-college-delete" type="button" data-id="{{college.id.value}}">Delete</button>
+ 				{{college.id}}
+ 				{{college.user}}
+ 				{{college.college}}
+ 				{{college.degree}}
+ 				{{college.collegeyear_from}}
+ 				{{college.collegeyear_to}}
+ 			</p>
+ 		{% endfor %} -->
+
+ 		
+<!--         {{ vocational_form.vocational }}
+		{{ vocational_form.vocationalyear_from }}
+		{{ vocational_form.vocationalyear_to }}  -->
+
+<!--         {{ highschool_form.highschool }}
+		{{ highschool_form.schoolyear_from }}
+		{{ highschool_form.schoolyear_to }} -->
+
+<!-- 		{{ primaryschool_form.primaryschool }}
+		{{ primaryschool_form.primaryschoolyear_from }}
+		{{ primaryschool_form.primaryschoolyear_to }} -->
+
+		{#land_employment_form#}
+		{{ land_employment_form.management_form }}
+		{% for land_employment_forms in land_employment_form %}
+			{{ land_employment_forms.id }}
+			{{ land_employment_forms.user }}
+			First Name: {{ land_employment_forms.employer_first_name }}
+			Middle Name: {{ land_employment_forms.employer_middle_name }}
+			Last Name: {{ land_employment_forms.employer_last_name }}
+			Land Position: {{ land_employment_forms.land_position }}
+			Start Date: {{ land_employment_forms.start_date }}
+			End Date: {{ land_employment_forms.end_date }}
+			First Name: {{ land_employment_forms.contact_first_name }}
+			Middle Name: {{ land_employment_forms.contact_middle_name }}
+			Last Name: {{ land_employment_forms.contact_last_name }}
+			Contact Person Number: {{ land_employment_forms.contact_person_number }}
+			Steet: {{ land_employment_forms.employer_street }}
+			Unit: {{ land_employment_forms.employer_unit }}
+			Barangay: {{ land_employment_forms.employer_barangay }}
+			Municipality: {{ land_employment_forms.employer_municipality }}
+			Zip: {{ land_employment_forms.employer_zip }}	
+		{% endfor %}
+
+		<p><input type="submit"></p>
+
+	</form>
+	
+
+{% endblock %}
+{% block extra_scripts %}
+	<script type="text/javascript">
+		delete_on_form_set = "{% url 'delete_on_form_set' %}"
+		$("body").on("click", ".update-college-delete", function(){
+			// $(this).parent().remove()
+			if (!confirm("WARNING! This will be completely deleted. Do you want to proceed?")){
+		      return false;
+		    }else{
+		    	id = $(this).attr("data-id");    	
+		    	$.get(delete_on_form_set, { id: id }, function(data){
+			        $(this).parent().remove();
+			    });
+		    }
+		});
+		// $(".update-college-delete").click(function(){
+		// 	alert('deamnn');
+		// });
+
+	</script>
+{% endblock %}

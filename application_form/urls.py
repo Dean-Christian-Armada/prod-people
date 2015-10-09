@@ -7,6 +7,6 @@ urlpatterns = [
 	url(r'^tmp-image/$', views.tmp_image, name='tmp_image'),
 	url(r'^success/$', views.success, name='success'),
 	url(r'^training-certificates/$', views.trainings_certificates, name='application_form_training_certificates'),
-	# url(r'^pdf/(?P<id>[0-9]*)/$', views.pdf_report, name='pdf_report'),
-	# url(r'^pdf/sea-services/(?P<id>[0-9]*)/$', views.pdf_report_sea_services, name='pdf_report_sea_services'),
+	# url(r'^(?P<principal>(.)*)/(?P<vessel_type>(.)*)/$', views.fleet_application_form, name='fleet_application_form'),
+	url(r'^(?P<principal>(.)*)/(?P<id>[0-9]*)/$', views.fleet_application_form, name='fleet_application_form'),
 ]

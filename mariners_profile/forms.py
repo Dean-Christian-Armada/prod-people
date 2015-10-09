@@ -231,7 +231,6 @@ class LandEmploymentForm(forms.ModelForm):
 	class Meta:
 		model = Reference
 		fields = '__all__'
-		exclude = ('land_position', 'zip', )
 
 	def clean(self):
 		land_position = self.cleaned_data['land_position']
@@ -285,7 +284,85 @@ class LandEmploymentForm(forms.ModelForm):
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
+class BeneficiaryForm(forms.ModelForm):
+	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
+	class Meta:
+		model = Reference
+		fields = '__all__'
 
+	def clean(self):
+		relationship = self.cleaned_data['relationship']
+		_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
+		if _relationship:
+			_relationship = Relationship.objects.get(relationship__iexact=relationship)
+		self.cleaned_data['relationship'] = _relationship
+
+		
+	def save(self, commit=True):
+		try:
+			relationship = self.cleaned_data['relationship']
+			beneficiary = super(BeneficiaryForm, self).save(commit=False)
+
+			beneficiary.relationship = relationship
+			beneficiary.save()
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+
+class AlloteeForm(forms.ModelForm):
+	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
+	bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
+	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
+	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	allotee_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
+
+	class Meta:
+		model = Reference
+		fields = '__all__'
+
+	def clean(self):
+		relationship = self.cleaned_data['relationship']
+		_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
+		if _relationship:
+			_relationship = Relationship.objects.get(relationship__iexact=relationship)
+		self.cleaned_data['relationship'] = _relationship
+
+		bank = self.cleaned_data['bank']
+		_bank = Bank.objects.get_or_create({'bank':bank}, bank__iexact=bank)
+		if _bank:
+			_bank = Bank.objects.get(bank__iexact=bank)
+		self.cleaned_data['bank'] = _bank
+
+		barangay = self.cleaned_data['allotee_barangay']
+		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
+		if _barangay:
+			_barangay = Barangay.objects.get(barangay__iexact=barangay)
+
+		municipality = self.cleaned_data['allotee_municipality']
+		_municipality = Municipality.objects.get_or_create({'municipality':municipality}, municipality__iexact=municipality)
+		if _municipality:
+			_municipality = Municipality.objects.get(municipality__iexact=municipality)
+		
+		zip = self.cleaned_data['allotee_zip']
+		try:
+			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
+		except:
+			_zip = Zip.objects.get(zip=emergency_zip)
+		self.cleaned_data['allotee_zip'] = _zip
+
+		
+	def save(self, commit=True):
+		try:
+			relationship = self.cleaned_data['relationship']
+			bank = self.cleaned_data['bank']
+			allotee_zip = str(self.cleaned_data['allotee_zip'])
+			allotee = super(AlloteeForm, self).save(commit=False)
+
+			allotee.relationship = relationship
+			allotee.bank = bank
+			allotee.zip = zip
+			allotee.save()
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class EvaluationForm(forms.ModelForm):
 	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)

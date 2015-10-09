@@ -248,9 +248,17 @@ class Dialect(models.Model):
 
 class Bank(models.Model):
 	bank = models.CharField(max_length=50, default=None,)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.bank
 
 class Branch(models.Model):
 	branch = models.CharField(max_length=50, default=None,)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.branch
 
 class PassportPlaceIssued(models.Model):
 	passport_place = models.CharField(max_length=50, default=None, blank=True)
@@ -622,3 +630,16 @@ class Beneficiary(models.Model):
 	def __unicode__(self):
 		beneficiary = "%s %s %s" % (self.beneficiary_first_name, self.beneficiary_middle_name, self.beneficiary_last_name)
 		return beneficiary
+
+class Allotee(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	allotee_first_name = models.CharField(max_length=50, null=True, default=None)
+	allotee_middle_name = models.CharField(max_length=50, null=True, default=None)
+	allotee_last_name = models.CharField(max_length=50, null=True, default=None)
+	relationship = models.ForeignKey(Relationship, default=None)
+	allotee_number = models.BigIntegerField(null=True, blank=True, default=None)
+	allotee_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	allotee_street = models.CharField(max_length=50, null=True, blank=True, default=None)
+	allotee_zip = models.ForeignKey('mariners_profile.Zip', default=None)
+	bank = models.ForeignKey(Bank, default=None)
+	allotment_account_number = models.BigIntegerField(null=True, blank=True, default=None)

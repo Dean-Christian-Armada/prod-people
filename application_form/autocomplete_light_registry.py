@@ -1,4 +1,4 @@
-from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition
+from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank
 import autocomplete_light
 
 
@@ -161,3 +161,15 @@ class LandPositionAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(LandPositionAutocomplete)
+
+class BankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Bank.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('bank'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(BankAutocomplete)

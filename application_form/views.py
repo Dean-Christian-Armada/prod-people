@@ -327,6 +327,31 @@ def fleet_application_form(request, principal, id):
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 
+	try:
+		beneficiary = Beneficiary.objects.filter(user=id)
+		if len(beneficiary) == 1:
+			num_extra = 1
+		elif len(beneficiary) < 1:
+			num_extra = 2
+		BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=1, can_delete=True, form=BeneficiaryForm )
+		beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
+
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+	try:
+		allotee = Allotee.objects.filter(user=id)
+		if len(allotee) == 1:
+			num_extra = 1
+		elif len(allotee) < 1:
+			num_extra = 2
+		AlloteeFormSet = inlineformset_factory(UserProfile, Allotee, fk_name='user', extra=1, can_delete=True, form=AlloteeForm )
+		allotee_form = AlloteeFormSet(request.POST or None, instance=user_profile )
+
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+
 	# Script to get the latest emergency contact
 	emergency_contact_form = EmergencyContactForm(request.POST or None, instance=emergency_contact, initial={'relationship':emergency_contact.relationship, 'emergency_zip':emergency_contact.emergency_zip, 'emergency_municipality':emergency_contact.emergency_zip.municipality, 'emergency_barangay':emergency_contact.emergency_zip.barangay, })
 
@@ -398,11 +423,23 @@ def fleet_application_form(request, principal, id):
 	# else:
 	# 	print primaryschool_form.errors
 
-	if land_employment_form.is_valid():
-		for land_employment in land_employment_form:
-			land_employment.save()
+	# if land_employment_form.is_valid():
+	# 	for land_employment in land_employment_form:
+	# 		land_employment.save()
+	# else:
+	# 	print land_employment_form.errors
+
+	# if beneficiary_form.is_valid():
+	# 	for beneficiary in beneficiary_form:
+	# 		beneficiary.save()
+	# else:
+	# 	print beneficiary_form.errors
+
+	if allotee_form.is_valid():
+		for allotee in allotee_form:
+			allotee.save()
 	else:
-		print land_employment_form.errors
+		print allotee_form.errors
 
 	# Travel Documents Testing
 	# if passport_form.is_valid() and sbook_form.is_valid() and us_visa_form.is_valid() and schengen_visa_form.is_valid() and yellow_fever_form.is_valid():
@@ -448,7 +485,9 @@ def fleet_application_form(request, principal, id):
 	context_dict['vocational_form'] = vocational_form
 	context_dict['highschool_form'] = highschool_form
 	context_dict['primaryschool_form'] = primaryschool_form
-	context_dict['land_employment_form'] = land_employment_form
+	# context_dict['land_employment_form'] = land_employment_form
+	# context_dict['beneficiary_form'] = beneficiary_form
+	context_dict['allotee_form'] = allotee_form
 
 	return render(request, template, context_dict)
 	# return HttpResponse(template)

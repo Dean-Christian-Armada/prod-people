@@ -1,4 +1,4 @@
-from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank
+from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank, PassportPlaceIssued ,SBookPlaceIssued ,USVisaPlaceIssued ,SchengenVisaPlaceIssued ,YellowFeverPlaceIssued ,LicensePlaceIssued ,COCPlaceIssued ,TrainingPlaceIssued
 import autocomplete_light
 
 
@@ -173,3 +173,99 @@ class BankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(BankAutocomplete)
+
+class PassportPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      PassportPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('passport_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(PassportPlaceIssuedAutocomplete)
+
+class SBookPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      SBookPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('sbook_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(SBookPlaceIssuedAutocomplete)
+
+class USVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      USVisaPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('us_visa_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(USVisaPlaceIssuedAutocomplete)
+
+class SchengenVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      SchengenVisaPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('schengen_visa_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(SchengenVisaPlaceIssuedAutocomplete)
+
+class YellowFeverPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      YellowFeverPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('yellow_fever_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(YellowFeverPlaceIssuedAutocomplete)
+
+class LicensePlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      LicensePlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('license_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(LicensePlaceIssuedAutocomplete)
+
+class COCPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      COCPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('coc_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(COCPlaceIssuedAutocomplete)
+
+class TrainingPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      TrainingPlaceIssued.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('training_place'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(TrainingPlaceIssuedAutocomplete)

@@ -120,7 +120,7 @@
 			Number: {{beneficiary_forms.beneficiary_number}}
 		{% endfor %} -->
 
-		{#allotee_form#}
+<!-- 		{#allotee_form#}
 		{{ allotee_form.management_form }}
 		{% for allotee_forms in allotee_form %}
 			{{ allotee_forms.id }}
@@ -128,18 +128,136 @@
 			First Name: {{ allotee_forms.allotee_first_name }}
 			Middle Name: {{ allotee_forms.allotee_middle_name }}
 			Last Name: {{ allotee_forms.allotee_last_name }}
-			Relationship: {{allotee_forms.relationship}}
+			Relationship: {{allotee_forms.allotee_relationship}}
 			Number: {{allotee_forms.allotee_number}}
-			Bank: {{allotee_forms.allotee_bank}}
+			Bank: {{allotee_forms.bank}}
 			Account Number: {{allotee_forms.allotment_account_number}}
 			Steet: {{ allotee_forms.allotee_street }}
 			Unit: {{ allotee_forms.allotee_unit }}
 			Barangay: {{ allotee_forms.allotee_barangay }}
 			Municipality: {{ allotee_forms.allotee_municipality }}
 			Zip: {{ allotee_forms.allotee_zip }}	
-		{% endfor %}
+		{% endfor %} -->
 
-		<p><input type="submit"></p>
+<!-- 		{#passport_form#}
+		Number: {{passport_form.passport}}
+		Place Issued: {{passport_form.passport_place_issued}}
+		Date Issued: {{passport_form.passport_date_issued}}
+		Date Expiry: {{passport_form.passport_expiry}} -->
+
+<!-- 		{#sbook_form#}
+		Number: {{sbook_form.sbook}}
+		Place Issued: {{sbook_form.sbook_place_issued}}
+		Date Issued: {{sbook_form.sbook_date_issued}}
+		Date Expiry: {{sbook_form.sbook_expiry}} -->
+
+<!-- 		{#src_form#}
+		Number: {{src_form.src}}
+		Place Issued: {{src_form.src_rank}}
+		Date Issued: {{src_form.src_date_issued}}
+		Date Expiry: {{src_form.src_expiry}} -->
+
+		<!-- {#stcw_endorsement_form#}
+		Number: {{stcw_endorsement_form.stcw_endorsement}}
+		Rank: {{stcw_endorsement_form.stcw_endorsement_rank}}
+		Date Issued: {{stcw_endorsement_form.stcw_endorsement_date_issued}}
+		Date Expiry: {{stcw_endorsement_form.stcw_endorsement_date_expiry}} -->
+
+		<!-- {#stcw_certificate_form#}
+		Number: {{stcw_certificate_form.stcw_certificate}}
+		Rank: {{stcw_certificate_form.stcw_certificate_rank}}
+		Date Issued: {{stcw_certificate_form.stcw_certificate_date_issued}}
+		Date Expiry: {{stcw_certificate_form.stcw_certificate_date_expiry}} -->
+
+		<!-- {#goc_form#}
+		Number: {{goc_form.goc}}
+		Rank: {{goc_form.goc_rank}}
+		Date Issued: {{goc_form.goc_date_issued}}
+		Date Expiry: {{goc_form.goc_expiry}} -->
+
+		<!-- {#ntc_license_form#}
+		Number: {{ntc_license_form.ntc_license}}
+		Rank: {{ntc_license_form.ntc_license_rank}}
+		Date Issued: {{ntc_license_form.ntc_license_date_issued}}
+		Date Expiry: {{ntc_license_form.ntc_license_date_expiry}} -->
+
+		<!-- {#license_form#}
+		Number: {{license_form.license}}
+		Place Issued: {{license_form.license_place_issued}}
+		Rank: {{license_form.license_rank}}
+		Grade: {{license_form.license_grade}}
+		Date Issued: {{license_form.license_date_issued}}
+		Date Expiry: {{license_form.license_expiry}} -->
+
+		<!-- {#coc_form#}
+		Number: {{coc_form.coc}}
+		Place Issued: {{coc_form.coc_place_issued}}
+		Rank: {{coc_form.coc_rank}}
+		Grade: {{coc_form.coc_grade}}
+		Date Issued: {{coc_form.coc_date_issued}}
+		Date Expiry: {{coc_form.coc_expiry}} -->
+
+		<!-- {#us_visa_form#}
+		Visa: {{us_visa_form.us_visa}}
+		Date Expiry: {{us_visa_form.us_visa_expiry}}
+		Date Issued: {{us_visa_form.us_visa_date_issued}}
+		Number: {{us_visa_form.us_visa_number}}
+		Place Issued: {{us_visa_form.us_visa_place_issued}} -->
+
+		<!-- {#schengen_visa_form#}
+		Visa: {{schengen_visa_form.schengen_visa}}
+		Date Expiry: {{schengen_visa_form.schengen_visa_expiry}}
+		Date Issued: {{schengen_visa_form.schengen_visa_date_issued}}
+		Number: {{schengen_visa_form.schengen_visa_number}}
+		Place Issued: {{schengen_visa_form.schengen_visa_place_issued}} -->
+
+		<!-- Not yet finished, skipped! -->
+<!-- 		{{ emergency_contact_form.management_form }}
+		{% for emergency_contact_forms in emergency_contact_form %}
+			{{ emergency_contact_forms.id }}
+			{{ emergency_contact_forms.user }}
+			First Name: {{ emergency_contact_forms.emergency_first_name }}
+			Middle Name: {{ emergency_contact_forms.emergency_middle_name }}
+			Last Name: {{ emergency_contact_forms.emergency_last_name }}
+			Relationship: {{emergency_contact_forms.relationship}}
+			Contact: {{emergency_contact_forms.emergency_number}}
+			Steet: {{ emergency_contact_forms.emergency_street }}
+			Unit: {{ emergency_contact_forms.emergency_unit }}
+			Barangay: {{ emergency_contact_forms.emergency_barangay }}
+			Municipality: {{ emergency_contact_forms.emergency_municipality }}
+			Zip: {{ emergency_contact_forms.emergency_zip }}	
+		{% endfor %} -->
+
+		{#flag_form#}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Country</th>
+					<th>SB No.</th>
+					<th>Expiry</th>
+					<th>License No.</th>
+					<th>Expiry</th>
+					<th>Rank</th>
+				</tr>
+			</thead>
+
+			<tbody class="flags">
+				{% for x in flag_form.flags %}
+				<tr>
+					<td>{{ x }}</td>
+					<td>{{ flag_form.sbook_number }}</td>
+	                <td>{{ flag_form.sbook_expiry }}</td>
+	                <td>{{ flag_form.license_number }}</td>
+	                <td>{{ flag_form.license_expiry }}</td>
+	                <td>{{ flag_form.flags_rank }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<button class="ajax-flags">SUBMIT FLAGS</button>
+		<!-- <p><input type="submit"></p> -->
 
 	</form>
 	
@@ -158,6 +276,9 @@
 			        $(this).parent().remove();
 			    });
 		    }
+		});
+		$(".ajax-flags").click(function(){
+			
 		});
 		// $(".update-college-delete").click(function(){
 		// 	alert('deamnn');

@@ -528,8 +528,8 @@ class SRCForm(forms.ModelForm):
 		src.save()
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['src_rank'] = src_rank
-		self.cleaned_data['src_expiry'] = None
-		self.cleaned_data['src_date_issued'] = None
+		# self.cleaned_data['src_expiry'] = None
+		# self.cleaned_data['src_date_issued'] = None
 		value = self.cleaned_data
 		SRC.objects.create(**value)
 

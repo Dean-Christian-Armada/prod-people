@@ -7,6 +7,12 @@ from django_date_extensions.fields import ApproximateDateField
 from login.models import UserProfile
 from people.models import *
 
+def null_default_foreign_key_value(model, field, value):
+	param = {field:value}
+	query = model.objects.get_or_create(**param)
+	query = model.objects.get(**param)
+	return query.id
+
 class Evaluations(models.Model):
 	evaluations = models.TextField(null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -309,6 +315,13 @@ class COCPlaceIssued(models.Model):
 	def __unicode__(self):
 		return self.coc_place
 
+class TrainingPlaceIssued(models.Model):
+	training_place = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(max_length=50, default=True)
+
+	def __unicode__(self):
+		return self.training_place
+
 class Zip(models.Model):
 	zip = models.PositiveIntegerField(unique=True, default=None)
 	barangay = models.ForeignKey(Barangay, default=None)
@@ -433,6 +446,7 @@ class Passport(AbstractPassport):
 class Sbook(AbstractSbook):
 	sbook_place_issued = models.ForeignKey(SBookPlaceIssued, default=None, blank=True)
 	sbook_date_issued = models.DateField(default=None, null=True, blank=True)
+	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
 
 class COC(AbstractCOC):
 	coc_date_issued = models.DateField(default=None, null=True, blank=True)
@@ -440,28 +454,67 @@ class COC(AbstractCOC):
 	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=1, blank=True)
 
 class License(AbstractLicense):
-	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_date_issued = models.DateField(default=None, null=True, blank=True)
+	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
 	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=1, blank=True)
 
+class NTCLicense(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	ntc_license = models.CharField(max_length=100, unique=True, default=None)
+	ntc_license_date_issued = models.DateField(default=None, null=True, blank=True)
+	ntc_license_date_expiry = models.DateField(default=None, null=True, blank=True)
+	ntc_license_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
+
 class SRC(AbstractSRC):
-	src_expiry = models.DateField(default=None, null=True, blank=True)
 	src_date_issued = models.DateField(default=None, null=True, blank=True)
-	
+	src_expiry = models.DateField(default=None, null=True, blank=True)
+
+	def save(self, *args, **kwargs):
+		if self.src_date_issued == '':
+			self.src_date_issued = None
+		if self.src_expiry == '':
+			self.src_expiry = None
+		super(SRC, self).save(*args, **kwargs)
+
+class STCWEndorsement(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	stcw_endorsement = models.CharField(max_length=100, unique=True, default=None)
+	stcw_endorsement_date_issued = models.DateField(default=None, null=True, blank=True)
+	stcw_endorsement_date_expiry = models.DateField(default=None, null=True, blank=True)
+	stcw_endorsement_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
+
+
+class STCWCertificate(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	stcw_certificate = models.CharField(max_length=100, unique=True, default=None)
+	stcw_certificate_date_issued = models.DateField(default=None, null=True, blank=True)
+	stcw_certificate_date_expiry = models.DateField(default=None, null=True, blank=True)
+	stcw_certificate_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
+
 class GOC(AbstractGOC):
 	goc_date_issued = models.DateField(default=None, null=True, blank=True)
-	# goc_rank = models.ForeignKey('mariners_profile.Rank', default=None)
+	goc_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
 
 class USVisa(AbstractUSVisa):
 	# pass
 	us_visa_place_issued = models.ForeignKey(USVisaPlaceIssued, blank=True)
 	us_visa_date_issued = models.DateField(default=None, null=True, blank=True)
+	us_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
 class SchengenVisa(AbstractSchengenVisa):
 	# pass
 	schengen_visa_place_issued = models.ForeignKey(SchengenVisaPlaceIssued, blank=True)
 	schengen_visa_date_issued = models.DateField(default=None, null=True, blank=True)
+	schengen_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
 class YellowFever(AbstractYellowFever):
 	# pass
@@ -478,7 +531,7 @@ class FlagDocumentsDetailed(models.Model):
 	sbook_expiry = models.DateField(null=True, blank=True)
 	license_number = models.PositiveIntegerField(null = True, blank=True)
 	license_expiry = models.DateField(null=True, blank=True)
-	# flags_rank = models.ForeignKey('mariners_profile.Rank', default=None)
+	flags_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.flags_documents.user.first_name, self.flags_documents.user.middle_name, self.flags_documents.user.last_name)
@@ -492,7 +545,9 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	trainings_certificates = models.ForeignKey(TrainingCertificates, on_delete=models.CASCADE)
 	number = models.PositiveIntegerField(null=True, blank=True)
 	issued = models.DateField(null=True, blank=True)
-	place_trained = models.ForeignKey(TrainingCenter)
+	expiry = models.DateField(default=None, null=True, blank=True)
+	place_trained = models.ForeignKey(TrainingCenter, default=null_default_foreign_key_value(TrainingCenter, 'training_center', ''))
+	training_place_issued = models.ForeignKey(TrainingPlaceIssued, default=null_default_foreign_key_value(TrainingPlaceIssued, 'training_place', ''))
 
 class PrincipalVesselType(models.Model):
 	principal = models.ForeignKey(Principal)
@@ -636,7 +691,7 @@ class Allotee(models.Model):
 	allotee_first_name = models.CharField(max_length=50, null=True, default=None)
 	allotee_middle_name = models.CharField(max_length=50, null=True, default=None)
 	allotee_last_name = models.CharField(max_length=50, null=True, default=None)
-	relationship = models.ForeignKey(Relationship, default=None)
+	allotee_relationship = models.ForeignKey(Relationship, default=None)
 	allotee_number = models.BigIntegerField(null=True, blank=True, default=None)
 	allotee_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotee_street = models.CharField(max_length=50, null=True, blank=True, default=None)

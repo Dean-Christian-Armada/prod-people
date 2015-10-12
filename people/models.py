@@ -273,7 +273,7 @@ class AbstractLicense(models.Model):
 class AbstractSRC(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	src = models.CharField(max_length=100, unique=True, default=None)
-	src_rank = models.ForeignKey('mariners_profile.Rank', default=None)
+	src_rank = models.ForeignKey('mariners_profile.Rank', default="mariners_profile.null_default_foreign_key_value(Rank, 'rank', '')")
 
 	class Meta:
 		abstract = True

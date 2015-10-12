@@ -309,7 +309,7 @@ class BeneficiaryForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class AlloteeForm(forms.ModelForm):
-	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
+	allotee_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
 	bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
 	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
 	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
@@ -320,11 +320,11 @@ class AlloteeForm(forms.ModelForm):
 		fields = '__all__'
 
 	def clean(self):
-		relationship = self.cleaned_data['relationship']
+		relationship = self.cleaned_data['allotee_relationship']
 		_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
 		if _relationship:
 			_relationship = Relationship.objects.get(relationship__iexact=relationship)
-		self.cleaned_data['relationship'] = _relationship
+		self.cleaned_data['allotee_relationship'] = _relationship
 
 		bank = self.cleaned_data['bank']
 		_bank = Bank.objects.get_or_create({'bank':bank}, bank__iexact=bank)
@@ -346,21 +346,68 @@ class AlloteeForm(forms.ModelForm):
 		try:
 			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
 		except:
-			_zip = Zip.objects.get(zip=emergency_zip)
+			_zip = Zip.objects.get(zip=zip)
 		self.cleaned_data['allotee_zip'] = _zip
 
 		
 	def save(self, commit=True):
 		try:
-			relationship = self.cleaned_data['relationship']
+			relationship = self.cleaned_data['allotee_relationship']
 			bank = self.cleaned_data['bank']
 			allotee_zip = str(self.cleaned_data['allotee_zip'])
 			allotee = super(AlloteeForm, self).save(commit=False)
 
-			allotee.relationship = relationship
+			allotee.allotee_relationship = relationship
 			allotee.bank = bank
 			allotee.zip = zip
 			allotee.save()
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+
+class EmergencyContactForm(forms.ModelForm):
+	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
+	emergency_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
+	emergency_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	emergency_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
+
+	class Meta:
+		model = EmergencyContact
+		fields = '__all__'
+
+	def clean(self):
+		relationship = self.cleaned_data['relationship']
+		_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
+		if _relationship:
+			_relationship = Relationship.objects.get(relationship__iexact=relationship)
+		self.cleaned_data['relationship'] = _relationship
+
+		barangay = self.cleaned_data['emergency_barangay']
+		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
+		if _barangay:
+			_barangay = Barangay.objects.get(barangay__iexact=barangay)
+
+		municipality = self.cleaned_data['emergency_municipality']
+		_municipality = Municipality.objects.get_or_create({'municipality':municipality}, municipality__iexact=municipality)
+		if _municipality:
+			_municipality = Municipality.objects.get(municipality__iexact=municipality)
+		
+		zip = self.cleaned_data['emergency_zip']
+		try:
+			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
+		except:
+			_zip = Zip.objects.get(zip=zip)
+		self.cleaned_data['emergency_zip'] = _zip
+
+		
+	def save(self, commit=True):
+		try:
+			relationship = self.cleaned_data['relationship']
+			emergency_zip = str(self.cleaned_data['emergency_zip'])
+			emergency = super(EmergencyContactForm, self).save(commit=False)
+
+			emergency.relationship = relationship
+			emergency.zip = zip
+			emergency.save()
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
@@ -371,7 +418,7 @@ class EvaluationForm(forms.ModelForm):
 		fields = '__all__'
 
 class PassportForm(forms.ModelForm):
-	passport_place_issued = forms.CharField()
+	passport_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('PassportPlaceIssuedAutocomplete'), required=False)
 	class Meta:
 		model = Passport
 		fields = '__all__'
@@ -387,7 +434,7 @@ class PassportForm(forms.ModelForm):
 		passport.save()
 
 class SBookForm(forms.ModelForm):
-	sbook_place_issued = forms.CharField()
+	sbook_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('SBookPlaceIssuedAutocomplete'), required=False)
 	class Meta:
 		model = Sbook
 		fields = '__all__'
@@ -408,7 +455,7 @@ class USVisaForm(forms.ModelForm):
 			('False', 'No'),
 		)
 	us_visa = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
-	us_visa_place_issued = forms.CharField()
+	us_visa_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('USVisaPlaceIssuedAutocomplete'), required=False)
 	class Meta:
 		model = USVisa
 		fields = '__all__'
@@ -429,7 +476,7 @@ class SchengenVisaForm(forms.ModelForm):
 		('False', 'No'),
 	)
 	schengen_visa = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))	
-	schengen_visa_place_issued = forms.CharField()
+	schengen_visa_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('SchengenVisaPlaceIssuedAutocomplete'), required=False)
 	class Meta:
 		model = SchengenVisa
 		fields = '__all__'
@@ -445,7 +492,7 @@ class SchengenVisaForm(forms.ModelForm):
 		schengen_visa.save()
 
 class YellowFeverForm(forms.ModelForm):
-	yellow_fever_place_issued = forms.CharField()
+	yellow_fever_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('YellowFeverPlaceIssuedAutocomplete'), required=False)
 	class Meta:
 		model = YellowFever
 		fields = '__all__'
@@ -461,8 +508,8 @@ class YellowFeverForm(forms.ModelForm):
 		yellow_fever.save()
 
 class COCForm(forms.ModelForm):
-	coc_place_issued = forms.CharField()
-	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
+	coc_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('COCPlaceIssuedAutocomplete'), required=False)
+	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
 	class Meta:
 		model = COC
 		fields = '__all__'
@@ -483,8 +530,8 @@ class COCForm(forms.ModelForm):
 		coc.save()
 
 class LicenseForm(forms.ModelForm):
-	license_place_issued = forms.CharField()
-	license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
+	license_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('LicensePlaceIssuedAutocomplete'), required=False)
+	license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
 	class Meta:
 		model = License
 		fields = '__all__'
@@ -504,5 +551,91 @@ class LicenseForm(forms.ModelForm):
 		license.license_place_issued = licenses_place_issued
 		license.save()
 
-# class FlagForm(forms.ModelForm):
-# 	def __init__()
+class SRCForm(forms.ModelForm):
+	src_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+	
+	class Meta:
+		model = SRC
+		fields = ('src', 'src_date_issued', 'src_expiry', )
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['src_rank']
+		src = super(SRCForm, self).save(commit=False)
+		src_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if src_rank:
+			src_rank = Rank.objects.get(rank__iexact=rank)
+		src.src_rank = src_rank	
+		src.save()
+
+class STCWEndorsementForm(forms.ModelForm):
+	stcw_endorsement_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+
+	class Meta:
+		model =  STCWEndorsement
+		fields = ('stcw_endorsement', 'stcw_endorsement_date_issued', 'stcw_endorsement_date_expiry',  'user', )
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['stcw_endorsement_rank']
+		stcw_endorsement = super(STCWEndorsementForm, self).save(commit=False)
+		stcw_endorsement_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if stcw_endorsement_rank:
+			stcw_endorsement_rank = Rank.objects.get(rank__iexact=rank)
+		stcw_endorsement.stcw_endorsement_rank = stcw_endorsement_rank	
+		stcw_endorsement.save()
+
+class STCWCertificateForm(forms.ModelForm):
+	stcw_certificate_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+
+	class Meta:
+		model =  STCWCertificate
+		fields = ('stcw_certificate', 'stcw_certificate_date_issued', 'stcw_certificate_date_expiry',  'user', )
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['stcw_certificate_rank']
+		stcw_certificate = super(STCWCertificateForm, self).save(commit=False)
+		stcw_certificate_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if stcw_certificate_rank:
+			stcw_certificate_rank = Rank.objects.get(rank__iexact=rank)
+		stcw_certificate.stcw_certificate_rank = stcw_certificate_rank	
+		stcw_certificate.save()
+
+class GOCForm(forms.ModelForm):
+	goc_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+
+	class Meta:
+		model = GOC
+		fields = ('goc', 'goc_date_issued', 'goc_expiry', )
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['goc_rank']
+		goc = super(GOCForm, self).save(commit=False)
+		goc_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if goc_rank:
+			goc_rank = Rank.objects.get(rank__iexact=rank)
+		goc.goc_rank = goc_rank	
+		goc.save()
+
+class NTCLicenseForm(forms.ModelForm):
+	ntc_license_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+
+	class Meta:
+		model = NTCLicense
+		fields = ('ntc_license', 'ntc_license_date_issued', 'ntc_license_date_expiry',  'user', )
+
+	def save(self, commit=True):
+		rank = self.cleaned_data['ntc_license_rank']
+		ntc_license = super(NTCLicenseForm, self).save(commit=False)
+		ntc_license_rank = Rank.objects.get_or_create({'rank':rank}, rank__iexact=rank)
+		if ntc_license_rank:
+			ntc_license_rank = Rank.objects.get(rank__iexact=rank)
+		ntc_license.ntc_license_rank = ntc_license_rank	
+		ntc_license.save()
+
+class FlagForm(forms.ModelForm):
+	flags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=Flags.objects.filter(company_standard=1), required=False)
+	# flags = forms.ModelChoiceField(widget=forms.RadioSelect, queryset=Flags.objects.filter(company_standard=1), required=False)
+	# flags = forms.ModelChoiceField(queryset=Flags.objects.filter(company_standard=1),  required=False)
+	# flags_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
+	class Meta:
+		model = FlagDocumentsDetailed
+		fields = '__all__'

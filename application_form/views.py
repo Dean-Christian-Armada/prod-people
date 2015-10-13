@@ -259,8 +259,30 @@ def fleet_application_form(request, principal, id):
 	from mariners_profile.forms import *
 
 	user_profile = UserProfile.objects.get(id=id)
+	mariners_profile = MarinersProfile.objects.get(user=user_profile)
 	personal_data = PersonalData.objects.get(name=id)
 	flag_documents = FlagDocuments.objects.get(user=user_profile)
+	trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+
+	# START, variables used to prepopulate inlineformset for flags
+	flags_standard = Flags.objects.filter(company_standard=1)
+	flags_standard_num = len(flags_standard)
+	flags_num = len(FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents))
+	if(flags_standard_num != flags_num):
+		for flags in flags_standard:
+			flag = Flags.objects.get(flags=flags.flags)
+			FlagDocumentsDetailed.objects.get_or_create(flags_documents=flag_documents, flags=flag)
+	# END
+	# START, variables used to prepopulate inlineformset for training and certificates
+	rank = Rank.objects.get(id=mariners_profile.position.id)
+	trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
+	trainings_certificate_standard_num = len(trainings_certificate_standard)
+	trainings_certificate_num = len(TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents))
+	if(trainings_certificate_standard_num != trainings_certificate_num):
+		for trainings_certificate in trainings_certificate_standard:
+			training_certificate = TrainingCertificates.objects.get(trainings_certificates=trainings_certificate.trainings_certificates)
+			TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainings_certificate_documents, trainings_certificates=training_certificate)
+	# END
 
 	# Used for formset updating / inlineformset_factory
 	college = College.objects.filter(user=id)
@@ -312,9 +334,22 @@ def fleet_application_form(request, principal, id):
 	EmergencyContactFormSet = inlineformset_factory(UserProfile, EmergencyContact, extra=0, can_delete=False, form=EmergencyContactForm )
 	emergency_contact_form = EmergencyContactFormSet(request.POST or None, instance=user_profile)
 
-	FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=3, can_delete=False, form=FlagForm)
+	dependents = Dependents.objects.filter(user=id)
+	if len(dependents) < 1:
+		dependents_num_extra = 1
+	else:
+		dependents_num_extra = 0
+	DependentsFormSet = inlineformset_factory(UserProfile, Dependents, extra=5, can_delete=False, form=DependentsForm )
+	dependents_form = DependentsFormSet(request.POST or None, instance=user_profile)
+
+	FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
 	flag_form = FlagFormSet(request.POST or None, instance=flag_documents)
 
+	TrainingCertificateFormSet = inlineformset_factory(TrainingCertificateDocuments, TrainingCertificateDocumentsDetailed, extra=0, can_delete=False, form=TrainingCertificateForm)
+	trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents)
+
+	SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
+	sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile)
 
 	try:
 		vocational = Vocational.objects.get(user=id)
@@ -401,6 +436,13 @@ def fleet_application_form(request, principal, id):
 		ntc_license = ''
 		ntc_license_form = NTCLicenseForm(request.POST or None, initial={'user': personal_data.name} )
 
+	try:
+		evaluation = Evaluation.objects.get(user=id)
+		evaluation_form = EvaluationForm(request.POST or None, instance=evaluation, initial={'evaluation':evaluation.evaluation})
+	except:
+		evaluation = ''
+		evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name} )
+
 
 	passport_form = PassportForm(request.POST or None, instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
 	sbook_form = SBookForm(request.POST or None, instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
@@ -411,19 +453,36 @@ def fleet_application_form(request, principal, id):
 	coc_form = COCForm(request.POST or None, instance=coc, initial={'coc_place_issued':coc.coc_place_issued, 'coc_rank':coc.coc_rank})
 	src_form = SRCForm(request.POST or None, instance=src, initial={'src_rank':src.src_rank})
 	goc_form = GOCForm(request.POST or None, instance=goc, initial={'goc_rank':goc.goc_rank})
-	flag_form = FlagForm(request.POST or None)
 
-	print request.POST
+	# print request.POST
 
-	if flag_form.is_valid():
-		flag_form.save()
+	# if evaluation_form.is_valid():
+	# 	evaluation_form.save()
+	# else:
+	# 	print evaluation_form.errors
+
+	# if flag_form.is_valid():
+	# 	for flag in flag_form:
+	# 		flag.save()
+	# else:
+	# 	print flag_form.errors
+
+	if sea_service_form.is_valid():
+		for sea_service in sea_service_form:
+			sea_service.save()
 	else:
-		flag_form.errors
+		print sea_service_form.errors
+
+	# if trainings_certificate_form.is_valid():
+	# 	for trainings_certificate in trainings_certificate_form:
+	# 		trainings_certificate.save()
+	# else:
+	# 	print trainings_certificate_form.errors
 
 	# if applicant_name_form.is_valid():
 	# 	applicant_name_form.save()
 	# else:
-	# 	applicant_name_form.errors
+	# 	print applicant_name_form.errors
 
 	# if personal_data_form.is_valid():
 	# 	personal_data_form.save()
@@ -456,6 +515,12 @@ def fleet_application_form(request, principal, id):
 	# 		emergency_contact.save()
 	# else:
 	# 	print emergency_contact_form.errors
+
+	# if dependents_form.is_valid():
+	# 	for dependents in dependents_form:
+	# 		dependents.save()
+	# else:
+	# 	print dependents_form.errors
 
 	# if vocational_form.is_valid():
 	# 	vocational_form.save()
@@ -570,8 +635,8 @@ def fleet_application_form(request, principal, id):
 	# 	license_form.save()
 	# 	coc_form.save()
 	# else:
-	# 	license_form.errors
-	# 	coc_form.errors
+	# 	print license_form.errors
+	# 	print coc_form.errors
 
 
 	# template = "principals-application-form/%s-%s.html" % (principal, vessel_type)
@@ -583,6 +648,7 @@ def fleet_application_form(request, principal, id):
 	context_dict['current_address_form'] = current_address_form
 	context_dict['spouse_form'] = spouse_form
 	# context_dict['emergency_contact_form'] = emergency_contact_form
+	# context_dict['dependents_form'] = dependents_form
 	context_dict['passport_form'] = passport_form
 	context_dict['sbook_form'] = sbook_form
 	context_dict['us_visa_form'] = us_visa_form
@@ -602,7 +668,10 @@ def fleet_application_form(request, principal, id):
 	# context_dict['allotee_form'] = allotee_form
 	context_dict['stcw_endorsement_form'] = stcw_endorsement_form
 	context_dict['stcw_certificate_form'] = stcw_certificate_form
-	context_dict['flag_form'] = flag_form
+	# context_dict['flag_form'] = flag_form
+	# context_dict['trainings_certificate_form'] = trainings_certificate_form
+	context_dict['evaluation_form'] = evaluation_form
+	context_dict['sea_service_form'] = sea_service_form
 
 	return render(request, template, context_dict)
 	# return HttpResponse(template)

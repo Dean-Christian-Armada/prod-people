@@ -6,7 +6,7 @@ from django.db.models import Q
 from login.models import UserProfile
 from . models import *
 
-from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
+from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm, DynamicTrainingCertificateForm
 
 from mariners_profile.forms import MarinersDataTables
 
@@ -137,6 +137,7 @@ def index(request):
 def profile(request, id):
 	if id:
 		user_profile = UserProfile.objects.get(id=id)
+		mariners_profile = MarinersProfile.objects.get(user=user_profile)
 		personal_data = PersonalData.objects.get(name=id)
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -189,7 +190,7 @@ def profile(request, id):
 			# print training_certificate.trainings_certificates.id
 			training_certificate_list.append(training_certificate.trainings_certificates.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
-		trainings_certificates = TrainingCertificateForm(initial=training_certificates)
+		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position.id, False, initial=training_certificates)
 
 		template = "mariner-profile/profile.html"
 

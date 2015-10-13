@@ -1,4 +1,4 @@
-from mariners_profile.models import ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank, PassportPlaceIssued ,SBookPlaceIssued ,USVisaPlaceIssued ,SchengenVisaPlaceIssued ,YellowFeverPlaceIssued ,LicensePlaceIssued ,COCPlaceIssued ,TrainingPlaceIssued
+from mariners_profile.models import TradeArea, ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank, PassportPlaceIssued ,SBookPlaceIssued ,USVisaPlaceIssued ,SchengenVisaPlaceIssued ,YellowFeverPlaceIssued ,LicensePlaceIssued ,COCPlaceIssued ,TrainingPlaceIssued, TrainingCenter
 import autocomplete_light
 
 
@@ -269,3 +269,27 @@ class TrainingPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTempla
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(TrainingPlaceIssuedAutocomplete)
+
+class TrainingCenterAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      TrainingCenter.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('training_center'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(TrainingCenterAutocomplete)
+
+class TradeAreaAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      TradeArea.objects.filter(company_standard=1)
+      )
+
+    search_fields = (
+      ('trade_area'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(TradeAreaAutocomplete)

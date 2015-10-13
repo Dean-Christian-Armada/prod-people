@@ -345,6 +345,7 @@ class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
 	departments = models.ManyToManyField(Departments, default=5)
 	company_standard = models.NullBooleanField(max_length=50, default=True)
+	national_certificate = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -356,12 +357,14 @@ class TrainingCertificates(models.Model):
 
 class TrainingCenter(models.Model):
 	training_center = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.training_center
 
 class TradeArea(models.Model):
 	trade_area = models.CharField(max_length=50, default=None, null=True, blank=True)
+	company_standard = models.NullBooleanField()
 
 	def __unicode__(self):
 		return self.trade_area
@@ -546,8 +549,12 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	number = models.PositiveIntegerField(null=True, blank=True)
 	issued = models.DateField(null=True, blank=True)
 	expiry = models.DateField(default=None, null=True, blank=True)
-	place_trained = models.ForeignKey(TrainingCenter, default=null_default_foreign_key_value(TrainingCenter, 'training_center', ''))
+	place_trained = models.ForeignKey(TrainingCenter, )
 	training_place_issued = models.ForeignKey(TrainingPlaceIssued, default=null_default_foreign_key_value(TrainingPlaceIssued, 'training_place', ''))
+
+	def __unicode__(self):
+		user = "%s %s %s" % (self.trainings_certificate_documents.user.first_name, self.trainings_certificate_documents.user.middle_name, self.trainings_certificate_documents.user.last_name)
+		return "%s - %s" % (user, self.trainings_certificates.trainings_certificates)
 
 class PrincipalVesselType(models.Model):
 	principal = models.ForeignKey(Principal)
@@ -679,7 +686,7 @@ class Beneficiary(models.Model):
 	beneficiary_first_name = models.CharField(max_length=50, null=True, default=None)
 	beneficiary_middle_name = models.CharField(max_length=50, null=True, default=None)
 	beneficiary_last_name = models.CharField(max_length=50, null=True, default=None)
-	relationship = models.ForeignKey(Relationship, default=None)
+	beneficiary_relationship = models.ForeignKey(Relationship, default=None)
 	beneficiary_number = models.BigIntegerField(null=True, blank=True, default=None)
 
 	def __unicode__(self):

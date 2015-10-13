@@ -651,11 +651,14 @@ class FlagForm(forms.ModelForm):
 
 # used for the dyanmic certificates with AJAX in the application form
 class DynamicTrainingCertificateForm(forms.Form):
-	def __init__(self, rank_id, *args, **kwargs):
+	def __init__(self, rank_id, national_certificate=True, *args, **kwargs):
 		super(DynamicTrainingCertificateForm, self).__init__(*args, **kwargs)
 		try:
 			rank = Rank.objects.get(id=rank_id)
-			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1).order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
+			queryset = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
+			if national_certificate == False:
+				queryset = queryset.filter(national_certificate=False)
+			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=queryset.order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
 		except:
 			pass
 

@@ -207,10 +207,13 @@ th{
           <img src="{% static 'img/btn-enesel.png' %}">
          </a>
         </div><!--End of Column-->
-            <div class="col-md-12" style="margin-top: 10px;">
-              <a href="" target="_blank"  title="Athenian Sea Carriers Ltd." data-toggle="tooltip" data-placement="right" class="img-responsive">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <a href="" target="_blank"  title="Athenian Sea Carriers Ltd." data-toggle="tooltip" data-placement="right" class="img-responsive">
           <img src="{% static 'img/btn-athenian.png' %}">
          </a>
+        </div><!--End of Column-->
+        <div class="col-md-12" style="margin-top: 10px;">
+          <button id="id-application-profile" class="btn btn-success submit-application" style="background-color: #02be9b;"><span class="glyphicon glyphicon-pencil"></span> <strong>Update <br /> Mariner</strong></button>
         </div><!--End of Column-->
     </div><!--End of Sidebar-->
     </div><!--End of Row-->
@@ -284,7 +287,7 @@ th{
                             <div class="col-md-3">
                       <div class="input-group">
                   <label class="input-group-addon input-label">Code:</label>
-                  <input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="">
+                  <input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ user_profile.code }}" style="text-transform:lowercase">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-3">
@@ -2093,7 +2096,7 @@ th{
                         </div><!--End of Panel Body-->
               </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->     
-            
+  <button id="id-application-profile" class="btn btn-success form-control submit-application" style="background-color: #02be9b;"><span class="glyphicon glyphicon-pencil"></span> <strong>Update Mariners Profile</strong></button>
   </div><!--End of Col-9-->          
 <!--End of Sidebar Fixed-->
 <div class="col-md-2">
@@ -2107,9 +2110,14 @@ th{
             <div class="input-group" style="width: 100%; text-align: center">
           <!-- <input type="text" class="form-control input-form" > -->
           <div class="input-group" style="width:100%; text-align: center;">
+            <label class="input-group-addon input-label">Code:</label>
+            <input type="text" class="form-control input-form" value="{{ user_profile.code }}" style="text-transform:lowercase" >
+          </div>
+          <div class="input-group" style="width:100%; text-align: center;">
             <label class="input-group-addon input-label">Position:</label>
             <input type="text" class="form-control input-form" value="{{ mariners_profile.position }}" >
           </div>
+         
       </div><!--End of Input Group-->
 <!--             <div class="input-group" style="width:100%; text-align: center;">
               <label class="input-group-addon input-label">Qualified Principal:</label>

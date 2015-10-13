@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load get_data %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 	<form method="POST">
@@ -211,8 +212,7 @@
 		Number: {{schengen_visa_form.schengen_visa_number}}
 		Place Issued: {{schengen_visa_form.schengen_visa_place_issued}} -->
 
-		<!-- Not yet finished, skipped! -->
-<!-- 		{{ emergency_contact_form.management_form }}
+		<!-- {{ emergency_contact_form.management_form }}
 		{% for emergency_contact_forms in emergency_contact_form %}
 			{{ emergency_contact_forms.id }}
 			{{ emergency_contact_forms.user }}
@@ -223,41 +223,126 @@
 			Contact: {{emergency_contact_forms.emergency_number}}
 			Steet: {{ emergency_contact_forms.emergency_street }}
 			Unit: {{ emergency_contact_forms.emergency_unit }}
-			Barangay: {{ emergency_contact_forms.emergency_barangay }}
-			Municipality: {{ emergency_contact_forms.emergency_municipality }}
-			Zip: {{ emergency_contact_forms.emergency_zip }}	
+			Barangay: <input class=" autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,barangay' }}">
+			Municipality: <input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,municipality' }}">
+			Zip: <input id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" min="0" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" type="number" value="{{ emergency_contact_forms.emergency_zip.value|get_data:'Zip' }}">
 		{% endfor %} -->
 
-		{#flag_form#}
-
+<!-- 		{{ flag_form.management_form }}
 		<table>
 			<thead>
 				<tr>
 					<th>Country</th>
 					<th>SB No.</th>
-					<th>Expiry</th>
+					<th>Sbook Expiry</th>
 					<th>License No.</th>
-					<th>Expiry</th>
+					<th>License Expiry</th>
 					<th>Rank</th>
 				</tr>
 			</thead>
 
-			<tbody class="flags">
-				{% for x in flag_form.flags %}
+			<tbody>
+				{% for flag_forms in flag_form %}
+					{{ flag_forms.flags_documents }}
+					{{ flag_forms.id }}
 				<tr>
-					<td>{{ x }}</td>
-					<td>{{ flag_form.sbook_number }}</td>
-	                <td>{{ flag_form.sbook_expiry }}</td>
-	                <td>{{ flag_form.license_number }}</td>
-	                <td>{{ flag_form.license_expiry }}</td>
-	                <td>{{ flag_form.flags_rank }}</td>
+					<td>{{ flag_forms.flags|attr:"style: display:none" }}{{ flag_forms.flags.value|get_data:'Flags' }}</td>
+					<td>{{ flag_forms.sbook_number }}</td>
+	                <td>{{ flag_forms.sbook_expiry }}</td>
+	                <td>{{ flag_forms.license_number }}</td>
+	                <td>{{ flag_forms.license_expiry }}</td>
+	                <td>{{ flag_forms.flags_rank }}</td>
 				</tr>
+				{% endfor %}
+			</tbody>
+		</table> -->
+
+		<!-- {{ trainings_certificate_form.management_form }}
+		{#trainings_certificate_form#}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Training Course</th>
+					<th>Number</th>
+					<th>Date Issued</th>
+					<th>Date Expiry</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for trainings_certificate_forms in trainings_certificate_form %}
+					{% if 'Certificate of Proficiency'|lower in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
+						{{ trainings_certificate_forms.trainings_certificate_documents }}
+						{{ trainings_certificate_forms.id }}
+						<tr>
+							<td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
+							<td>{{ trainings_certificate_forms.number }}</td>
+			                <td>{{ trainings_certificate_forms.issued }}</td>
+			                <td>{{ trainings_certificate_forms.expiry }}</td>
+			            </tr>
+					{% endif %}
 				{% endfor %}
 			</tbody>
 		</table>
 
-		<button class="ajax-flags">SUBMIT FLAGS</button>
-		<!-- <p><input type="submit"></p> -->
+		<table>
+			<thead>
+				<tr>
+					<th>Training Course</th>
+					<th>Number</th>
+					<th>Date Issued</th>
+					<th>Date Expiry</th>
+					<th>Place Issued</th>
+					<th>School / Training Center</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for trainings_certificate_forms in trainings_certificate_form %}
+					{% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
+						{{ trainings_certificate_forms.trainings_certificate_documents }}
+						{{ trainings_certificate_forms.id }}
+						<tr>
+							<td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
+							<td>{{ trainings_certificate_forms.number }}</td>
+			                <td>{{ trainings_certificate_forms.issued }}</td>
+			                <td>{{ trainings_certificate_forms.expiry }}</td>
+			                <td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingPlaceIssuedAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" type="text" value="{{ trainings_certificate_forms.training_place_issued.value|get_data:'TrainingPlaceIssued' }}"></td>
+			                <td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingCenterAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" type="text" value="{{ trainings_certificate_forms.place_trained.value|get_data:'TrainingCenter' }}"></td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table> -->
+
+		<!-- <h3>Evaluation</h3>
+		{{ evaluation_form.evaluation }} -->
+
+		<!-- {# if dependents_forms.id.value #} - will be used as a conditional for jquery and css via adding more -->
+		<!-- {{ dependents_form.management_form }}
+		{% for dependents_forms in dependents_form %}
+			{# if dependents_forms.id.value #}
+				{{ dependents_forms.id }}
+				{{ dependents_forms.user }}
+				First Name: {{ dependents_forms.dependent_first_name }}
+				Middle Name: {{ dependents_forms.dependent_middle_name }}
+				Last Name: {{ dependents_forms.dependent_last_name }}
+				Relationship: {{dependents_forms.dependent_relationship}}
+				Contact: {{dependents_forms.dependent_number}}
+				Steet: {{ dependents_forms.dependent_street }}
+				Unit: {{ dependents_forms.dependent_unit }}
+
+				Barangay: <input class=" autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_barangay" name="dependents_set-{{ forloop.counter0 }}-dependent_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,barangay' }}">
+				Municipality: <input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_municipality" name="dependents_set-{{ forloop.counter0 }}-dependent_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,municipality' }}">
+				Zip: <input id="id_dependents_set-{{ forloop.counter0 }}-dependent_zip" min="0" name="dependents_set-{{ forloop.counter0 }}-dependent_zip" type="number" value="{{ dependents_forms.dependent_zip.value|get_data:'Zip' }}">
+			{# endif #}
+		{% endfor %} -->
+
+		{{sea_service_form}}
+
+		<!-- <button class="ajax-flags">SUBMIT FLAGS</button> -->
+		<p><input type="submit"></p>
 
 	</form>
 	
@@ -277,11 +362,10 @@
 			    });
 		    }
 		});
-		$(".ajax-flags").click(function(){
-			
-		});
-		// $(".update-college-delete").click(function(){
-		// 	alert('deamnn');
+		// $("tbody.flags").children().find("select.flags").each(function(){
+		// 	flag = $('option:selected', this).text();
+		// 	$(this).after(flag);
+		// 	$(this).remove();
 		// });
 
 	</script>

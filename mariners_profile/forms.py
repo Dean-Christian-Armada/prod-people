@@ -716,17 +716,12 @@ class DependentsForm(forms.ModelForm):
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
-
 class SeaServiceForm(forms.ModelForm):
-	# vessel_name = forms.CharField()
-	# vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
-	# flag = forms.CharField(widget=autocomplete_light.TextWidget('FlagsAutocomplete'))
-	# engine_type = forms.CharField(widget=autocomplete_light.TextWidget('EngineTypeAutocomplete'))
-	# manning_agency = forms.CharField(widget=autocomplete_light.TextWidget('ManningAgencyAutocomplete'))
-	# # Do not make principal autocomplete
-	# principal = forms.CharField()
-	# rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
-	trade_area = forms.CharField(widget=autocomplete_light.TextWidget('TradeAreaAutocomplete'))
+	vessel_name = forms.CharField(widget=autocomplete_light.TextWidget('ManshipVesselNameAutocomplete'))
+	flag = forms.ModelChoiceField(queryset=Flags.objects.filter(manship_standard=1))
+	principal = forms.CharField(widget=autocomplete_light.TextWidget('ManshipPrincipalAutocomplete'))
+	manning_agency = forms.ModelChoiceField(queryset=ManningAgency.objects.filter(), initial=ManningAgency.objects.get(manning_agency='MANSHIP'))
+	trade_area = forms.CharField(widget=autocomplete_light.TextWidget('TradeAreaAutocomplete'), required=False)
 	class Meta:
 		model = SeaService
 		fields = '__all__'
@@ -738,11 +733,48 @@ class SeaServiceForm(forms.ModelForm):
 			_trade_area = TradeArea.objects.get(trade_area__iexact=trade_area)
 		self.cleaned_data['trade_area'] = _trade_area
 
+		vessel_name = self.cleaned_data['vessel_name']
+		_vessel_name = VesselName.objects.get_or_create({'vessel_name':vessel_name, 'manship_standard':True}, vessel_name__iexact=vessel_name)
+		if _vessel_name:
+			_vessel_name = VesselName.objects.get(vessel_name__iexact=vessel_name)
+		self.cleaned_data['vessel_name'] = _vessel_name
+
+		principal = self.cleaned_data['principal']
+		_principal =Principal.objects.get_or_create({'principal':principal, 'manship_standard':True}, principal__iexact=principal)
+		if _principal:
+			_principal = Principal.objects.get(principal__iexact=principal)
+		self.cleaned_data['principal'] = _principal
+
 	def save(self, commit=True):
 		try:
 			trade_area = self.cleaned_data['trade_area']
+			vessel_name = self.cleaned_data['vessel_name']
+			principal = self.cleaned_data['principal']
 			sea_services = super(SeaServiceForm, self).save(commit=False)
 			sea_services.trade_area = trade_area
+			sea_services.vessel_name = vessel_name
+			sea_services.principal = principal
 			sea_services.save()
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+class MarinerStatusForm(forms.ModelForm):
+	mariner_status_comment = forms.CharField(widget=forms.Textarea(), required=False)
+	mariner_principal = forms.ModelChoiceField(queryset=Principal.objects.filter(manship_standard=1))
+	class Meta:
+		model = MarinerStatusHistory
+		fields = '__all__'
+		exclude = ('mariner_status_comment', )
+
+	# Script create if there is a change otherwise none
+	def save(self, commit=True):
+		mariner_status_comment = self.cleaned_data['mariner_status_comment']
+		mariner_status_form = super(MarinerStatusForm, self).save(commit=False)
+		_mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
+		if _mariner_status_comment:
+			_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
+		mariner_status_form.mariner_status_comment = _mariner_status_comment
+		self.cleaned_data['mariner_status_comment'] = _mariner_status_comment
+		value = self.cleaned_data
+		MarinerStatusHistory.objects.get_or_create(**value)
+		# mariner_status_form.save()

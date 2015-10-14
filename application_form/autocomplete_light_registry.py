@@ -1,4 +1,4 @@
-from mariners_profile.models import TradeArea, ReferrersPool, Flags, Colleges, Degree, VesselType, EngineType, ManningAgency, Rank, COCRank, Relationship, Barangay, Municipality, LandPosition, Bank, PassportPlaceIssued ,SBookPlaceIssued ,USVisaPlaceIssued ,SchengenVisaPlaceIssued ,YellowFeverPlaceIssued ,LicensePlaceIssued ,COCPlaceIssued ,TrainingPlaceIssued, TrainingCenter
+from mariners_profile.models import *
 import autocomplete_light
 
 
@@ -284,7 +284,7 @@ autocomplete_light.register(TrainingCenterAutocomplete)
 
 class TradeAreaAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
-      TradeArea.objects.filter(company_standard=1)
+      TradeArea.objects.filter()
       )
 
     search_fields = (
@@ -293,3 +293,51 @@ class TradeAreaAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(TradeAreaAutocomplete)
+
+class ManshipVesselNameAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      VesselName.objects.filter(manship_standard=1)
+      )
+
+    search_fields = (
+      ('vessel_name'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(ManshipVesselNameAutocomplete)
+
+class ManshipVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      VesselType.objects.filter(manship_standard=1)
+      )
+
+    search_fields = (
+      ('vessel_type'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(ManshipVesselTypeAutocomplete)
+
+class ManshipPrincipalAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Principal.objects.filter(manship_standard=1)
+      )
+
+    search_fields = (
+      ('principal'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(ManshipPrincipalAutocomplete)
+
+class ManshipFlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Flags.objects.filter(manship_standard=1)
+      )
+
+    search_fields = (
+      ('flags'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(ManshipFlagsAutocomplete)

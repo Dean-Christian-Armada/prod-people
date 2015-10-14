@@ -348,7 +348,7 @@ def fleet_application_form(request, principal, id):
 	TrainingCertificateFormSet = inlineformset_factory(TrainingCertificateDocuments, TrainingCertificateDocumentsDetailed, extra=0, can_delete=False, form=TrainingCertificateForm)
 	trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents)
 
-	SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
+	SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=3, can_delete=False, form=SeaServiceForm )
 	sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile)
 
 	try:
@@ -443,6 +443,13 @@ def fleet_application_form(request, principal, id):
 		evaluation = ''
 		evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name} )
 
+	try:
+		mariner_status_history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')[0]
+		mariner_status_form = MarinerStatusForm(request.POST or None, instance=mariner_status_history, initial={'mariner_status_comment':mariner_status_history.mariner_status_comment.mariner_status_comment})
+	except:
+		mariner_status_history = ''
+		mariner_status_form = MarinerStatusForm(request.POST or None, initial={'user': personal_data.name} )
+
 
 	passport_form = PassportForm(request.POST or None, instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
 	sbook_form = SBookForm(request.POST or None, instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
@@ -456,6 +463,11 @@ def fleet_application_form(request, principal, id):
 
 	# print request.POST
 
+	if mariner_status_form.is_valid():
+		mariner_status_form.save()
+	else:
+		print mariner_status_form.errors
+
 	# if evaluation_form.is_valid():
 	# 	evaluation_form.save()
 	# else:
@@ -467,11 +479,11 @@ def fleet_application_form(request, principal, id):
 	# else:
 	# 	print flag_form.errors
 
-	if sea_service_form.is_valid():
-		for sea_service in sea_service_form:
-			sea_service.save()
-	else:
-		print sea_service_form.errors
+	# if sea_service_form.is_valid():
+	# 	for sea_service in sea_service_form:
+	# 		sea_service.save()
+	# else:
+	# 	print sea_service_form.errors
 
 	# if trainings_certificate_form.is_valid():
 	# 	for trainings_certificate in trainings_certificate_form:
@@ -671,7 +683,8 @@ def fleet_application_form(request, principal, id):
 	# context_dict['flag_form'] = flag_form
 	# context_dict['trainings_certificate_form'] = trainings_certificate_form
 	context_dict['evaluation_form'] = evaluation_form
-	context_dict['sea_service_form'] = sea_service_form
+	# context_dict['sea_service_form'] = sea_service_form
+	context_dict['mariner_status_form'] = mariner_status_form
 
 	return render(request, template, context_dict)
 	# return HttpResponse(template)

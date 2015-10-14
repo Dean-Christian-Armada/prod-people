@@ -1,0 +1,817 @@
+ |    |                                                  | | | |0 |0 |20050728060100|omma
+ |1REC|1ST CLASS RADIO ELECTRONIC CERT.                  | |Y|Y|5 |0 |19991224020030|baea
+ |1RTG|1ST CLASS RADIOTELEGRAPH OPTR                     | |Y|Y|5 |0 |19991222022631|omma
+ |ACT |ADVANCED CHEMICAL TANKER OPTN                     | |Y|N|0 |0 |20060905031114|omma
+ |ACWT|ADV CRSE IN VARIOUS WELDING TECH                  | |Y|N|0 |0 |19981117003200|kmb1
+ |AFF |ADVANCED FIRE FIGHTING                            | |Y|N|0 |0 |19980620104600|kmb1
+ |AID |SOLAS FIRST AID CERTIFICATE                       | |Y|N|0 |0 |19980620104600|kmb1
+ |AIMC|ADVANCED INDUSTRIAL MOTOR CONTR.                  | |Y|N|0 |0 |20050601073026|omma
+ |AIRC|AIR-CONDITIONING CONTROLS                         | |Y|N|0 |0 |19980620104600|kmb1
+ |AIS |AUTOMATIC IDENTIFICATION SYSTEM                   | |Y|N|0 |0 |20040304062857|omma
+ |ALGT|ADV TRNG PROG ON LIQ. GAS TANKER                  | |Y|N|0 |0 |19991224024823|baea
+ |AMAC|AUXILIARY MACHINERIES                             |N|Y|N|0 |0 |20131017030617|omma
+ |AMS |AUXILIARY MACHINERY SYSTEM                        |N|Y|N|0 |0 |20100107070238|omma
+ |ANI |ACCIDENT & NEAR-MISS INVESTIGATN                  | |Y|N|0 |0 |20070330013612|omma
+ |AOCI|ADV. TRNG ON OIL TANKER W/COWIGS                  | |Y|N|0 |0 |20050812020919|omma
+ |AOTO|ADVANCED OIL TANKER OPERATIONS                    | |Y|N|0 |0 |19980620104600|kmb1
+ |ARPA|AUTOMATIC RADAR PLOTTING AID                      | |Y|Y|5 |0 |19980620104600|kmb1
+ |ASC |ADVANCED SAFETY COURSE                            | |Y|N|0 |0 |20010209034947|omma
+ |ASCM|CATERING MANAGEMENT                               | |Y|N|0 |0 |20030307070958|omma
+ |AUSY|AUXILIARY SYSTEM                                  | |Y|N|0 |0 |20000906090801|omma
+ |BAKE|BAKING I COURSE (BASIC)                           | |Y|N|0 |0 |20050815092048|omma
+ |BBC |BASIC BAKING COURSE                               | |Y|N|0 |0 |20050815092157|omma
+ |BFF |BASIC FIRE FIGHTING                               | |Y|N|0 |0 |20000823083714|omma
+ |BFSM|BASIC SHIPBOARD FOOD SERVICE MGT                  | |Y|N|0 |0 |19980620104600|kmb1
+ |BMLC|BASIC MACHINE LATHE COURSE                        | |Y|N|0 |0 |19980620104600|kmb1
+ |BPT |BREAD & PASTRY TECHNIQUES                         | |Y|N|0 |0 |20050203075443|omma
+ |BRM |BRIDGE RESOURCE MANAGEMENT                        | |Y|N|0 |0 |19980620104600|kmb1
+ |BRMC|BRIDGE RECOURCE MANAGEMENT                        |N|N|Y|5 |0 |20040507144515|mkn1
+ |BSC |BASIC SAFETY COURSE (1995 STCW)                   | |Y|N|0 |0 |19980620104600|kmb1
+ |BSEC|BASIC SAFETY & EMERGENCY COURSE                   | |Y|N|0 |0 |20010216071903|omma
+ |BSFM|BASIC SHIPBOARD FOOD SERVICE MGT                  | |Y|N|0 |0 |20021127055116|omma
+ |BSS |BASIC SHIP SECURITY                               | |Y|N|0 |0 |20050815091810|omma
+ |BST |BASIC SAFETY TRAINING                             | |Y|N|0 |0 |20050524051758|omma
+ |BSTP|BASIC SAFETY TRAINING                             | |Y|N|0 |0 |20030618091822|omma
+ |BTM |BRIDGE TEAM MANAGEMENT                            | |Y|N|0 |0 |20041019020439|omma
+ |BTM1|BRIDGE TEAM MANAGEMENT (STAGE 1)                  | |Y|N|0 |0 |20050414035059|omma
+ |BTMS|BRIDGE TEAM MNGT & SIMULATOR                      | |Y|N|0 |0 |20071228083905|omma
+ |BUL |BASIC UNIX/LINUX                                  | |Y|N|0 |0 |19991223063728|baea
+ |BWT |BOILER WATER TREATMENT                            | |Y|N|0 |0 |19980620104600|kmb1
+ |C2E |PRC CERTIFICATE - 2ND ENGINEER                    | |Y|Y|5 |0 |20040414080224|omma
+ |C2EV|PRC CERTIFICATE (V1) - 2ND ENGR.                  | |Y|Y|5 |0 |20040414080201|omma
+ |C2M |OIC NAVIGATIONAL WATCH - 2M                       | |Y|Y|5 |0 |20040414075457|omma
+ |C2MV|OIC NAVIGATIONAL WATCH (V1) - 2M                  | |Y|Y|5 |0 |20040414075357|omma
+ |C3E |OIC ENGINEERING WATCH - 3RD ENGR                  | |Y|Y|5 |0 |20040414080545|omma
+ |C3EV|OIC ENGINEERING WATCH (V1) - 3E                   | |Y|Y|5 |0 |20040414075943|omma
+ |C3MV|OIC NAVIGATIONAL WATCH (V1) - 3M                  | |Y|Y|5 |0 |20040414075424|omma
+ |C4E |OIC ENGINEERING WATCH - 4TH ENGR                  | |Y|Y|5 |0 |20040414080606|omma
+ |C4EV|OIC ENGINEERING WATCH (V1) - 4E                   | |Y|Y|5 |0 |20040414080051|omma
+ |C5EV|OIC ENGINEERING WATCH V/1                         | |Y|Y|5 |0 |20050728060112|omma
+ |CA  |COLLISION AVOIDANCE                               | |Y|N|0 |0 |20030901064310|omma
+ |CAC |COLLISION AVOIDANCE COURSE                        | |Y|N|0 |0 |20050414040305|omma
+ |CAFF|CANADIAN ADVANCED FIRE FIGHTNG                    |N|N|Y|5 |0 |20020709102741|iik1
+ |CAGO|CANADIAN GMDSS                                    |N|N|Y|5 |0 |20020709102741|iik1
+ |CANA|CANADIAN  PASPORT                                 |N|N|Y|5 |0 |20020709102741|iik1
+ |CB  |CATERING BAR:BAR SERVICE                          | |Y|N|0 |0 |20000911032445|omma
+ |CBFF|CANADIAN BASIC FIRE FIGHTING                      |N|N|Y|5 |0 |20020709102741|iik1
+ |CC2C|CERTIFICATE OF COMPETENCY - 2C                    | |Y|Y|5 |0 |20010829023955|omma
+ |CCC |COMPREHENSIVE CULINARY COURSE                     | |Y|N|0 |0 |20050815092231|omma
+ |CCE |PRC CERTIFICATE - CHIEF ENGR.                     | |Y|Y|5 |0 |20050204022709|omma
+ |CCEV|PRC CERTIFICATE V/1 - CH. ENGR.                   | |Y|Y|5 |0 |20050805060309|omma
+ |CCM |PRC CERTIFICATE - CHIEF MATE                      | |Y|Y|5 |0 |20040414081448|omma
+ |CCMV|PRC CERTIFICATE (V1)- CHIEF MATE                  | |Y|Y|5 |0 |20040414081428|omma
+ |CCS |CERT. OF COMPETENCY - STEWARD                     | |Y|Y|5 |0 |20050609025931|omma
+ |CCST|CERT. OF COMPETENCY - STEWARD                     | |Y|Y|5 |0 |20040802073333|omma
+ |CENG|CONTROL ENGINEERING                               | |Y|N|0 |0 |19980620104600|kmb1
+ |CERT|CERTIFICATE OF COMPETENCY                         |N|N|Y|5 |0 |20051013133928|mkn1
+ |CHCC|CARGO HANDLING & CARE OF CARGO                    | |Y|N|0 |0 |20030901064332|omma
+ |CHEM|CHEMICAL CARRIAGE CERTIFICATE                     | |N|Y|5 |0 |19980620104600|kmb1
+ |CI  |CRUDE OIL WASHING/INERT GAS SYS.                  | |Y|N|0 |0 |20070710043840|omma
+ |CM  |CATERING MANAGEMENT                               |N|Y|N|0 |0 |20120906065053|omma
+ |CMHB|CRISIS MNGT. & HUMAN BEHAVIOR                     | |Y|N|0 |0 |20030224032501|omma
+ |CMMV|PRC CERTIFICATE V/1 - MASTER                      | |Y|Y|5 |0 |20050805060216|omma
+ |CMOL|CROWD MNGT FOR OPERATIONAL LEVEL                  | |Y|N|0 |0 |20030224032558|omma
+ |COAC|COLLISION AVOIDANCE COURSE                        | |Y|N|0 |0 |20000823083734|omma
+ |COAR|COLLISION AVOIDANCE REFRESHER                     | |Y|N|0 |0 |20050805062815|omma
+ |COC2|CERT. OF COMPETENCY - 2ND COOK                    | |Y|Y|5 |0 |20010814081859|omma
+ |COCA|CERT. OF COMPETENCY-ASST.STEWARD                  | |Y|Y|5 |0 |20011017090150|omma
+ |COCC|CERT. OF COMPETENCY - COOK                        | |Y|Y|5 |0 |20010330073637|omma
+ |COCD|CERT. OF COMPETENCY - DECK                        | |Y|Y|5 |0 |20010319081443|omma
+ |COCE|CERT. OF COMPETENCY - ENGINE                      | |Y|Y|5 |0 |20010319081429|omma
+ |COCK|CERT. OF COMPETENCY - CHIEF COOK                  | |Y|Y|5 |0 |20011120034542|omma
+ |COCM|CERT. OF COMPETENCY - MESSMAN                     |Y|Y|Y|5 |0 |20090328032215|omma
+ |COCS|CERT. OF COMPETENCY-CHIEFSTEWARD                  | |Y|Y|5 |0 |20030716051003|omma
+ |COK1|COOKING I COURSE (BASIC)                          | |Y|N|0 |0 |20040512051348|omma
+ |COK2|COOKING II COURSE                                 | |Y|N|0 |0 |20040506023025|omma
+ |COOK|COOKERY                                           | |Y|N|0 |0 |19990622022012|omma
+ |COSC|CERT. OF COMPETENCY-CHIEF STWD                    | |Y|Y|5 |0 |20011212033433|omma
+ |COW |CRUDE OIL WASHING CERTIFICATE                     | |Y|N|0 |0 |20150223061748|omma
+ |CPAS|CANADIAN PASSPORT                                 |N|N|Y|5 |0 |20020709102741|iik1
+ |CSBK|CANADIAN S.BOOK                                   |N|N|Y|5 |0 |20020709102741|iik1
+ |CSO |Company Security Officer                          |N|N|N|0 |0 |20041228071817|mkn1
+ |CSTW|CERT. OF COMPETENCY - STEWARD                     | |Y|Y|5 |0 |20040227025857|omma
+ |CTF |CHEMICAL TANKER FAMILIARIZATION                   |N|Y|N|0 |0 |20080812070323|omma
+ |CTS |CHEMICAL TANKER SAFETY                            | |Y|N|0 |0 |19980620104600|kmb1
+ |CTSC|CHEMICAL TANKER SAFETY COURSE                     | |Y|N|0 |0 |19980620104600|kmb1
+ |DANG|DANGEROUS CARGO ENDORSEMENT                       | |N|Y|5 |0 |19980620104600|kmb1
+ |DECK|WATCHKEEPING (DECK)                               | |Y|N|0 |0 |19980620104600|kmb1
+ |DG  |DANGEROUS & HAZARDOUS CARGO                       | |Y|N|0 |0 |20010307074256|omma
+ |DHHC|DANGEROUS,HAZARDOUS&HARMFULCARGO                  | |Y|N|0 |0 |20030709063812|omma
+ |E2E |PRC ENDORSEMENT - 2ND ENGINEER                    | |Y|Y|5 |0 |20040414074553|omma
+ |E2EV|PRC ENDORSEMENT (V1) - 2ND ENGR.                  | |Y|Y|5 |0 |20040414074444|omma
+ |E2M |OIC NAVIGATIONAL WATCH - 2M                       | |Y|Y|5 |0 |20040414073400|omma
+ |E2MV|OIC NAVIGATIONAL WATCH (V1) - 2M                  | |Y|Y|5 |0 |20040414073112|omma
+ |E3E |OIC ENGINEERING WATCH - 3E                        | |Y|Y|5 |0 |20040414074612|omma
+ |E3EV|OIC ENGINEERING WATCH (V1) - 3E                   | |Y|Y|5 |0 |20040414074508|omma
+ |E3MV|OIC NAVIGATIONAL WATCH (V1) - 3M                  | |Y|Y|5 |0 |20040414073135|omma
+ |E4E |OIC ENGINEERING WATCH - 4E                        | |Y|Y|5 |0 |20040414074717|omma
+ |E4EV|OIC ENGINEERING WATCH (V1) - 4E                   | |Y|Y|5 |0 |20040414074534|omma
+ |E5EV|OIC ENGINEERING WATCH V/1                         | |Y|Y|5 |0 |20050728060056|omma
+ |EAW |ELECTRIC ARC WELDING                              | |Y|N|0 |0 |19980620104600|kmb1
+ |ECDI|ECDIS                                             | |Y|N|0 |0 |20040721061605|omma
+ |ECE |PRC ENDORSEMENT - CHIEF ENGR.                     | |Y|Y|5 |0 |20050204023053|omma
+ |ECEV|PRC ENDORSEMENT (V1) - CH. ENGR.                  | |Y|Y|5 |0 |20050204023037|omma
+ |ECM |PRC ENDORSEMENT - CHIEF MATE                      | |Y|Y|5 |0 |20040414072729|omma
+ |ECMV|PRC ENDORSEMENT (V1)- CHIEF MATE                  | |Y|Y|5 |0 |20040414072715|omma
+ |ECW |ELECTRICAL CONTROL WIRING INST.                   | |Y|N|0 |0 |20050601073111|omma
+ |EFF |EXTENDED FIREFIGHTING                             | |Y|N|0 |0 |20080220083012|omma
+ |EISM|EXPANDED 3 DAY ISM COURSE                         | |Y|N|0 |0 |20060324032354|omma
+ |ELEC|BASIC ELECTRICITY                                 |N|Y|N|0 |0 |20131017062629|omma
+ |ELO |ENGLISH LANGUAGE FOR OFFICERS                     | |Y|N|0 |0 |20050812021725|omma
+ |EMMV|PRC ENDORSEMENT V/1 - MASTER                      | |Y|Y|5 |0 |20050805060238|omma
+ |ENGW|WATCHKEEPING (ENGINE)                             | |Y|N|0 |0 |19980620104600|kmb1
+ |ENS |ELECTRONIC NAVIGATION SYSTEM                      | |Y|N|0 |0 |20000418064738|omma
+ |ERM |ENGINE ROOM MANAGEMENT                            | |Y|N|0 |0 |20050317060609|omma
+ |ERRM|ENGINE ROOM RESOURCE MANAGEMENT                   | |Y|N|0 |0 |20071008091210|omma
+ |ERS |ENGINE ROOM SIMULATOR                             | |Y|N|0 |0 |20010123035635|omma
+ |ERSC|ERS COURSE W/ ENG. ROOM MNGT.                     | |Y|N|0 |0 |20150302081735|omma
+ |ETEC|ELECTROTECHNOLOGY                                 | |Y|N|0 |0 |19980620104600|kmb1
+ |ETS |TANKER SAFETY & CARGO OPERATION                   | |Y|N|0 |0 |19980620104600|kmb1
+ |EW  |OIC OF AN ENGINEERING WATCH                       | |Y|Y|5 |0 |20030603081254|omma
+ |EWV1|OIC OF AN ENGINEERING WATCH V/1                   | |Y|Y|5 |0 |20030603081241|omma
+ |FFBT|FIRE FIGHTING - BASIC TRAINING                    | |Y|N|0 |0 |20000119023626|omma
+ |FIQA|FERRIBY INTERNAL QUALITY AUDITING                 |N|N|Y|5 |0 |20020709102741|iik1
+ |FIRE|SOLAS FIRE FIGHTING CERTIFICATE                   | |Y|N|0 |0 |19980620104600|kmb1
+ |FRBO|RL OPERATOR, FAST RESCUE BOAT                     | |Y|N|0 |0 |20030530094105|omma
+ |FSBK|FILLIPINO SEAMAN'S BOOK                           |N|N|Y|5 |0 |20020709102741|iik1
+ |FTPC|SHORE-BASED FIRE FIGHTING                         | |Y| |0 |0 |19990203024942|omma
+ |G.VI|GR. EMRG.SAFETY.MEDCARE.SURVIVAL                  |N|N|Y|5 |0 |20020709102741|iik1
+ |GAFF|GREEK VI/3-1,4-1                                  |N|N|Y|5 |0 |20020709102741|iik1
+ |GAFL|GREEK ADVNCED FIREFIGHT. LEONTOP.                 |N|N|Y|5 |0 |20020709102741|iik1
+ |GARP|A.R.P.A                                           |N|N|Y|5 |0 |20051013133858|mkn1
+ |GASW|GAS WELDING, CUTTING AND BRAZING                  |N|Y|N|0 |0 |20100326122110|omma
+ |GBFF|GREEK VI/1-1,1-2,1-3,1-4,2-1,                     |N|N|Y|5 |0 |20020709102741|iik1
+ |GBMS|BRIDGE SIMULATOR                                  |N|N|Y|5 |0 |20040507144350|mkn1
+ |GCOW|GREEK C.O.W.                                      |N|N|Y|5 |0 |20020709102741|iik1
+ |GCTS|GENERAL/CHEMICAL TANKER SAFETY COURSE             |N|Y|N|0 |0 |20090923082404|omma
+ |GECS|GREEK ENGINE SIMULTR                              |N|N|Y|5 |0 |20020709102741|iik1
+ |GELE|GREEK ELECTRONIC NAVIGATION CERTIFICATE           |N|N|Y|5 |0 |20020709102741|iik1
+ |GHAM|GREEK HAZARDOUS ATMOSPHERE MONITORING             |N|N|Y|5 |0 |20020709102741|iik1
+ |GHAZ|GR.HAZARDOUOUS MATERIALS (B-V/5)                  |N|N|Y|5 |0 |20020709102741|iik1
+ |GINF|INFORMATICS COURSE                                |N|N|Y|5 |0 |20020709102741|iik1
+ |GLGS|GREEK LIQUIFIED GAS SAFETY                        |N|N|Y|5 |0 |20020709102741|iik1
+ |GLIC|GREEK LICENCE                                     |N|N|Y|5 |0 |20020709102741|iik1
+ |GMCC|MEDICAL CARE                                      |N|N|Y|5 |0 |20040507144141|mkn1
+ |GMDS|GLOBAL MARITIME DISTRESS & SAFETY SYSTEM          |N|N|Y|5 |0 |20020709102741|iik1
+ |GMRO|GMDSS-RESTRICTED OPERATOR(R.O)                    |N|N|Y|5 |0 |20020709102741|iik1
+ |GNHO|GREEK NAUTICAL ELECTRONIC APPLIANCES              |N|N|Y|5 |0 |20020709102741|iik1
+ |GOC |GENERAL OPERATOR CERTIFICATE                      |N|Y|Y|5 |0 |20081028104129|omma
+ |GOCG|GOC FOR GMDSS                                     | |Y|N|0 |0 |20030901064254|omma
+ |GOTS|GREEK OIL TANKER SAFETY                           |N|N|Y|5 |0 |20020709102741|iik1
+ |GPAS|GREEK PASSPORT                                    |N|N|Y|5 |0 |20020709102741|iik1
+ |GPC |GENERAL PURPOSE COURSE                            | |Y|N|0 |0 |19980620104600|kmb1
+ |GQAC|INTERNAL QUALITY AUDITING                         |N|N|Y|5 |0 |20020709102741|iik1
+ |GRAD|GREEK RADIOTELEPHONY CERTIFICATE                  |N|N|Y|5 |0 |20020709102741|iik1
+ |GREO|GREEK RADIOELECTRONIC COURSE/CERT.                |N|N|Y|5 |0 |20020709102741|iik1
+ |GROC|GREEK RADAR OBSERVATION CERTIFICATE               |N|N|Y|5 |0 |20020709102741|iik1
+ |GSAC|GENERAL SECURITY AWARENESS COURS                  | |Y|N|0 |0 |20080221063252|omma
+ |GSBK|GREEK SEAMAN'S BOOK                               |Y|Y|Y|5 |0 |20020812105017|iik1
+ |GSTC|GREEK S.T.C.W.                                    |N|N|Y|5 |0 |20020709102741|iik1
+ |GTF |GENERAL TANKER FAMILARIZATION                     | |Y|N|0 |0 |19980620104600|kmb1
+ |GTS |GENERAL TANKER SAFETY                             | |Y|N|0 |0 |19980620104600|kmb1
+ |GTSC|GEN.TANKER & IGS/COW FAM. COURSE                  | |Y|N|0 |0 |19991122032634|omma
+ |GUNI|GREEK UNITOR TRAINING CERTIFICATE                 |N|N|Y|5 |0 |20020709102741|iik1
+ |GV/1|GREEK MIN.REQ.FOR TANKERMAN                       |N|N|Y|5 |0 |20020709102741|iik1
+ |GWTC|GR.WATCHKEEPING  CERTIFICATE                      |N|N|Y|5 |0 |20020709102741|iik1
+ |HCFR|HAZARDOUS MATERIAL                                | |Y|N|0 |0 |20051107030348|omma
+ |HELM|HELMEPA CERTIFICATE                               |N|N|Y|5 |0 |20020709102741|iik1
+ |HM  |HAZARDOUS MATERIAL (TRAININGCRS)                  | |Y|N|0 |0 |20071228073024|omma
+ |HMAT|HAZARDOUS MATERIAL FAMILIARIZATN                  | |Y|N|0 |0 |20000707065100|baea
+ |HMF |HAZARDOUS MATERIAL FAMILIARIZATION                |N|Y|N|0 |0 |20101029030151|omma
+ |HP  |HYDRAULICS/PNEUMATICS                             |N|Y|N|0 |0 |20100302091216|omma
+ |HRC |HUMAN RELATIONSHIPS                               | |Y|N|0 |0 |19990705022012|omma
+ |HRSR|HUMAN RELATIONSHIP & SOC. RESP.                   | |Y|N|0 |0 |19980620104600|kmb1
+ |HSCT|HSC IN-HOUSE FLEET TRAINING                       |N|N|Y|5 |0 |20020709102741|iik1
+ |IC  |INTERNATIONAL CUISINE                             | |Y|N|0 |0 |20000329054706|baea
+ |ICA |INTERNATIONAL CULINARY ARTS                       | |Y|N|0 |0 |20000724042217|baea
+ |IE  |INDUSTRIAL ELECTRICIAN                            |N|Y|N|0 |0 |20121120090753|omma
+ |IELE|INTRO. TO ELECTROTECHNOLOGY                       | |Y|N|0 |0 |20000704032425|omma
+ |IGS |INERT GAS SYSTEM CERTIFICATE                      | |Y|N|0 |0 |19980620104600|kmb1
+ |IGSC|INERT GAS SYS. & CRUDE OIL WASH.                  |N|Y|N|0 |0 |20080812022456|omma
+ |INAU|INSTRUMENTATION & AUTOMATION                      | |Y|N|0 |0 |20070929033656|omma
+ |INMA|INT. MARITIME SATELLITE COMM.                     | |Y|N|0 |0 |19990617092239|omma
+ |INST|INSTRUMENTATION                                   | |Y|N|0 |0 |19980620104600|kmb1
+ |INTC|INTERNATIONAL COOKING                             | |Y|N|0 |0 |20050124080418|omma
+ |ISM |INTERNATIONAL SAFETY MANAGEMENT                   |Y|Y|N|0 |0 |20100528032936|omma
+ |ISMC|INTERNATIONAL SAFETY MNGT CODE                    | |Y|N|0 |0 |20050809061151|omma
+ |ISMF|ISM CODE FAMILIARIZATION                          | |Y|N|0 |0 |20050622030305|omma
+ |ISMI|ISM CODE INTRODUCTION                             | |Y|N|0 |0 |20050809031756|omma
+ |ISMO|ISM CODE INTROD. FOR OFFICERS                     | |Y|N|0 |0 |20050609025024|omma
+ |ISMR|INTERNATIONAL SAFETY MNGT RATING                  |N|Y|N|0 |0 |20121025100327|omma
+ |ISMT|ISM TRAINING PROGRAMME                            | |Y|N|0 |0 |20050831075013|omma
+ |ISOO|INTERNATIONAL SAFETY MNGT-OFFICR                  | |Y|N|0 |0 |20050815034019|omma
+ |L2E |PRC LICENSE - 2ND ENGR.                           | |Y|N|0 |0 |20050818063210|omma
+ |L2M |PRC LICENSE - OIC NW - 2ND MATE                   | |Y|N|0 |0 |20060125075359|omma
+ |L3E |PRC LICENSE - OIC EW - 3RD ENGR.                  | |Y|N|0 |0 |20060125075540|omma
+ |L3M |PRC LICENSE - OIC NW - 3RD MATE                   | |Y|N|0 |0 |20060125075420|omma
+ |L4E |PRC LICENSE - OIC EW - 4TH ENGR.                  | |Y|N|0 |0 |20060502035023|omma
+ |LAB |RL ABLE SEAMAN II/4                               | |Y|N|0 |0 |20060804084056|omma
+ |LAFF|LIBERIA ADVANCED FIRE FIGHTING                    |N|N|Y|5 |0 |20020709102741|iik1
+ |LBO |RL BOSUN                                          | |Y|N|0 |0 |20060804081134|omma
+ |LBT |RL BASIC TRAINING                                 | |Y|N|0 |0 |20060803075852|omma
+ |LCAS|LIBERIAN COW ASSIST.                              |N|N|Y|5 |0 |20020709102741|iik1
+ |LCE |PRC LICENSE CHIEF ENGINEER                        | |Y|N|0 |0 |20060502034747|omma
+ |LCIC|LIBERIAN C.O.W. IN CHARGE                         |N|N|Y|5 |0 |20020709102741|iik1
+ |LCM |PRC LICENSE CHIEF MATE                            | |Y|N|0 |0 |20050414034135|omma
+ |LEL |RL ELECTRICIAN                                    | |Y|N|0 |0 |20050321073659|omma
+ |LFRB|RL OPERATOR, FAST RESCUE BOAT                     | |Y|N|0 |0 |20060803075916|omma
+ |LGTF|LIQUEFIED GAS TANKER FAM.                         | |Y|N|0 |0 |20000418074743|omma
+ |LIFE|SOLAS LIFEBOAT HANDLING CERT.                     | |Y|N|0 |0 |19980620104600|kmb1
+ |LIGO|LIBERIAN G.O.                                     |N|N|Y|5 |0 |20020709102741|iik1
+ |LJOS|RL JR. ORDINARY SEAMAN                            | |Y|N|0 |0 |20060804073221|omma
+ |LLIC|LIBERIAN LICENCE                                  |N|N|Y|5 |0 |20020709102741|iik1
+ |LMC |RL MEDICAL CARE IN CHARGE                         | |Y|N|0 |0 |20060803080011|omma
+ |LMF |RL MEDICAL FIRST AID PROVIDER                     | |Y|N|0 |0 |20060803075813|omma
+ |LMM |PRC LICENSE MASTER MARINER                        | |Y|N|0 |0 |20060502034843|omma
+ |LOCE|PRC OIC OF AN ENGINEERING WATCH                   | |Y|N|0 |0 |20040414071522|omma
+ |LOCN|PRC OIC OF A NAVIGATIONAL WATCH                   | |Y|N|0 |0 |20040414071453|omma
+ |LOI |RL OILER/MOTORMAN III/4                           | |Y|N|0 |0 |20060804085257|omma
+ |LOS |RL ORDINARY SEAMAN II/4                           | |Y|N|0 |0 |20060804090214|omma
+ |LPG |LIQUIFIED PETROLEUM GAS                           | |Y|N|0 |0 |19980620104600|kmb1
+ |LPSC|RL PROFICIENT IN SURVIVAL CRAFT                   | |Y|N|0 |0 |20060803075943|omma
+ |LPU |PUMPMAN/TANKERMAN (OIL)                           | |Y|N|0 |0 |20060804071215|omma
+ |LSBK|LIBERIAN SEAMAN'S BOOK                            |N|N|Y|5 |0 |20020709102741|iik1
+ |LSSO|RL SHIP SECURITY OFFICER                          | |Y|N|0 |0 |20060807070114|omma
+ |LTAS|LIB. TANKERMAN ASSIS                              |N|N|Y|5 |0 |20020709102741|iik1
+ |LTCA|RL TANKERMAN (COW/IGS) ASSTG.                     | |Y|Y|5 |0 |20060803080146|omma
+ |LTCC|RL TANKERMAN (COW/IGS) IN CHARGE                  | |Y|Y|5 |0 |20060803080219|omma
+ |LTCH|RL TANKERMAN(CHEMICAL) IN CHARGE                  | |Y|Y|5 |0 |20070104084857|omma
+ |LTGA|TANKERMAN (OIL) ASSTG.                            | |Y|Y|5 |0 |20060804071310|omma
+ |LTGO|RL TANKERMAN (OIL) IN CHARGE                      | |Y|Y|5 |0 |20060807080323|omma
+ |LTIC|LIBERIAN TANKERMAN IN CHARGE                      |N|N|Y|5 |0 |20020709102741|iik1
+ |LTOA|RL TANKERMAN(OIL)-ASSTG                           | |Y|Y|5 |0 |19980620104600|kmb1
+ |LTOC|RL TANKERMAN OIL/COWIGS INCHARGE                  | |Y|Y|5 |0 |20060807080356|omma
+ |LTPA|RL TANKERMAN(PETROLEUM)-ASSTG                     | |Y|Y|5 |0 |19980620104600|kmb1
+ |LTPC|RL TANKERMAN(PETROLEUM)-CHARGE                    | |Y|Y|5 |0 |19980620104600|kmb1
+ |LTPM|RL TANKERMAN-OIL/COWIGS INCHARGE                  | |Y|Y|5 |0 |20060803090907|omma
+ |LTS |LPG/LNG TANKER SAFETY                             | |Y|N|0 |0 |19980620104600|kmb1
+ |LWI |RL WIPER VI/1                                     | |Y|N|0 |0 |20060804085420|omma
+ |M2EW|MARINA 2ND ENGINEER OFFICER                       | |Y|Y|5 |0 |20010119060219|omma
+ |MAE |MARINE (MANAGERIAL) ELECTRICITY                   | |Y|N|0 |0 |20000621075730|omma
+ |MAIR|MARINE ACCIDENT INVESTIGATION & ROOT              |N|Y|N|0 |0 |20120725021048|omma
+ |MARE|MARITIME ENGLISH FOR RATINGS                      | |Y|N|0 |0 |19981203052848|omma
+ |MBC |BOAT CAPTAIN - MARINA                             | |Y|Y|5 |0 |20040325034424|omma
+ |MCAS|M.I. C.O.W. ASSIST.                               |N|N|Y|5 |0 |20020709102741|iik1
+ |MCIC|M.I. COW IN CHARGE                                |N|N|Y|5 |0 |20020709102741|iik1
+ |MCM |MARINA CHIEF MATE                                 | |Y|Y|5 |0 |19991123073118|omma
+ |MDE |MARINE DIESEL ENGINE (4 STROKE)                   | |Y|N|0 |0 |20000704032109|omma
+ |MDRG|DRUG & ALCOHOL TEST                               |N|N|Y|5 |0 |20020709102741|iik1
+ |MDTY|FIT FOR DUTY                                      |N|N|Y|5 |0 |20020709102741|iik1
+ |MDWK|MARINA DECK WATCHKEEPER                           | |Y|Y|5 |0 |19991123072635|omma
+ |MDWV|MARINA DECK WATCHKEEPER - V/1                     | |Y|Y|5 |0 |19991123073310|omma
+ |ME  |MARITIME ENGLISH                                  | |Y|N|0 |0 |20040721091734|omma
+ |MEBT|MEDICAL EMERGENCY - BASIC TRAINING                |N|Y|N|0 |0 |20100324073115|omma
+ |MEC |MARITIME ENGLISH COURSE                           | |Y|N|0 |0 |19980620104600|kmb1
+ |MECA|MEDICAL CARE                                      |Y|Y|Y|5 |0 |20130910145839|omma
+ |MEDO|MARITIME ENGLISH FOR DECK OFF.                    | |Y|N|0 |0 |20050810091446|omma
+ |MEEO|MARITIME ENGLISH-ENGINE OFFICERS                  | |Y|N|0 |0 |20000614023854|omma
+ |MEFA|MEDICAL EMERGENCY - FIRST AID                     | |Y|N|0 |0 |19980620104600|kmb1
+ |MEO |MARITIME ENGLISH FOR OFFICERS                     | |Y|N|0 |0 |20010508074655|omma
+ |MER |MARITIME ENGLISH FOR RATINGS                      | |Y|N|0 |0 |20040621030621|omma
+ |METE|METEOROLOGY                                       | |Y|N|0 |0 |20000905062803|omma
+ |MEWK|MARINA ENGINE WATCHKEEPER                         | |Y|Y|5 |0 |19991123072617|omma
+ |MEWV|MARINA ENGINE WATCHKEEPER - V/1                   | |Y|Y|5 |0 |19991123073253|omma
+ |MFRB|MI FAST RESCUE BOAT CREWMAN                       | |Y|Y|5 |0 |19980620104600|kmb1
+ |MGGO|MI GMDSS GENERAL OPERATOR                         | |Y|Y|5 |0 |19980620104600|kmb1
+ |MIAB|MI ABLE SEAMAN II/4                               | |Y|Y|5 |0 |19990729062858|omma
+ |MIAF|M.I ADVANCE FF                                    |N|N|Y|5 |0 |20040507144431|mkn1
+ |MIBF|MARSH.ISLAND BASIC FIRE FIGHTING                  |N|N|Y|5 |0 |20131017091405|omma
+ |MIBO|MI BOSUN II/4                                     | |Y|N|0 |0 |20000131033226|omma
+ |MIBT|MI BASIC TRAINING                                 | |Y|Y|5 |0 |19980620104600|kmb1
+ |MIEL|MI ELECTRICIAN III/4                              | |Y|N|0 |0 |20050831090044|omma
+ |MIGO|MARSHALL ISLAND.-G.O                              |N|N|Y|5 |0 |20020709102741|iik1
+ |MIOI|MI OILER/MOTORMAN III/4                           | |Y|Y|5 |0 |19990729060953|omma
+ |MIOJ|MI JUNIOR ORDINARY SEAMAN                         | |Y|Y|5 |0 |19980620104600|kmb1
+ |MIOS|MI ORDINARY SEAMAN II/4                           | |Y|Y|5 |0 |19990729063552|omma
+ |MIPU|PUMPMAN / TANKERMAN (OIL)                         | |Y|N|0 |0 |19991110060709|omma
+ |MIRE|M.ISLAND'S (REO)RADIOELECTRONIC                   |N|N|Y|5 |0 |20020709102741|iik1
+ |MIRO|MARSHALL ISLAND.-R.O.                             |N|N|Y|5 |0 |20020709102741|iik1
+ |MIWC|M.I.WATCHKEEPING  CERTIFICATE                     |N|N|Y|5 |0 |20020709102741|iik1
+ |MIWI|MI WIPER VI/1                                     | |Y|Y|5 |0 |20000620024334|omma
+ |ML  |MARITIME LAW                                      |N|Y|N|0 |0 |20130219065832|omma
+ |MLBD|MARITIME LEADERSHIP & BEH. DEV.                   | |Y|N|0 |0 |19980620104600|kmb1
+ |MLC |MACHINE LATHE COURSE                              | |Y|N|0 |0 |20000620073442|omma
+ |MLIC|M.I. LICENCE                                      |N|N|Y|5 |0 |20020709102741|iik1
+ |MLSO|MARITIME LAW FOR SHIPS' OFFICERS                  |N|Y|N|0 |0 |20100107070213|omma
+ |MM  |MESSMAN COURSE                                    |N|Y|N|0 |0 |20081029022342|omma
+ |MMCC|MI MEDICAL CARE PERSON-IN-CHARGE                  | |Y|Y|5 |0 |19980620104600|kmb1
+ |MMET|MARINE METEOROLOGY                                | |Y|N|0 |0 |19990322013955|omma
+ |MMFA|MI MEDICAL FIRST AID PROVIDER                     | |Y|Y|5 |0 |19980620104600|kmb1
+ |MMPS|MODERN MARINE PROPULSION SYSTEM                   | |Y|N|0 |0 |20010119060134|omma
+ |MOEV|MARINA ENGINEER OIC WATCH - V/1                   | |Y|Y|5 |0 |19991123073441|omma
+ |MOEW|MARINA ENGINEER OIC WATCH                         | |Y|Y|5 |0 |19991123073530|omma
+ |MONV|MARINA OIC NAVIGATIONAL WATCH-V1                  | |Y|Y|5 |0 |19991123073415|omma
+ |MONW|MARINA OIC NAVIGATIONAL WATCH                     | |Y|Y|5 |0 |19991123072919|omma
+ |MP  |MARPOL 73/78                                      | |Y|N|0 |0 |20001208093856|omma
+ |MP6 |MARPOL 73/78, ANNEX VI                            | |Y|N|0 |0 |20050609024853|omma
+ |MPI |MARPOL 73/78, ANNEX I                             | |Y|N|0 |0 |20000211032117|omma
+ |MPID|MARPOL 73/78, ANNEX I - DECK                      | |Y|N|0 |0 |20000622091151|omma
+ |MPIE|MARPOL 73/78, ANNEX I - ENGINE                    | |Y|N|0 |0 |20000622091255|omma
+ |MPII|MARPOL 73/78, ANNEX II                            | |Y|N|0 |0 |20000211032101|omma
+ |MPP |MARINE POLLUTION PREVENTION                       | |Y|N|0 |0 |20050805082927|omma
+ |MPV |MARPOL 73/78, ANNEX V                             | |Y|N|0 |0 |20071026063711|omma
+ |MRAC|MARINE REFRIGERATION & AIR CONDITIONING           |N|Y|N|0 |0 |20120912021051|omma
+ |MRBC|MI RESCUE BOAT CREWMAN                            | |Y|Y|5 |0 |19980620104600|kmb1
+ |MROV|MARINA RADIO OFFICER WATCH - V/1                  | |Y|Y|5 |0 |19991223070110|baea
+ |MSA |MARITIME SECURITY AWARENESS                       | |Y|N|0 |0 |20050127020947|omma
+ |MSBK|M.I. SEAMAN'S BOOK                                |N|N|Y|5 |0 |20020709102741|iik1
+ |MSC |MESSMAN/STEWARD COURSE                            | |Y|N|0 |0 |19980620104600|kmb1
+ |MSCA|MANEUVERING, SHIPHANDLING & COLL                  | |Y|N|0 |0 |20050811062815|omma
+ |MSCC|MI SURVIVAL CRAFT CARE ON BOARD                   | |Y|Y|5 |0 |19990505075403|omma
+ |MSCR|MI SURV.CRAFT/RESCUE BOAT CREWMN                  | |Y|Y|5 |0 |19980620104600|kmb1
+ |MSM |CATERING MANAGEMENT (MESSMAN)                     | |Y|N|0 |0 |19990830064710|omma
+ |MSSO|MI SHIP SECURITY OFFICER                          | |Y|N|0 |0 |20040302033409|omma
+ |MTAS|M.I. TANKERMAN ASSIS                              |N|N|Y|5 |0 |20020709102741|iik1
+ |MTCA|MI TANKERMAN(COW/IGS)-ASSISTING                   | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTCC|MI TANKERMAN(COW/IGS)-IN CHARGE                   | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTCH|MI TANKERMAN (CHEMICAL)IN CHARGE                  | |Y|Y|5 |0 |20060628055716|omma
+ |MTIC|M.I. TAN/MAN IN CHAR                              |N|N|Y|5 |0 |20020709102741|iik1
+ |MTOA|MI TANKERMAN(OIL)-ASSISTING                       | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTOC|MI TANKERMAN(OIL)-IN CHARGE                       | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTPA|MI TANKERMAN(PETROLEUM)-ASSTG                     | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTPC|MI TANKERMAN(PETROLEUM)-CHARGE                    | |Y|Y|5 |0 |19980620104600|kmb1
+ |MTR |MOTOR & TRANSFORMER REWINDING                     | |Y|N|0 |0 |20050601073048|omma
+ |NAFF|NAC-TRNG. IN ADV. FIREFIGHTING                    | |Y|N|0 |0 |20010418064210|omma
+ |NAVW|NAVIGATIONAL WATCHKEEPING CRSE                    | |Y|N|0 |0 |19980620104600|kmb1
+ |NBSC|BASIC SAFETY COURSE                               | |Y|N|0 |0 |19981123080036|dacb
+ |NBST|NAC-BASIC SAFETY TRAINING                         |N|Y|Y|5 |0 |20120918090418|omma
+ |NCHM|NAC SPEC. CHEM. TANKER CERT.                      | |Y|Y|5 |0 |20060810055851|omma
+ |NCRD|NAC - CROWD MANAGEMENT                            | |Y|N|0 |0 |20030224032911|omma
+ |NCRS|NAC - CRISIS MANAGEMENT                           | |Y|N|0 |0 |20030224032857|omma
+ |NFRB|NAC-PROF. IN FAST RESCUE BOAT                     | |Y|N|0 |0 |20010418084455|omma
+ |NGTC|NAC-GENERAL TANKER CERTIFICATE                    |Y|Y|Y|5 |0 |20090321032522|omma
+ |NLGT|NAC - SPL. LIQUEFIED GAS TANKER                   |N|Y|Y|5 |0 |20130206083335|omma
+ |NMC |NAC-MEDICAL CARE                                  | |Y|N|0 |0 |20010615091154|omma
+ |NMFA|NAC-MEDICAL FIRST AID                             | |Y|N|0 |0 |20010418084551|omma
+ |NPSC|NAC-PROF. IN SURVIVAL CRAFT & RB                  |Y|Y|Y|5 |0 |20140205111158|omma
+ |NSTO|NAC-SPECIALIZED IN OIL TANKER                     |N|Y|Y|5 |0 |20080811101506|omma
+ |OBSC|BASIC SAFETY COURSE - (OLD)                       | |Y|N|0 |0 |19981123080052|dacb
+ |OFRB|MI OPERATOR, FAST RESCUE BOAT                     | |Y|N|0 |0 |19990120090951|omma
+ |OICN|PRC-OIC OF A NAVIGATIONAL WATCH                   | |Y|Y|5 |0 |20030311040255|omma
+ |OIL |OIL TANKER SAFETY                                 | |Y|N|0 |0 |19990129060221|omma
+ |OPA |OPA 90 SHIPBOARD POLLUTION RESP.                  | |Y|N|0 |0 |20050811084058|omma
+ |OPTS|OIL PET. TANKER SAFETY W/IGS/COW                  | |Y|N|0 |0 |19980620104600|kmb1
+ |OTA |OIL TANKER OPERATION (ADVANCED)                   | |Y|N|0 |0 |19980620104600|kmb1
+ |OTF |OIL TANKER FAMILIARIZATION                        | |Y|N|0 |0 |19980620104600|kmb1
+ |OTS |OIL TANKER SAFETY W/IGS-COW                       | |Y|N|0 |0 |19990215055137|omma
+ |P2EV|PRC CERTICATE (V1) - 2ND ENGR.                    | |Y|Y|5 |0 |20040414075624|omma
+ |P2MV|PRC ENDORSEMENT (V1) - 2M                         | |Y|Y|5 |0 |20010322060924|omma
+ |P3EV|PRC ENDORSEMENT (V1) - 3E                         | |Y|Y|5 |0 |20000828054544|omma
+ |P3MV|PRC ENDORSEMENT(V1) - 3M                          | |Y|Y|5 |0 |20001027071659|omma
+ |P4E |PRC ENDORSEMENT - 4E                              | |Y|Y|5 |0 |20010516080649|drtb
+ |P4EV|PRC ENDORSEMENT (V1) - 4E                         | |Y|Y|5 |0 |20000905053247|omma
+ |PADM|PREVENTION OF ALCOHOL & DRUGS                     | |Y|N|0 |0 |19990705022012|omma
+ |PANB|PANAMIAN SEAMAN'S BOOK                            |N|N|Y|5 |0 |20020709102741|iik1
+ |PANL|PANAMIAN LICENSE                                  |N|N|Y|5 |0 |20020709102741|iik1
+ |PC78|PRC ENDORSEMENT, 1978 (V1) - CM                   | |Y|Y|5 |0 |20010322061058|omma
+ |PCAV|PRC ENDORSEMENT (V1) - MASTER                     | |Y|Y|5 |0 |20010319090036|omma
+ |PCER|PRC CERTIFICATE                                   | |Y|Y|5 |0 |20040414063330|omma
+ |PCEW|PRC ENDORSEMENT, 1978 - CE                        | |Y|Y|5 |0 |20010119072651|omma
+ |PCM |PRC CERTIFICATE - CHIEF MATE                      | |Y|Y|5 |0 |20040414075441|omma
+ |PCMV|PRC CERTIFICATE (V1)-CHIEF MATE                   | |Y|Y|5 |0 |20040414075334|omma
+ |PEC |PROTECTION & ENVIRONMENT                          |N|Y|N|0 |0 |20100326160859|omma
+ |PETC|PETROLEUM/CHEMICAL TANKER SAFETY                  |N|Y|N|0 |0 |20131018053957|omma
+ |PFRB|PROFICIENCY IN FAST RESCUE BOAT                   | |Y|N|0 |0 |19980620104600|kmb1
+ |POLL|MARINE POLLUTION                                  | |Y|N|0 |0 |19980620104600|kmb1
+ |POWR|POWER PLANT ENGINEERING                           | |Y|N|0 |0 |19980620104600|kmb1
+ |PROP|MODERN MARINE PROPULSION SYSTEM                   | |Y|N|0 |0 |19980620104600|kmb1
+ |PS  |PERSONAL SURVIVAL                                 | |Y|N|0 |0 |20000119023742|omma
+ |PSC |PROF. IN SURVIVAL CRAFT & R.BOAT                  | |Y|N|0 |0 |19981207075912|omma
+ |PSCC|PROFICIENCY IN SURVIVAL CRAFT                     | |Y|N|0 |0 |20010319091044|omma
+ |PSCV|PORT STATE CONTROL & VETTING INS                  | |Y|N|0 |0 |20050811084148|omma
+ |PSSR|PERSONAL SAFETY & SOCIAL RESP.                    | |Y|N|0 |0 |19980620104600|kmb1
+ |RABS|RADAR, ARPA, BRIDGETEAMWORK & SEARCH              |N|Y|N|0 |0 |20080923094117|omma
+ |RAC |REFRIGERATION & AIRCONDITIONING                   | |Y|N|0 |0 |20000621080108|omma
+ |RAM |RISK ASSESSMENT & MANAGEMENT                      | |Y|N|0 |0 |20071128063916|omma
+ |REC1|REFRESHER COURSE IN ENGLISH I                     | |Y|N|0 |0 |20000221065144|baea
+ |REC2|REFRESHER COURSE IN ENGLISH II                    | |Y|N|0 |0 |20000221065220|baea
+ |RECE|NTC - RADIO ELECTRONIC OFFICER                    |N|Y|Y|5 |0 |20110526065655|omma
+ |REOC|RADIO ELECTRONIC OFFICERS COURSE                  | |Y|N|0 |0 |19991223062350|baea
+ |RLAB|RL ABLE SEAMAN                                    | |Y|Y|5 |0 |19980620104600|kmb1
+ |RLBT|RL BASIC TRAINING                                 | |Y|N|0 |0 |20030530094156|omma
+ |RLOI|RL OILER                                          | |Y|Y|5 |0 |19980620104600|kmb1
+ |RLOS|RL ORDINARY SEAMAN                                | |Y|Y|5 |0 |19980620104600|kmb1
+ |RNRP|RADAR NAV., RADAR PLOTTING                        | |Y|N|0 |0 |20030311035354|omma
+ |ROC |RADAR OBSERVER CERTIFICATE                        | |Y|Y|5 |0 |19980620104600|kmb1
+ |ROP |RADAR OBSERVATION & PLOTTING                      | |Y|N|0 |0 |19990322013851|omma
+ |ROPA|RADAR NAV,RADAR PLOTTING & ARPA                   | |Y|N|0 |0 |20030901064230|omma
+ |RRTC|RESTRICTED RADIOTEL. OPERATOR                     | |Y|N|0 |0 |19980620104600|kmb1
+ |RS  |RADAR SIMULATOR                                   | |Y|N|0 |0 |20080131092316|omma
+ |RSC |RADAR SIMULATOR CERTIFICATE                       | |Y|Y|5 |0 |19980620104600|kmb1
+ |SAIL|BASIC SAILING COURSE                              | |Y|N|0 |0 |20050315022856|omma
+ |SATC|SATELLITE COMMUNICATION COURSE                    | |Y|N|0 |0 |19980620104600|kmb1
+ |SBCC|SHIPBOARD CULINARY COURSE                         | |Y|N|0 |0 |20000118091522|omma
+ |SBFF|SHORE BASED FIREFIGHTING                          | |Y|N|0 |0 |20020131071151|omma
+ |SBRM|SSBT W/ BRIDGE RESOURCE MNGT                      | |Y|N|0 |0 |20050812061957|omma
+ |SBWC|SHIPBOARD WELDING COURSE                          | |Y|N|0 |0 |19990705022012|omma
+ |SCC |SHIPBOARD CULINARY COURSE                         | |Y|N|0 |0 |20000707065005|baea
+ |SCHS|SAFE CARGO HANDLING & STOWAGE                     | |Y|N|0 |0 |20070910034929|omma
+ |SDC |SMOKE DIVING COURSE                               | |Y|N|0 |0 |20000831021959|omma
+ |SEMH|H.S.C. SEMINARS                                   |N|N|Y|5 |0 |20020709102741|iik1
+ |SH  |SHIPHANDLING                                      | |Y|N|0 |0 |20050805062549|omma
+ |SHM |SHIP HANDLING & MANEUVERING                       | |Y|N|0 |0 |20041012031729|omma
+ |SISM|SHIPBOARD ISM CODE SAFETY TRAINING                |N|Y|N|0 |0 |20100429021322|omma
+ |SLGT|SPECIALIZED TRNG IN LIQUEFIEDGAS                  | |Y|N|0 |0 |20071128025302|omma
+ |SMH |SHIP MANEUVERING AND HANDLING                     |N|Y|N|0 |0 |20131018081300|omma
+ |SOC |SAFETY OFFICER'S COURSE                           | |Y|N|0 |0 |20080306055443|omma
+ |SP  |STEWARDSHIP                                       | |Y|N|0 |0 |20020719081009|omma
+ |SPED|SHIPBOARD PRACTICAL EXER. FOR DW                  | |Y|N|0 |0 |19980620104600|kmb1
+ |SRRO|SHIP RESTRICTED RADIO TEL. OPTR                   | |Y|N|0 |0 |20050622025337|omma
+ |SSA |SHIP SECURITY AWARENESS                           | |Y|N|0 |0 |20040824063042|omma
+ |SSBR|SSBT W/ BRIDGE RESOURCE MNGT.                     |N|Y|N|0 |0 |20120718085150|omma
+ |SSBT|SHIP SIMULATOR & BRIDGE TEAMWORK                  | |Y|N|0 |0 |20000829063013|baea
+ |SSC |SHIP SECURITY OFFICER                             | |Y|N|0 |0 |20040128024042|omma
+ |SSO |SHIP SECURITY OFFICER                             |N|Y|Y|5 |0 |20130807120756|omma
+ |STCT|SPEC. TRNG IN CHEMICAL TANKER                     | |Y|N|0 |0 |20060810055938|omma
+ |STOT|SPECIALIZED TRNG. IN OIL TANKER                   | |Y|N|0 |0 |19980620104600|kmb1
+ |STWD|CATERING MANAGEMENT(STEWARDSHIP)                  | |Y|N|0 |0 |20000222073938|baea
+ |SURV|SOLAS SURVIVAL AT SEA CERT.                       | |Y|N|0 |0 |19980620104600|kmb1
+ |SWC |SHIPBOARD WELDING COURSE                          |N|Y|N|0 |0 |20101130025851|omma
+ |SWIM|SURVIVAL SWIMMING                                 | |Y|N|0 |0 |19980620104600|kmb1
+ |TANK|GENERAL TANKER SAFETY CERT.                       | |Y|N|0 |0 |19980620104600|kmb1
+ |TCIA|TANKERMAN (COW/IGS) ASSISTING                     | |Y|N|0 |0 |20020411055447|omma
+ |TF  |TANKER FAMILIARIZATION                            | |Y|N|0 |0 |20030211034518|omma
+ |TIAM|TESDA INDT'L AUTOMATION & MECHA.                  | |Y|Y|5 |0 |20070726084150|omma
+ |TICT|TESDA INSTRUMENTATION & CONTRTEC                  | |Y|Y|5 |0 |20070726084039|omma
+ |TIET|TESDA INDT'L ELECTRICIAN TECH.                    | |Y|Y|5 |0 |20070726084216|omma
+ |TIGW|TIG WELDING                                       | |Y|N|0 |0 |20000620073655|omma
+ |TOCC|RL TANKERMAN-OIL/COWIGS-INCHARGE                  |Y|Y|Y|5 |0 |20081030025836|omma
+ |TPCA|MI TANKERMAN(PETROLEUM/COW)ASSTG                  | |Y|Y|5 |0 |19980620104600|kmb1
+ |TPCC|MI TANKERMAN(PETROLEUM/COW)CHARG                  | |Y|Y|5 |0 |19980620104600|kmb1
+ |TRIM|TRIM AND STABILITY                                | |Y|N|0 |0 |19980620104600|kmb1
+ |TS  |TANKER SAFETY (V/1-2)                             |N|N|Y|5 |0 |20051013133635|mkn1
+ |TSC |TANKER SAFETY COURSE                              | |Y|N|0 |0 |19980620104600|kmb1
+ |TTC |MAYA TRADE TEST CERTIFICATE                       | |Y|N|0 |0 |20040227025456|omma
+ |UCC |UPGRADING COURSE FOR COOKS                        | |Y|N|0 |0 |19990728034303|omma
+ |UKC1|UK FIVE GAS & SAFETY                              |N|N|Y|5 |0 |20020709102741|iik1
+ |UKC2|UK ELECTRONIC NAVIGN                              |N|N|Y|5 |0 |20020709102741|iik1
+ |UKC3|UK BASIC SEA SURVIVL                              |N|N|Y|5 |0 |20020709102741|iik1
+ |UKC4|UK GRUDE OIL WASHING                              |N|N|Y|5 |0 |20020709102741|iik1
+ |UKC5|UK PETROLEUM SAFETY                               |N|N|Y|5 |0 |20020709102741|iik1
+ |UKPS|U.K.PASSPORT                                      |N|N|Y|5 |0 |20020709102741|iik1
+ |USPS|U.S. PASSPORT                                     |N|N|Y|5 |0 |20020709102741|iik1
+ |USVS|US VISA                                           |N|N|Y|5 |0 |20020816073624|tdc1
+ |VSAP|APPRAISALS & PERFORMANCE REPORTS                  | |Y|N|0 |0 |20050810053820|omma
+ |VSAS|APPRAISAL SYSTEM                                  | |Y|N|0 |0 |20050425062148|omma
+ |VSEC|ENERGY CONSERVATIONM                              | |Y|N|0 |0 |20050425062134|omma
+ |WLDG|UPGRADING CRSE SHIPBOARD WELDERS                  | |Y|N|0 |0 |20010119060647|omma
+ |FRA5|FRAMO V ADVANCED COURSE                           |N|Y|N|0 |0 |20080903024016|omma
+ |MRT |MOTOR REPAIR & TROUBLESHOOTING                    |N|Y|N|0 |0 |20080811100244|omma
+ |EP  |ELECTRO-PNEUMATICS                                |N|Y|N|0 |0 |20080811100454|omma
+ |CPI |CALIBRATION FOR PROCESS INSTRUMENTATION           |N|Y|N|0 |0 |20080811100513|omma
+ |BPLC|BASIC PROGRAMMABLE LOGIC CONTROLLER               |N|Y|N|0 |0 |20130305103449|omma
+ |IPC |INDUSTRIAL PROCESS CONTROLS                       |N|Y|N|0 |0 |20080811100604|omma
+ |HIC |HYDRAULIC INDUSTRIAL CONTROLS                     |N|Y|N|0 |0 |20080811100618|omma
+ |FR  |FUNDAMENTALS OF REFRIGERATION                     |N|Y|N|0 |0 |20080811100636|omma
+ |ETME|ELECTRICAL TRAINING FOR MARINE ENGINEERS          |N|Y|N|0 |0 |20080811100749|omma
+ |PIC |PNEUMATIC INDUSTRIAL CONTROLS                     |N|Y|N|0 |0 |20080811100430|omma
+ |FET |FUNDAMENTALS OF ELECTRONICS TROUBLESHOOT          |N|Y|N|0 |0 |20080812044047|omma
+ |FMR |FUNDAMENTALS OF MARINE REFRIGERATION              |N|Y|N|0 |0 |20080812044134|omma
+ |IMDG|HAZMAT COURSE                                     |N|Y|N|0 |0 |20080812082316|omma
+ |PERL|PERL                                              |N|Y|N|0 |0 |20080812083059|omma
+ |PLF |PROGRAM LOGIC FORMULATION                         |N|Y|N|0 |0 |20080812083119|omma
+ |MHS |MICROCOMPUTER HARDWARE SERVICING                  |N|Y|N|0 |0 |20080812083412|omma
+ |APLC|ADVANCED PROGRAMMABLE LOGIC CONTROLLER            |N|Y|N|0 |0 |20130305103432|omma
+ |BMRA|BASIC MARINE REFRIGERATION & AIRCON.              |N|Y|N|0 |0 |20080812085229|omma
+ |AMRA|ADV. MARINE REFRIGERATION & ARICON,               |N|Y|N|0 |0 |20080812085312|omma
+ |MELE|MASTER ELECTRICIAN                                |N|Y|N|0 |0 |20120816103313|omma
+ |FSDE|FOUR STROKE DIESEL ENGINE                         |N|Y|N|0 |0 |20080814072212|omma
+ |TMSA|TANKER MANAGEMENT & SELF ASSESSMENT               |N|Y|N|0 |0 |20080819094756|omma
+ |FPA |FLUID POWER AUTOMATION                            |N|Y|N|0 |0 |20080820064112|omma
+ |FCPI|FUNDA. OF CALIBRATION FOR PROCESS INSTR.          |N|Y|N|0 |0 |20080820064245|omma
+ |AME |ADVANCED MARINE ELECTROTECHNOLOGY                 |N|Y|N|0 |0 |20080828085639|omma
+ |CE2 |CONTROL ENGINEERING MODULE 2                      |N|Y|N|0 |0 |20080828085737|omma
+ |ISMS|ISO SYSTEM                                        |N|Y|N|0 |0 |20090131034123|omma
+ |ISM3|EXPANDED 3-DAY ISM COURSE                         |N|Y|N|0 |0 |20080829032334|omma
+ |CAR |COLLISION AVOIDANCE REFRESHER                     |N|Y|N|0 |0 |20080902031538|omma
+ |FRA3|FRAMO III ADVANCED COURSE                         |N|Y|N|0 |0 |20080902055939|omma
+ |SHC |SHIP HANDLING COURSE                              |N|Y|N|0 |0 |20080902060122|omma
+ |SMAC|SHIP MANEUVERING AND COLLISION AVOIDANCE          |N|Y|N|0 |0 |20080904071443|omma
+ |BE  |BASIC ELECTRICITY                                 |N|Y|N|0 |0 |20080905054754|omma
+ |IME |INTRO. TO MARINE ELECTROTECHNOLOGY                |N|Y|N|0 |0 |20080905054927|omma
+ |MPIV|MARPOL 73/78, ANNEX IV                            |N|Y|N|0 |0 |20080905055351|omma
+ |CC  |CULINARY COURSE                                   |N|Y|N|0 |0 |20080923022935|omma
+ |MA  |MARITIME ADMINISTRATION                           |N|Y|N|0 |0 |20080923052424|omma
+ |COST|CERT. OF COMPETENCY - STEWARD                     |N|Y|Y|5 |0 |20081028100307|omma
+ |SMS |COMPANY SAFETY & SECURITY MNGT. SYSTEM            |N|Y|N|0 |0 |20100916114757|omma
+ |ISPS|ISPS CODE AWARENESS                               |N|Y|N|0 |0 |20081105045232|omma
+ |NSSO|NAC-SHIP SECURITY OFFICER                         |Y|Y|Y|5 |0 |20120720061431|omma
+ |ISMD|ISM DOCUMENT CONTROL                              |Y|Y|N|0 |0 |20081222070726|omma
+ |PH  |PNEUMATICS AND HYDRAULICS                         |N|Y|N|0 |0 |20090131033957|omma
+ |SBSO|SHIP SAFETY OFFICER                               |Y|N|N|0 |0 |20090428092929|omma
+ |FCPS|FRAMO CARGO PUMPING SYSTEM                        |Y|N|N|0 |0 |20090321060943|omma
+ |BSAC|BASIC SECURITY AWARENESS COURSE                   |Y|Y|N|0 |0 |20090331041636|omma
+ |IAC |INTERNAL AUDITING COURSE (DNV)                    |Y|N|N|0 |0 |20090429102815|omma
+ |IQA |INTERNAL QUALITY AUDIT SEMINAR                    |N|Y|N|0 |0 |20090603055426|omma
+ |GMDR|GMDSS REFRESHER COURSE                            |N|Y|N|0 |0 |20100202101553|omma
+ |ACTO|CHEMICAL TANKER OPERATION (ADVANCED)              |N|Y|N|0 |0 |20090603061706|omma
+ |CE1 |CONTROL ENGINEERING - MODULE 1                    |N|Y|N|0 |0 |20090620095523|omma
+ |ISOM|ISO/ISM FAMILIARIZATION                           |N|Y|N|0 |0 |20090622093107|omma
+ |VI  |VETTING INSPECTIONS                               |N|Y|N|0 |0 |20090622095158|omma
+ |SV  |SHIP VETTING                                      |N|Y|N|0 |0 |20090622111857|omma
+ |STSM|SHIPHANDLING & MANEUVERING W/ BRM                 |N|Y|N|0 |0 |20150115071906|omma
+ |STCA|SIMULATOR TRNG. IN COLLISION AVOIDANCE            |N|Y|N|0 |0 |20090627055758|omma
+ |ASCT|ADVANCED SIMULATOR IN CHEMICAL TANKER             |N|Y|N|0 |0 |20090627060355|omma
+ |BOSI|BASIC OFFSHORE SAFETY INDUCTION & EMER.           |N|Y|Y|5 |0 |20090930104807|omma
+ |DP  |DYNAMIC POSITIONING                               |N|Y|N|0 |0 |20090707043448|omma
+ |CMM |PRC CERTIFICATE - MASTER                          |Y|Y|Y|5 |0 |20090708071822|omma
+ |EMM |PRC ENDORSEMENT - MASTER                          |Y|Y|Y|5 |0 |20090708071857|omma
+ |DCSO|DRY CARGO SHIP OPERATION                          |N|Y|N|0 |0 |20090708072216|omma
+ |DPS |DYNAMIC POSITIONING SYSTEM (DP-BASIC)             |N|Y|N|0 |0 |20090708072325|omma
+ |TSQM|TANKER SAFETY & QUAITY MANAGEMENT                 |N|Y|N|0 |0 |20090708074625|omma
+ |SSF |SHIPBOARD SIMULATOR FAMILIARIZATION               |N|Y|N|0 |0 |20090708080143|omma
+ |FOC |FRAMO OPERATIONS COURSE                           |N|Y|N|0 |0 |20090713080127|omma
+ |MRMI|MARITIME RISK MNGT & INCIDENT INVEST,             |N|Y|N|0 |0 |20090713081910|omma
+ |HC  |HAZMAT COURSE                                     |N|Y|N|0 |0 |20090727041244|omma
+ |TVS |TANKER VETTING SEMINAR                            |N|Y|N|0 |0 |20090827080952|omma
+ |SMAW|SHIELDED METAL ARC WELDING (SMAW)- NC II          |N|Y|Y|5 |0 |20120809031527|omma
+ |MHF |MICROCOMPUTER HARDWARE FUNDAMENTALS               |N|Y|N|0 |0 |20090907062316|omma
+ |OTO |OIL TANKER OPERATIONS                             |N|Y|N|0 |0 |20090923102410|omma
+ |MLF1|MLC-FUNCTION 1 - ADVANCED NAVIGATION              |N|Y|N|0 |0 |20090923104259|omma
+ |F1  |MARINE ENG'G AT THE MANAGEMENT LEVEL              |N|Y|N|0 |0 |20090923115638|omma
+ |F2  |ELECTRICAL,ELECTRONIC & CONTROL ENG. -ML          |N|Y|N|0 |0 |20090923115726|omma
+ |F3  |MAINTENANCE & REPAIR AT MANAGEMENT LEVEL          |N|Y|N|0 |0 |20090923115747|omma
+ |F4  |ADVANCED SHIPBOARD OPERTATION & MNGT              |N|Y|N|0 |0 |20130904065008|omma
+ |EAGW|BASIC ELECTRIC ARC & GAS WELDING                  |N|Y|N|0 |0 |20130723060554|omma
+ |CPCF|CALIBRATION & PROCESS CONTROL FUNDAMENT           |N|Y|N|0 |0 |20090928083029|omma
+ |AMLE|ASSESSMENT MNGT LEVEL - MARINE ENGR. OFF          |N|Y|N|0 |0 |20090928105745|omma
+ |ISPF|ISPS FAMILIARIZATION COURSE                       |N|Y|N|0 |0 |20090929072832|omma
+ |TMS |TESDA MECHATRONICS SERVICING                      |N|Y|Y|5 |0 |20091013080319|omma
+ |IIRC|INCIDENT INVEST. & ROOT CAUSE ANALYSIS            |N|Y|N|0 |0 |20100107082509|omma
+ |RM  |RISK MANAGEMENT                                   |N|Y|N|0 |0 |20100107082619|omma
+ |VP  |VOYAGE PLANNING                                   |N|Y|N|0 |0 |20100107111321|omma
+ |MLF2|ADV.CARGO HANDLING,STOWAGE & CARE CARGO           |N|Y|N|0 |0 |20101220073946|omma
+ |MLF3|ADV. SHIPBOARD OPERATION & MANAGEMENT             |N|Y|N|0 |0 |20100109053226|omma
+ |TICS|TESDA INSTRUMENTATION & CONTROL SERVICIN          |N|Y|Y|5 |0 |20100112095741|omma
+ |LSNA|LINUX 201: LINUX SYS. & NETWORK ADMIN.            |N|Y|N|0 |0 |20100114025841|omma
+ |CBHS|CARGO & BALLAST HANDLING SIMULATOR                |N|Y|N|0 |0 |20100114080817|omma
+ |AS  |AUXILIARY SYSTEM                                  |N|Y|N|0 |0 |20100114093706|omma
+ |SRC |SAFETY REFRESHER COURSE                           |N|Y|N|0 |0 |20100120024003|omma
+ |BIE |BASIC INDUSTRIAL ELECTRONICS                      |N|Y|N|0 |0 |20100120030734|omma
+ |BPL |BASIC PROGRAMMABLE LOGIC CONTROLLERS              |N|Y|N|0 |0 |20100120030939|omma
+ |RA  |RISK ASSESSMENT                                   |N|Y|N|0 |0 |20100122061703|omma
+ |AM  |AUXILIARY MACHINERIES                             |N|Y|N|0 |0 |20100202082521|omma
+ |TSS |TRIM AND STABILITY SIMULATOR                      |N|Y|N|0 |0 |20100209105239|omma
+ |MWC |MARINE WELDING COURSE                             |N|Y|N|0 |0 |20100301072125|omma
+ |BAWC|BASIC ARC WELDING COURSE                          |N|Y|N|0 |0 |20100301120804|omma
+ |MP3 |MARPOL 73/78, ANNEX III                           |N|Y|N|0 |0 |20100302085535|omma
+ |MP4 |MARPOL 73/78, ANNEX IV                            |N|Y|N|0 |0 |20140723083156|amra
+ |MP5 |MARPOL 73/78, ANNEX V                             |N|Y|N|0 |0 |20100302085647|omma
+ |DPB |DYNAMIC POSITIONING (Basic Course)                |N|Y|N|0 |0 |20100303031115|omma
+ |METY|MARINE ELECTRICITY                                |N|Y|N|0 |0 |20100305074727|omma
+ |BWFC|BASIC WELDING AND FABRICATION COURSE              |N|Y|N|0 |0 |20100326071020|omma
+ |SSAR|SHIP SECURITY AWARENESS FOR RATINGS               |N|Y|N|0 |0 |20101204055200|omma
+ |APAT|ANTI-PIRACY AWARENESS TRAINING                    |N|Y|N|0 |0 |20100326102408|omma
+ |COCW|TEDSA - WELDER (SMAW)                             |Y|Y|Y|5 |0 |20100326121807|omma
+ |LMOC|LATHE MACHINE OPERATOR COURSE                     |N|Y|N|0 |0 |20100326122132|omma
+ |ISCA|ISM CODE AWARENESS                                |N|Y|N|0 |0 |20100326190221|omma
+ |EHP |ELECTRO HYDRAULICS/PNUEMATICS                     |N|Y|N|0 |0 |20100327030706|omma
+ |DF  |DECK FAMILIARIZATION                              |N|Y|N|0 |0 |20100329124941|omma
+ |SVI |SHIP VETTING INSPECTION                           |N|Y|N|0 |0 |20100330092644|omma
+ |AFFR|REFRESHER ON ADVANCED FIREFIGHTING                |N|Y|N|0 |0 |20100407074457|omma
+ |SMSR|SAFETY MANAGEMENT SYSTEM FOR RATINGS              |N|Y|N|0 |0 |20100407085011|omma
+ |LSA1|LPI101: LINUX SYSTEM ADMINISTRATION I             |N|Y|N|0 |0 |20100429020421|omma
+ |LSA2|LPI102: LINUX SYSTEM ADMINISTRATION II            |N|Y|N|0 |0 |20100429020448|omma
+ |MRA |MARINE RISK ASSESSMENT                            |N|Y|N|0 |0 |20100429105217|omma
+ |GSSC|GENERAL SHIPHANDLING SIMULATOR COURSE             |N|Y|N|0 |0 |20100429105234|omma
+ |AP  |ANTI-PIRACY                                       |N|Y|N|0 |0 |20100505091904|omma
+ |TM  |TESDA MACHINING NCII                              |N|Y|Y|5 |0 |20100514094843|omma
+ |TW  |TESDA WELDER                                      |N|Y|Y|5 |0 |20100514094850|omma
+ |WFRC|WELDING FAMILIARIZATION/REFRESHER COURSE          |N|Y|N|0 |0 |20100514095129|omma
+ |TSMW|TESDA SHIELDED METAL ARC WELDING - II             |Y|Y|Y|5 |0 |20100906094338|omma
+ |DPA |DYNAMIC POSITIONING (ADV. SIMULATOR)              |Y|Y|N|0 |0 |20100603054512|omma
+ |SBMS|SHIPBOARD MANAGERIAL SKILLS                       |Y|Y|N|0 |0 |20100723143405|omma
+ |SMVP|SAFETY MANAGEMENT-VETTING,PSC INSPECTION          |N|Y|N|0 |0 |20100726031937|omma
+ |ALSA|ADV. LINUX SYSTEM ADMINISTRATION                  |N|Y|N|0 |0 |20100727033043|omma
+ |MSEP|MANAGERIAL SKILLS ENHANCEMENT PROGRAM             |N|Y|N|0 |0 |20100730110936|omma
+ |SHBT|SHIP HANDLING w/ BRIDGE TEAM & RESOURCE           |N|Y|N|0 |0 |20100809110055|omma
+ |AGW |ARC & GAS WELDING (FABRICATION)                   |N|Y|N|0 |0 |20100810024158|omma
+ |MT  |MACHINE TOOLS (LATHE MACHINE)                     |N|Y|N|0 |0 |20100810024252|omma
+ |ERCF|ENGINE RATING COURSE IV FOR FITTER                |N|Y|N|0 |0 |20100810024400|omma
+ |PLC |PROGRAMMABLE LOGIC CONTROLS                       |N|Y|N|0 |0 |20100810063836|omma
+ |LT  |LEADERSHIP TRAINING                               |Y|N|N|0 |0 |20100825113849|omma
+ |TSMA|TESDA SHIELDED METAL ARC WELDING - I              |Y|Y|Y|5 |0 |20100906094406|omma
+ |GWBC|GAS WELDING, BRAZING & CUTTING                    |N|Y|N|0 |0 |20100906094748|omma
+ |AWC |ADVANCED WELDING COURSE                           |N|Y|N|0 |0 |20100909083632|omma
+ |GW  |GAS WELDING                                       |N|Y|N|0 |0 |20100909083730|omma
+ |PE  |PRACTICAL ELECTRONICS                             |N|Y|N|0 |0 |20100909101605|omma
+ |CHPT|CARGO HANDLING SIMULATOR TRNG FOR PROD.           |N|Y|N|0 |0 |20110913065758|omma
+ |MS  |MARITIME SECURITY COURSE                          |N|Y|N|0 |0 |20100910060755|omma
+ |SEMS|SHIPBOARD ENVIRONMENTAL MANAGEMENT SYS.           |N|Y|N|0 |0 |20100910063720|omma
+ |VET |VETTING                                           |N|Y|N|0 |0 |20101001190539|omma
+ |CMP |CONSOLIDATED MARPOL 73/78                         |N|Y|N|0 |0 |20101019024123|omma
+ |EWK |RATINGS FORMING PART OF ENGINEERING WATC          |N|Y|N|0 |0 |20101022175455|omma
+ |DWK |RATINGS FORMING PART OF NAV. WATCH                |N|Y|N|0 |0 |20101022175521|omma
+ |MP36|MARPOL 73/78, ANNEX III, IV, V & VI               |N|Y|N|0 |0 |20101029024503|omma
+ |MP12|MARPOL 73/78, ANNEX I, ANNEX II                   |N|Y|N|0 |0 |20101104064030|omma
+ |1FA |ONE(1) DAY FAMILIARIZATION & AWARENESS N          |N|Y|N|0 |0 |20101112081412|omma
+ |SSMS|SAFETY & SECURITY MANAGEMENT SYSTEM               |N|Y|N|0 |0 |20101126180211|omma
+ |MP35|MARPOL 73/78, ANNEX III,ANNEX IV,ANNEX V          |N|Y|N|0 |0 |20101216073616|omma
+ |MLF4|CONTROLLING THE OPTN OF THE SHIP & CARE           |N|Y|N|0 |0 |20101220093413|omma
+ |MR  |MARINE REFRIGERATION                              |N|Y|N|0 |0 |20101229131934|omma
+ |SMCC|SHIPHANDLING & MANEUVERING IN CRITAL CON          |N|Y|N|0 |0 |20110103110408|omma
+ |GISR|GMDSS, INMARSAT SYSTEM & SHIP RADIOTEL.           |N|Y|N|0 |0 |20110104045052|omma
+ |SPW |SMAW NC-1 (PLATE WELDING)                         |N|Y|N|0 |0 |20110126054848|omma
+ |SIRE|SHIP INSPECTION (SIRE) COURSE                     |N|Y|N|0 |0 |20110126102111|omma
+ |SMW |SHIELDED METAL ARC WELDING                        |N|Y|N|0 |0 |20110217080138|omma
+ |VPC |VOYAGE PLANNING WITH CHART CORRECTION             |N|Y|N|0 |0 |20110222105816|omma
+ |CCA |CORRECTING CHARTS THE ADMIRALTY WAY               |N|Y|N|0 |0 |20110222113818|omma
+ |BWWO|BILGE WATER/WASTE OIL OPERATIONAL MNGT.           |N|Y|N|0 |0 |20110222120447|omma
+ |CTOA|CHEMICAL TANKER OPERATION (ADVANCED)              |N|Y|N|0 |0 |20110228120921|omma
+ |CRMT|CREW RESOURCE MANAGEMENT TRAINING                 |N|Y|N|0 |0 |20110328134951|omma
+ |NGTF|NAC-GENERAL TANKER FAMILIARIZATION                |Y|Y|Y|5 |0 |20110407032129|omma
+ |SOCM|SAFETY OFFICER COURSE MNGT LEVEL-ENGINE           |N|Y|N|0 |0 |20120914105301|omma
+ |SOCT|SAFETY COURSE OFFICERS - TANKER                   |Y|Y|N|0 |0 |20120312115858|omma
+ |MSN |MECHATRONICS SERVICING NC II                      |N|Y|N|0 |0 |20110513053903|omma
+ |BELE|BASIC ELECTRONICS                                 |N|Y|N|0 |0 |20110513112530|omma
+ |IIA |INCIDENTS INVESTIGATION & ANALYSIS                |N|Y|N|0 |0 |20110705063927|omma
+ |TEW1|TESDA ELECTRIC ARC WELDER - I                     |Y|Y|Y|5 |0 |20110715054819|omma
+ |CASH|COLLISION AVOIDANCE & SHIP HANDLING               |N|Y|N|0 |0 |20110719065112|omma
+ |PTP |PIRACY & TERRORISM PREVENTION                     |N|Y|N|0 |0 |20110722064959|omma
+ |MCRM|MARITIME CREW RESOURCE MANAGEMENT                 |N|Y|N|0 |0 |20110819040512|omma
+ |BGWC|BASIC GAS WELDING COURSE                          |N|Y|N|0 |0 |20110819065933|omma
+ |GINM|GMDSS & INMARSAT SYSTEM                           |N|Y|N|0 |0 |20110825065859|omma
+ |CRMC|CREW RESOURCE MANAGEMENT COURSE                   |N|Y|N|0 |0 |20110825070808|omma
+ |JRCE|JRC - ECDIS                                       |Y|Y|Y|5 |0 |20130408080059|omma
+ |BWM |BALLAST WATER MANAGEMENT                          |N|Y|N|0 |0 |20111024043936|omma
+ |IN  |ICE NAVIGATION                                    |Y|Y|N|0 |0 |20111215094901|omma
+ |MP16|MARPOL 73/78 CONSOLIDATED ANNEXES I-VI            |N|Y|N|0 |0 |20131004025325|omma
+ |RAII|RISK ASSESSMENT,INCIDENT INVES & ANALYSI          |N|Y|N|0 |0 |20120105102033|omma
+ |TCC |TESDA COMMERCIAL COOKING                          |Y|Y|Y|5 |0 |20120312102709|omma
+ |BENG|BASIC ENGLISH                                     |N|Y|N|0 |0 |20120419045215|omma
+ |CIS |COMPANY IT SYSTEM                                 |N|Y|N|0 |0 |20120423064628|omma
+ |EMS |ENVIRONMENTAL MANAGEMENT SYSTEM                   |N|Y|N|0 |0 |20120424092341|omma
+ |ISIF|ISM/SMS/ISPS FAMILIARIZATION                      |N|Y|N|0 |0 |20120425060014|omma
+ |PSCI|PORT STATE CONTROL INSPECTION                     |N|Y|N|0 |0 |20120427032041|omma
+ |CPTS|CHEMICAL & PRODUCT TANKER SIMULATOR CRSE          |N|Y|N|0 |0 |20120904061723|omma
+ |GTFR|GENERAL TANKER FAMILIARIZATION REFRESHER          |N|Y|N|0 |0 |20120605082551|omma
+ |SBFR|SHORE-BASED FIREFIGHTING REFRESHER                |N|Y|N|0 |0 |20120605082639|omma
+ |MRM |MARITIME RISK MANAGEMENT                          |N|Y|N|0 |0 |20121129062257|omma
+ |ERSR|ERS COURSE W/ ENG. ROOM RESOURCE MNGT.            |N|Y|N|0 |0 |20120608055955|omma
+ |FURE|FURUNO ECDIS (FEA)                                |N|Y|Y|5 |0 |20150107070912|omma
+ |VPCC|VOYAGE PLANNING & CORRECTION OF CHARTS            |Y|Y|N|0 |0 |20131018101300|omma
+ |SEC |SHIPBOARD ENERGY CONSERVAITON                     |N|Y|N|0 |0 |20120618065050|omma
+ |VGP |VESSEL GENERAL PERMIT                             |N|Y|N|0 |0 |20120618065136|omma
+ |INGM|INMARSATCOM AND GMDSS                             |N|Y|N|0 |0 |20120619121526|omma
+ |HNSC|HELLESPONT NAVIGATION SIMULATOR COURSE            |N|Y|N|0 |0 |20120629025051|omma
+ |BSHM|BTM WITH SHIP MANOEUVRING & HANDLING              |N|Y|N|0 |0 |20120702055623|omma
+ |SEAE|SEAGULL - ECDIS                                   |N|Y|N|0 |0 |20120702100251|omma
+ |LNA |LINUX NETWORK ADMINISTRATION                      |N|Y|N|0 |0 |20120709094842|omma
+ |BLSA|BASIC LINUX SYSTEM ADMINISTRATION                 |N|Y|N|0 |0 |20120709095015|omma
+ |SHMR|SHIP HANDLING & MANEUVERING (REFRESHER)           |N|Y|N|0 |0 |20120802075410|omma
+ |TWG |TESDA WELDING (GMAW) - NC II                      |N|Y|Y|5 |0 |20120809025151|omma
+ |TWS |TESDA WELDING (SMAW) - NC II                      |N|Y|Y|5 |0 |20120809031236|omma
+ |MEAS|MARITIME ENGLISH ASSESSMENT                       |N|Y|N|0 |0 |20120906030306|omma
+ |PSCA|PORT STATE CONTROL AWARENESS                      |N|Y|N|0 |0 |20120906054848|omma
+ |RBTM|REFRESHER FOR BRIDGE TEAM MANAGEMENT              |N|Y|N|0 |0 |20120910044435|omma
+ |RBST|REFRESHER COURSE FOR BASIC SAFETY TRNG.           |N|Y|N|0 |0 |20120913070901|omma
+ |SW  |SHIPBOARD WELDING                                 |N|Y|N|0 |0 |20130815083912|omma
+ |ECDR|ECDIS (REFRESHER)                                 |N|Y|N|0 |0 |20120918121022|omma
+ |SBRR|SSBT WITH BRM (REFRESHER COURSE)                  |N|Y|N|0 |0 |20120918121304|omma
+ |MRAM|MARINE RISK ASSESSMENT & MANAGEMENT               |N|Y|N|0 |0 |20121023105135|omma
+ |ICS |INSTRUMENTATION & CONTROL SERVICING NCII          |N|Y|N|0 |0 |20121108092627|omma
+ |ISVS|INTERTANKO SEAFARERS' VETTING SEMINAR             |N|Y|N|0 |0 |20121109071332|omma
+ |TGAW|TESDA GAS TUNGSTEN ARC WELDING - II               |N|Y|Y|5 |0 |20121211074929|omma
+ |DF1 |FUNCTION 1-NAVIGATION AT THE MNGT LEVEL           |N|Y|N|0 |0 |20121114102930|omma
+ |DF2 |FUNCTION 2-CARGO HANDLING & STOWAGE               |N|Y|N|0 |0 |20121114103000|omma
+ |EF4 |CONTROLLING THE OPTN OF THE SHIP & CARE           |N|Y|N|0 |0 |20121114121346|omma
+ |EF3 |MAINTENANCE & REPAIR AT THE MNGT LEVEL            |N|Y|N|0 |0 |20121114121211|omma
+ |EERM|ERS WITH ENGINE RESOURCE MANAGEMENT               |N|Y|N|0 |0 |20121114122527|omma
+ |EF2 |ELECTRICAL,ELECTRONIC & CONTROL ENG'G             |N|Y|N|0 |0 |20121114122821|omma
+ |EF1 |MARINE ENGINEERING AT THE MNGT LEVEL              |N|Y|N|0 |0 |20121114122959|omma
+ |DANA|DANAOS (DECK & ENGINE)                            |N|Y|N|0 |0 |20121126102523|omma
+ |DF3 |FUNCTION 3-CONTROLLING THE OPTN SHIP              |N|Y|N|0 |0 |20121129062134|omma
+ |BRMS|BRITANNIA RISK MANAGEMENT SEMINAR                 |N|Y|N|0 |0 |20121130044856|omma
+ |MACH|MACHINING NC II                                   |N|Y|N|0 |0 |20121211075243|omma
+ |ABSW|ABS WELDING FAMILIARIZATION                       |N|Y|N|0 |0 |20121221103023|omma
+ |IASC|INTERNAL AUDITOR FOR SHIPPING COMPANIES           |N|Y|N|0 |0 |20130213125835|omma
+ |IIMR|INCIDENT INV. & MARITIME RISK MNGT.               |N|Y|N|0 |0 |20130221031754|omma
+ |MCR |MEDICAL CARE (REFRESHER)                          |N|Y|Y|5 |0 |20130807120749|omma
+ |CHCR|CARGO HANDLING & CARE OF CARGO-REFRESHER          |N|Y|N|0 |0 |20130327100501|omma
+ |HAZR|HAZMAT REFRESHER COURSE                           |N|Y|N|0 |0 |20130408022310|omma
+ |BRMR|BRIDGE RESOURCE MANAGEMENT (REFRESHER)            |N|Y|N|0 |0 |20130412082649|omma
+ |HMEC|HYDROMECHANICS                                    |N|Y|N|0 |0 |20130417124432|omma
+ |METC|MARINE ELECTROTECHNOLOGY                          |N|Y|N|0 |0 |20130417124816|omma
+ |RMS |RISK MANAGEMENT SEMINAR                           |N|Y|N|0 |0 |20130423115350|omma
+ |SPFS|INTL SHIP & PORT FACILITY SECURITY CODE           |N|Y|N|0 |0 |20130430023403|omma
+ |MAN |MAN CERTIFICATE                                   |N|Y|N|0 |0 |20130502110905|omma
+ |HRS |FAMI. TRNG ON HELLESPONT'S REPORTING SYS          |N|Y|N|0 |0 |20130604070021|omma
+ |SMSI|ISM CODE/SAFETY MANAGEMENT SYSTEM (SMS)           |N|Y|N|0 |0 |20130605071821|omma
+ |MDM |MARINE DIESEL MECHANIC                            |N|Y|N|0 |0 |20130607120010|omma
+ |FMC |FUEL MANAGEMENT COURSE                            |N|Y|N|0 |0 |20130607120050|omma
+ |BLM |BASIC LATHE MACHINE COURSE                        |N|Y|N|0 |0 |20150914021601|omma
+ |STST|SHIP TO SHIP TRANSFER                             |N|N|N|0 |0 |20130611081521|ajbd
+ |HSA |Hydrogen Sulphide Awareness                       |N|Y|N|0 |0 |20130715071900|omma
+ |SSTC|SHIP STEERING COURSE                              |N|Y|N|0 |0 |20130815082709|omma
+ |BCS |BULK CARRIER SAFETY                               |N|Y|N|0 |0 |20130717093547|omma
+ |ERR |ENGINE ROOM SIMULATOR (REFRESHER)                 |N|Y|N|0 |0 |20130722071148|omma
+ |WLO |WELDING & LATHE OPERATION                         |N|Y|N|0 |0 |20130724104932|omma
+ |MELT|MARLINS ENGLISH LANGUAGE TEST                     |N|Y|N|0 |0 |20130729054411|omma
+ |GMAW|GAS METAL ARC WELDING NC II                       |N|Y|N|0 |0 |20130730071229|omma
+ |TCI |TRAINING COURSE FOR INSTRUCTORS                   |N|Y|N|0 |0 |20130730080759|omma
+ |SOLA|SOLAS (STCW 1978)                                 |N|Y|N|0 |0 |20130730103638|omma
+ |GTAW|GTAW NCII                                         |N|Y|Y|5 |0 |20141117025611|amra
+ |MP34|MARPOL 73/78, ANNEX III, ANNEX IV                 |N|Y|N|0 |0 |20130801072332|omma
+ |GOCC|SRROC, SATELLITE COMMUNICATION, GMDSS             |N|Y|N|0 |0 |20130801072658|omma
+ |FFC |FRAMO FAMILIARIZATION COURSE                      |N|Y|N|0 |0 |20130803062736|omma
+ |PPCP|PASSAGE PLANNING W/ CHART & PUBLICATION           |N|Y|N|0 |0 |20130803082058|omma
+ |BRTM|BRM/BTM TRAINING                                  |N|Y|Y|5 |0 |20130828033853|omma
+ |BBRT|BASIC BRM/BTM TRAINING                            |N|Y|Y|5 |0 |20130828034015|omma
+ |AIC |AUTOMATION & INSTRUMENTATION COURSE               |N|Y|N|0 |0 |20130828062450|omma
+ |EMRM|ERS WITH MARITIME RESOURCE MANAGEMENT             |N|Y|N|0 |0 |20130828062557|omma
+ |SEEM|APPLICATION & IMPLEMENTATION OF A SEEMP           |N|Y|N|0 |0 |20130906102032|omma
+ |SPEE|SPERRY ECDIS                                      |N|Y|N|0 |0 |20130925063558|omma
+ |AGWT|ARC & GAS WELDING TRAINING                        |N|Y|N|0 |0 |20130930103638|omma
+ |HANE|HANSHIN ECDIS                                     |N|Y|N|0 |0 |20131004070410|omma
+ |NCMM|NATIONAL CERTIFICATE I (MESSMAN)                  |N|Y|Y|5 |0 |20131014122813|omma
+ |NCCS|NATIONAL CERTIFICATE II (SHIPS' COOK)             |N|Y|Y|5 |0 |20150907133935|omma
+ |BTU |UPDATING TRAINING FOR BASIC SAFETY                |N|Y|Y|5 |0 |20131016093435|omma
+ |BTR |REFRESHER TRAINING FOR BASIC SAFETY               |N|Y|Y|5 |0 |20131016093451|omma
+ |SDSD|SEAFARERS W/ DESIGNATED SECURITY DUTIES           |N|Y|N|0 |0 |20131018075222|omma
+ |FCM |FOOD & CATERING MANAGEMENT                        |N|Y|N|0 |0 |20131021064837|omma
+ |BT  |BASIC TRAINING                                    |Y|Y|N|0 |0 |20140117092034|omma
+ |CSDS|COP - SSA & SDSD                                  |Y|Y|N|0 |0 |20140303051611|omma
+ |CBT |COP - BASIC TRAINING                              |Y|Y|Y|5 |0 |20140303051627|omma
+D|OCTC|BT FOR OIL & CHEMICAL TANKER CARGO OPTN           |Y|Y|N|0 |0 |20140113062021|omma
+ |CGTF|COP - GENERAL TANKER FAMILIARIZATION              |Y|Y|Y|5 |0 |20140303051721|omma
+ |CSTO|COP - SPECIALIZED OIL TANKER                      |Y|Y|Y|5 |0 |20140303051730|omma
+ |ATOT|ADV. TRAINING FOR OIL TANKER CARGO OPTN           |Y|Y|Y|5 |0 |20131209054715|omma
+ |ATCT|ADV.TRNG. FOR CHEMICAL TANKER CARGO OPTN          |Y|Y|Y|5 |0 |20131209054927|omma
+ |CSSO|COP - SHIP SECURITY OFFICER                       |Y|Y|Y|5 |0 |20140303052007|omma
+ |ERMR|ENGINE RESOURCE MANAGEMENT (REFRESHER)            |Y|Y|N|0 |0 |20131213111353|omma
+ |BTOC|BT FOR OIL & CHEMICAL TANKER CARGO OPTN           |Y|Y|N|0 |0 |20140113061628|omma
+ |CBTO|COP-BASIC TRNG FOR OIL & CHEM. TANKER CARGO OPTN  |Y|Y|Y|5 |0 |20140303051822|omma
+ |CATO|COP - ADV. TRAINING FOR OIL TANKER OPERATIONS     |Y|Y|Y|5 |0 |20140303051902|omma
+ |CATC|COP - ADV. TRNG FOR CHEMICAL TANKER CARGO OPTN    |Y|Y|Y|5 |0 |20140303051941|omma
+ |CMC |COP - MEDICAL CARE                                |Y|Y|Y|5 |0 |20140303051708|omma
+ |CFRB|COP - PROFICIENCY IN FAST RESCUE BOAT             |Y|Y|Y|5 |0 |20140305092857|omma
+ |CPSC|COP - PROFICIENCY IN SURVIVAL CRAFT & RESCUE BOAT |Y|Y|Y|5 |0 |20140303051641|omma
+ |CMFA|COP - MEDICAL FIRST AID                           |Y|Y|Y|5 |0 |20150413120707|omma
+ |CADF|COP - ADVANCE FIREFIGHTING                        |Y|Y|Y|5 |0 |20140303051838|omma
+ |RANE|RAYTHEON-ANSCHUTZ/NSC - ECDIS                     |Y|Y|N|0 |0 |20140120072201|omma
+ |MRMC|MARITIME RESOURCE MANAGEMENT                      |Y|Y|N|0 |0 |20140204081601|omma
+ |CSTC|COP - SPECIALIZED CHEMICAL TANKER                 |Y|Y|Y|5 |0 |20140303051740|omma
+ |CBST|COP - BASIC SAFETY TRAINING & INSTRUCTION         |Y|Y|Y|5 |0 |20140305034041|omma
+ |CHSC|CARGO HANDLING SIMULATOR FOR CHEMICAL TANKER      |Y|Y|N|0 |0 |20140305102445|omma
+ |ISO |ISO 9001:2000                                     |Y|Y|Y|5 |0 |20140306085914|omma
+ |FOMO|FRAMO OPERATION & MAINTENANCE FOR OFFICERS        |Y|Y|N|0 |0 |20140423031803|omma
+ |SMWP|SMAW - PIPES (6G POSITION)                        |Y|Y|N|0 |0 |20140424031728|omma
+ |HMT |HAZARDOUS MATERIAL TRAINING                       |Y|Y|N|0 |0 |20140425021054|omma
+ |MP56|MARPOL 73/78, ANNEX V, ANNEX VI                   |Y|Y|N|0 |0 |20140428070610|omma
+ |CASD|COC - ABLE SEAFARER DECK                          |Y|Y|N|0 |0 |20140430081734|omma
+ |FHS |FOOD HYGIENE AND SANITATION (HACCP)               |Y|Y|N|0 |0 |20150907133842|omma
+ |MP46|MARPOL 73/78, ANNEX IV, V, VI                     |Y|Y|N|0 |0 |20140513023012|omma
+ |SBCA|SHIPBOARD CULINARY ARTS                           |Y|Y|N|0 |0 |20140523084812|omma
+ |SCS |SHIP'S CATERING SERVICES NCI                      |Y|Y|N|0 |0 |20140530100509|omma
+ |CASE|COC - ABLE SEAFARER ENGINE                        |Y|Y|N|0 |0 |20140701090755|amra
+ |DNF2|NEW MLC FOR MARINE DECK OFFICERS FUNCTION 2       |Y|Y|N|0 |0 |20140805110001|omma
+ |DNF3|NEW MLC FOR MARINE DECK OFFICERS FUNCTION 3       |Y|Y|N|0 |0 |20140805110013|omma
+ |DNF1|MLC FOR MARINE DECK OFFICERS FUNCTION 1           |Y|Y|N|0 |0 |20140805110731|omma
+ |PDOS|PRE-DEPARTURE ORIENTATION SEMINAR                 |Y|Y|Y|2 |0 |20140807071702|omma
+ |MEDC|MEDICAL CERTIFICATE FOR SERVICE AT SEA            |Y|Y|Y|2 |0 |20140807071552|omma
+ |SBSR|REFRESHER FOR SHIP SAFETY OFFICER                 |Y|Y|N|0 |0 |20140813114731|omma
+ |UEF1|MARINE ENGINEERING AT THE MANAGEMENT LEVEL        |Y|Y|N|0 |0 |20150311020734|omma
+ |UDF1|UPDATING MLC FOR MARINE DECK OFFICERS FUNCTION 1  |Y|Y|N|0 |0 |20140903032243|amra
+ |UDF3|UPDATING MLC FOR MARINE DECK OFFICERS FUNCTION 3  |Y|Y|N|0 |0 |20140903032348|amra
+ |ENF1|NEW MLC FOR MARINE ENGINEER OFFICERS FUNCTION 1   |Y|Y|N|0 |0 |20140909014641|amra
+ |ENF4|NEW MLC FOR MARINE ENGINEER OFFICERS FUNCTION 4   |Y|Y|N|0 |0 |20140909015020|amra
+ |KHEC|KELVIN HUGHES - ECDIS                             |Y|Y|N|0 |0 |20140909084711|amra
+ |BF  |BACKING AND FILLING                               |Y|Y|N|0 |0 |20140916095920|omma
+ |CHOT|CARGO HANDLING SIMULATOR TRNG CRSE FOR OIL TANKER |Y|Y|N|0 |0 |20140930052640|omma
+ |SET |SHIPBOARD ELECTRO-TECHNOLOGY                      |Y|Y|N|0 |0 |20141017100901|omma
+ |LRME|REGISTERED MASTER ELECTRICIAN (PRC License)       |Y|Y|N|0 |0 |20141108070811|omma
+ |DCHC|DANGEROUS CARGO HANDLING COURSE                   |Y|Y|N|0 |0 |20141111094808|omma
+D|REE |                                                  |Y|Y|Y|5 |0 |20141112060812|omma
+ |REE |REGISTERED ELECTRICAL ENGINEER (PRC License)      |Y|Y|N|0 |0 |20141112060847|omma
+ |CHS |CRUDE OIL TANKER CARGO HANDLING SIMULATOR COURSE  |Y|Y|Y|5 |0 |20141113083334|omma
+ |MELC|MARINE ELECTRONICS                                |Y|Y|N|0 |0 |20141113091222|omma
+ |PSCR|REFRESHER FOR PROF.IN SURVIVAL CRAFT & RESCUE BOAT|Y|Y|Y|5 |0 |20141115025754|omma
+ |RME |REGISTERED MASTER ELECTRICIAN (PRC License)       |Y|Y|N|0 |0 |20141115044426|omma
+ |BWC |BASIC WELDING COURSE                              |Y|Y|N|0 |0 |20141116044220|omma
+ |GMC |GAS MEASUREMENT COURSE                            |Y|Y|N|0 |0 |20141116044541|omma
+ |HMS |HAZARDOUS MATERIALS SAFETY                        |Y|Y|N|0 |0 |20141116093742|omma
+ |LECE|PRC LICENSE ELECTRONICS & COMMUNICATIONS ENGINEER |Y|Y|N|0 |0 |20141116095625|omma
+ |ENF2|NEW MLC FOR MARINE ENGINEER OFFICERS FUNCTION 2   |Y|Y|N|0 |0 |20141118111952|amra
+ |ENF3|NEW MLC FOR MARINE ENGINEER OFFICERS FUNCTION 3   |Y|Y|N|0 |0 |20141118112025|amra
+ |UEF4|CONTROLLING THE OPTN OF THE SHIP & CARE OF PERSONS|Y|Y|N|0 |0 |20150311020844|omma
+ |FFMD|FURUNO ECDIS (FMD)                                |Y|Y|N|0 |0 |20141215090401|omma
+ |ABK |ADVANCED BAKING                                   |Y|Y|N|0 |0 |20141222103409|amra
+ |WFR |WELDING FAMILIARIZATION/REFRESHER COURSE          |Y|Y|N|0 |0 |20150106081358|omma
+ |CLGT|COP - SPL. LIQUEFIED GAS TANKER                   |Y|Y|Y|5 |0 |20150107070639|omma
+ |ARCW|ARC WELDING COURSE (SMAW-PIPE)                    |Y|Y|N|0 |0 |20150120100056|omma
+ |SLMU|SHIPBOARD LATHE MACHINE UPGRADING COURSE          |Y|Y|N|0 |0 |20150129062257|amra
+ |MCC |MARINE COOKING COURSE                             |Y|Y|N|0 |0 |20150129065206|amra
+ |FMDF|FURUNO ECDIS (FMD 3X00)                           |Y|Y|N|0 |0 |20150206030337|omma
+ |BTMR|BRIDGE TEAM MANAGEMENT (REFRESHER)                |Y|Y|N|0 |0 |20150211042028|omma
+ |HNBF|HELLESPONT NAV. SIMULATOR W/ BACKING & FILLING    |Y|Y|N|0 |0 |20150227043342|omma
+ |BSCR|BASIC SAFETY COURSE (REFRESHER)                   |Y|Y|Y|5 |0 |20150302075901|omma
+ |ERTM|ENGINE ROOM TEAM MANAGEMENT                       |Y|Y|N|0 |0 |20150304083846|omma
+ |UEF3|MAINTENANCE & REPAIR AT THE MANAGEMENT LEVEL      |Y|Y|N|0 |0 |20150311020939|omma
+ |RSBT|SSBT REFRESHER                                    |Y|Y|N|0 |0 |20150424065358|amra
+ |UEF2|ELECTRICAL, ELECTRONIC & CONTROL ENG'G AT MNGT    |Y|Y|N|0 |0 |20150507090255|omma
+ |MFAR|REFRESHER ON MEDICAL EMERGENCY FIRST AID          |Y|Y|N|0 |0 |20150508094454|amra
+ |MAIN|MARINE AUTOMATION AND INSTRUMENTATION             |Y|Y|N|0 |0 |20150729034422|omma
+ |ECEC|ELECTRONIC CONTROLLED ENGINE COURSE               |Y|Y|N|0 |0 |20150807072143|amra
+ |PW  |PLATE WELDER                                      |Y|Y|N|0 |0 |20150819035307|amra
+ |WT  |WELDING TECHNOLOGY                                |Y|Y|N|0 |0 |20150819035416|amra
+ |MP45|MARPOL 73/78, ANNEX IV, V                         |Y|Y|N|0 |0 |20150915101649|amra

@@ -339,13 +339,73 @@
 			{# endif #}
 		{% endfor %} -->
 
-		{{sea_service_form}}
+		<!-- {#sea_service_form#}
+		{{ sea_service_form.management_form }}
+
+		<table>
+			<thead>
+				<tr>
+					<th>Vessel Name</th>
+					<th>Vessel Type</th>
+					<th>Flag</th>
+					<th>GRT</th>
+					<th>DWT</th>
+					<th>Year Built</th>
+					<th>Engine Type</th>
+					<th>BHP</th>
+					<th>HP</th>
+					<th>KW</th>
+					<th>Manning Agency</th>
+					<th>Principal</th>
+					<th>Trade Area</th>
+					<th>Date Joined</th>
+					<th>Date Left</th>
+					<th>Days</th>
+					<th>Rank</th>
+					<th>Cause of Discharge</th>				
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for sea_service_forms in sea_service_form %}
+					{{ sea_service_forms.sea_service_documents }}
+					{{ sea_service_forms.id }}
+					<tr>				
+						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
+						<td>{{ sea_service_forms.vessel_type }}</td>
+						<td>{{ sea_service_forms.flag }}</td>
+						<td>{{ sea_service_forms.grt }}</td>
+						<td>{{ sea_service_forms.dwt }}</td>
+						<td>{{ sea_service_forms.year_built }}</td>
+						<td>{{ sea_service_forms.engine_type }}</td>
+						<td><input type="text"></td>
+						<td>{{ sea_service_forms.hp }}</td>
+						<td>{{ sea_service_forms.kw }}</td>
+						<td>{{ sea_service_forms.manning_agency }}</td>						
+						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipPrincipalAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-principal" name="seaservice_set-{{ forloop.counter0 }}-principal" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.principal.value|get_data:'Principal' }}"></td>
+						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TradeAreaAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-trade_area" name="seaservice_set-{{ forloop.counter0 }}-trade_area" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.trade_area.value|get_data:'TradeArea' }}"></td>
+						<td>{{ sea_service_forms.date_joined }}</td>
+						<td>{{ sea_service_forms.date_left }}</td>
+						<td>{{ sea_service_forms.duration }}</td>
+						<td>{{ sea_service_forms.rank }}</td>
+						<td>{{ sea_service_forms.cause_of_discharge }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table> -->
+
+		{# mariner_status_form #}
+
+<!-- 		Principal: {{ mariner_status_form.mariner_principal }}
+		Status: {{ mariner_status_form.mariner_status }}
+		Since: {{ mariner_status_form.since }}
+		Until: {{ mariner_status_form.until }}
+		Comment: {{ mariner_status_form.mariner_status_comment }} -->
 
 		<!-- <button class="ajax-flags">SUBMIT FLAGS</button> -->
 		<p><input type="submit"></p>
 
 	</form>
-	
 
 {% endblock %}
 {% block extra_scripts %}

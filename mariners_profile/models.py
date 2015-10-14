@@ -40,6 +40,7 @@ class BirthPlace(models.Model):
 
 class VesselName(models.Model):
 	vessel_name = models.CharField(max_length=50, default=None)
+	manship_standard = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -48,7 +49,8 @@ class VesselName(models.Model):
 
 class VesselType(models.Model):
 	vessel_type = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=False)
+	company_standard = models.NullBooleanField(default=False)
+	manship_standard = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -57,7 +59,8 @@ class VesselType(models.Model):
 
 class Principal(models.Model):
 	principal = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=False)
+	company_standard = models.NullBooleanField(default=False)
+	manship_standard = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -71,9 +74,16 @@ class CivilStatus(models.Model):
 	def __unicode__(self):
 		return self.civil_status
 
+class MarinerStatus(models.Model):
+	mariner_status = models.CharField(max_length=50, null=True, blank=True, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+
+	def __unicode__(self):
+		return self.mariner_status
+
 class Colleges(models.Model):
 	college_name = models.CharField(max_length=100, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
@@ -82,7 +92,7 @@ class Colleges(models.Model):
 
 class Degree(models.Model):
 	degree = models.CharField(max_length=100, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
@@ -115,7 +125,7 @@ class PrimarySchools(models.Model):
 
 class Relationship(models.Model):
 	relationship = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -134,7 +144,7 @@ class Rank(models.Model):
 	department = models.ForeignKey(Departments, default=5)
 	rank = models.CharField(max_length=50, default=None)
 	hiring = models.BooleanField(default=False)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	# Application Form Ordering Dorpdown Purposes
 	order = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -145,7 +155,7 @@ class Rank(models.Model):
 
 class COCRank(models.Model):
 	coc_rank = models.CharField(max_length=50, null=True, blank=True, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -154,7 +164,7 @@ class COCRank(models.Model):
 
 class LandPosition(models.Model):
 	land_position = models.CharField(max_length=50, null=True, blank=True, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -163,7 +173,7 @@ class LandPosition(models.Model):
 
 class EngineType(models.Model):
 	engine_type = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -172,7 +182,7 @@ class EngineType(models.Model):
 
 class ManningAgency(models.Model):
 	manning_agency = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -189,7 +199,7 @@ class CauseOfDischarge(models.Model):
 
 class Municipality(models.Model):
 	municipality = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -198,7 +208,7 @@ class Municipality(models.Model):
 
 class Barangay(models.Model):
 	barangay = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -254,70 +264,70 @@ class Dialect(models.Model):
 
 class Bank(models.Model):
 	bank = models.CharField(max_length=50, default=None,)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.bank
 
 class Branch(models.Model):
 	branch = models.CharField(max_length=50, default=None,)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.branch
 
 class PassportPlaceIssued(models.Model):
 	passport_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.passport_place
 
 class SBookPlaceIssued(models.Model):
 	sbook_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.sbook_place
 
 class USVisaPlaceIssued(models.Model):
 	us_visa_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.us_visa_place
 
 class SchengenVisaPlaceIssued(models.Model):
 	schengen_visa_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.schengen_visa_place
 
 class YellowFeverPlaceIssued(models.Model):
 	yellow_fever_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.yellow_fever_place
 
 class LicensePlaceIssued(models.Model):
 	license_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.license_place
 
 class COCPlaceIssued(models.Model):
 	coc_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.coc_place
 
 class TrainingPlaceIssued(models.Model):
 	training_place = models.CharField(max_length=50, default=None, blank=True)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 
 	def __unicode__(self):
 		return self.training_place
@@ -334,7 +344,8 @@ class Zip(models.Model):
 
 class Flags(models.Model):
 	flags = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(max_length=50, default=False)
+	company_standard = models.NullBooleanField(default=True)
+	manship_standard = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -344,7 +355,7 @@ class Flags(models.Model):
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
 	departments = models.ManyToManyField(Departments, default=5)
-	company_standard = models.NullBooleanField(max_length=50, default=True)
+	company_standard = models.NullBooleanField(default=True)
 	national_certificate = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
@@ -602,12 +613,41 @@ class MarinersProfile(models.Model):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
 
+class MarinerStatusComment(models.Model):
+	mariner_status_comment = models.TextField(default=None, null=True, blank=True)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __unicode__(self):
+		return self.mariner_status_comment
+
+class MarinerStatusHistory(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	mariner_principal = models.ForeignKey(Principal, default=null_default_foreign_key_value(Principal, 'principal', ''))
+	mariner_status = models.ForeignKey(MarinerStatus, default=null_default_foreign_key_value(MarinerStatus, 'mariner_status', ''))
+	since = models.DateField(null=True, blank=True, default=None)
+	until = models.DateField(null=True, blank=True, default=None)
+	mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
+
+	def __unicode__(self):
+		value = "%s %s %s - %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.mariner_principal, self.mariner_status)
+		return value
+
+class NonConformingSeafarerReason(models.Model):
+	user = models.ForeignKey(UserProfile, default=None)
+	non_conforming_reason = models.TextField(default=None)
+
+	def __unicode__(self):
+		value = "%s %s %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.non_conforming_reason)	
+
+# Used in Reference in failed cases
 class NegativeSeagoingHistory(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	seagoing_comments = models.TextField()
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
+# Used in Reference in failed cases
 class NegativeHealthProblems(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	health_problems = models.TextField()

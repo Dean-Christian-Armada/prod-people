@@ -296,15 +296,33 @@ def fleet_application_form(request, principal, id):
 		reference = Reference.objects.filter(user=id)
 
 		# Script to get the duration of the current rank via year with conditional of days if less than
+		# Used for Ionic application form
+		rank_sea_service_duration = []
 		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
-		rank_sea_service_duration = rank_sea_service.aggregate(Sum('duration'))
-		rank_sea_service_duration = rank_sea_service_duration['duration__sum']
+		for rank_sea_services in rank_sea_service:
+			duration = rank_sea_services.date_left - rank_sea_services.date_joined
+			rank_sea_service_duration.append(duration.days)
+		rank_sea_service_duration = sum(rank_sea_service_duration)
 		rank_sea_duration = rank_sea_service_duration / 365
 		if rank_sea_duration:
-			rank_sea_service_duration = "%s years" % rank_sea_service_duration
+			rank_sea_service_duration = "%s year" % rank_sea_duration
 		else:
 			rank_sea_service_duration = "%s days" % rank_sea_service_duration
 
+		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
+		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
+		dry_vessel_types_duration = []
+		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)
+
+		for dry_vessel_type_sea_services in dry_vessel_type_sea_service:
+			duration = dry_vessel_type_sea_services.date_left - dry_vessel_type_sea_services.date_joined
+			dry_vessel_types_duration.append(duration.days)
+		dry_vessel_types_duration = sum(dry_vessel_types_duration)
+		dry_vessel_duration = dry_vessel_types_duration / 365
+		if dry_vessel_duration:
+			dry_vessel_types_duration = "%s year" % dry_vessel_duration
+		else:
+			dry_vessel_types_duration = "%s days" % dry_vessel_types_duration
 
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -385,6 +403,7 @@ def fleet_application_form(request, principal, id):
 		context_dict['application_received_form'] = application_received_form
 
 		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
+		context_dict['dry_vessel_types_duration'] = dry_vessel_types_duration
 
 		return render(request, template, context_dict)
 		# return HttpResponse(template)

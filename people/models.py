@@ -8,6 +8,8 @@ from login.models import UserProfile
 
 from django_date_extensions.fields import ApproximateDateField	
 
+from datetime import date
+
 class AbstractPersonalData(models.Model):
 	name = models.ForeignKey(UserProfile, default=None)
 
@@ -25,7 +27,7 @@ class AbstractPersonalData(models.Model):
 	mother_last_name = models.CharField(max_length=50, null=True, default=None)
 
 	# Integer Fields
-	age = models.PositiveIntegerField(default=None)
+	# age = models.PositiveIntegerField(default=None)
 	landline_1 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	landline_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	mobile_1 = models.PositiveIntegerField(null=True, default=None)
@@ -79,6 +81,16 @@ class AbstractPersonalData(models.Model):
 		if count == 10:
 			self.mobile_2 = '+63'+str(self.mobile_2)
 		return self.mobile_2
+
+	def age(self):
+		today = date.today()
+		birthday = self.birth_date
+		age = today - birthday
+		age = age.days
+		age = age / 365
+		return age
+
+
 
 class AbstractSpouseData(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -370,7 +382,7 @@ class AbstractSeaService(models.Model):
 	grt = models.PositiveIntegerField(default=None, null=True, blank=True)
 	dwt = models.PositiveIntegerField(default=None, null=True, blank=True)
 	year_built = models.PositiveSmallIntegerField(default=None, blank=True)
-	duration = models.PositiveSmallIntegerField(default=None, blank=True)
+	# duration = models.PositiveSmallIntegerField(default=None, blank=True)
 
 	# Decimal Fields
 	hp = models.DecimalField(decimal_places=1, max_digits=10, default=None, blank=True)
@@ -386,3 +398,9 @@ class AbstractSeaService(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.vessel_name)
+
+	def duration(self):
+		date_joined = self.date_joined
+		date_left = self.date_left
+		duration = date_left = date_joined
+		return duration.days

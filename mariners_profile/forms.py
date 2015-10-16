@@ -14,8 +14,27 @@ class MarinersDataTables(autocomplete_light.ModelForm):
 		model = MarinersProfile
 		fields = ('search', )
 
+class MarinersChangePosition(forms.ModelForm):
+	class Meta:
+		model = MarinersProfile
+		fields = ('position', )
+
+	def __init__(self, rank_id, *args, **kwargs):
+		super(MarinersChangePosition, self).__init__(*args, **kwargs)
+		try:
+			rank = Rank.objects.get(id=rank_id)
+			queryset = Rank.objects.filter(department=rank.department)
+			self.fields['position'] = forms.ModelChoiceField(queryset)
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+
 class ApplicantNameForm(ApplicantNameForm):
-	pass
+	class Meta:
+		model = UserProfile
+		fields = ('last_name', 'first_name', 'middle_name', 'code')
+
+
 
 
 class PermanentAddressForm(forms.ModelForm):
@@ -114,7 +133,7 @@ class PersonalDataForm(forms.ModelForm):
 		personal_data.save()
 
 class SpouseForm(forms.ModelForm):
-	spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
+	# spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
 	class Meta:
 		model = Spouse
 		fields = '__all__'
@@ -285,7 +304,6 @@ class LandEmploymentForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class BeneficiaryForm(forms.ModelForm):
-	beneficiary_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
 	class Meta:
 		model = Reference
 		fields = '__all__'
@@ -310,7 +328,7 @@ class BeneficiaryForm(forms.ModelForm):
 
 class AlloteeForm(forms.ModelForm):
 	# allotee_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
-	bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
+	# bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
 	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
 	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
 	allotee_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
@@ -646,6 +664,7 @@ class FlagForm(forms.ModelForm):
 class TrainingCertificateForm(forms.ModelForm):
 	place_trained = forms.CharField(widget=autocomplete_light.TextWidget('TrainingCenterAutocomplete'), required=False)
 	training_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('TrainingPlaceIssuedAutocomplete'), required=False)
+	trainings_certificates  = forms.ModelChoiceField(queryset=TrainingCertificates.objects.filter(), required=False)
 	class Meta:
 		model = TrainingCertificateDocumentsDetailed
 		fields = '__all__'
@@ -759,7 +778,7 @@ class SeaServiceForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class MarinerStatusForm(forms.ModelForm):
-	mariner_status_comment = forms.CharField(widget=forms.Textarea(), required=False)
+	mariner_status_comment = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), required=False)
 	mariner_principal = forms.ModelChoiceField(queryset=Principal.objects.filter(manship_standard=1))
 	class Meta:
 		model = MarinerStatusHistory

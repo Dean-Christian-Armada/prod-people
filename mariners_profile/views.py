@@ -1,16 +1,20 @@
 from django.contrib.auth.decorators import login_required
+from django.forms.models import modelformset_factory, inlineformset_factory
+from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.db.models import Q
 
 from login.models import UserProfile
 from . models import *
 
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm, DynamicTrainingCertificateForm
 
-from mariners_profile.forms import MarinersDataTables
+from mariners_profile.forms import *
 
 import sys
+
+def sample_only(request):
+	print request.user
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -139,94 +143,228 @@ def profile(request, id):
 		user_profile = UserProfile.objects.get(id=id)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
 		personal_data = PersonalData.objects.get(name=id)
-		try:
-			spouse = Spouse.objects.get(user=id)
-		except:
-			spouse = ''
+		flag_documents = FlagDocuments.objects.get(user=user_profile)
+		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+
+		# START, variables used to prepopulate inlineformset for flags
+		flags_standard = Flags.objects.filter(company_standard=1)
+		flags_standard_num = len(flags_standard)
+		flags_num = len(FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents))
+		if(flags_standard_num != flags_num):
+			for flags in flags_standard:
+				flag = Flags.objects.get(flags=flags.flags)
+				FlagDocumentsDetailed.objects.get_or_create(flags_documents=flag_documents, flags=flag)
+		# END
+		# START, variables used to prepopulate inlineformset for training and certificates
+		rank = Rank.objects.get(id=mariners_profile.position.id)
+		trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
+		trainings_certificate_standard_num = len(trainings_certificate_standard)
+		trainings_certificate_num = len(TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents))
+		if(trainings_certificate_standard_num != trainings_certificate_num):
+			for trainings_certificate in trainings_certificate_standard:
+				training_certificate = TrainingCertificates.objects.get(trainings_certificates=trainings_certificate.trainings_certificates)
+				TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainings_certificate_documents, trainings_certificates=training_certificate)
+		# END
+
+		# Used for formset updating / inlineformset_factory
 		college = College.objects.filter(user=id)
-		highschool = HighSchool.objects.get(user=id)
 		emergency_contact = EmergencyContact.objects.filter(user=id)
-		visa_application = VisaApplication.objects.get(user=id)
-		detained = Detained.objects.get(user=id)
-		disciplinary_action = DisciplinaryAction.objects.get(user=id)
-		charged_offense = ChargedOffense.objects.get(user=id)
-		termination = Termination.objects.get(user=id)
+
+		highschool = HighSchool.objects.get(user=id)
 		passport = Passport.objects.get(user=id)
 		sbook = Sbook.objects.get(user=id)
-		coc = COC.objects.get(user=id)
-		license = License.objects.get(user=id)
-		src = SRC.objects.get(user=id)
-		goc = GOC.objects.get(user=id)
 		us_visa = USVisa.objects.get(user=id)
 		schengen_visa = SchengenVisa.objects.get(user=id)
 		yellow_fever = YellowFever.objects.get(user=id)
-		# FlagDocuments = FlagDocuments.objects.get(user=id)
-		# FlagDocumentsDetailed = FlagDocumentsDetailed.objects.get(user=id)
-		# TrainingCertificateDocuments = TrainingCertificateDocuments.objects.get(user=id)
-		# TrainingCertificateDocumentsDetailed = TrainingCertificateDocumentsDetailed.objects.get(user=id)
-		sea_service = SeaService.objects.filter(user=id)
-		mariners_profile = MarinersProfile.objects.get(user=id)
+		license = License.objects.get(user=id)
+		coc = COC.objects.get(user=id)
+		src = SRC.objects.get(user=id)
+		goc = GOC.objects.get(user=id)
+
+		applicant_name_form = ApplicantNameForm(instance=user_profile)
+		personal_data_form = PersonalDataForm(instance=personal_data, initial={'birth_place':personal_data.birth_place, 'preferred_vessel_type':personal_data.preferred_vessel_type, 'dialect':personal_data.dialect})
+		permanent_address_form = PermanentAddressForm(instance=personal_data.permanent_address, initial={'permanent_zip':personal_data.permanent_address.permanent_zip.zip, 'permanent_barangay':personal_data.permanent_address.permanent_zip.barangay, 'permanent_municipality':personal_data.permanent_address.permanent_zip.municipality})
+		current_address_form = CurrentAddressForm(instance=personal_data.current_address, initial={'current_zip':personal_data.current_address.current_zip.zip, 'current_barangay':personal_data.current_address.current_zip.barangay, 'current_municipality':personal_data.current_address.current_zip.municipality})
 
 		try:
-			flag_documents = FlagDocuments.objects.get(user=user_profile)
-			flag_list = []
-			flags = get_list_or_404(FlagDocumentsDetailed, flags_documents=flag_documents.id)
-			# print flags
-			for flag in flags:
-				# print flag.id
-				flag_list.append(flag.flags.id)
-			flags = {'flags': flag_list}
-			flags = FlagForm(initial=flags)
-			print "dean"
+			spouse = Spouse.objects.get(user=id)
+			spouse_form = SpouseForm(instance=spouse)
 		except:
-			flags = FlagForm()
+			spouse = ''
+			spouse_form = SpouseForm(initial={'user':personal_data.name, } )
 
-		training_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
-		training_certificate_list = []
-		training_certificates = get_list_or_404(TrainingCertificateDocumentsDetailed, trainings_certificate_documents=training_certificate_documents.id)
-		# print training_certificates
-		for training_certificate in training_certificates:
-			# print training_certificate.id
-			# print training_certificate.trainings_certificates.id
-			training_certificate_list.append(training_certificate.trainings_certificates.id)
-		training_certificates = {'trainings_certificates': training_certificate_list}
-		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position.id, False, initial=training_certificates)
+		# Used for formset updating / inlineformset_factory
+		CollegeFormSet = inlineformset_factory(UserProfile, College, extra=0, can_delete=False, form=CollegeForm )
+		college_form = CollegeFormSet(instance=user_profile)
 
+		# sample = [{'emergency_municipality':'Quezon City', 'emergency_barangay':'Holy Spirit', 'emergency_zip':1127}]
+		EmergencyContactFormSet = inlineformset_factory(UserProfile, EmergencyContact, extra=0, can_delete=False, form=EmergencyContactForm )
+		emergency_contact_form = EmergencyContactFormSet(instance=user_profile)
+
+		dependents = Dependents.objects.filter(user=id)
+		if len(dependents) < 1:
+			dependents_num_extra = 1
+			dependents_num_label = "No dependets yet"
+		else:
+			dependents_num_extra = 0
+			dependents_num_label = len(dependents)
+		DependentsFormSet = inlineformset_factory(UserProfile, Dependents, extra=0, can_delete=False, form=DependentsForm )
+		dependents_form = DependentsFormSet(instance=user_profile)
+
+		FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
+		flag_form = FlagFormSet(instance=flag_documents)
+
+		TrainingCertificateFormSet = inlineformset_factory(TrainingCertificateDocuments, TrainingCertificateDocumentsDetailed, extra=0, can_delete=False, form=TrainingCertificateForm)
+		trainings_certificate_form = TrainingCertificateFormSet(instance=trainings_certificate_documents)
+
+		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
+		sea_service_form = SeaServiceFormSet(instance=user_profile)
+
+		try:
+			vocational = Vocational.objects.get(user=id)
+			vocational_form = VocationalForm(instance=vocational, initial={'vocational':vocational.vocational})
+		except:
+			vocational = ''
+			vocational_form = VocationalForm(initial={'user': personal_data.name} )
+
+		try:
+			land_employment = LandEmployment.objects.filter(user=id)
+			if len(land_employment) == 1:
+				num_extra = 1
+			elif len(land_employment) < 1:
+				num_extra = 2
+			LandEmploymentFormSet = inlineformset_factory(UserProfile, LandEmployment, fk_name='user', extra=1, can_delete=True, form=LandEmploymentForm )
+			land_employment_form = LandEmploymentFormSet(instance=user_profile )
+
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+
+		try:
+			beneficiary = Beneficiary.objects.filter(user=id)
+			if len(beneficiary) == 1:
+				num_extra = 1
+			elif len(beneficiary) < 1:
+				num_extra = 2
+			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=1, can_delete=True, form=BeneficiaryForm )
+			beneficiary_form = BeneficiaryFormSet(instance=user_profile )
+
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+		try:
+			allotee = Allotee.objects.filter(user=id)
+			if len(allotee) == 1:
+				num_extra = 1
+			elif len(allotee) < 1:
+				num_extra = 2
+			AlloteeFormSet = inlineformset_factory(UserProfile, Allotee, fk_name='user', extra=num_extra, can_delete=True, form=AlloteeForm )
+			allotee_form = AlloteeFormSet(instance=user_profile )
+
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+		highschool_form = HighSchoolForm(instance=highschool, initial={'highschool':highschool.highschool})
+
+		try:
+			primaryschool = PrimarySchool.objects.get(user=id)
+			primaryschool_form = PrimarySchoolForm(instance=primaryschool, initial={'primaryschool':primaryschool.primaryschool})
+		except:
+			primaryschool_form = PrimarySchoolForm(initial={'user': personal_data.name} )
+
+		try:
+			stcw_endorsement = STCWEndorsement.objects.get(user=id)
+			stcw_endorsement_form = STCWEndorsementForm(instance=stcw_endorsement, initial={'stcw_endorsement_rank':stcw_endorsement.stcw_endorsement_rank})
+		except:
+			stcw_endorsement_form = STCWEndorsementForm(initial={'user': personal_data.name} )
+
+		try:
+			stcw_certificate = STCWCertificate.objects.get(user=id)
+			stcw_certificate_form = STCWCertificateForm(instance=stcw_certificate, initial={'stcw_certificate_rank':stcw_certificate.stcw_certificate_rank})
+		except:
+			stcw_certificate_form = STCWCertificateForm(initial={'user': personal_data.name} )
+
+		try:
+			ntc_license = NTCLicense.objects.get(user=id)
+			ntc_license_form = NTCLicenseForm(instance=ntc_license, initial={'ntc_license_rank':ntc_license.ntc_license_rank})
+		except:
+			ntc_license_form = NTCLicenseForm(initial={'user': personal_data.name} )
+
+		try:
+			evaluation = Evaluation.objects.get(user=id)
+			evaluation_form = EvaluationForm(instance=evaluation, initial={'evaluation':evaluation.evaluation})
+		except:
+			evaluation_form = EvaluationForm(initial={'user': personal_data.name} )
+		
+		try:
+			history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
+			current_history = history[0]
+			histories = history[1:]
+			mariner_status_form = MarinerStatusForm(instance=current_history, initial={'mariner_status_comment':current_history .mariner_status_comment.mariner_status_comment})
+		except:
+			history = ''
+			current_history = ''
+			histories = ''
+			mariner_status_form = MarinerStatusForm(initial={'user': personal_data.name} )
+
+
+		passport_form = PassportForm(instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
+		sbook_form = SBookForm(instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
+		us_visa_form = USVisaForm(instance=us_visa, initial={'us_visa':us_visa.us_visa, 'us_visa_place_issued':us_visa.us_visa_place_issued})
+		schengen_visa_form = SchengenVisaForm(instance=schengen_visa, initial={'schengen_visa':schengen_visa.schengen_visa, 'schengen_visa_place_issued':schengen_visa.schengen_visa_place_issued})
+		yellow_fever_form = YellowFeverForm(instance=yellow_fever, initial={'yellow_fever_place_issued':yellow_fever.yellow_fever_place_issued})
+		license_form = LicenseForm(instance=license, initial={'license_place_issued':license.license_place_issued, 'license_rank':license.license_rank})
+		coc_form = COCForm(instance=coc, initial={'coc_place_issued':coc.coc_place_issued, 'coc_rank':coc.coc_rank})
+		src_form = SRCForm(instance=src, initial={'src_rank':src.src_rank})
+		goc_form = GOCForm(instance=goc, initial={'goc_rank':goc.goc_rank})
+		mariners_position_form = MarinersChangePosition(mariners_profile.position.id, request.POST or None, instance=mariners_profile)
+		
 		template = "mariner-profile/profile.html"
 
 		context_dict = {}
-		# Database querysets variables
-		context_dict['user_profile'] = user_profile
-		context_dict['personal_data'] = personal_data
-		context_dict['spouse'] = spouse
-		context_dict['college'] = college
-		context_dict['highschool'] = highschool
-		context_dict['emergency_contact'] = emergency_contact
-		context_dict['visa_application'] = visa_application
-		context_dict['detained'] = detained
-		context_dict['disciplinary_action'] = disciplinary_action
-		context_dict['charged_offense'] = charged_offense
-		context_dict['termination'] = termination
-		context_dict['passport'] = passport
-		context_dict['sbook'] = sbook
-		context_dict['coc'] = coc
-		context_dict['license'] = license
-		context_dict['src'] = src
-		context_dict['goc'] = goc
-		context_dict['us_visa'] = us_visa
-		context_dict['schengen_visa'] = schengen_visa
-		context_dict['yellow_fever'] = yellow_fever
-		context_dict['title'] = "Mariners Profile - "+str(personal_data)
-		# context_dict['FlagDocuments'] = FlagDocuments
-		# context_dict['FlagDocumentsDetailed'] = FlagDocumentsDetailed
-		# context_dict['TrainingCertificateDocuments'] = TrainingCertificateDocuments
-		# context_dict['TrainingCertificateDocumentsDetailed'] = TrainingCertificateDocumentsDetailed
-		context_dict['sea_service'] = sea_service
-		context_dict['mariners_profile'] = mariners_profile
 
-		# Many-to-many variables
-		context_dict['flags'] = flags
-		context_dict['trainings_certificates'] = trainings_certificates
+		# form variables
+		context_dict['applicant_name_form'] = applicant_name_form
+		context_dict['personal_data_form'] = personal_data_form
+		context_dict['permanent_address_form'] = permanent_address_form
+		context_dict['current_address_form'] = current_address_form
+		context_dict['spouse_form'] = spouse_form
+		context_dict['emergency_contact_form'] = emergency_contact_form
+		context_dict['dependents_form'] = dependents_form
+		context_dict['passport_form'] = passport_form
+		context_dict['sbook_form'] = sbook_form
+		context_dict['us_visa_form'] = us_visa_form
+		context_dict['schengen_visa_form'] = schengen_visa_form
+		context_dict['yellow_fever_form'] = yellow_fever_form
+		context_dict['license_form'] = license_form
+		context_dict['ntc_license_form'] = ntc_license_form
+		context_dict['coc_form'] = coc_form
+		context_dict['src_form'] = src_form
+		context_dict['goc_form'] = goc_form
+		context_dict['college_form'] = college_form
+		context_dict['vocational_form'] = vocational_form
+		context_dict['highschool_form'] = highschool_form
+		context_dict['primaryschool_form'] = primaryschool_form
+		context_dict['land_employment_form'] = land_employment_form
+		context_dict['beneficiary_form'] = beneficiary_form
+		context_dict['allotee_form'] = allotee_form
+		context_dict['stcw_endorsement_form'] = stcw_endorsement_form
+		context_dict['stcw_certificate_form'] = stcw_certificate_form
+		context_dict['flag_form'] = flag_form
+		context_dict['trainings_certificate_form'] = trainings_certificate_form
+		context_dict['evaluation_form'] = evaluation_form
+		context_dict['sea_service_form'] = sea_service_form
+		context_dict['mariner_status_form'] = mariner_status_form
+		context_dict['mariners_position_form'] = mariners_position_form
+
+		# queryset variables
+		context_dict['user_profile'] = user_profile
+		context_dict['mariners_profile'] = mariners_profile
+		context_dict['current_history'] = current_history
+		context_dict['histories'] = histories
+
+		context_dict['title'] = "Mariners Profile - "+str(personal_data)
+		context_dict['dependents_num_label'] = dependents_num_label
 
 		return render(request, template, context_dict)
 

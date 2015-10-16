@@ -144,13 +144,13 @@ def index(request):
 def profile(request, id):
 	if id:
 		user_profile = UserProfile.objects.get(id=id)
-		personal_data = PersonalData.objects.get(name=id)
+		personal_data = ApplicationFormPersonalData.objects.get(name=id)
 		num_extra = 0 # Used in evaluation for controlling inline formset
 		principal_select_form = PrincipalSelectForm()
 		today = date.today()
 
 		try:
-			spouse = Spouse.objects.get(user=id)
+			spouse = ApplicationFormSpouse.objects.get(user=id)
 			spouse_form = SpouseForm(request.POST or None, instance=spouse)
 		except:
 			spouse = ''
@@ -191,85 +191,47 @@ def profile(request, id):
 			evaluation = ''
 			evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name} )
 
-		college = College.objects.filter(user=id)
-		highschool = HighSchool.objects.get(user=id)
-		emergency_contact = EmergencyContact.objects.filter(user=id)
-		visa_application = VisaApplication.objects.get(user=id)
-		detained = Detained.objects.get(user=id)
-		disciplinary_action = DisciplinaryAction.objects.get(user=id)
-		charged_offense = ChargedOffense.objects.get(user=id)
-		termination = Termination.objects.get(user=id)
-		passport = Passport.objects.get(user=id)
-		sbook = Sbook.objects.get(user=id)
-		coc = COC.objects.get(user=id)
-		license = License.objects.get(user=id)
-		src = SRC.objects.get(user=id)
-		goc = GOC.objects.get(user=id)
-		us_visa = USVisa.objects.get(user=id)
-		schengen_visa = SchengenVisa.objects.get(user=id)
-		yellow_fever = YellowFever.objects.get(user=id)
-		sea_service = SeaService.objects.filter(user=id).order_by('-date_left')
+		college = ApplicationFormCollege.objects.filter(user=id)
+		highschool = ApplicationFormHighSchool.objects.get(user=id)
+		emergency_contact = ApplicationFormEmergencyContact.objects.filter(user=id)
+		visa_application = ApplicationFormVisaApplication.objects.get(user=id)
+		detained = ApplicationFormDetained.objects.get(user=id)
+		disciplinary_action = ApplicationFormDisciplinaryAction.objects.get(user=id)
+		charged_offense = ApplicationFormChargedOffense.objects.get(user=id)
+		termination = ApplicationFormTermination.objects.get(user=id)
+		passport = ApplicationFormPassport.objects.get(user=id)
+		sbook = ApplicationFormSbook.objects.get(user=id)
+		coc = ApplicationFormCOC.objects.get(user=id)
+		license = ApplicationFormLicense.objects.get(user=id)
+		src = ApplicationFormSRC.objects.get(user=id)
+		goc = ApplicationFormGOC.objects.get(user=id)
+		us_visa = ApplicationFormUSVisa.objects.get(user=id)
+		schengen_visa = ApplicationFormSchengenVisa.objects.get(user=id)
+		yellow_fever = ApplicationFormYellowFever.objects.get(user=id)
+		sea_service = ApplicationFormSeaService.objects.filter(user=id).order_by('-date_left')
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
 
 		# Queries out the list of flags
 		try:
-			flag_documents = FlagDocuments.objects.get(user=user_profile)
+			flag_documents = ApplicationFormFlagDocuments.objects.get(user=user_profile)
 			flag_list = []
-			flags = get_list_or_404(FlagDocumentsDetailed, flags_documents=flag_documents.id)
+			flags = flag_documents.flags.filter()
 			for flag in flags:
-				flag_list.append(flag.flags.id)
+				flag_list.append(flag.id)
 			flags = {'flags': flag_list}
 			flags = FlagForm(initial=flags)
 		except:
 			flags = FlagForm()
 
-		training_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+		training_certificate_documents = ApplicationFormTrainingCertificateDocuments.objects.get(user=user_profile)
 		training_certificate_list = []
-		training_certificates = get_list_or_404(TrainingCertificateDocumentsDetailed, trainings_certificate_documents=training_certificate_documents.id)
+		training_certificates = training_certificate_documents.trainings_certificates.filter()
 		for training_certificate in training_certificates:
-			training_certificate_list.append(training_certificate.trainings_certificates.id)
+			training_certificate_list.append(training_certificate.id)
 		training_certificates = {'trainings_certificates': training_certificate_list}
 		trainings_certificates = DynamicTrainingCertificateForm(mariners_profile.position_id, initial=training_certificates)
-
-		# applicant_name_form = ApplicantNameForm(request.POST or None, instance=user_profile)
-		# personal_data_form = PersonalDataForm(request.POST or None, instance=personal_data, initial={'birth_place':personal_data.birth_place})
-		# permanent_address_form = PermanentAddressForm(request.POST or None, instance=personal_data.permanent_address, initial={'permanent_zip':personal_data.permanent_address.permanent_zip.zip, 'permanent_barangay':personal_data.permanent_address.permanent_zip.barangay, 'permanent_municipality':personal_data.permanent_address.permanent_zip.municipality})
-		# current_address_form = CurrentAddressForm(request.POST or None, instance=personal_data.current_address, initial={'current_zip':personal_data.current_address.current_zip.zip, 'current_barangay':personal_data.current_address.current_zip.barangay, 'current_municipality':personal_data.current_address.current_zip.municipality})
-
-		# CollegeFormSet = modelformset_factory(College, form=CollegeForm)
-		# college_form = CollegeFormSet(request.POST or None, queryset=college)
-
-		# Used for formset updating
-		# CollegeFormSet = inlineformset_factory(UserProfile, College, fields='__all__', extra=0, can_delete=True )
-		# college_form = CollegeFormSet(request.POST or None, instance=user_profile)
-
-		# highschool_form = HighSchoolForm(request.POST or None, instance=highschool, initial={'highschool':highschool.highschool})
-
-
-		# if applicant_name_form.is_valid():
-		# 	applicant_name_form.save()
-
-		# if personal_data_form.is_valid():
-		# 	personal_data_form.save()
-
-		# if permanent_address_form.is_valid():
-		# 	permanent_address_form.save()
-
-		# if current_address_form.is_valid():
-		# 	current_address_form.save()
-
-		# if spouse_form.is_valid():
-		# 	spouse_form.save()
-
-		# if college_form.is_valid():
-		# 	print "dean"
-		# 	for college in college_form:
-		# 		college.save()
-
-		# if highschool_form.is_valid():
-		# 	highschool_form.save()
 
 		if vocational_form.is_valid() and primaryschool_form.is_valid() and reference_form.is_valid() and evaluation_form.is_valid():
 			vocational_form.save()

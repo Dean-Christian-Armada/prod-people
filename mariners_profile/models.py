@@ -7,6 +7,8 @@ from django_date_extensions.fields import ApproximateDateField
 from login.models import UserProfile
 from people.models import *
 
+import datetime
+
 def null_default_foreign_key_value(model, field, value):
 	param = {field:value}
 	query = model.objects.get_or_create(**param)
@@ -354,6 +356,7 @@ class Flags(models.Model):
 
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
+	trainings_certificates_abbreviation = models.CharField(max_length=15, null=True, blank=True, default=None)
 	departments = models.ManyToManyField(Departments, default=5)
 	company_standard = models.NullBooleanField(default=True)
 	national_certificate = models.BooleanField(default=False)
@@ -560,7 +563,7 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	number = models.PositiveIntegerField(null=True, blank=True)
 	issued = models.DateField(null=True, blank=True)
 	expiry = models.DateField(default=None, null=True, blank=True)
-	place_trained = models.ForeignKey(TrainingCenter, )
+	place_trained = models.ForeignKey(TrainingCenter, default=null_default_foreign_key_value(TrainingCenter, 'training_center', ''))
 	training_place_issued = models.ForeignKey(TrainingPlaceIssued, default=null_default_foreign_key_value(TrainingPlaceIssued, 'training_place', ''))
 
 	def __unicode__(self):
@@ -622,7 +625,9 @@ class MarinerStatusComment(models.Model):
 		return self.mariner_status_comment
 
 class MarinerStatusHistory(models.Model):
-	user = models.ForeignKey(UserProfile, default=None)
+	user = models.ForeignKey(UserProfile, related_name='mariner_user', default=None)
+	# updated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=None)
+	updated_on = models.DateField(auto_now_add=True)
 	mariner_principal = models.ForeignKey(Principal, default=null_default_foreign_key_value(Principal, 'principal', ''))
 	mariner_status = models.ForeignKey(MarinerStatus, default=null_default_foreign_key_value(MarinerStatus, 'mariner_status', ''))
 	since = models.DateField(null=True, blank=True, default=None)
@@ -632,6 +637,24 @@ class MarinerStatusHistory(models.Model):
 	def __unicode__(self):
 		value = "%s %s %s - %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.mariner_principal, self.mariner_status)
 		return value
+
+	def days(self):
+		since = self.since
+		until = self.until
+		if not self.until:
+			until = datetime.date.today()
+		days = until - since
+		days = str(days).split(' ')
+		days = days[0]
+		# not yet working
+		print until
+		return days
+
+	def str_mariner_status_comment(self):
+		comment = str(self.mariner_status_comment)
+		if comment == '':
+			comment = "THERE ARE NO COMMENTS"
+		return comment
 
 class NonConformingSeafarerReason(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

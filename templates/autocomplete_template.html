@@ -3,12 +3,8 @@
 
 {% if choices %}
     {% for choice in choices %}
-        {{ choice|autocomplete_light_choice_html:autocomplete }}
+    	{% if choice != '' %}
+        	{{ choice|autocomplete_light_choice_html:autocomplete }}
+        {% endif %}
     {% endfor %}
-{% else %}
-	<style type="text/css">
-		/*.yourlabs-autocomplete{
-			display: none !important;
-		}*/
-	</style>
 {% endif %}

@@ -1,432 +1,1235 @@
 {% extends "base.html" %}
-{% load get_data %}
 {% load static %}
-{% load widget_tweaks %}
 
 {% block content %}
-	<form method="POST">
-		{% csrf_token %}
+<style>
+
+.panel-msmi {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: none !important;
+  border-radius: none !important; 
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+		
+}
+
+#header{
+	background: #2e76b8;
+	color: #fff;
+	padding: 30px;
+	}
+.tooltip-left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-left-color: #000000;
+  border-width: 5px 0 5px 5px;
+}
+.main-menu{
+	padding-top: 30px;
+	padding-bottom: 30px;
+	}
+.input-label{
+	color: #2e76b8;
+	}	
+.input-form{
+	border: 2px solid #02be9b;
+	}		
+.main-table {
+  border: 1px solid #02be9b;
+  font-size: 12px;
+}
+.main-table > thead > tr > th,
+.main-table > tbody > tr > th,
+.main-table > tfoot > tr > th,
+.main-table > thead > tr > td,
+.main-table > tbody > tr > td,
+.main-table > tfoot > tr > td {
+  border: 1px solid #02be9b;	
+}
+.main-table > thead > tr > th,
+.main-table > thead > tr > td {
+  border-bottom-width: 2px;
+}	
+.btn-main{
+	font-size: 12px;
+	}
+.btn{
+	border: 1px solid transparent !important;	
+	}
+.thead{
+	background: #82ca9c; 
+	color: #fff;"
+	}
+.container-picture{
+	}
+.input-group-addon{
+	background: none;
+	border: none;
+	font-size: 12px;
+	font-weight: bold;	
+	}
+.input-group{
+	margin-top: 10px;	
+	}	
+.panel-heading{
+	border-bottom: 4px solid #000;
+	}
+#main-header{
+	text-align: center !important;
+	margin-top: 20px;
+	}
 	
-<!-- 		<h2>PERSONAL DATA</h2>
-		{#applicant_name_form#} -->
+/* Button Custom */
 
-		<!-- <br /><br />
-		{{personal_data_form.age}}
-		{{personal_data_form.birth_date}}
-		{{personal_data_form.birth_place}}
-		{{personal_data_form.landline_1}}
-		{{personal_data_form.mobile_1}}
-		{{personal_data_form.email_address_1}}
-		{{personal_data_form.landline_2}}
-		{{personal_data_form.mobile_2}}
-		{{personal_data_form.email_address_2}}
-		{{personal_data_form.preferred_vessel_type}}
-		{{personal_data_form.sss}}
-		{{personal_data_form.tin}}
-		{{personal_data_form.pagibig}}
-		{{personal_data_form.philhealth}}
-		{{personal_data_form.dialect}}
-		{{personal_data_form.civil_status}}
-		{{personal_data_form.english}}
-		{{personal_data_form.father_last_name}}
-		{{personal_data_form.father_first_name}}
-		{{personal_data_form.father_middle_name}}
-		{{personal_data_form.mother_last_name}}
-		{{personal_data_form.mother_first_name}}
-		{{personal_data_form.mother_middle_name}} -->
+.btn-msmi  {
+  color: #fff;
+  background-color: #82ca9c;
+  margin-top: 5px;
+  width: 100%;
+  border-bottom: 4px solid #02be9b !important;
+}
+.btn-msmi:focus,
+.btn-msmi.focus {
+  color: #fff;
+  background-color: #02be9b;
+  border-color: #02be9b;
+  border-radius: none !important;
+  border-bottom: 1px solid #02be9b !important;
+}
+.btn-msmi:hover {
+  color: #fff;
+  background-color: #82ca9c;
+  border-radius: none !important;
+  border-color: #82ca9c;   
+}
 
-<!-- 		<br /><br />
-		{{permanent_address_form.permanent_barangay}}
-		{{permanent_address_form.permanent_municipality}}
-		{{permanent_address_form.permanent_unit}}
-		{{permanent_address_form.permanent_street}}
-		{{permanent_address_form.permanent_zip}} -->
+/* Custom Panel */
+.panel-msmi-blue{
+  border-color: #2e76b8;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+  border-bottom: 5px solid #04508e;
+}
+.panel-msmi-blue > .panel-heading {
+  color: #fff;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+  background-color: #2e76b8;
+  border-color: 1px solid #2e76b8;
+}
+.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {
+  border-color: 1px solid #2e76b8;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+}
+.panel-msmi-blue > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {
+  border-color: 1px solid 2e76b8;
+}
+.coc{
+	border: 2px solid #2e76b8;
+	padding: 20px;
+}
 
-<!-- 		<br /><br />
-		{{current_address_form.current_barangay}}
-		{{current_address_form.current_municipality}}
-		{{current_address_form.current_unit}}
-		{{current_address_form.current_street}}
-		{{current_address_form.current_zip}} -->
+</style>
+<body>
 
-		{{spouse_form.user}}
-<!-- 		
-		Last Name: {{spouse_form.spouse_last_name}}
-		First Name: {{spouse_form.spouse_first_name}}
-		Middle Name: {{spouse_form.spouse_middle_name}}
-		Married Date: {{spouse_form.married_date}}
-		Birth Date: {{spouse_form.birthdate}}
-		Contact: {{spouse_form.spouse_contact}} -->
+<div id="wrapper">
+	<div id="header">
+		<div class="container">
+        	<p class="pull-left"><img src="{% static 'img/application-form-logos/ionic.png' %}" width="150" height="150"></p>
+        	<h1 style="padding-left:170px; margin-top: 40px;"><strong>IONIC Application Form</strong></h1>
+        	<h4 style="padding-left:170px;">General Mariner Information Guide</h4>
+		</div><!---End of Container-->
+	</div><!--End of Header-->
+    
+   
+    
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<div class="col-md-8 col-md-offset-1">
+            
+        <!--<div id="main-header">
+            <label class="input-label">IONIC SHIPPING (MGT) INC. BULKER FLEET MANUAL<br>
+            [CREW] CONFIDENTIAL: INTERVIEW RECORDS<br>
+            VERSION (revXXX / XXXX-XX-XX) CHECKLIST: 403 Mod: XXXX-XX-XX sec: 3.04.3</label><br>         
+       	</div>-->
+        
+        <div class="panel-msmi panel-msmi-blue">          
+                		<div class="panel-body">
+                        	<div class="form-group">	
+                            <div class="row">
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Date of Application:</span>
+  								<input type="text" class="form-control input-form" placeholder="Date of Application" value="{{ application_form.application_date }}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Position Applied for:</span>
+  								<input type="text" class="form-control input-form" placeholder="Position Applied" value="{{mariners_profile.position}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Date of Availability:</span>
+  								<input type="text" class="form-control input-form" placeholder="Date of Availability" value="{{mariners_profile.date_hired}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                		</div><!--End of Row-->     				
+                	</div><!--End of Form Group-->
+            		</div><!--End of Panel Body-->
+		</div><!--End of Panel Primary-->
+            
+<!--1. Personal Data
+==========================================-->
+<div id="step1" class="panel-msmi panel-msmi-blue" style="margin-top: 20px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>1. PERSONAL DATA</strong></div>
+		<div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
+			<div class="panel-body">
+				<div class="form-group">
+   	
+                         <div class="row">
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Last Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="Surname" value="{{user_profile.last_name}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">First Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="First Name" value="{{user_profile.first_name}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Middle Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="Middle Name" value="{{user_profile.middle_name}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         </div><!--End of Row-->
+                         
+                         <div class="row">
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Date of Birth:</span>
+  								<input type="text" class="form-control input-form" placeholder="Date of Birth" value="{{personal_data.birth_date}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Place of Birth:</span>
+  								<input type="text" class="form-control input-form" placeholder="Place of Birth" value="{{personal_data.birth_place}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Age:</span>
+  								<input type="text" class="form-control input-form" placeholder="Age" value="{{personal_data.age}}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         </div><!--End of Row-->
+                         
+                         
+                    
+			</div><!--End of Form Group-->
+		</div><!--End of Panel Body-->
+	</div><!--End of Collapse-->
+</div><!--End of Panel-Primary-->
+                       
+<!--2. Contact Details
+============================-->            
+<div id="step2" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"	 aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>2. CONTACT DETAILS</strong></a></div>
+		<div id="detail2" class="panel-collapse collapse" aria-expanded="false"> 
+			<div class="panel-body"> 
+            
+            			<div class="row">
+                            <div class="col-md-2 padding-right-negator">
+		                        <div class="input-group">
+		                                <label class="input-group-addon input-label">Unit:</label>
+		                    			<input type="text" class="form-control input-form" value="{{ current_address.current_unit }}">
+		                </div><!--End of Input Group-->
+		                              </div><!--End of Col 4-->
+		                              <div class="col-md-2">
+		                        <div class="input-group">
+		                                <label class="input-group-addon input-label">Street:</label>
+		                    	<input type="text" class="form-control input-form" value="{{ current_address.current_street }}">
+		                </div><!--End of Input Group-->
+		                              </div><!--End of Col 4-->
+		                              <div class="col-md-3">
+		                        <div class="input-group">
+		                                <label class="input-group-addon input-label">Barangay:</label>
+		                    <input type="text" class="form-control input-form" value="{{ current_address.current_zip.barangay }}">
+		                </div><!--End of Input Group-->
+		                              </div><!--End of Col 2-->
+		                              <div class="col-md-3">
+		                        <div class="input-group">
+		                                <label class="input-group-addon input-label">Municipality:</label>
+		                    <input type="text" class="form-control input-form" value="{{ current_address.current_zip.municipality }}">
+		                </div><!--End of Input Group-->
+		                              </div><!--End of Col 2-->
+		                              <div class="col-md-2">
+		                        <div class="input-group">
+		                                <label class="input-group-addon input-label">ZIP Code:</label>
+		                               <input type="text" class="form-control input-form" value="{{ current_address.current_zip }}"> 
+		                        </div>
+		                        </div>
+                       	</div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Mobile / Contact Number:</span>
+  								<input type="text" class="form-control input-form" placeholder="Mobile / Contact Number" value="{{ personal_data.prefix_mobile_1 }}">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">E-mail:</span>
+  								<input type="text" class="form-control input-form" placeholder="E-mail" value="{{ personal_data.email_address_1 }}" style="text-transform: lowercase">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                         </div><!--End of Row-->    
+              	
+		</div><!--End of Panel Body-->
+	</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+            
+<!--3. Next of Kin Contact Details
+============================-->            
+<div id="step3" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"	 aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>3. NEXT OF KIN CONTACT DETAILS</strong></a></div>								
+		<div id="detail3" class="panel-collapse collapse" aria-expanded="false"> 
+			{% for emergency_contacts in emergency_contact %}
+			<p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{% if emergency_contacts.emergency_first_name %}{{ emergency_contacts.emergency_first_name|upper }}{% endif %}  {% if emergency_contacts.emergency_middle_name %} {{ emergency_contacts.emergency_middle_name|upper }} {% endif %} {% if emergency_contacts.emergency_last_name %} {{ emergency_contacts.emergency_last_name|upper }} {% endif %}  {% if emergency_contacts.relationship %}(<i>{{ emergency_contacts.relationship|upper }}</i>){% endif %}</strong></p>
+			<div class="panel-body"> 
+						<div class="row">
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Last Name:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_last_name }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">First Name:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_first_name }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Middle Name:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_middle_name }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                      </div><!--End of Row-->                        
 
-		<!-- {{ college_form.management_form }}
- 		 <h3>College</h3>
- 		{#college_form#}
- 		
- 		{% for college in college_form %}
- 			<p>
- 				<button class="btn btn-warning update-college-delete" type="button" data-id="{{college.id.value}}">Delete</button>
- 				{{college.id}}
- 				{{college.user}}
- 				{{college.college}}
- 				{{college.degree}}
- 				{{college.collegeyear_from}}
- 				{{college.collegeyear_to}}
- 			</p>
- 		{% endfor %} -->
 
- 		
-<!--         {{ vocational_form.vocational }}
-		{{ vocational_form.vocationalyear_from }}
-		{{ vocational_form.vocationalyear_to }}  -->
 
-<!--         {{ highschool_form.highschool }}
-		{{ highschool_form.schoolyear_from }}
-		{{ highschool_form.schoolyear_to }} -->
+                        <div class="row">
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Relationship:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.relationship }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Nos.:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.prefix_emergency_contact }}">
+                              </div><!--End of Col 3-->
+                </div><!--End of Input Group-->
+                        </div><!--End of Row-->
+                              
+                         <div class="row">
+                              <div class="col-md-2 padding-right-negator">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Unit:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_unit }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Street:</label>
+                     <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_street }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Barangay:</label>
+                    <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_zip.barangay }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Municipality:</label>
+                    <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_zip.municipality }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">ZIP Code:</label>
+                    <input type = "text" class="form-control input-form" value="{{ emergency_contacts.emergency_zip }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                      </div><!--End of Row-->
+            
+			</div><!--End of Panel Body-->
+			{% endfor %}
+	</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+              
+<!-- 4 Travel Documents
+====================================-->
+<div id="step4" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+  	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>4. TRAVEL DOCUMENTS</strong></div>  
+		<div id="detail4" class="panel-collapse collapse" aria-expanded="false">             
+			<div class="panel-body">
+				<div class="form-group">
+					<div class="table-responsive">
+						<table class="table  table-hover main-table">
+                                    			<thead class="thead">
+                                                	<tr>
+                                                    	<th>Document Type</th>
+                                                    	<th>Number</th>
+                                                        <th>Date of Issue</th>
+                                                        <th>Date of Expiry</th>
+                                                        <th>Issue At</th>
+                                                    </tr>
+                                                </thead>
+                                    			<tbody>
+                                                	<tr>
+                                                    	<td>Passport</td>
+                                                        <td>{{ passport.passport }}</td>
+                                                        <td>{{ passport.passport_date_issued }}</td>
+                                                        <td>{{ passport.passport_expiry }}</td>
+                                                        <td>{{ passport.passport_place_issued|upper }}</td>
+                                                    </tr>
+                                                	 	<tr>
+                                                    	<td>Seaman's Book</td>
+                                                        <td>{{ sbook.sbook }}</td>
+                                                        <td>{{ sbook.sbook_date_issued }}</td>
+                                                        <td>{{ sbook.sbook_date_expiry }}</td>
+                                                        <td>{{ sbook.sbook_place_issued|upper }}</td>
+                                                    </tr>
+                                                     	<tr>
+                                                    	<td>U.S. Visa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                        <input type="radio" name="us_visa" {% if us_visa.us_visa %}checked{% endif %}> Yes 
+                                						<input type="radio" name="us_visa" {% if not us_visa.us_visa %}checked{% endif %} > No
+                                                        </td>
+                                                        <td>{{ us_visa.us_visa_number }}</td>
+                                                        <td>{{ us_visa.us_visa_date_issued }}</td>
+                                                        <td>{{ us_visa.us_visa_expiry }}</td>
+                                                        <td>{{ us_visa.us_visa_place_issued|upper }}</td>
+                                                    </tr>
+                                                     	<tr>
+                                                    	<td>Schengen Visa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                        <input type="radio" name="schengen_visa" {% if schengen_visa.schengen_visa %}checked{% endif %}> Yes
+                                                        <input type="radio" name="schengen_visa" {% if not schengen_visa.schengen_visa %}checked{% endif %}> No
+                                                        </td>
+                                                        <td>{{ schengen_visa.schengen_visa_number }}</td>
+                                                        <td>{{ schengen_visa.schengen_visa_date_issued }}</td>
+                                                        <td>{{ schengen_visa.schengen_visa_expiry }}</td>
+                                                        <td>{{ schengen_visa.schengen_visa_place_issued|upper }}</td>
+                                                    </tr>
+                                                     	<tr>
+                                                    	<td>Yellow Fever</td>
+                                                        <td>{{ yellow_fever.yellow_fever }}</td>
+                                                        <td>{{ yellow_fever.yellow_fever_date_issued }}</td>
+                                                        <td>{{ yellow_fever.yellow_fever_expiry }}</td>
+                                                        <td>{{ yellow_fever.yellow_fever_place_issued|upper }}</td>
+                                                </tbody>
+							</table><!--End of Table Stripped-->
+					</div><!--End of Table Responsive-->
+				</div><!--End of Form Group-->
+                
+			</div><!--End of Panel Body-->
+	</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+                
+<!-- 5. LICENSES
+==================================-->                
+<div id="step5" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>5. LICENSES</strong></div>
+		<div id="detail5" class="panel-collapse collapse" aria-expanded="false">               
+			<div class="panel-body"> 
+                        
+            		<div class="form-group">
+					<div class="table-responsive">
+						<table class="table  table-hover main-table">
+                                    			<thead class="thead">
+                                                	<tr>
+                                                    	<th>Document Type</th>
+                                                    	<th>Grade</th>
+                                                        <th>Number</th>
+                                                        <th>Date of Issue</th>
+                                                        <th>Date of Expiry</th>
+                                                        <th>Issue At</th>
+                                                    </tr>
+                                                </thead>
+                                    			<tbody>
+                                                	<tr>
+                                                    	<td>National Endorsement</td>
+                                                        <td>{{ license.license_grade|upper }}</td>
+                                                        <td>{{ license.license }}</td>
+                                                        <td>{{ license.license_date_issued }}</td>
+                                                        <td>{{ license.license_expiry }}</td>
+                                                        <td>{{ license.license_place_issued|upper }}</td>
+                                                    </tr>
+                                                	 <tr>
+                                                    	<td>Certificate of Competency</td>
+                                                        <td>{{ coc.coc_grade|upper }}</td>
+                                                        <td>{{ coc.coc }}</td>
+                                                        <td>{{ coc.coc_date_issued }}</td>
+                                                        <td>{{ coc.coc_expiry }}</td>
+                                                        <td>{{ coc.coc_place_issued|upper }}</td>
+                                                    </tr>
+                                                </tbody>
+							</table><!--End of Table Stripped-->
+					</div><!--End of Table Responsive-->
+				</div><!--End of Form Group-->
+                          
+		</div><!--End of Panel Body-->
+	</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+            
+<!-- 6. FLAG DOCUMENTS
+================================= -->
+<div id="step6" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>6. FLAG DOCUMENTS</strong></div>
+		<div id="detail6" class="panel-collapse collapse" aria-expanded="false">               
+			<div class="panel-body">
+                         
+			<div class="form-group">
+					<div class="table-responsive">
+						<table class="table  table-hover main-table">
+	                			<thead class="thead">
+	                            	<tr>
+	                                	<th>Country</th>
+	                                	<th>S / B Number</th>
+	                                    <th>S / B Expiry</th>
+	                                    <th>License No.</th>
+	                                    <th>License Expiry</th>
+	                                    <th>Rank</th>
+	                                </tr>
+	                            </thead>
+	                			<tbody>
+	                				{% for flag_document in flag_documents %}
+		                				{% if flag_document.flags|upper == 'SINGAPORE' or flag_document.flags|upper == 'MARSHALL ISLANDS' %}
+			                            	<tr>
+			                                	<td>{{ flag_document.flags }}</td>
+			                                    <td>{{ flag_document.sbook_number }}</td>
+			                                    <td>{{ flag_document.sbook_expiry }}</td>
+			                                    <td>{{ flag_document.license_number }}</td>
+			                                    <td>{{ flag_document.license_expiry }}</td>
+			                                    <td>{{ flag_document.flags_rank }}</td>
+			                                </tr>
+		                                {% endif %}
+	                                {% endfor %}
+	                            </tbody>
+							</table><!--End of Table Stripped-->
+					</div><!--End of Table Responsive-->
+				</div><!--End of Form Group-->
 
-<!-- 		{{ primaryschool_form.primaryschool }}
-		{{ primaryschool_form.primaryschoolyear_from }}
-		{{ primaryschool_form.primaryschoolyear_to }} -->
+			</div><!--End of Panel Body-->
+		</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-<!-- 		{#land_employment_form#}
-		{{ land_employment_form.management_form }}
-		{% for land_employment_forms in land_employment_form %}
-			{{ land_employment_forms.id }}
-			{{ land_employment_forms.user }}
-			First Name: {{ land_employment_forms.employer_first_name }}
-			Middle Name: {{ land_employment_forms.employer_middle_name }}
-			Last Name: {{ land_employment_forms.employer_last_name }}
-			Land Position: {{ land_employment_forms.land_position }}
-			Start Date: {{ land_employment_forms.start_date }}
-			End Date: {{ land_employment_forms.end_date }}
-			First Name: {{ land_employment_forms.contact_first_name }}
-			Middle Name: {{ land_employment_forms.contact_middle_name }}
-			Last Name: {{ land_employment_forms.contact_last_name }}
-			Contact Person Number: {{ land_employment_forms.contact_person_number }}
-			Steet: {{ land_employment_forms.employer_street }}
-			Unit: {{ land_employment_forms.employer_unit }}
-			Barangay: {{ land_employment_forms.employer_barangay }}
-			Municipality: {{ land_employment_forms.employer_municipality }}
-			Zip: {{ land_employment_forms.employer_zip }}	
-		{% endfor %} -->
+<!-- 7. OTHER DOCUMENTS AND CERTIFICATES
+=================================--->
+<div id="step7" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>7. OTHER DOCUMENTS AND CERTIFICATES</strong></div>
+		<div id="detail7" class="panel-collapse collapse" aria-expanded="false">               
+			<div class="panel-body">
+                         
+			<div class="form-group">
+					<div class="table-responsive">
+						<table class="table  table-hover main-table">
+                                    			<thead class="thead">
+                                                	<tr>
+                                                    	<th>Document Type</th>
+                                                    	<th>Number</th>
+                                                        <th>Date of Issue</th>
+                                                        <th>Date of Expiry</th>
+                                                        <th>Issue At</th>
+                                                    </tr>
+                                                </thead>
+                                    			<tbody>
+                                                	<tr>
+                                                    	<td>Basic Training</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                	 <tr>
+                                                    	<td>Proficiency is Surv. Craft Rescue Boats</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Advance Fire Fighting</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Medical First Aid</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Medical Care</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Proficiency in Fast Rescue Boats</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Bridge / Engine Team Management</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Bridge / Engine Resource Management</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship Simulator and Bridge Teamwork</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>GMDSS</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>ECDIS Generic</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>ECDIS Furuno</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>ECDIS JRC</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>MARPOL I-VI</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>ISM Code</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship Handling</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship Security Officer</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship Security Awareness and SDSD</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship Safety Officer</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Deck / Engine Watchkeeping (ratings)</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Radar Simulator Course</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>ARPA / ROPA</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Accident and Near Miss Investigation</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship's Catering Services NC1 Training</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Ship's Catering Services NC2 Training</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td><strong>OTHER (Please specify)</strong></td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td></td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td></td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td></td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                    </tr>
+                                                </tbody>
+							</table><!--End of Table Stripped-->
+					</div><!--End of Table Responsive-->
+				</div><!--End of Form Group-->
 
-		<!-- {#beneficiary_form#}
-		{{ beneficiary_form.management_form }}
-		{% for beneficiary_forms in beneficiary_form %}
-			{{ beneficiary_forms.id }}
-			{{ beneficiary_forms.user }}
-			First Name: {{ beneficiary_forms.beneficiary_first_name }}
-			Middle Name: {{ beneficiary_forms.beneficiary_middle_name }}
-			Last Name: {{ beneficiary_forms.beneficiary_last_name }}
-			Relationship: {{beneficiary_forms.relationship}}
-			Number: {{beneficiary_forms.beneficiary_number}}
-		{% endfor %} -->
+			</div><!--End of Panel Body-->
+		</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-<!-- 		{#allotee_form#}
-		{{ allotee_form.management_form }}
-		{% for allotee_forms in allotee_form %}
-			{{ allotee_forms.id }}
-			{{ allotee_forms.user }}
-			First Name: {{ allotee_forms.allotee_first_name }}
-			Middle Name: {{ allotee_forms.allotee_middle_name }}
-			Last Name: {{ allotee_forms.allotee_last_name }}
-			Relationship: {{allotee_forms.allotee_relationship}}
-			Number: {{allotee_forms.allotee_number}}
-			Bank: {{allotee_forms.bank}}
-			Account Number: {{allotee_forms.allotment_account_number}}
-			Steet: {{ allotee_forms.allotee_street }}
-			Unit: {{ allotee_forms.allotee_unit }}
-			Barangay: {{ allotee_forms.allotee_barangay }}
-			Municipality: {{ allotee_forms.allotee_municipality }}
-			Zip: {{ allotee_forms.allotee_zip }}	
-		{% endfor %} -->
+<!-- 8. LANGUAGES
+=================================--->
+<div id="step8" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>8. LANGUAGES</strong></div>
+		<div id="detail8" class="panel-collapse collapse" aria-expanded="false">               
+			<div class="panel-body">
+                         
+						 <div class="row">
+                            <div class="col-md-12">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Native Language:</span>
+  								<input type="text" class="form-control input-form" placeholder="Native Language">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+                         </div><!--End of Row-->
 
-<!-- 		{#passport_form#}
-		Number: {{passport_form.passport}}
-		Place Issued: {{passport_form.passport_place_issued}}
-		Date Issued: {{passport_form.passport_date_issued}}
-		Date Expiry: {{passport_form.passport_expiry}} -->
+                			<div class="form-group input-label" style="margin-top: 20px;">
+                			<label>Ratings</label>
+           						 <div class="checkbox">
+             						<div class="col-md-3">
+                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"><strong> Very Good</strong>
+                					</div>
+                					<div class="col-md-3">
+                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox2" value="option2"><strong> Good</strong>
+									</div>
+                					<div class="col-md-3">
+                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox3" value="option3"><strong> Satisfactory</strong>
+									</div>
+               						<div class="col-md-3">
+               							<input type="checkbox" name="optioncheckbox" id="optioncheckbox4" value="option4"><strong> Poor</strong>
+									</div>
+           						</div>
+                         </div><!--End of Row-->
+                         
+                         <div class="row">
+                            <div class="col-md-12">
+                			<div class="input-group" style="margin-top: 20px;">
+  								<span class="input-group-addon input-label">Other (Please specify):</span>
+  								<input type="text" class="form-control input-form" placeholder="Others">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+                         </div><!--End of Row-->
+                         
 
-<!-- 		{#sbook_form#}
-		Number: {{sbook_form.sbook}}
-		Place Issued: {{sbook_form.sbook_place_issued}}
-		Date Issued: {{sbook_form.sbook_date_issued}}
-		Date Expiry: {{sbook_form.sbook_expiry}} -->
+			</div><!--End of Panel Body-->
+		</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-<!-- 		{#src_form#}
-		Number: {{src_form.src}}
-		Place Issued: {{src_form.src_rank}}
-		Date Issued: {{src_form.src_date_issued}}
-		Date Expiry: {{src_form.src_expiry}} -->
+<!-- 9. ESSAY
+=================================--->
+<div id="step9" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>9. ESSAY</strong></div>
+		<div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
+			<div class="panel-body">
+            <label class="input-label">Please tell us about yourself, your experience and the reasons why we should hire you</label>             
+			<textarea class="form-control input-form" rows="10"></textarea>
 
-		<!-- {#stcw_endorsement_form#}
-		Number: {{stcw_endorsement_form.stcw_endorsement}}
-		Rank: {{stcw_endorsement_form.stcw_endorsement_rank}}
-		Date Issued: {{stcw_endorsement_form.stcw_endorsement_date_issued}}
-		Date Expiry: {{stcw_endorsement_form.stcw_endorsement_date_expiry}} -->
+			</div><!--End of Panel Body-->
+		</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-		<!-- {#stcw_certificate_form#}
-		Number: {{stcw_certificate_form.stcw_certificate}}
-		Rank: {{stcw_certificate_form.stcw_certificate_rank}}
-		Date Issued: {{stcw_certificate_form.stcw_certificate_date_issued}}
-		Date Expiry: {{stcw_certificate_form.stcw_certificate_date_expiry}} -->
+<!-- 8. LANGUAGES
+=================================--->
+<div id="step10" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>10. SEA SERVICE (AT LEAST 10 LAST EMPLOYMENT)</strong></div>
+		<div id="detail10" class="panel-collapse collapse in" aria-expanded="false">               
+			<div class="panel-body">
+                         
+			<div class="form-group">
+					<div class="table-responsive">
+						<table class="table  table-hover main-table">
+                                    			<thead class="thead">
+                                                	<tr>
+                                                    	<th>Vessel</th>
+                                                    	<th>Type</th>
+                                                        <th>Engine</th>
+                                                        <th>DWT / GRT</th>
+                                                        <th>Owner</th>
+                                                        <th>Rank</th>
+                                                        <th>Sign On</th>
+                                                        <th>Sign Off</th>
+                                                        <th>Reason of Sign Off</th>
+                                                    </tr>
+                                                </thead>
+                                    			<tbody>
+                                                	<tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td>Data 1</td>
+                                                        <td>Data 2</td>
+                                                        <td>Data 3</td>
+                                                        <td>Data 4</td>
+                                                        <td>Data 5</td>
+                                                        <td>Data 6</td>
+                                                        <td>Data 7</td>
+                                                        <td>Data 8</td>
+                                                        <td>Data 9</td>
+                                                    </tr>
+                                                    <!--<tr>
+                                                    	<td colspan="5" align="center"><strong>Total Sea Service in Rank (Years)</strong></td>
+                                                        <td colspan="4" align="center"><strong>Total Sea Service in Dry Cargo Carriers (Years)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td colspan="5" align="center">Data 1</td>
+                                                        <td colspan="4" align="center">Data 2</td>
+                                                    </tr>-->
+                                                </tbody>
+							</table><!--End of Table Stripped-->
+					</div><!--End of Table Responsive-->
+				</div><!--End of Form Group-->
+                
+                		<div class="row">
+                            <div class="col-md-12">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Total Sea Service in Rank (Years)</span>
+  								<input type="text" class="form-control input-form" placeholder="Total Sea Service in Rank">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+                       	</div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Total Sea Service in Dry Cargo Carriers (Years)</span>
+  								<input type="text" class="form-control input-form" placeholder="Total Sea Service in Dry Cargo Carriers">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+                       	</div><!--End of Row-->
 
-		<!-- {#goc_form#}
-		Number: {{goc_form.goc}}
-		Rank: {{goc_form.goc_rank}}
-		Date Issued: {{goc_form.goc_date_issued}}
-		Date Expiry: {{goc_form.goc_expiry}} -->
+			</div><!--End of Panel Body-->
+		</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-		<!-- {#ntc_license_form#}
-		Number: {{ntc_license_form.ntc_license}}
-		Rank: {{ntc_license_form.ntc_license_rank}}
-		Date Issued: {{ntc_license_form.ntc_license_date_issued}}
-		Date Expiry: {{ntc_license_form.ntc_license_date_expiry}} -->
+<hr></hr>
 
-		<!-- {#license_form#}
-		Number: {{license_form.license}}
-		Place Issued: {{license_form.license_place_issued}}
-		Rank: {{license_form.license_rank}}
-		Grade: {{license_form.license_grade}}
-		Date Issued: {{license_form.license_date_issued}}
-		Date Expiry: {{license_form.license_expiry}} -->
+<div class="panel-msmi panel-msmi-blue">          
+		<div class="panel-body">
+        
+        					<label class="input-label">I certify that all the information given in this Application Form are true and correct.<br>
+                            I agree that if I have withheld or misrepresented any information on this Application Form then I am the only reposible person.<br>
+                            I understand that this Application Form shall remain Confidential uinless it is used in a legal action against me for untruthful statement made herein.</label>
+                        	
+                            
+                            <div class="form-group">	
+                            <div class="row">
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">APPLICANT:</span>
+  								<input type="text" class="form-control input-form" placeholder="Applicant">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="Name">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Signature:</span>
+  								<input type="text" class="form-control input-form" placeholder="Signature">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                			</div><!--End of Row-->     				
+                			</div><!--End of Form Group-->
 
-		<!-- {#coc_form#}
-		Number: {{coc_form.coc}}
-		Place Issued: {{coc_form.coc_place_issued}}
-		Rank: {{coc_form.coc_rank}}
-		Grade: {{coc_form.coc_grade}}
-		Date Issued: {{coc_form.coc_date_issued}}
-		Date Expiry: {{coc_form.coc_expiry}} -->
+		</div><!--End of Panel Body-->
+</div><!--End of Panel Primary-->
 
-		<!-- {#us_visa_form#}
-		Visa: {{us_visa_form.us_visa}}
-		Date Expiry: {{us_visa_form.us_visa_expiry}}
-		Date Issued: {{us_visa_form.us_visa_date_issued}}
-		Number: {{us_visa_form.us_visa_number}}
-		Place Issued: {{us_visa_form.us_visa_place_issued}} -->
+<!--11. REFERENCES
+============================-->            
+<div id="step11" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
 
-		<!-- {#schengen_visa_form#}
-		Visa: {{schengen_visa_form.schengen_visa}}
-		Date Expiry: {{schengen_visa_form.schengen_visa_expiry}}
-		Date Issued: {{schengen_visa_form.schengen_visa_date_issued}}
-		Number: {{schengen_visa_form.schengen_visa_number}}
-		Place Issued: {{schengen_visa_form.schengen_visa_place_issued}} -->
+	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11"	 aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>11. REFERENCES ( Do not fill below this line - For office use only )</strong></a></div>								
+		<div id="detail11" class="panel-collapse collapse" aria-expanded="false"> 
+			<div class="panel-body"> 
+			
+            			<div class="row" style="margin-bottom: 20px;">
+                            <div class="col-md-9">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Fullname:</span>
+  								<input type="text" class="form-control input-form" placeholder="Fullname">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 9-->
+                             <div class="col-md-3">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Relation:</span>
+  								<input type="text" class="form-control input-form" placeholder="Relation">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 3-->
+                       	</div><!--End of Row-->
+            
+            
+<a data-toggle="collapse" data-parent="#accordion" href="#refer1" aria-expanded="false" style="color: #fff; text-decoration: none;">
+	<p style="margin-top: 20px; background: #02be9b; padding: 10px; border-bottom: 4px solid #82ca9c;"><strong>Verified No.1</strong></p></a>
+		<div id="refer1" class="panel-collapse collapse" aria-expanded="false">
 
-		<!-- {{ emergency_contact_form.management_form }}
-		{% for emergency_contact_forms in emergency_contact_form %}
-			{{ emergency_contact_forms.id }}
-			{{ emergency_contact_forms.user }}
-			First Name: {{ emergency_contact_forms.emergency_first_name }}
-			Middle Name: {{ emergency_contact_forms.emergency_middle_name }}
-			Last Name: {{ emergency_contact_forms.emergency_last_name }}
-			Relationship: {{emergency_contact_forms.relationship}}
-			Contact: {{emergency_contact_forms.emergency_number}}
-			Steet: {{ emergency_contact_forms.emergency_street }}
-			Unit: {{ emergency_contact_forms.emergency_unit }}
-			Barangay: <input class=" autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,barangay' }}">
-			Municipality: <input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,municipality' }}">
-			Zip: <input id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" min="0" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" type="number" value="{{ emergency_contact_forms.emergency_zip.value|get_data:'Zip' }}">
-		{% endfor %} -->
+                        <div class="row">
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Verified by:</span>
+  								<input type="text" class="form-control input-form" placeholder="Verified By" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Date:</span>
+  								<input type="text" class="form-control input-form" placeholder="Date" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                		</div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Company Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="Company Name" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Person Contacted:</span>
+  								<input type="text" class="form-control input-form" placeholder="Person Contacted" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                		</div><!--End of Row-->
+                        
+                       <label class="input-label" style="margin-top: 10px;">Comments</label>             
+					   <textarea class="form-control input-form" rows="10"></textarea>
+                    </div><!--End of Collapse-->
+                       
+<a data-toggle="collapse" data-parent="#accordion" href="#refer2" aria-expanded="false" style="color: #fff; text-decoration: none;">
+	<p style="margin-top: 20px; background: #02be9b; padding: 10px; border-bottom: 4px solid #82ca9c;"><strong>Verified No.2</strong></p></a>
+		<div id="refer2" class="panel-collapse collapse" aria-expanded="false">
 
-<!-- 		{{ flag_form.management_form }}
-		<table>
-			<thead>
-				<tr>
-					<th>Country</th>
-					<th>SB No.</th>
-					<th>Sbook Expiry</th>
-					<th>License No.</th>
-					<th>License Expiry</th>
-					<th>Rank</th>
-				</tr>
-			</thead>
+                        <div class="row">
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Verified by:</span>
+  								<input type="text" class="form-control input-form" placeholder="Verified By" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Date:</span>
+  								<input type="text" class="form-control input-form" placeholder="Date" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                		</div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Company Name:</span>
+  								<input type="text" class="form-control input-form" placeholder="Company Name" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                			<div class="input-group">
+  								<span class="input-group-addon input-label">Person Contacted:</span>
+  								<input type="text" class="form-control input-form" placeholder="Person Contacted" aria-describedby="basic-addon1">
+							</div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                		</div><!--End of Row-->
+                        
+                       <label class="input-label" style="margin-top: 10px;">Comments</label>             
+					   <textarea class="form-control input-form" rows="10"></textarea>
+                       </div><!--End of Collapse-->
 
-			<tbody>
-				{% for flag_forms in flag_form %}
-					{{ flag_forms.flags_documents }}
-					{{ flag_forms.id }}
-				<tr>
-					<td>{{ flag_forms.flags|attr:"style: display:none" }}{{ flag_forms.flags.value|get_data:'Flags' }}</td>
-					<td>{{ flag_forms.sbook_number }}</td>
-	                <td>{{ flag_forms.sbook_expiry }}</td>
-	                <td>{{ flag_forms.license_number }}</td>
-	                <td>{{ flag_forms.license_expiry }}</td>
-	                <td>{{ flag_forms.flags_rank }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table> -->
+            
+		</div><!--End of Panel Body-->
+	</div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
 
-		<!-- {{ trainings_certificate_form.management_form }}
-		{#trainings_certificate_form#}
+          
+<!-- Sidebar Fixed
+==============================-->
+</div>
 
-		<table>
-			<thead>
-				<tr>
-					<th>Training Course</th>
-					<th>Number</th>
-					<th>Date Issued</th>
-					<th>Date Expiry</th>
-				</tr>
-			</thead>
+<div class="col-md-3">
+	<div class="sidebar" style="position: fixed; width: 246px; margin-top: 20px;">
+		<div class="container-picture">
+			<img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  style="border: 3px solid #2e76b8">
+		</div>
+        	<div class="input-group" style="width: 100%;">
+  				<input type="text" class="form-control input-form" placeholder="Name of the Seaferer">
+			</div><!--End of Input Group-->
+            <div class="input-group" style="width: 100%;">
+  				<select class="form-control input-form">
+                	<option>Captain (CA)</option>
+                    <option>Chief Engineer (CE)</option>
+                    <option>Chief Mate (CM)</option>
+                    <option>2nd Engineer (2E)</option>
+                    <option>2nd Mate (2M)</option>
+                    <option>3rd Engineer (3E)</option>
+                    <option>3rd Mate (3M)</option>
+                    <option>4th Engineer (4E)</option>
+                    <option>Electrician (EO)</option>
+                    <option>Junior Electrician (JEO)</option>
+                    <option>Chief Cook (CCK)</option>
+                    <option>Deck Cadet (DC)</option>
+                    <option>Engine Cadet (EC)</option>
+                    <option>Pumpman (PU)</option>
+                    <option>Able Bodied Seaman (AB)</option>
+                    <option>Ordinary Seaman (OS)</option>
+                    <option>Wiper (WI)</option>
+                    <option>Oiler (OI)</option>
+                    <option>Ship Secretary (SS)</option>
+                </select>
+			</div>
 
-			<tbody>
-				{% for trainings_certificate_forms in trainings_certificate_form %}
-					{% if 'Certificate of Proficiency'|lower in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
-						{{ trainings_certificate_forms.trainings_certificate_documents }}
-						{{ trainings_certificate_forms.id }}
-						<tr>
-							<td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
-							<td>{{ trainings_certificate_forms.number }}</td>
-			                <td>{{ trainings_certificate_forms.issued }}</td>
-			                <td>{{ trainings_certificate_forms.expiry }}</td>
-			            </tr>
-					{% endif %}
-				{% endfor %}
-			</tbody>
-		</table>
+			<div class="input-group" style="width: 100%">
+                <button type="button" class="btn btn-msmi"><span class="glyphicon glyphicon-print"><strong> Print</strong></span></button>
+            </div><!--End of Input Group-->
+            <ul class="nav bs-docs-sidenav" style="margin-top: 10px;">
+              <li>
+                <a href="#step1">1. Personal Data</a>
+              </li>
+              <li>
+                <a href="#step2">2. Contact Details</a>
+              </li>
+              <li>
+                <a href="#step3">3. Next of Kin Contact Details</a>
+              </li>
+              <li>
+                <a href="#step4">4. Travel Documents</a>
+              </li>
+              <li>
+                <a href="#step5">5. Licenses</a>
+              </li>
+              <li>
+                <a href="#step6">6. Flag Documents</a>
+              </li>
+              <li>
+                <a href="#step7">7. Other Documents and Certificates</a>
+              </li>
+              <li>
+                <a href="#step8">8. Languages</a>
+              </li>
+              <li>
+                <a href="#step9">9. Essay</a>
+              </li>
+              <li>
+                <a href="#step10">10. Sea Service</a>
+              </li>
+              <li>
+                <a href="#step11">11. References</a>
+              </li>
+                <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
+              </li>
+            </ul>
+          </div><!--End of Sidebar-->
+	</div><!--End of Col-3-->
+    
+    
+   		</div><!--End of Container-->
+	</div><!--End of Page Wrapper-->
+</div><!--End of Wrapper-->
 
-		<table>
-			<thead>
-				<tr>
-					<th>Training Course</th>
-					<th>Number</th>
-					<th>Date Issued</th>
-					<th>Date Expiry</th>
-					<th>Place Issued</th>
-					<th>School / Training Center</th>
-				</tr>
-			</thead>
 
-			<tbody>
-				{% for trainings_certificate_forms in trainings_certificate_form %}
-					{% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
-						{{ trainings_certificate_forms.trainings_certificate_documents }}
-						{{ trainings_certificate_forms.id }}
-						<tr>
-							<td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
-							<td>{{ trainings_certificate_forms.number }}</td>
-			                <td>{{ trainings_certificate_forms.issued }}</td>
-			                <td>{{ trainings_certificate_forms.expiry }}</td>
-			                <td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingPlaceIssuedAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" type="text" value="{{ trainings_certificate_forms.training_place_issued.value|get_data:'TrainingPlaceIssued' }}"></td>
-			                <td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingCenterAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" type="text" value="{{ trainings_certificate_forms.place_trained.value|get_data:'TrainingCenter' }}"></td>
-						</tr>
-					{% endif %}
-				{% endfor %}
-			</tbody>
-		</table> -->
-
-		<!-- <h3>Evaluation</h3>
-		{{ evaluation_form.evaluation }} -->
-
-		<!-- {# if dependents_forms.id.value #} - will be used as a conditional for jquery and css via adding more -->
-		<!-- {{ dependents_form.management_form }}
-		{% for dependents_forms in dependents_form %}
-			{# if dependents_forms.id.value #}
-				{{ dependents_forms.id }}
-				{{ dependents_forms.user }}
-				First Name: {{ dependents_forms.dependent_first_name }}
-				Middle Name: {{ dependents_forms.dependent_middle_name }}
-				Last Name: {{ dependents_forms.dependent_last_name }}
-				Relationship: {{dependents_forms.dependent_relationship}}
-				Contact: {{dependents_forms.dependent_number}}
-				Steet: {{ dependents_forms.dependent_street }}
-				Unit: {{ dependents_forms.dependent_unit }}
-
-				Barangay: <input class=" autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_barangay" name="dependents_set-{{ forloop.counter0 }}-dependent_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,barangay' }}">
-				Municipality: <input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_municipality" name="dependents_set-{{ forloop.counter0 }}-dependent_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,municipality' }}">
-				Zip: <input id="id_dependents_set-{{ forloop.counter0 }}-dependent_zip" min="0" name="dependents_set-{{ forloop.counter0 }}-dependent_zip" type="number" value="{{ dependents_forms.dependent_zip.value|get_data:'Zip' }}">
-			{# endif #}
-		{% endfor %} -->
-
-		<!-- {#sea_service_form#}
-		{{ sea_service_form.management_form }}
-
-		<table>
-			<thead>
-				<tr>
-					<th>Vessel Name</th>
-					<th>Vessel Type</th>
-					<th>Flag</th>
-					<th>GRT</th>
-					<th>DWT</th>
-					<th>Year Built</th>
-					<th>Engine Type</th>
-					<th>BHP</th>
-					<th>HP</th>
-					<th>KW</th>
-					<th>Manning Agency</th>
-					<th>Principal</th>
-					<th>Trade Area</th>
-					<th>Date Joined</th>
-					<th>Date Left</th>
-					<th>Days</th>
-					<th>Rank</th>
-					<th>Cause of Discharge</th>				
-				</tr>
-			</thead>
-
-			<tbody>
-				{% for sea_service_forms in sea_service_form %}
-					{{ sea_service_forms.sea_service_documents }}
-					{{ sea_service_forms.id }}
-					<tr>				
-						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
-						<td>{{ sea_service_forms.vessel_type }}</td>
-						<td>{{ sea_service_forms.flag }}</td>
-						<td>{{ sea_service_forms.grt }}</td>
-						<td>{{ sea_service_forms.dwt }}</td>
-						<td>{{ sea_service_forms.year_built }}</td>
-						<td>{{ sea_service_forms.engine_type }}</td>
-						<td><input type="text"></td>
-						<td>{{ sea_service_forms.hp }}</td>
-						<td>{{ sea_service_forms.kw }}</td>
-						<td>{{ sea_service_forms.manning_agency }}</td>						
-						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipPrincipalAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-principal" name="seaservice_set-{{ forloop.counter0 }}-principal" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.principal.value|get_data:'Principal' }}"></td>
-						<td><input class="autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TradeAreaAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-trade_area" name="seaservice_set-{{ forloop.counter0 }}-trade_area" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.trade_area.value|get_data:'TradeArea' }}"></td>
-						<td>{{ sea_service_forms.date_joined }}</td>
-						<td>{{ sea_service_forms.date_left }}</td>
-						<td>{{ sea_service_forms.duration }}</td>
-						<td>{{ sea_service_forms.rank }}</td>
-						<td>{{ sea_service_forms.cause_of_discharge }}</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table> -->
-
-		{# mariner_status_form #}
-
-<!-- 		Principal: {{ mariner_status_form.mariner_principal }}
-		Status: {{ mariner_status_form.mariner_status }}
-		Since: {{ mariner_status_form.since }}
-		Until: {{ mariner_status_form.until }}
-		Comment: {{ mariner_status_form.mariner_status_comment }} -->
-
-		<!-- <button class="ajax-flags">SUBMIT FLAGS</button> -->
-		<p><input type="submit"></p>
-
-	</form>
-
-{% endblock %}
-{% block extra_scripts %}
-	<script type="text/javascript">
-		delete_on_form_set = "{% url 'delete_on_form_set' %}"
-		$("body").on("click", ".update-college-delete", function(){
-			// $(this).parent().remove()
-			if (!confirm("WARNING! This will be completely deleted. Do you want to proceed?")){
-		      return false;
-		    }else{
-		    	id = $(this).attr("data-id");    	
-		    	$.get(delete_on_form_set, { id: id }, function(data){
-			        $(this).parent().remove();
-			    });
-		    }
-		});
-		// $("tbody.flags").children().find("select.flags").each(function(){
-		// 	flag = $('option:selected', this).text();
-		// 	$(this).after(flag);
-		// 	$(this).remove();
-		// });
-
-	</script>
 {% endblock %}

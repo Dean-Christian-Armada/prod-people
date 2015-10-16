@@ -16,6 +16,13 @@ class TrainingCertificatesResource(resources.ModelResource):
 class TrainingCertificatesImport(ImportExportModelAdmin):
 	resource_class = TrainingCertificatesResource
 
+class BankResource(resources.ModelResource):
+	class Meta:
+		model = Bank
+
+class BankImport(ImportExportModelAdmin):
+	resource_class = BankResource
+
 class ReferrersPoolResource(resources.ModelResource):
 	class Meta:
 		model = ReferrersPool
@@ -24,13 +31,18 @@ class ReferrersPoolImport(ImportExportModelAdmin):
 	resource_class = ReferrersPoolResource
 
 class TrainingCertficatesAdmin(admin.ModelAdmin):
-	list_display = ('trainings_certificates', 'get_departments', )
+	list_display = ('trainings_certificates', 'trainings_certificates_abbreviation', 'get_departments', )
 
-class RankAdmin(admin.ModelAdmin):
+class RankResource(resources.ModelResource):
+	class Meta:
+		model = Rank
+
+class RankImport(ImportExportModelAdmin):
+	resource_class = RankResource
 	list_filter = ('hiring', 'department')
 	list_display = ('rank', 'hiring', 'order', 'department')
 	ordering = ('order', )
-
+	
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000
 
@@ -63,7 +75,7 @@ admin.site.register(Passport)
 admin.site.register(Sources)
 admin.site.register(Specifics)
 admin.site.register(Reasons)
-admin.site.register(Rank, RankAdmin)
+admin.site.register(Rank, RankImport)
 admin.site.register(COCRank)
 admin.site.register(BirthPlace)
 admin.site.register(VesselType)
@@ -115,3 +127,4 @@ admin.site.register(MarinerStatus)
 admin.site.register(MarinerStatusComment)
 admin.site.register(MarinerStatusHistory)
 admin.site.register(NonConformingSeafarerReason)
+admin.site.register(Bank, BankImport)

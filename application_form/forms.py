@@ -660,7 +660,7 @@ class DynamicTrainingCertificateForm(forms.Form):
 				queryset = queryset.filter(national_certificate=False)
 			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=queryset.order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
 		except:
-			pass
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class TrainingCertificateForm(forms.ModelForm):
 	trainings_certificates = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=TrainingCertificates.objects.filter(company_standard=1), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})

@@ -1091,3 +1091,10 @@ class GOCForm(forms.ModelForm):
 
 class StatusForm(forms.Form):
 	status = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalRadioRenderer), queryset=Status.objects.filter(), required=False)
+
+class ApplicationReceivedForm(forms.Form):
+	try:
+		received_by = Userlevel.objects.get(userlevel='fleet2')
+		received_by = forms.ModelChoiceField(widget=forms.Select, queryset=UserProfile.objects.filter(userlevel=received_by))
+	except:
+		pass

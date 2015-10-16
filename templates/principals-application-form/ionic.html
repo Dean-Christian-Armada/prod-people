@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 <style>
@@ -167,19 +168,19 @@
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Date of Application:</span>
-  								<input type="text" class="form-control input-form" placeholder="Date of Application" value="{{ application_form.application_date }}">
+  								<input type="text" class="form-control input-form"  value="{{ application_form.application_date }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Position Applied for:</span>
-  								<input type="text" class="form-control input-form" placeholder="Position Applied" value="{{mariners_profile.position}}">
+  								<input type="text" class="form-control input-form"  value="{{mariners_profile.position}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Date of Availability:</span>
-  								<input type="text" class="form-control input-form" placeholder="Date of Availability" value="{{mariners_profile.date_hired}}">
+  								<input type="text" class="form-control input-form"  value="{{mariners_profile.date_hired}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                 		</div><!--End of Row-->     				
@@ -199,19 +200,19 @@
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Last Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="Surname" value="{{user_profile.last_name}}">
+  								<input type="text" class="form-control input-form"  value="{{user_profile.last_name}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">First Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="First Name" value="{{user_profile.first_name}}">
+  								<input type="text" class="form-control input-form"  value="{{user_profile.first_name}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                          <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Middle Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="Middle Name" value="{{user_profile.middle_name}}">
+  								<input type="text" class="form-control input-form"  value="{{user_profile.middle_name}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                          </div><!--End of Row-->
@@ -220,19 +221,19 @@
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Date of Birth:</span>
-  								<input type="text" class="form-control input-form" placeholder="Date of Birth" value="{{personal_data.birth_date}}">
+  								<input type="text" class="form-control input-form"  value="{{personal_data.birth_date}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                             <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Place of Birth:</span>
-  								<input type="text" class="form-control input-form" placeholder="Place of Birth" value="{{personal_data.birth_place}}">
+  								<input type="text" class="form-control input-form"  value="{{personal_data.birth_place}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                          <div class="col-md-4">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Age:</span>
-  								<input type="text" class="form-control input-form" placeholder="Age" value="{{personal_data.age}}">
+  								<input type="text" class="form-control input-form"  value="{{personal_data.age}}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 4-->
                          </div><!--End of Row-->
@@ -288,13 +289,13 @@
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Mobile / Contact Number:</span>
-  								<input type="text" class="form-control input-form" placeholder="Mobile / Contact Number" value="{{ personal_data.prefix_mobile_1 }}">
+  								<input type="text" class="form-control input-form" value="{{ personal_data.prefix_mobile_1 }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">E-mail:</span>
-  								<input type="text" class="form-control input-form" placeholder="E-mail" value="{{ personal_data.email_address_1 }}" style="text-transform: lowercase">
+  								<input type="text" class="form-control input-form" value="{{ personal_data.email_address_1 }}" style="text-transform: lowercase">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                          </div><!--End of Row-->    
@@ -523,16 +524,14 @@
 	                            </thead>
 	                			<tbody>
 	                				{% for flag_document in flag_documents %}
-		                				{% if flag_document.flags|upper == 'SINGAPORE' or flag_document.flags|upper == 'MARSHALL ISLANDS' %}
-			                            	<tr>
-			                                	<td>{{ flag_document.flags }}</td>
-			                                    <td>{{ flag_document.sbook_number }}</td>
-			                                    <td>{{ flag_document.sbook_expiry }}</td>
-			                                    <td>{{ flag_document.license_number }}</td>
-			                                    <td>{{ flag_document.license_expiry }}</td>
-			                                    <td>{{ flag_document.flags_rank }}</td>
-			                                </tr>
-		                                {% endif %}
+		                            	<tr>
+		                                	<td>{{ flag_document.flags }}</td>
+		                                    <td>{{ flag_document.sbook_number }}</td>
+		                                    <td>{{ flag_document.sbook_expiry }}</td>
+		                                    <td>{{ flag_document.license_number }}</td>
+		                                    <td>{{ flag_document.license_expiry }}</td>
+		                                    <td>{{ flag_document.flags_rank }}</td>
+		                                </tr>
 	                                {% endfor %}
 	                            </tbody>
 							</table><!--End of Table Stripped-->
@@ -544,7 +543,8 @@
 </div><!--End of Panel Primary-->
 
 <!-- 7. OTHER DOCUMENTS AND CERTIFICATES
-=================================--->
+================================= -->
+
 <div id="step7" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
 	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>7. OTHER DOCUMENTS AND CERTIFICATES</strong></div>
 		<div id="detail7" class="panel-collapse collapse" aria-expanded="false">               
@@ -563,209 +563,15 @@
                                                     </tr>
                                                 </thead>
                                     			<tbody>
-                                                	<tr>
-                                                    	<td>Basic Training</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                	 <tr>
-                                                    	<td>Proficiency is Surv. Craft Rescue Boats</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Advance Fire Fighting</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Medical First Aid</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Medical Care</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Proficiency in Fast Rescue Boats</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Bridge / Engine Team Management</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Bridge / Engine Resource Management</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship Simulator and Bridge Teamwork</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>GMDSS</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>ECDIS Generic</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>ECDIS Furuno</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>ECDIS JRC</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>MARPOL I-VI</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>ISM Code</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship Handling</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship Security Officer</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship Security Awareness and SDSD</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship Safety Officer</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Deck / Engine Watchkeeping (ratings)</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Radar Simulator Course</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>ARPA / ROPA</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Accident and Near Miss Investigation</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship's Catering Services NC1 Training</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Ship's Catering Services NC2 Training</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td><strong>OTHER (Please specify)</strong></td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td></td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td></td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td></td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                    </tr>
+                                    				{% for trainings_certificate_document in trainings_certificate_documents %}
+	                                                	<tr>
+	                                                    	<td>{{ trainings_certificate_document.trainings_certificates }}</td>
+	                                                        <td>{{ trainings_certificate_document.number }}</td>
+	                                                        <td>{{ trainings_certificate_document.issued }}</td>
+	                                                        <td>{{ trainings_certificate_document.expiry }}</td>
+	                                                        <td>{{ trainings_certificate_document.training_place_issued }}</td>
+	                                                    </tr>
+                                                    {% endfor %}
                                                 </tbody>
 							</table><!--End of Table Stripped-->
 					</div><!--End of Table Responsive-->
@@ -776,44 +582,32 @@
 </div><!--End of Panel Primary-->
 
 <!-- 8. LANGUAGES
-=================================--->
+================================= -->
 <div id="step8" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
 	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>8. LANGUAGES</strong></div>
 		<div id="detail8" class="panel-collapse collapse" aria-expanded="false">               
 			<div class="panel-body">
                          
-						 <div class="row">
-                            <div class="col-md-12">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Native Language:</span>
-  								<input type="text" class="form-control input-form" placeholder="Native Language">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 12-->
-                         </div><!--End of Row-->
-
-                			<div class="form-group input-label" style="margin-top: 20px;">
-                			<label>Ratings</label>
-           						 <div class="checkbox">
-             						<div class="col-md-3">
-                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"><strong> Very Good</strong>
-                					</div>
-                					<div class="col-md-3">
-                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox2" value="option2"><strong> Good</strong>
-									</div>
-                					<div class="col-md-3">
-                						<input type="checkbox" name="optioncheckbox" id="optioncheckbox3" value="option3"><strong> Satisfactory</strong>
-									</div>
-               						<div class="col-md-3">
-               							<input type="checkbox" name="optioncheckbox" id="optioncheckbox4" value="option4"><strong> Poor</strong>
-									</div>
-           						</div>
-                         </div><!--End of Row-->
+					<div class="row">
+                        <div class="col-md-6">
+                          <div class="input-group">
+                            <label class="input-group-addon input-label">Native Language:</label>
+                            <input type="text" class="form-control input-form" value="{{personal_data.dialect}}">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="input-group">
+                            <label class="input-group-addon input-label">English:</label>
+                            <input type="text" class="form-control input-form" value="{{personal_data.english}}">
+                          </div>
+                        </div>
+                      </div>
                          
                          <div class="row">
                             <div class="col-md-12">
                 			<div class="input-group" style="margin-top: 20px;">
   								<span class="input-group-addon input-label">Other (Please specify):</span>
-  								<input type="text" class="form-control input-form" placeholder="Others">
+  								<input type="text" class="form-control input-form" >
 							</div><!--End of Input Group-->
                             </div><!--End of Col 12-->
                          </div><!--End of Row-->
@@ -824,20 +618,20 @@
 </div><!--End of Panel Primary-->
 
 <!-- 9. ESSAY
-=================================--->
+================================= -->
 <div id="step9" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
 	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>9. ESSAY</strong></div>
 		<div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
 			<div class="panel-body">
             <label class="input-label">Please tell us about yourself, your experience and the reasons why we should hire you</label>             
-			<textarea class="form-control input-form" rows="10"></textarea>
+			<textarea class="form-control input-form" rows="10">{{ application_form.essay }}</textarea>
 
 			</div><!--End of Panel Body-->
 		</div><!--End of Collapse-->
 </div><!--End of Panel Primary-->
 
 <!-- 8. LANGUAGES
-=================================--->
+================================= -->
 <div id="step10" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
 	<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>10. SEA SERVICE (AT LEAST 10 LAST EMPLOYMENT)</strong></div>
 		<div id="detail10" class="panel-collapse collapse in" aria-expanded="false">               
@@ -860,116 +654,22 @@
                                                     </tr>
                                                 </thead>
                                     			<tbody>
+                                    				{% for sea_services in sea_service %}
                                                 	<tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
+                                                    	<td>{{ sea_services.vessel_name|upper }}</td>
+                                                        <td>{{ sea_services.vessel_type }}</td>
+                                                        <td>{{ sea_services.engine_type }}</td>
+                                                        <td>{{ sea_services.dwt }} 
+                                                        {% if sea_services.dwt and sea_services.grt %}  / {% endif %}
+                                                        {{ sea_services.grt }}
+                                                        </td>
+                                                        <td>{{ sea_services.principal|upper }}</td>
+                                                        <td>{{ sea_services.rank }}</td>
+                                                        <td>{{ sea_services.date_joined }}</td>
+                                                        <td>{{ sea_services.date_left }}</td>
+                                                        <td>{{ sea_services.cause_of_discharge|upper }}</td>
                                                     </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
-                                                    <tr>
-                                                    	<td>Data 1</td>
-                                                        <td>Data 2</td>
-                                                        <td>Data 3</td>
-                                                        <td>Data 4</td>
-                                                        <td>Data 5</td>
-                                                        <td>Data 6</td>
-                                                        <td>Data 7</td>
-                                                        <td>Data 8</td>
-                                                        <td>Data 9</td>
-                                                    </tr>
+                                                    {% endfor %}
                                                     <!--<tr>
                                                     	<td colspan="5" align="center"><strong>Total Sea Service in Rank (Years)</strong></td>
                                                         <td colspan="4" align="center"><strong>Total Sea Service in Dry Cargo Carriers (Years)</strong></td>
@@ -984,19 +684,16 @@
 				</div><!--End of Form Group-->
                 
                 		<div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Total Sea Service in Rank (Years)</span>
-  								<input type="text" class="form-control input-form" placeholder="Total Sea Service in Rank">
+  								<input type="text" class="form-control input-form" value="{{ rank_sea_service_duration }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 12-->
-                       	</div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Total Sea Service in Dry Cargo Carriers (Years)</span>
-  								<input type="text" class="form-control input-form" placeholder="Total Sea Service in Dry Cargo Carriers">
+  								<input type="text" class="form-control input-form" >
 							</div><!--End of Input Group-->
                             </div><!--End of Col 12-->
                        	</div><!--End of Row-->
@@ -1016,30 +713,43 @@
                         	
                             
                             <div class="form-group">	
-                            <div class="row">
-                            <div class="col-md-4">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">APPLICANT:</span>
-  								<input type="text" class="form-control input-form" placeholder="Applicant">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                            <div class="col-md-4">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="Name">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                            <div class="col-md-4">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Signature:</span>
-  								<input type="text" class="form-control input-form" placeholder="Signature">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 4-->
-                			</div><!--End of Row-->     				
+	                            <div class="row">
+		                            <div class="col-md-6">
+			                			<div class="input-group">
+			  								<span class="input-group-addon input-label">Name:</span>
+			  								<input type="text" class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.last_name }} {{ user_profile.middle_name }}" >
+										</div><!--End of Input Group-->
+			                        </div><!--End of Col 6-->
+		                            <div class="col-md-6">
+			                			<div class="input-group">
+			  								<span class="input-group-addon input-label">Signature:</span>
+			  								<input type="text" data-toggle="modal" data-target="#view-signature" class="form-control input-form"  placeholder = "CLICK HERE TO SHOW SIGNATURE" >
+										</div><!--End of Input Group-->
+	                            	</div><!--End of Col 6-->
+	                			</div><!--End of Row-->     				
                 			</div><!--End of Form Group-->
 
 		</div><!--End of Panel Body-->
 </div><!--End of Panel Primary-->
+
+
+<div class="modal fade" id="view-signature" tabindex="-1" role="dialog" aria-labelledby="SignatureLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signatureLabel">Signature <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div> 
+</div>
+
+
 
 <!--11. REFERENCES
 ============================-->            
@@ -1050,36 +760,36 @@
 			<div class="panel-body"> 
 			
             			<div class="row" style="margin-bottom: 20px;">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                 			<div class="input-group">
-  								<span class="input-group-addon input-label">Fullname:</span>
-  								<input type="text" class="form-control input-form" placeholder="Fullname">
+  								<span class="input-group-addon input-label">Manship's Seaman Code:</span>
+  								<input type="text" class="form-control input-form" value="{{ user_profile.code }}" style="text-transform:lowercase">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 9-->
-                             <div class="col-md-3">
+                             <div class="col-md-6">
                 			<div class="input-group">
-  								<span class="input-group-addon input-label">Relation:</span>
-  								<input type="text" class="form-control input-form" placeholder="Relation">
+  								<span class="input-group-addon input-label">Application Received by:</span>
+  								{{ application_received_form.received_by|add_class:"form-control input-form" }}
 							</div><!--End of Input Group-->
                             </div><!--End of Col 3-->
                        	</div><!--End of Row-->
             
-            
+{% for references in reference %}
 <a data-toggle="collapse" data-parent="#accordion" href="#refer1" aria-expanded="false" style="color: #fff; text-decoration: none;">
 	<p style="margin-top: 20px; background: #02be9b; padding: 10px; border-bottom: 4px solid #82ca9c;"><strong>Verified No.1</strong></p></a>
-		<div id="refer1" class="panel-collapse collapse" aria-expanded="false">
+		<div id="refer1" class="panel-collapse collapse in" aria-expanded="true">
 
                         <div class="row">
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Verified by:</span>
-  								<input type="text" class="form-control input-form" placeholder="Verified By" aria-describedby="basic-addon1">
+  								<input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ references.verified_by }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Date:</span>
-  								<input type="text" class="form-control input-form" placeholder="Date" aria-describedby="basic-addon1">
+  								<input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ references.date }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                 		</div><!--End of Row-->
@@ -1088,60 +798,27 @@
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Company Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="Company Name" aria-describedby="basic-addon1">
+  								<input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ references.company }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
                             <div class="col-md-6">
                 			<div class="input-group">
   								<span class="input-group-addon input-label">Person Contacted:</span>
-  								<input type="text" class="form-control input-form" placeholder="Person Contacted" aria-describedby="basic-addon1">
+  								<input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ references.person_contacted }}">
 							</div><!--End of Input Group-->
                             </div><!--End of Col 6-->
+
+                    <div class="col-md-12"> 
+                      <div class="panel-body">
+                       <label class="input-label" style="margin-top: 10px;">Comments: </label>             
+                       <textarea class="form-control input-form" rows="10">{{ references.comments }}</textarea>
+                      </div>
+                    </div>
                 		</div><!--End of Row-->
-                        
-                       <label class="input-label" style="margin-top: 10px;">Comments</label>             
-					   <textarea class="form-control input-form" rows="10"></textarea>
+                    
+                    
                     </div><!--End of Collapse-->
-                       
-<a data-toggle="collapse" data-parent="#accordion" href="#refer2" aria-expanded="false" style="color: #fff; text-decoration: none;">
-	<p style="margin-top: 20px; background: #02be9b; padding: 10px; border-bottom: 4px solid #82ca9c;"><strong>Verified No.2</strong></p></a>
-		<div id="refer2" class="panel-collapse collapse" aria-expanded="false">
-
-                        <div class="row">
-                            <div class="col-md-6">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Verified by:</span>
-  								<input type="text" class="form-control input-form" placeholder="Verified By" aria-describedby="basic-addon1">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Date:</span>
-  								<input type="text" class="form-control input-form" placeholder="Date" aria-describedby="basic-addon1">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                		</div><!--End of Row-->
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Company Name:</span>
-  								<input type="text" class="form-control input-form" placeholder="Company Name" aria-describedby="basic-addon1">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                            <div class="col-md-6">
-                			<div class="input-group">
-  								<span class="input-group-addon input-label">Person Contacted:</span>
-  								<input type="text" class="form-control input-form" placeholder="Person Contacted" aria-describedby="basic-addon1">
-							</div><!--End of Input Group-->
-                            </div><!--End of Col 6-->
-                		</div><!--End of Row-->
-                        
-                       <label class="input-label" style="margin-top: 10px;">Comments</label>             
-					   <textarea class="form-control input-form" rows="10"></textarea>
-                       </div><!--End of Collapse-->
-
-            
+      {% endfor %}
 		</div><!--End of Panel Body-->
 	</div><!--End of Collapse-->
 </div><!--End of Panel Primary-->
@@ -1156,31 +833,12 @@
 		<div class="container-picture">
 			<img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  style="border: 3px solid #2e76b8">
 		</div>
-        	<div class="input-group" style="width: 100%;">
-  				<input type="text" class="form-control input-form" placeholder="Name of the Seaferer">
+      <div class="input-group" style="width: 100%;">
+        <input type="text" class="form-control input-form" value="{{ user_profile.code }}" style="text-transform:lowercase">
+        <input type="text" class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" >
 			</div><!--End of Input Group-->
             <div class="input-group" style="width: 100%;">
-  				<select class="form-control input-form">
-                	<option>Captain (CA)</option>
-                    <option>Chief Engineer (CE)</option>
-                    <option>Chief Mate (CM)</option>
-                    <option>2nd Engineer (2E)</option>
-                    <option>2nd Mate (2M)</option>
-                    <option>3rd Engineer (3E)</option>
-                    <option>3rd Mate (3M)</option>
-                    <option>4th Engineer (4E)</option>
-                    <option>Electrician (EO)</option>
-                    <option>Junior Electrician (JEO)</option>
-                    <option>Chief Cook (CCK)</option>
-                    <option>Deck Cadet (DC)</option>
-                    <option>Engine Cadet (EC)</option>
-                    <option>Pumpman (PU)</option>
-                    <option>Able Bodied Seaman (AB)</option>
-                    <option>Ordinary Seaman (OS)</option>
-                    <option>Wiper (WI)</option>
-                    <option>Oiler (OI)</option>
-                    <option>Ship Secretary (SS)</option>
-                </select>
+  				  <input type="text" class="form-control input-form" value="{{ mariners_profile.position }}" >
 			</div>
 
 			<div class="input-group" style="width: 100%">

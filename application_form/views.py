@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.models import modelformset_factory, inlineformset_factory
+from django.db.models import Sum
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
@@ -264,9 +265,13 @@ def fleet_application_form(request, principal, id):
 		personal_data = PersonalData.objects.get(name=id)
 		current_address = CurrentAddress.objects.get(personaldata=personal_data.id)
 		permanent_address = PermanentAddress.objects.get(personaldata=personal_data.id)
+		principal_object = Principal.objects.get(principal__iexact=principal)
+		principal_flags = principal_object.flags_standard.all()
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
-		flag_documents = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents)
+		flag_documents = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents).filter(flags__in=principal_flags)
+		principal_trainings_certificate = principal_object.trainings_certificate_standard.all()
 		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+		trainings_certificate_documents = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents).filter(trainings_certificates__in=principal_trainings_certificate)
 		
 		highschool = HighSchool.objects.get(user=id)
 		passport = Passport.objects.get(user=id)
@@ -285,8 +290,21 @@ def fleet_application_form(request, principal, id):
 		land_employment = LandEmployment.objects.filter(user=id)
 		beneficiary = Beneficiary.objects.filter(user=id)
 		allotee = Allotee.objects.filter(user=id)
+		sea_service = SeaService.objects.filter(user=id)
 		history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
 		current_history = history[0]
+		reference = Reference.objects.filter(user=id)
+
+		# Script to get the duration of the current rank via year with conditional of days if less than
+		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
+		rank_sea_service_duration = rank_sea_service.aggregate(Sum('duration'))
+		rank_sea_service_duration = rank_sea_service_duration['duration__sum']
+		rank_sea_duration = rank_sea_service_duration / 365
+		if rank_sea_duration:
+			rank_sea_service_duration = "%s years" % rank_sea_service_duration
+		else:
+			rank_sea_service_duration = "%s days" % rank_sea_service_duration
+
 
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -319,6 +337,8 @@ def fleet_application_form(request, principal, id):
 		except:
 			evaluation = ''
 
+		application_received_form = ApplicationReceivedForm()
+
 		template = "principals-application-form/%s.html" % (principal)
 		title = ("%s application form" % (principal)).title()
 		context_dict = {}
@@ -350,7 +370,9 @@ def fleet_application_form(request, principal, id):
 		context_dict['land_employment'] = land_employment
 		context_dict['beneficiary'] = beneficiary
 		context_dict['allotee'] = allotee
+		context_dict['sea_service'] = sea_service
 		context_dict['history'] = history
+		context_dict['reference'] = reference
 
 		context_dict['spouse'] = spouse
 		context_dict['vocational'] = vocational
@@ -359,6 +381,10 @@ def fleet_application_form(request, principal, id):
 		context_dict['stcw_certificate'] = stcw_certificate
 		context_dict['ntc_license'] = ntc_license
 		context_dict['evaluation'] = evaluation
+
+		context_dict['application_received_form'] = application_received_form
+
+		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
 
 		return render(request, template, context_dict)
 		# return HttpResponse(template)

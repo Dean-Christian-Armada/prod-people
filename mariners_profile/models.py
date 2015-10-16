@@ -59,16 +59,6 @@ class VesselType(models.Model):
 	def __unicode__(self):
 		return self.vessel_type.upper()
 
-class Principal(models.Model):
-	principal = models.CharField(max_length=50, default=None)
-	company_standard = models.NullBooleanField(default=False)
-	manship_standard = models.BooleanField(default=False)
-	date_created = models.DateTimeField(auto_now_add=True, )
-	date_modified = models.DateTimeField(auto_now=True, blank=True, )
-
-	def __unicode__(self):
-		return self.principal.upper()
-
 class CivilStatus(models.Model):
 	civil_status = models.CharField(max_length=50, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -143,7 +133,7 @@ class Departments(models.Model):
 		return "%s - %s" % (self.id, self.department)
 
 class Rank(models.Model):
-	department = models.ForeignKey(Departments, default=5)
+	department = models.ForeignKey(Departments, default=null_default_foreign_key_value(Departments, 'department', ''))
 	rank = models.CharField(max_length=50, default=None)
 	hiring = models.BooleanField(default=False)
 	company_standard = models.NullBooleanField(default=True)
@@ -357,7 +347,7 @@ class Flags(models.Model):
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
 	trainings_certificates_abbreviation = models.CharField(max_length=15, null=True, blank=True, default=None)
-	departments = models.ManyToManyField(Departments, default=5)
+	departments = models.ManyToManyField(Departments, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 	national_certificate = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -368,6 +358,18 @@ class TrainingCertificates(models.Model):
 
 	def get_departments(self):
 		return "\n, ".join([d.department for d in self.departments.all()])
+
+class Principal(models.Model):
+	principal = models.CharField(max_length=50, default=None)
+	company_standard = models.NullBooleanField(default=False)
+	manship_standard = models.BooleanField(default=False)
+	flags_standard = models.ManyToManyField(Flags, blank=True)
+	trainings_certificate_standard = models.ManyToManyField(TrainingCertificates, blank=True)
+	date_created = models.DateTimeField(auto_now_add=True, )
+	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	def __unicode__(self):
+		return self.principal.upper()
 
 class TrainingCenter(models.Model):
 	training_center = models.CharField(max_length=50, default=None, blank=True)
@@ -582,10 +584,10 @@ class PrincipalVesselType(models.Model):
 class SeaService(AbstractSeaService):
 	# pass
 	trade_area = models.ForeignKey(TradeArea)
+	
 	def bhp(self):
 		bhp = float(self.kw) * 0.746
-		return bhp
-
+		return bhp	
 
 # This is a temporary model object for the referrer's pool
 class ReferrersPool(models.Model):

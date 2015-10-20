@@ -210,7 +210,7 @@ select option {
     border-color: #2e76b8!important;
     background: #fff!important;
 }
-.form-control[readonly] {
+.form-control[readonly], input[type="text"][readonly] {
     background-color: #a1d2f1!important
 }
 .padding-negator {

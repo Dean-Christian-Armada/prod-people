@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.forms.models import modelformset_factory, inlineformset_factory
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
@@ -267,11 +267,12 @@ def fleet_application_form(request, principal, id):
 		permanent_address = PermanentAddress.objects.get(personaldata=personal_data.id)
 		principal_object = Principal.objects.get(principal__iexact=principal)
 		principal_flags = principal_object.flags_standard.all()
-		flag_documents = FlagDocuments.objects.get(user=user_profile)
-		flag_documents = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents).filter(flags__in=principal_flags)
+		flag_document = FlagDocuments.objects.get(user=user_profile)
+		flag_documents = FlagDocumentsDetailed.objects.filter(flags_documents=flag_document).filter(flags__in=principal_flags)
+		flag_documents_valid = FlagDocumentsDetailed.objects.filter(flags_documents=flag_document).filter(~Q(sbook_number=None))
 		principal_trainings_certificate = principal_object.trainings_certificate_standard.all()
-		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
-		trainings_certificate_documents = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents).filter(trainings_certificates__in=principal_trainings_certificate)
+		trainings_certificate_document = TrainingCertificateDocuments.objects.get(user=user_profile)
+		trainings_certificate_documents = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_document).filter(trainings_certificates__in=principal_trainings_certificate)
 		
 		highschool = HighSchool.objects.get(user=id)
 		passport = Passport.objects.get(user=id)
@@ -292,8 +293,17 @@ def fleet_application_form(request, principal, id):
 		allotee = Allotee.objects.filter(user=id)
 		sea_service = SeaService.objects.filter(user=id)
 		history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
-		current_history = history[0]
+		try:
+			current_history = history[0]
+		except:
+			current_history = ""
 		reference = Reference.objects.filter(user=id)
+
+		# Script to get the flags issuing authority of the other seaman's book
+		flag_books = []
+		for flag_document in flag_documents_valid:
+			flag_books.append(flag_document.flags.flags)
+		flag_books = ', '.join(flag_books)
 
 		# Script to get the duration of the current rank via year with conditional of days if less than
 		# Used for Ionic application form
@@ -304,10 +314,31 @@ def fleet_application_form(request, principal, id):
 			rank_sea_service_duration.append(duration.days)
 		rank_sea_service_duration = sum(rank_sea_service_duration)
 		rank_sea_duration = rank_sea_service_duration / 365
+		rank_sea_duration_days_remainder = rank_sea_service_duration % 365
 		if rank_sea_duration:
-			rank_sea_service_duration = "%s year" % rank_sea_duration
+			if rank_sea_duration_days_remainder:
+				rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
+			else:
+				rank_sea_duration_days_remainder = ""
+			rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
 		else:
 			rank_sea_service_duration = "%s days" % rank_sea_service_duration
+
+		sea_service_duration = []
+		for sea_services in sea_service:
+			duration = sea_services.date_left - sea_services.date_joined
+			sea_service_duration.append(duration.days)
+		sea_service_duration = sum(sea_service_duration)
+		sea_duration = sea_service_duration / 365
+		sea_duration_days_remainder = sea_service_duration % 365
+		if sea_duration:
+			if sea_duration_days_remainder:
+				sea_duration_days_remainder = "and %s days" % sea_duration_days_remainder
+			else:
+				sea_duration_days_remainder = ""
+			sea_service_duration = "%s year %s" % (sea_duration, sea_duration_days_remainder)
+		else:
+			sea_service_duration = "%s days" % sea_service_duration
 
 		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
 		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
@@ -319,8 +350,13 @@ def fleet_application_form(request, principal, id):
 			dry_vessel_types_duration.append(duration.days)
 		dry_vessel_types_duration = sum(dry_vessel_types_duration)
 		dry_vessel_duration = dry_vessel_types_duration / 365
+		dry_vessel_types_duration_days_remainder = dry_vessel_types_duration % 365
 		if dry_vessel_duration:
-			dry_vessel_types_duration = "%s year" % dry_vessel_duration
+			if dry_vessel_types_duration_days_remainder:
+				dry_vessel_types_duration_days_remainder = "and %s days" % dry_vessel_types_duration_days_remainder
+			else:
+				dry_vessel_types_duration_days_remainder = ""
+			dry_vessel_types_duration = "%s year %s" % (dry_vessel_duration, dry_vessel_types_duration_days_remainder)
 		else:
 			dry_vessel_types_duration = "%s days" % dry_vessel_types_duration
 
@@ -355,10 +391,89 @@ def fleet_application_form(request, principal, id):
 		except:
 			evaluation = ''
 
+		# START ATHENIAN TRAINING CERTIFICATES
+		btoc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BTOC')
+		atot = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ATOT')
+		bt = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BT')
+		psrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRC')
+		aff = TrainingCertificates.objects.get(trainings_certificates_abbreviation='AFF')
+		mefa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MEFA')
+		meca = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MECA')
+		arpa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ARPA')
+		hazmat = TrainingCertificates.objects.get(trainings_certificates_abbreviation='HAZMAT')
+		bms = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BMS')
+		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS / ERM')
+		ecdis_jrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS JRC')
+		acni = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ACNI')
+		sso = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSO')
+		ism = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ISM')
+
+		try:
+			btoc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=btoc))
+		except:
+			btoc_documents = ""
+		try:
+			atot_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=atot))
+		except:
+			atot_documents = ""
+		try:
+			bt_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=bt))
+		except:
+			bt_documents = ""
+		try:
+			psrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrc))
+		except:
+			psrc_documents = ""
+		try:
+			aff_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=aff))
+		except:
+			aff_documents = ""
+		try:
+			mefa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=mefa))
+		except:
+			mefa_documents = ""
+		try:
+			meca_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=meca))
+		except:
+			meca_documents = ""
+		try:
+			arpa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=arpa))
+		except:
+			arpa_documents = ""
+		try:
+			hazmat_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=hazmat))
+		except:
+			hazmat_documents = ""
+		try:
+			bms_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=bms))
+		except:
+			bms_documents = ""
+		try:
+			ers_erm_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ers_erm))
+		except:
+			ers_erm_documents = ""
+		try:
+			ecdis_jrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ecdis_jrc))
+		except:
+			ecdis_jrc_documents = ""
+		try:
+			acni_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=acni))
+		except:
+			acni_documents = ""
+		try:
+			sso_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=sso))
+		except:
+			sso_documents = ""
+		try:
+			ism_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ism))
+		except:
+			ism_documents = ""		
+		# END ATHENIAN TRAINING CERTIFICATES
+
 		application_received_form = ApplicationReceivedForm()
 
 		template = "principals-application-form/%s.html" % (principal)
-		title = ("%s application form" % (principal)).title()
+		title = ("%s application form" % (principal)).upper()
 		context_dict = {}
 		context_dict['title'] = title
 
@@ -402,8 +517,315 @@ def fleet_application_form(request, principal, id):
 
 		context_dict['application_received_form'] = application_received_form
 
+		context_dict['sea_service_duration'] = sea_service_duration
 		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
 		context_dict['dry_vessel_types_duration'] = dry_vessel_types_duration
+		context_dict['flag_books'] = flag_books
+
+		# START ATHENIAN TRAINING CERTIFICATES
+		context_dict['btoc_documents'] = btoc_documents
+		context_dict['atot_documents'] = atot_documents
+		context_dict['bt_documents'] = bt_documents
+		context_dict['psrc_documents'] = psrc_documents
+		context_dict['aff_documents'] = aff_documents
+		context_dict['mefa_documents'] = mefa_documents
+		context_dict['meca_documents'] = meca_documents
+		context_dict['arpa_documents'] = arpa_documents
+		context_dict['hazmat_documents'] = hazmat_documents
+		context_dict['bms_documents'] = bms_documents
+		context_dict['ers_erm_documents'] = ers_erm_documents
+		context_dict['ecdis_jrc_documents'] = ecdis_jrc_documents
+		context_dict['acni_documents'] = acni_documents
+		context_dict['sso_documents'] = sso_documents
+		context_dict['ism_documents'] = ism_documents
+		# END ATHENIAN TRAINING CERTIFICATES
+
+		return render(request, template, context_dict)
+		# return HttpResponse(template)
+
+@login_required
+def pdf_fleet_application_form(request, principal, id):
+	if id:
+		user_profile = UserProfile.objects.get(id=id)
+		mariners_profile = MarinersProfile.objects.get(user=user_profile)
+		application_form = ApplicationForm.objects.get(user=user_profile)
+		personal_data = PersonalData.objects.get(name=id)
+		current_address = CurrentAddress.objects.get(personaldata=personal_data.id)
+		permanent_address = PermanentAddress.objects.get(personaldata=personal_data.id)
+		principal_object = Principal.objects.get(principal__iexact=principal)
+		principal_flags = principal_object.flags_standard.all()
+		flag_document = FlagDocuments.objects.get(user=user_profile)
+		flag_documents = FlagDocumentsDetailed.objects.filter(flags_documents=flag_document).filter(flags__in=principal_flags)
+		flag_documents_valid = FlagDocumentsDetailed.objects.filter(flags_documents=flag_document).filter(~Q(sbook_number=None))
+		principal_trainings_certificate = principal_object.trainings_certificate_standard.all()
+		trainings_certificate_document = TrainingCertificateDocuments.objects.get(user=user_profile)
+		trainings_certificate_documents = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_document).filter(trainings_certificates__in=principal_trainings_certificate)
+		
+		highschool = HighSchool.objects.get(user=id)
+		passport = Passport.objects.get(user=id)
+		sbook = Sbook.objects.get(user=id)
+		us_visa = USVisa.objects.get(user=id)
+		schengen_visa = SchengenVisa.objects.get(user=id)
+		yellow_fever = YellowFever.objects.get(user=id)
+		license = License.objects.get(user=id)
+		coc = COC.objects.get(user=id)
+		src = SRC.objects.get(user=id)
+		goc = GOC.objects.get(user=id)
+
+		college = College.objects.filter(user=id)
+		emergency_contact = EmergencyContact.objects.filter(user=id)
+		dependents = Dependents.objects.filter(user=id)
+		land_employment = LandEmployment.objects.filter(user=id)
+		beneficiary = Beneficiary.objects.filter(user=id)
+		allotee = Allotee.objects.filter(user=id)
+		sea_service = SeaService.objects.filter(user=id)
+		history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
+		try:
+			current_history = history[0]
+		except:
+			current_history = ""
+		reference = Reference.objects.filter(user=id)
+
+		# Script to get the flags issuing authority of the other seaman's book
+		flag_books = []
+		for flag_document in flag_documents_valid:
+			flag_books.append(flag_document.flags.flags)
+		flag_books = ', '.join(flag_books)
+
+		# Script to get the duration of the current rank via year with conditional of days if less than
+		# Used for Ionic application form
+		rank_sea_service_duration = []
+		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
+		for rank_sea_services in rank_sea_service:
+			duration = rank_sea_services.date_left - rank_sea_services.date_joined
+			rank_sea_service_duration.append(duration.days)
+		rank_sea_service_duration = sum(rank_sea_service_duration)
+		rank_sea_duration = rank_sea_service_duration / 365
+		rank_sea_duration_days_remainder = rank_sea_service_duration % 365
+		if rank_sea_duration:
+			if rank_sea_duration_days_remainder:
+				rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
+			else:
+				rank_sea_duration_days_remainder = ""
+			rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
+		else:
+			rank_sea_service_duration = "%s days" % rank_sea_service_duration
+
+		sea_service_duration = []
+		for sea_services in sea_service:
+			duration = sea_services.date_left - sea_services.date_joined
+			sea_service_duration.append(duration.days)
+		sea_service_duration = sum(sea_service_duration)
+		sea_duration = sea_service_duration / 365
+		sea_duration_days_remainder = sea_service_duration % 365
+		if sea_duration:
+			if sea_duration_days_remainder:
+				sea_duration_days_remainder = "and %s days" % sea_duration_days_remainder
+			else:
+				sea_duration_days_remainder = ""
+			sea_service_duration = "%s year %s" % (sea_duration, sea_duration_days_remainder)
+		else:
+			sea_service_duration = "%s days" % sea_service_duration
+
+		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
+		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
+		dry_vessel_types_duration = []
+		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)
+
+		for dry_vessel_type_sea_services in dry_vessel_type_sea_service:
+			duration = dry_vessel_type_sea_services.date_left - dry_vessel_type_sea_services.date_joined
+			dry_vessel_types_duration.append(duration.days)
+		dry_vessel_types_duration = sum(dry_vessel_types_duration)
+		dry_vessel_duration = dry_vessel_types_duration / 365
+		dry_vessel_types_duration_days_remainder = dry_vessel_types_duration % 365
+		if dry_vessel_duration:
+			if dry_vessel_types_duration_days_remainder:
+				dry_vessel_types_duration_days_remainder = "and %s days" % dry_vessel_types_duration_days_remainder
+			else:
+				dry_vessel_types_duration_days_remainder = ""
+			dry_vessel_types_duration = "%s year %s" % (dry_vessel_duration, dry_vessel_types_duration_days_remainder)
+		else:
+			dry_vessel_types_duration = "%s days" % dry_vessel_types_duration
+
+		try:
+			spouse = Spouse.objects.get(user=id)
+		except:
+			spouse = ''
+		try:
+			vocational = Vocational.objects.get(user=id)
+		except:
+			vocational = ''
+		try:
+			primaryschool = PrimarySchool.objects.get(user=id)
+		except:
+			primaryschool = ''
+		try:
+			stcw_endorsement = STCWEndorsement.objects.get(user=id)
+		except:
+			stcw_endorsement = ''
+		try:
+			stcw_certificate = STCWCertificate.objects.get(user=id)
+		except:
+			stcw_certificate = ''
+
+		try:
+			ntc_license = NTCLicense.objects.get(user=id)
+		except:
+			ntc_license = ''
+
+		try:
+			evaluation = Evaluation.objects.get(user=id)
+		except:
+			evaluation = ''
+
+		# START ATHENIAN TRAINING CERTIFICATES
+		btoc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BTOC')
+		atot = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ATOT')
+		bt = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BT')
+		psrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRC')
+		aff = TrainingCertificates.objects.get(trainings_certificates_abbreviation='AFF')
+		mefa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MEFA')
+		meca = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MECA')
+		arpa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ARPA')
+		hazmat = TrainingCertificates.objects.get(trainings_certificates_abbreviation='HAZMAT')
+		bms = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BMS')
+		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS / ERM')
+		ecdis_jrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS JRC')
+		acni = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ACNI')
+		sso = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSO')
+		ism = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ISM')
+
+		try:
+			btoc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=btoc))
+		except:
+			btoc_documents = ""
+		try:
+			atot_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=atot))
+		except:
+			atot_documents = ""
+		try:
+			bt_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=bt))
+		except:
+			bt_documents = ""
+		try:
+			psrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrc))
+		except:
+			psrc_documents = ""
+		try:
+			aff_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=aff))
+		except:
+			aff_documents = ""
+		try:
+			mefa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=mefa))
+		except:
+			mefa_documents = ""
+		try:
+			meca_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=meca))
+		except:
+			meca_documents = ""
+		try:
+			arpa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=arpa))
+		except:
+			arpa_documents = ""
+		try:
+			hazmat_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=hazmat))
+		except:
+			hazmat_documents = ""
+		try:
+			bms_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=bms))
+		except:
+			bms_documents = ""
+		try:
+			ers_erm_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ers_erm))
+		except:
+			ers_erm_documents = ""
+		try:
+			ecdis_jrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ecdis_jrc))
+		except:
+			ecdis_jrc_documents = ""
+		try:
+			acni_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=acni))
+		except:
+			acni_documents = ""
+		try:
+			sso_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=sso))
+		except:
+			sso_documents = ""
+		try:
+			ism_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ism))
+		except:
+			ism_documents = ""		
+		# END ATHENIAN TRAINING CERTIFICATES
+
+		application_received_form = ApplicationReceivedForm()
+
+		template = "principals-application-form/pdf/%s.html" % (principal)
+		title = ("%s application form" % (principal)).upper()
+		context_dict = {}
+		context_dict['title'] = title
+
+		context_dict['user_profile'] = user_profile
+		context_dict['mariners_profile'] = mariners_profile
+		context_dict['application_form'] = application_form
+		context_dict['personal_data'] = personal_data
+		context_dict['current_address'] = current_address
+		context_dict['permanent_address'] = permanent_address
+		context_dict['flag_documents'] = flag_documents
+		context_dict['trainings_certificate_documents'] = trainings_certificate_documents
+
+		context_dict['highschool'] = highschool
+		context_dict['passport'] = passport
+		context_dict['sbook'] = sbook
+		context_dict['us_visa'] = us_visa
+		context_dict['schengen_visa'] = schengen_visa
+		context_dict['yellow_fever'] = yellow_fever
+		context_dict['license'] = license
+		context_dict['coc'] = coc
+		context_dict['src'] = src
+		context_dict['goc'] = goc
+
+		context_dict['college'] = college
+		context_dict['emergency_contact'] = emergency_contact
+		context_dict['dependents'] = dependents
+		context_dict['land_employment'] = land_employment
+		context_dict['beneficiary'] = beneficiary
+		context_dict['allotee'] = allotee
+		context_dict['sea_service'] = sea_service
+		context_dict['history'] = history
+		context_dict['reference'] = reference
+
+		context_dict['spouse'] = spouse
+		context_dict['vocational'] = vocational
+		context_dict['primaryschool'] = primaryschool
+		context_dict['stcw_endorsement'] = stcw_endorsement
+		context_dict['stcw_certificate'] = stcw_certificate
+		context_dict['ntc_license'] = ntc_license
+		context_dict['evaluation'] = evaluation
+
+		context_dict['application_received_form'] = application_received_form
+
+		context_dict['sea_service_duration'] = sea_service_duration
+		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
+		context_dict['dry_vessel_types_duration'] = dry_vessel_types_duration
+		context_dict['flag_books'] = flag_books
+
+		# START ATHENIAN TRAINING CERTIFICATES
+		context_dict['btoc_documents'] = btoc_documents
+		context_dict['atot_documents'] = atot_documents
+		context_dict['bt_documents'] = bt_documents
+		context_dict['psrc_documents'] = psrc_documents
+		context_dict['aff_documents'] = aff_documents
+		context_dict['mefa_documents'] = mefa_documents
+		context_dict['meca_documents'] = meca_documents
+		context_dict['arpa_documents'] = arpa_documents
+		context_dict['hazmat_documents'] = hazmat_documents
+		context_dict['bms_documents'] = bms_documents
+		context_dict['ers_erm_documents'] = ers_erm_documents
+		context_dict['ecdis_jrc_documents'] = ecdis_jrc_documents
+		context_dict['acni_documents'] = acni_documents
+		context_dict['sso_documents'] = sso_documents
+		context_dict['ism_documents'] = ism_documents
+		# END ATHENIAN TRAINING CERTIFICATES
 
 		return render(request, template, context_dict)
 		# return HttpResponse(template)

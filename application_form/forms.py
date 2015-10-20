@@ -174,6 +174,8 @@ class PersonalDataForm(forms.ModelForm):
 		self.cleaned_data['permanent_address'] = permanent_address
 		self.cleaned_data['current_address'] = current_address
 		self.cleaned_data['name'] = userprofile
+		# self.cleaned_data.pop("emergency_municipality")
+		self.cleaned_data.pop("age")
 		value = self.cleaned_data
 		PersonalData.objects.create(**value)
 		return personal_data

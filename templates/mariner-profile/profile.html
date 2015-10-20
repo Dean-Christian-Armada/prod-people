@@ -196,13 +196,13 @@ th{
 <div class="col-md-2">
 
     <div class="row"> 
-    <div class="sidebar" style="position: fixed; margin-top: 20px; padding-left: 90px; width: 250px;"> 
-         <label class="input-label" style="padding-left: 10px;">Principal Forms</label>
-             <div class="col-md-12" style="margin-top: 10px;">
-            <a href="{% url 'fleet_application_form'  principal='hellespont' id=user_profile.id %}" target="_blank"   title="Hellespont Offshore Ltd." data-toggle="tooltip" data-placement="right" class="img-responsive">
+    <div class="sidebar text-center" style="position: fixed; margin-top: 20px; padding-left: 90px; width: 250px;"> 
+       <label class="input-label" style="padding-left: 10px;">Forms</label>
+        <div class="col-md-12" style="margin-top: 10px;">
+            <a href="{% url 'fleet_application_form'  principal='psv' id=user_profile.id %}" target="_blank"   title="PSV Hellespont Daring GmbH & Co. KG" data-toggle="tooltip" data-placement="right" class="img-responsive">
           <img src="{% static 'img/btn-hsm.png' %}">
          </a>
-      </div><!--End of Column-->
+        </div><!--End of Column-->
       <div class="col-md-12" style="margin-top: 10px;">
               <a href="{% url 'fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank"   title="Ionic Shippping (Mgt) Inc." data-toggle="tooltip" data-placement="right" class="img-responsive">
           <img src="{% static 'img/btn-ionic.png' %}">
@@ -287,7 +287,7 @@ th{
                 <table class="table table-hover sea-tb main-table">
                   <thead class="thead">
                     <tr>
-                      <th></th>
+                      <!-- <th></th> -->
                       <th>Updayed By</th>
                       <th>Updated On</th>
                       <th>Principal</th>
@@ -301,7 +301,7 @@ th{
                   <tbody>
                     {% for history in histories %}
                       <tr>
-                        <td><button class="btn btn-danger form-control">Delete</button></td>
+                        <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
                         <td>mrad</td>
                         <td>{{ history.updated_on }}</td>
                         <td>{{ history.mariner_principal }}</td>
@@ -761,6 +761,7 @@ th{
                                                 <th>DWT</th>
                                                 <th>Year Built</th>
                                                 <th>Engine Type</th>
+                                                <th>Propulsion</th>
                                                 <th>HP</th>
                                                 <th>KW</th>
                                                 <th>Manning Agency</th>
@@ -787,6 +788,7 @@ th{
                                                   <td>{{ sea_service_forms.dwt|add_class:" input-form" }}</td>
                                                   <td>{{ sea_service_forms.year_built|add_class:" input-form" }}</td>
                                                   <td>{{ sea_service_forms.engine_type|add_class:" input-form" }}</td>
+                                                  <td>{{ sea_service_forms.propulsion|add_class:" input-form" }}</td>
                                                   <td>{{ sea_service_forms.hp|add_class:" input-form" }}</td>
                                                   <td>{{ sea_service_forms.kw|add_class:" input-form" }}</td>
                                                   <td>{{ sea_service_forms.manning_agency|add_class:" input-form" }}</td>

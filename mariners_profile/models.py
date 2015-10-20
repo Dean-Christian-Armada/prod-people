@@ -15,6 +15,36 @@ def null_default_foreign_key_value(model, field, value):
 	query = model.objects.get(**param)
 	return query.id
 
+def dfa_issuing_authority():
+	issuing_authority_value = 'DFA'
+	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+	return issuing_authority.id
+
+def marina_issuing_authority():
+	issuing_authority_value = 'Marina'
+	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+	return issuing_authority.id
+
+def yellow_fever_issuing_authority():
+	issuing_authority_value = 'DOH /Bureau of Quarantine'
+	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+	return issuing_authority.id
+
+def tc_issuing_authority():
+	issuing_authority_value = 'TC'
+	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+	return issuing_authority.id
+
+def filipino_nationality():
+	nationality_value = 'Filipino'
+	nationality = Nationality.objects.get_or_create({'nationality':nationality_value}, nationality__iexact=nationality_value)
+	nationality = Nationality.objects.get(nationality__iexact=nationality_value)
+	return nationality.id
+
 class Evaluations(models.Model):
 	evaluations = models.TextField(null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -39,6 +69,14 @@ class BirthPlace(models.Model):
 
 	def __unicode__(self):
 		return self.birth_place
+
+class Nationality(models.Model):
+	nationality = models.CharField(max_length=50, default=None)
+	date_created = models.DateTimeField(auto_now_add=True, )
+
+	def __unicode__(self):
+		return self.nationality
+
 
 class VesselName(models.Model):
 	vessel_name = models.CharField(max_length=50, default=None)
@@ -324,6 +362,13 @@ class TrainingPlaceIssued(models.Model):
 	def __unicode__(self):
 		return self.training_place
 
+class IssuingAuthority(models.Model):
+	issuing_authority = models.CharField(max_length=50, default=None, blank=True)
+	company_standard = models.NullBooleanField(default=True)
+
+	def __unicode__(self):
+		return self.issuing_authority
+
 class Zip(models.Model):
 	zip = models.PositiveIntegerField(unique=True, default=None)
 	barangay = models.ForeignKey(Barangay, default=None)
@@ -348,6 +393,7 @@ class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
 	trainings_certificates_abbreviation = models.CharField(max_length=15, null=True, blank=True, default=None)
 	departments = models.ManyToManyField(Departments, blank=True)
+	training_issuing_authority = models.ForeignKey(IssuingAuthority, default=tc_issuing_authority())
 	company_standard = models.NullBooleanField(default=True)
 	national_certificate = models.BooleanField(default=False)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -385,6 +431,13 @@ class TradeArea(models.Model):
 	def __unicode__(self):
 		return self.trade_area
 
+class Propulsion(models.Model):
+	propulsion = models.CharField(max_length=50, default=None, null=True, blank=True)
+	company_standard = models.NullBooleanField()
+
+	def __unicode__(self):
+		return self.propulsion
+
 class CurrentAddress(models.Model):
 	current_zip = models.ForeignKey(Zip, default=None)
 	current_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
@@ -407,8 +460,9 @@ class PersonalData(AbstractPersonalData):
 	# pass
 	current_address = models.ForeignKey(CurrentAddress, default=None)
 	permanent_address = models.ForeignKey(PermanentAddress, default=None)
-	dialect = models.ForeignKey(Dialect, default=1)
-	english = models.ForeignKey(English, default=1)
+	dialect = models.ForeignKey(Dialect, default=null_default_foreign_key_value(Dialect, 'dialect', ''))
+	english = models.ForeignKey(English, default=null_default_foreign_key_value(English, 'english', ''))
+	nationality = models.ForeignKey(Nationality, default=filipino_nationality())
 
 class Spouse(AbstractSpouseData):
 	pass
@@ -421,7 +475,7 @@ class HighSchool(AbstractHighSchool):
 
 class Vocational(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
-	vocational = models.ForeignKey(Vocationals, null=True, blank=True, default=None)
+	vocational = models.ForeignKey(Vocationals, null=True, blank=True, default=null_default_foreign_key_value(Vocationals, 'vocational_name', ''))
 	vocationalyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	vocationalyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 
@@ -431,7 +485,7 @@ class Vocational(models.Model):
 
 class PrimarySchool(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
-	primaryschool = models.ForeignKey(PrimarySchools, null=True, blank=True, default=None)
+	primaryschool = models.ForeignKey(PrimarySchools, null=True, blank=True, default=null_default_foreign_key_value(PrimarySchools, 'primaryschool_name', ''))
 	primaryschoolyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	primaryschoolyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 
@@ -459,24 +513,27 @@ class Termination(AbstractTermination):
 	pass	
 
 class Passport(AbstractPassport):
-	passport_place_issued = models.ForeignKey(PassportPlaceIssued, default=None, blank=True)
+	passport_place_issued = models.ForeignKey(PassportPlaceIssued, default=null_default_foreign_key_value(PassportPlaceIssued, 'passport_place', ''), blank=True)
 	passport_date_issued = models.DateField(default=None, null=True, blank=True)
+	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority())
 
 class Sbook(AbstractSbook):
-	sbook_place_issued = models.ForeignKey(SBookPlaceIssued, default=None, blank=True)
+	sbook_place_issued = models.ForeignKey(SBookPlaceIssued, default=null_default_foreign_key_value(SBookPlaceIssued, 'sbook_place', ''), blank=True)
 	sbook_date_issued = models.DateField(default=None, null=True, blank=True)
 	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
+	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
 
 class COC(AbstractCOC):
 	coc_date_issued = models.DateField(default=None, null=True, blank=True)
 	coc_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
-	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=1, blank=True)
+	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=null_default_foreign_key_value(COCPlaceIssued, 'coc_place', ''), blank=True)
+	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
 
 class License(AbstractLicense):
 	license_date_issued = models.DateField(default=None, null=True, blank=True)
 	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
-	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=1, blank=True)
+	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=null_default_foreign_key_value(LicensePlaceIssued, 'license_place', ''), blank=True)
 
 class NTCLicense(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -539,6 +596,7 @@ class YellowFever(AbstractYellowFever):
 	# pass
 	yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, blank=True)
 	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
+	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority())
 
 class FlagDocuments(AbstractFlagDocuments):
 	flags = models.ManyToManyField(Flags, through='mariners_profile.FlagDocumentsDetailed', blank=True, default=None)
@@ -583,7 +641,8 @@ class PrincipalVesselType(models.Model):
 
 class SeaService(AbstractSeaService):
 	# pass
-	trade_area = models.ForeignKey(TradeArea)
+	trade_area = models.ForeignKey(TradeArea, default=null_default_foreign_key_value(TradeArea, 'trade_area', ''))
+	propulsion = models.ForeignKey(Propulsion, default=null_default_foreign_key_value(Propulsion, 'propulsion', ''))
 	
 	def bhp(self):
 		bhp = float(self.kw) * 0.746

@@ -51,7 +51,7 @@ def index(request):
 	params2 = {}
 
 	template = "application-profile/index.html"
-	context_dict = {"title": "Applicants Profile"}
+	context_dict = {"title": "APPLICANT PROFILES"}
 
 	choice_visa = ''
 
@@ -62,8 +62,8 @@ def index(request):
 		return HttpResponseRedirect(url+params)
 
 	if request.method == 'GET':
-		if 'age' in request.GET:
-			params['age'] = request.GET['age']
+		# if 'age' in request.GET:
+		# 	params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
 			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type

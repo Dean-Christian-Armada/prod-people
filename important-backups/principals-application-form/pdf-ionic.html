@@ -1,0 +1,471 @@
+{% load static %}
+{% load pdf_image %}
+
+{% static "img/small_logo.png" as small_logo %}
+{# ressource.image.url|get64:domain|add:small_logo #}
+<!-- {{ domain }}/media/{{ appdetails.picture }} -->
+{# ressource.image.url|get64:signature #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/check.jpg' #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/uncheck.jpg' #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/small_logo.png' #}
+{# ressource.image.url|get64:picture #}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDF Example</title>
+	<style type="text/css">
+		body{ font-size:12px; }
+		th, td{ padding:5px; padding-bottom:0px; }
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td valign="top">
+				<img style="float:left" src="{{ ressource.image.url|get64:logo }}"><br />
+				Date of Application: <b>{{ appform.application_date }}</b><br />
+				Position Applied For: <b>{{ appform.position_applied }}</b><br />
+				Alternative Position: <b>{{ appform.alternative_position }}</b>
+			</td>
+			<td style="text-align:right">
+				<span style="font-size:24px; font-weight:700">APPLICATION FORM</span><br />
+				<span style="font-size:12px; font-weight:700">FORM REF. MANSHIP QP07-04-07</span><br />
+				<br />
+				<img style="float:left" src="{{ ressource.image.url|get64:picture }}">
+			</td>
+		</tr>
+	</table>
+	<br ><br >
+	<table border="1">
+		<tr>
+			<th style="text-align: left; ">How did you learn about MANSHIP?</th>
+		</tr>
+		<tr>
+			<td style="padding-left: 20px;">
+				{% if appform.application_source.source.source == "Advertisements" %}
+					<img src="{{ ressource.image.url|get64:check }}">
+				{% else %}
+					<img src="{{ ressource.image.url|get64:uncheck }}">
+				{% endif %}
+					Advertisements {% if appform.application_source.source.source == "Advertisements" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
+				{% if appform.application_source.source.source == "Internet" %}
+					<img src="{{ ressource.image.url|get64:check }}">
+				{% else %}
+					<img src="{{ ressource.image.url|get64:uncheck }}">
+				{% endif %}
+					Internet {% if appform.application_source.source.source == "Internet" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
+				{% if appform.application_source.source.source == "Friends or Relatives" %}
+					<img src="{{ ressource.image.url|get64:check }}">
+				{% else %}
+					<img src="{{ ressource.image.url|get64:uncheck }}">
+				{% endif %}
+					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />
+				{% if appform.application_source.source.source == "Seafarer Center" %}
+					<img src="{{ ressource.image.url|get64:check }}">
+				{% else %}
+					<img src="{{ ressource.image.url|get64:uncheck }}">
+				{% endif %}
+					Seafarer Center <br />
+				{% if appform.application_source.source.source == "Referred By" %}
+					<img src="{{ ressource.image.url|get64:check }}">
+				{% else %}
+					<img src="{{ ressource.image.url|get64:uncheck }}">
+				{% endif %}
+					Referred By {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />&nbsp;
+			</td>
+		</tr>
+	</table>
+	<br >
+	<table border="1">
+		<tr>
+			<th style="text-align: left; ">PERSONAL DATA</th>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Surname: <b>{{ user_profile.last_name|upper }}</b></td>
+					<td>First Name: <b>{{ user_profile.first_name|upper }}</b></td>
+					<td>Middle Name: <b>{{ user_profile.middle_name|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Age: <b>{{ personaldata.age }}</b></td>
+					<td>Birthday: <b>{{ personaldata.birth_date }}</b></td>
+					<td>Birthplace: <b>{{ personaldata.birth_place|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Landline No. 1: <b>{% if personaldata.landline_1 != None %}{{ personaldata.landline_1 }}{% endif %}</b></td>
+					<td>Mobile No. 1: <b>{{ personaldata.prefix_mobile_1 }}</b></td>
+					<td>Email 1: <b>{{ personaldata.email_address_1 }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Landline No. 2: <b>{% if personaldata.landline_2 != None %}{{ personaldata.landline_2 }}{% endif %}</b></td>
+					<td>Mobile No. 2: <b>{% if personaldata.mobile_2 != None %}{{ personaldata.prefix_mobile_2 }}{% endif %}</b></td>
+					<td>Email 2: <b>{{ personaldata.email_address_2 }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Preferred Vessel Type: <b>{{ personaldata.preferred_vessel_type|upper }}</b></td>
+					<td>Date of Availability: <b>{{ personaldata.availability_date|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>SSS No.: <b>{{ personaldata.sss }}</b></td>
+					<td>Philhealth No.: <b>{% if personaldata.philhealth != None %}{{ personaldata.philhealth }}{% endif %}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>T.I.N: <b>{% if personaldata.tin != None %}{{ personaldata.tin }}{% endif %}</b></td>
+					<td>Pagibig No.: <b>{% if personaldata.pagibig != None %}{{ personaldata.pagibig }}{% endif %}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th style="text-align:left"><i>Permanent Address</i></th>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Unit: <br /><b>{{ personaldata.permanent_address.permanent_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ personaldata.permanent_address.permanent_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ personaldata.permanent_address.permanent_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ personaldata.permanent_address.permanent_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ personaldata.permanent_address.permanent_zip }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th style="text-align:left"><i>Current Address</i></th>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Unit: <br /><b>{{ personaldata.current_address.current_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ personaldata.current_address.current_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ personaldata.current_address.current_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ personaldata.current_address.current_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ personaldata.current_address.current_zip }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Civil Status: <b>{{ personaldata.civil_status|upper }}</b></td>
+					<td>Date Married: <b>{{ spouse.married_date }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					
+					<td>{{ partner }}'s Maiden Last Name: <b>{{ spouse.spouse_last_name|upper }}</b></td>
+					<td>{{ partner }}'s First Name: <b>{{ spouse.spouse_first_name|upper }}</b></td>
+					<td>{{ partner }}'s Maiden Middle Name: <b>{{ spouse.spouse_middle_name|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>{{ partner }}'s Birthday: <b>{{ spouse.birthdate }}</b></td>
+					<td>{{ partner }}'s Contact: <b>{{ spouse.prefix_spouse_contact }}</b></td>
+					<td>Date Married: <b>{{ spouse.married_date }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Father's Last Name: <b>{{ personaldata.father_last_name|upper }}</b></td>
+					<td>Father's First Name: <b>{{ personaldata.father_first_name|upper }}</b></td>
+					<td>Father's Middle Name: <b>{{ personaldata.father_middle_name|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Mother's Last Name: <b>{{ personaldata.mother_last_name|upper }}</b></td>
+					<td>Mother's First Name: <b>{{ personaldata.mother_first_name|upper }}</b></td>
+					<td>Mother's Middle Name: <b>{{ personaldata.mother_middle_name|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br /><br /><br /><br />
+	<table border="1">
+		<tr>
+			<th width="100%" style="text-align: left; ">EDUCATIONAL INFORMATION</th>
+			<th width="20%">FROM</th>
+			<th width="20%">TO</th>
+		</tr>
+		<tr>
+			<td colspan="3">
+				COLLEGE
+			</td>
+		</tr>
+		{% for colleges in college %}
+		<tr>
+			<td colspan="3" style="padding:0px">
+				<table border="1">
+					<td width="60%">Name of College: <b>{{ colleges.college|upper }}</b></td>
+					<td width="40%">Degree Obtained: <b>{{ colleges.degree|upper }}</b></td>
+					<td width="20%" align="center"><b>{{ colleges.collegeyear_from }}</b></td>
+					<td width="20%" align="center"><b>{{ colleges.collegeyear_to }}</b></td>
+				</table>
+			</td>
+		</tr>
+		{% endfor %}
+		<tr>
+			<td width="100%" style="text-align: left; ">Highschool: <b>{{ highschool.highschool|upper }}</b></th>
+			<td width="20%" align="center"><b>{{ highschool.schoolyear_from }}</b></td>
+			<td width="20%" align="center"><b>{{ highschool.schoolyear_to }}</b></td>
+		</tr>
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<th style="text-align: left">EMERGENCY CONTACT DETAILS</th>
+		</tr>
+		{% for emergencies in emergency %}
+		<tr>
+			<th style="text-align: left">Person to Contact in Case of Emergency: <b>{{ emergencies|upper }}</b></th>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Contact No.: <b>{{ emergencies.prefix_emergency_contact }}</b></td>
+					<td>Relationship: <b>{{ emergencies.relationship|upper }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Unit: <br /><b>{{ emergencies.emergency_unit|upper }}</b></td>
+					<td>Street: <br /><b>{{ emergencies.emergency_street|upper }}</b></td>
+					<td>Barangay: <br /><b>{{ emergencies.emergency_zip.barangay|upper }}</b></td>
+					<td>City/Municipality: <br /><b>{{ emergencies.emergency_zip.municipality|upper }}</b></td>
+					<td>Zip Code: <br /><b>{{ emergencies.emergency_zip }}</b></td>
+				</table>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<th width="100%" style="text-align: left">BACKGROUND INFORMATION</th>
+			<th width="10%">YES</th>
+			<th width="10%">NO</th>
+		</tr>
+		<tr>
+			<td>
+				Have you ever been denied an application for any visa or entry into another country?
+			</td>
+			<td align="center" style="padding-top:0px;">{% if visa_application.visa_application %}{{ visa_application.visa_application }}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if visa_application.visa_application %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+		</tr>
+		{% if visa_application.visa_application %}
+		<tr>
+			<td colspan="3"><b>Reason: <b>{{ visa_application.visa_application_reason }}</b></b><br /></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>
+				Have you ever been denied or ordered to leave any country?
+			</td>
+			<td align="center" style="padding-top:0px;">{% if detained.detained %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if detained.detained %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+		</tr>
+		{% if detained.detained %}
+		<tr>
+			<td colspan="3"><b>Reason: <b>{{ detained.detained_reason }}</b></b><br /></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>
+				Have you ever been subject of any disciplinary action during an employment contract?
+			</td>
+			<td align="center" style="padding-top:0px;">{% if disciplinary_action.disciplinary_action %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if disciplinary_action.disciplinary_action %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+		</tr>
+		{% if disciplinary_action.disciplinary_action %}
+		<tr>
+			<td colspan="3"><b>Reason: <b>{{ disciplinary_action.disciplinary_action_reason }}</b></b><br /></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>
+				Have you ever been charged any offense before an administrative body, prosecutor's office or court of law?
+			</td>
+			<td align="center" style="padding-top:0px;">{% if charged_offense.charged_offense %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if charged_offense.charged_offense %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+		</tr>
+		{% if charged_offense.charged_offense %}
+		<tr>
+			<td colspan="3"><b>Reason: <b>{{ charged_offense.charged_offense_reason }}</b></b><br /></td>
+		</tr>
+		{% endif %}
+		<tr>
+			<td>
+				Have you ever been terminated for cause by any employer?
+			</td>
+			<td align="center" style="padding-top:0px;">{% if termination.termination %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if termination.termination %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+		</tr>
+		{% if termination.termination %}
+		<tr>
+			<td colspan="3"><b>Reason: <b>{{ termination.termination_reason }}</b></b><br /></td>
+		</tr>
+		{% endif %}
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<th style="text-align: left">NATIONAL CERTIFICATES AND TRAVEL DOCUMENTS</th>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>Passport No.: <b>{{ passport.passport }}</b></td>
+					<td>Expiry: <b>{{ passport.passport_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>SBook No.: <b>{{ sbook.sbook }}</b></td>
+					<td>Expiry: <b>{{ sbook.sbook_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>COC/COE: <b>{{ coc.coc }}</b></td>
+					<td>Expiry: <b>{{ coc.coc_expiry }}</b></td>
+					<td>Rank: <b>{{ coc.coc_rank.coc_rank }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>License: <b>{{ license.license }}</b></td>
+					<td>Rank: <b>{{ license.license_rank }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>SRC: <b>{{ src.src }}</b></td>
+					<td>Rank: <b>{{ src.src_rank }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td>GOC: <b>{{ goc.goc }}</b></td>
+					<td>Expiry: <b>{{ goc.goc_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
+					<td>Expiry: <b>{{ us_visa.us_visa_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td style="padding-top:0px">Schengen Visa (Type C) {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
+					<td>Expiry: <b>{{ schengen_visa.schengen_visa_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<th style="text-align: left">FLAG DOCUMENTS</th>
+		</tr>
+		{{ flags_html | safe }}
+	</table>
+
+	<br /><br /><br /><br /><br /><br /><br /><br />
+	<table border="1">
+		<tr>
+			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES (<i>{{department}}</i>) </th>
+		</tr>
+		{{ certificates_html | safe }}
+		</tr>
+	</table>
+	<br /><br /><br /><br /><br /><br />
+	<table border="1">
+		<tr>
+			<th align="left">ESSAY <i>({{ count_words }}) words</i></th>
+		</tr>
+		<tr>
+			<td><b>{{ appform.essay }}</b></td>
+		</tr>
+	</table>
+	<br />
+	<table border="1">
+		<tr>
+			<th align="left">CERTIFICATION</i></th>
+		</tr>
+		<tr>
+			<td>
+				<i>
+					<b>1.</b> I certify that all information I have provided on this Application Form is, to the best of my knowledge true and correct. <br />
+					<b>2.</b> I agree that if I have withheld or misrepresented any information on this Application Form. I alone am responsible and accountable for any consequence of such withholding or mispresentation.<br />
+					<b>3.</b> I understand that the information I provided this Application Form shall remain confidential, but I may be held liable for any untruthful statements made therein
+				</i>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<td valign="top"><b>Printed Name:</b> <br ><b>{{ user_profile.first_name|upper }} {{ user_profile.middle_name|upper }} {{ user_profile.last_name|upper }}</b></td>
+					<td style="padding-bottom:5px;" colspan="2"><b>Signature:</b> <br ><img src="{{ ressource.image.url|get64:signature }}"></td>
+					<td valign="top"><b>Date:</b> <br /> <b>{{ appform.application_date }}</b></td>
+				</table>
+			</td>
+		</tr>	
+	</table>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<!-- <a href="{{ domain }}{% url 'pdf_sea_services' id=appform.user.id %}" style="width: 100%; border-radius: 15px; text-align:center; background: #02be9b;">
+		CLICK TO PRINT SEA SERVICES
+	</a> -->
+</body>
+</html>

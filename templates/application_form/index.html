@@ -77,6 +77,20 @@
             {{ application.source }}
             {{ application.referred_by.errors }}
 
+            <h3 id="step-13" style="color: #02be9b;">Social Media</h3>
+            <div class="form-group">
+              <div class="col-md-4">
+                {{ personal_data.facebook_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Email" }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.instagram_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Email" }}
+              </div>
+              <div class="col-md-4">
+                {{ personal_data.twitter_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Email" }}
+              </div>
+            </div>
+
+
             <h3 id='step-3' style="color: #02be9b;">Personal Data</h3>
             <div class="form-group">
               {% for name in applicant_name  %}
@@ -167,23 +181,23 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-6">
                 {{ permanent_address.permanent_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:permanent_unit" }}
                 {{ permanent_address.permanent_unit.errors }}
               </div>
-              <div class="col-md-2">
-                {{ permanent_address.permanent_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street"|attr:"id:permanent_street" }}
+              <div class="col-md-6">
+                {{ permanent_address.permanent_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision"|attr:"id:permanent_street" }}
                 {{ permanent_address.permanent_street.errors }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 {{ permanent_address.permanent_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:permanent_barangay" }}
                 {{ permanent_address.permanent_barangay.errors }}
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 {{ permanent_address.permanent_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:permanent_municipality" }}
                 {{ permanent_address.permanent_municipality.errors }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 {{ permanent_address.permanent_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP Code"|attr:"id:permanent_zip" }}
                 {{ permanent_address.permanent_zip.errors }}
               </div>
@@ -202,23 +216,23 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-6">
                 {{ current_address.current_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:current_unit" }}
                 {{ current_address.current_unit.errors }}
               </div>
-              <div class="col-md-2">
-                {{ current_address.current_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street"|attr:"id:current_street" }}
+              <div class="col-md-6">
+                {{ current_address.current_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision"|attr:"id:current_street" }}
                 {{ current_address.current_street.errors }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 {{ current_address.current_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:current_barangay" }}
                 {{ current_address.current_barangay.errors }}
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 {{ current_address.current_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:current_municipality" }}
                 {{ current_address.current_municipality.errors }}
               </div>
-              <div class="col-md-2">
+              <div class="col-md-4">
                 {{ current_address.current_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP code"|attr:"id:current_zip" }}
                 {{ current_address.current_zip.errors }}
               </div>
@@ -384,23 +398,23 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     {{ emergencycontact_form.emergency_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House" }}
                     {{ emergencycontact_form.emergency_unit.errors }}
                   </div>
-                   <div class="col-md-2">
-                    {{ emergencycontact_form.emergency_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street" }}
+                   <div class="col-md-6">
+                    {{ emergencycontact_form.emergency_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision" }}
                     {{ emergencycontact_form.emergency_street.errors }}
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     {{ emergencycontact_form.emergency_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay" }}
                     {{ emergencycontact_form.emergency_barangay.errors }}
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     {{ emergencycontact_form.emergency_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality" }}
                     {{ emergencycontact_form.emergency_municipality.errors }}
                   </div>
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     {{ emergencycontact_form.emergency_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Zip Code" }}
                     {{ emergencycontact_form.emergency_zip.errors }}
                   </div>

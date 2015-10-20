@@ -50,7 +50,7 @@ def index(request):
 	params2 = {}
 
 	template = "mariner-profile/index.html"
-	context_dict = {"title": "Mariners Profile"}
+	context_dict = {"title": "MARINER PROFILES"}
 
 	choice_visa = ''
 
@@ -61,8 +61,6 @@ def index(request):
 		return HttpResponseRedirect(url+params)
 
 	if request.method == 'GET':
-		if 'age' in request.GET:
-			params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
 			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type
@@ -94,6 +92,15 @@ def index(request):
 	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
 	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
+
+	# Change in age filtering synatx because age is now a custom model method
+	# if 'age' in request.GET:
+	# 	age = request.GET['age']
+	# 	print age
+	# 	personal_data = PersonalData.objects.filter()
+	# 	personal_data_ids = [o.id for o in personal_data if o.age() == age]
+	# 	personal_data = PersonalData.objects.filter(id__in=personal_data_ids).order_by('-id')
+	# 	print personal_data
 	
 	# US Visa Dynamic Filtering
 	us_visa_choices_values = USVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('us_visa', flat=True).distinct().order_by('us_visa')
@@ -116,7 +123,6 @@ def index(request):
 
 	
 	# [0] is put to break the instance into the unicode value
-	print age
 	try:
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile

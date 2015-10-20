@@ -280,17 +280,31 @@ tr:hover{
     </div><!--End of Sidebar-->
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		  <div class="page-header"><h1>Applicant Profiles</h1></div>
+		  <div class="page-header"><h1>APPLICANT PROFILES</h1></div>
           	<div class="panel panel-msmi-blue">
             	<div class="panel-heading"><strong>Filter</strong></div>
                 	<div class="panel-body panel-body-blue">
                     	<div class="row">
-                        <form method="POST" id="myform" action="{% url 'application_profiles' %}">
-                          {% csrf_token %}
                         	<div class="col-md-12">
                             	<p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i><a href="{% url 'application_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></p>
                             </div><!--End of Col 12-->
                          </div><!--End of Row-->
+                         <form method="GET">
+                            <div class="form-group">
+                             <div class="row">
+                              <div class="col-md-3">
+                                <div class="input-group">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default search-btn" name="submit"><span class="glyphicon glyphicon-search" style="color: #fff;"></span></button>
+                                </span>
+                                {{ search.search }}
+                                </div><!-- /input-group -->
+                              </div>
+                             </div>
+                           </div>
+                         </form>
+                         <form method="POST" id="myform" action="{% url 'application_profiles' %}">
+                          {% csrf_token %}
                          <div class="row">
                          	<div class="form-inline">
                             <div class="col-md-3">
@@ -319,7 +333,7 @@ tr:hover{
                                   {% endif %}
                                 </select>
                             </div>
-                            <div class="col-md-2">
+<!--                             <div class="col-md-2">
                             <label>Age:&nbsp;</label>
                                 <select name="age" class="form-control">
                                  <option>{% if request.GET.age %}{{ request.GET.age }}{% endif %}</option>
@@ -331,7 +345,7 @@ tr:hover{
                                     {% endfor %}
                                   {% endif %}
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="col-md-2">
                             <label>US Visa:&nbsp;</label>
                                 <select name="us_visa" class="form-control">
@@ -361,7 +375,7 @@ tr:hover{
                       </div><!--End of Row-->
                		</div><!--End of Panel Body-->
           </div>
-           <form method="GET">
+           <!-- <form method="GET"> -->
 <div class="panel panel-msmi-green">
 	<div class="panel-heading" style="padding: 15px;"><strong>Crew Applicants</strong>
 			<div class="form-inline pull-right" style="margin-top: -6px;">
@@ -372,19 +386,12 @@ tr:hover{
                         <option>100</option>
                     </select>
 
-			<div class="input-group">
-        
-      				<span class="input-group-btn">
-        				<button class="btn btn-default search-btn" name="submit"><span class="glyphicon glyphicon-search" style="color: #fff;"></span></button>
-      				</span>
-      					
-                {{ search.search }}
-    		</div><!-- /input-group -->
+			
        
                     
             </div>	    
  </div>
-  </form>
+  <!-- </form> -->
  
  <!--Second Panel-->
     	<div class="panel-body panel-body-green">

@@ -9,4 +9,5 @@ urlpatterns = [
 	url(r'^training-certificates/$', views.trainings_certificates, name='application_form_training_certificates'),
 	# url(r'^(?P<principal>(.)*)/(?P<vessel_type>(.)*)/$', views.fleet_application_form, name='fleet_application_form'),
 	url(r'^(?P<principal>(.)*)/(?P<id>[0-9]*)/$', views.fleet_application_form, name='fleet_application_form'),
+	url(r'^(?P<principal>(.)*)/(?P<id>[0-9]*)/pdf/$', views.pdf_fleet_application_form, name='pdf_fleet_application_form'),
 ]

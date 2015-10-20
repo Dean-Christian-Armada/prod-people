@@ -1,0 +1,983 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<style>
+
+.panel-msmi {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: none !important;
+  border-radius: none !important; 
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+    
+}
+
+#header{
+  background: #2e76b8;
+  color: #fff;
+  padding: 30px;
+  }
+.tooltip-left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-left-color: #000000;
+  border-width: 5px 0 5px 5px;
+}
+.main-menu{
+  padding-top: 30px;
+  padding-bottom: 30px;
+  }
+.input-label{
+  color: #2e76b8;
+  } 
+.input-form{
+  border: 2px solid #02be9b;
+  }   
+.main-table {
+  border: 1px solid #02be9b;
+  font-size: 12px;
+}
+.main-table > thead > tr > th,
+.main-table > tbody > tr > th,
+.main-table > tfoot > tr > th,
+.main-table > thead > tr > td,
+.main-table > tbody > tr > td,
+.main-table > tfoot > tr > td {
+  border: 1px solid #02be9b;  
+}
+.main-table > thead > tr > th,
+.main-table > thead > tr > td {
+  border-bottom-width: 2px;
+} 
+.btn-main{
+  font-size: 12px;
+  }
+.btn{
+  border: 1px solid transparent !important; 
+  }
+.thead{
+  background: #82ca9c; 
+  color: #fff;"
+  }
+.container-picture{
+  }
+.input-group-addon{
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;  
+  }
+.input-group{
+  margin-top: 10px; 
+  } 
+.panel-heading{
+  border-bottom: 4px solid #04508e;
+  }
+#main-header{
+  text-align: center !important;
+  margin-top: 20px;
+  }
+  
+/* Button Custom */
+
+.btn-msmi  {
+  color: #fff;
+  background-color: #82ca9c;
+  margin-top: 5px;
+  width: 100%;
+  border-bottom: 4px solid #02be9b !important;
+}
+.btn-msmi:focus,
+.btn-msmi.focus {
+  color: #fff;
+  background-color: #02be9b;
+  border-color: #02be9b;
+  border-radius: none !important;
+  border-bottom: 1px solid #02be9b !important;
+}
+.btn-msmi:hover {
+  color: #fff;
+  background-color: #82ca9c;
+  border-radius: none !important;
+  border-color: #82ca9c;   
+}
+
+/* Custom Panel */
+.panel-msmi-blue{
+  border-color: #2e76b8;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+  border-bottom: 5px solid #04508e;
+}
+.panel-msmi-blue > .panel-heading {
+  color: #fff;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+  background-color: #2e76b8;
+  border-color: 1px solid #2e76b8;
+}
+.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {
+  border-color: 1px solid #2e76b8;
+    border-top-left-radius: none !important;
+  border-top-right-radius: none !important; 
+}
+.panel-msmi-blue > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {
+  border-color: 1px solid 2e76b8;
+}
+.coc{
+  border: 2px solid #2e76b8;
+  padding: 20px;
+}
+
+</style>
+<body>
+
+<div id="wrapper">
+  <div id="header">
+    <div class="container">
+          <p class="pull-left"><img src="{% static 'img/application-form-logos/athenian.png' %}" width="150" height="150"></p>
+          <h1 style="padding-left:170px; margin-top: 40px;"><strong>ATHENIAN Application Form</strong></h1>
+          <h4 style="padding-left:170px;">General Mariner Information Guide</h4>
+    </div><!---End of Container-->
+  </div><!--End of Header-->
+    
+   
+    
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="col-md-8 col-md-offset-1">
+            
+        <!--<div id="main-header">
+            <label class="input-label">IONIC SHIPPING (MGT) INC. BULKER FLEET MANUAL<br>
+            [CREW] CONFIDENTIAL: INTERVIEW RECORDS<br>
+            VERSION (revXXX / XXXX-XX-XX) CHECKLIST: 403 Mod: XXXX-XX-XX sec: 3.04.3</label><br>         
+        </div>-->
+            
+<!--Personal Data
+==========================================-->
+<div id="step1" class="panel-msmi panel-msmi-blue" style="margin-top: 20px;">
+  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>PERSONAL DATA</strong></div>
+    <div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
+      <div class="panel-body">
+        <div class="form-group">
+    
+                         <div class="row">
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Last Name:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{user_profile.last_name}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">First Name:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{user_profile.first_name}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Middle Name:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{user_profile.middle_name}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         </div><!--End of Row-->
+                         
+                         <div class="row">
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date of Birth:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{personal_data.birth_date}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Place of Birth:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{personal_data.birth_place}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Age:</span>
+                  <input type="text" readonly class="form-control input-form"  value="{{personal_data.age}}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                         </div><!--End of Row-->
+                         
+                         
+                    
+      </div><!--End of Form Group-->
+          <p style="background: #02be9b; padding: 10px; color:#fff; margin-bottom:0px;"><strong>FATHER'S  NAME</strong></p>
+          <div class="panel-body"> 
+                <div class="row">
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Last Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.father_last_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">First Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.father_last_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Middle Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.father_middle_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                          </div><!--End of Row-->                        
+
+          </div><!--End of Panel Body-->
+          <p style="background: #02be9b; padding: 10px; color:#fff; margin-bottom:0px;"><strong>MOTHER'S  NAME</strong></p>
+          <div class="panel-body"> 
+                <div class="row">
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Last Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.mother_last_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">First Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.mother_last_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Middle Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{personal_data.mother_middle_name}}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                          </div><!--End of Row-->                        
+
+          </div><!--End of Panel Body-->
+
+          <p style="background: #02be9b; padding: 10px; color:#fff; margin-bottom:0px;"><strong>NAME OF KIN (Relationship)</strong></p>
+          {% for emergency_contacts in emergency_contact %}
+          <div class="panel-body">
+          <p style="background: #a3d39c; padding: 10px; color:#fff; margin-bottom:0px;"><strong>{% if emergency_contacts.emergency_first_name %}{{ emergency_contacts.emergency_first_name|upper }}{% endif %}  {% if emergency_contacts.emergency_middle_name %} {{ emergency_contacts.emergency_middle_name|upper }} {% endif %} {% if emergency_contacts.emergency_last_name %} {{ emergency_contacts.emergency_last_name|upper }} {% endif %}  {% if emergency_contacts.relationship %}(<i>{{ emergency_contacts.relationship }}</i>){% endif %}</strong></p>
+          <div class="panel-body"> 
+                <div class="row">
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Last Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_last_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">First Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_first_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Middle Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_middle_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                          </div><!--End of Row-->                        
+
+
+
+                            <div class="row">
+                                  <div class="col-md-6">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Relationship:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.relationship }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 3-->
+                                  <div class="col-md-6">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Contact Nos.:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.prefix_emergency_contact }}">
+                                  </div><!--End of Col 3-->
+                    </div><!--End of Input Group-->
+                            </div><!--End of Row-->
+                                  
+                             <div class="row">
+                                  <div class="col-md-2 padding-right-negator">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Unit:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_unit }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-2">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Street:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_street }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-3">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Barangay:</label>
+                        <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_zip.barangay }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 2-->
+                                  <div class="col-md-3">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Municipality:</label>
+                        <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_zip.municipality }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 2-->
+                                  <div class="col-md-2">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">ZIP Code:</label>
+                        <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_zip }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 2-->
+                          </div><!--End of Row-->
+                
+          </div><!--End of Panel Body-->
+        </div>
+        {% endfor %}
+        <p style="background: #02be9b; padding: 10px; color:#fff; margin-bottom:0px;"><strong>CHILDREN NAME / DATE OF BIRTH</strong></p>
+        <div class="panel-body">
+          <p style="background: #a3d39c; padding: 10px; color:#fff; margin-bottom:0px;"><strong>CHILDREN NAME</strong></p>
+        <div class="panel-body"> 
+                <div class="row">
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Last Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_last_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">First Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_first_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-4">
+                            <div class="input-group">
+                        <label class="input-group-addon input-label">Middle Name:</label>
+                         <input type="text" readonly class="form-control input-form" value="{{ emergency_contacts.emergency_middle_name }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                          </div><!--End of Row-->             
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <label class="input-group-addon input-label">Date of Birth:</label>
+                      <input type="text" readonly class="form-control input-form">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <label class="input-group-addon input-label">Place of Birth:</label>
+                      <input type="text" readonly class="form-control input-form">
+                    </div>
+                  </div>
+                </div>
+        </div>
+        </div>
+    </div><!--End of Panel Body-->
+  </div><!--End of Collapse-->
+</div><!--End of Panel-Primary-->
+                       
+<!--Contact Details
+============================-->            
+<div id="step2" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true" style="color: #fff; text-decoration: none;"><strong>CONTACT DETAILS</strong></a></div>
+    <div id="detail2" class="panel-collapse collapse" aria-expanded="false"> 
+      <div class="panel-body"> 
+                  <label class="input-label">HOME ADDRESS</label>
+                  <div class="row">
+                            <div class="col-md-2 padding-right-negator">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Unit:</label>
+                              <input type="text" readonly class="form-control input-form" value="{{ current_address.current_unit }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-2">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Street:</label>
+                          <input type="text" readonly class="form-control input-form" value="{{ current_address.current_street }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 4-->
+                                  <div class="col-md-3">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Barangay:</label>
+                        <input type="text" readonly class="form-control input-form" value="{{ current_address.current_zip.barangay }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 2-->
+                                  <div class="col-md-3">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">Municipality:</label>
+                        <input type="text" readonly class="form-control input-form" value="{{ current_address.current_zip.municipality }}">
+                    </div><!--End of Input Group-->
+                                  </div><!--End of Col 2-->
+                                  <div class="col-md-2">
+                            <div class="input-group">
+                                    <label class="input-group-addon input-label">ZIP Code:</label>
+                                   <input type="text" readonly class="form-control input-form" value="{{ current_address.current_zip }}"> 
+                            </div>
+                            </div>
+                        </div><!--End of Row-->
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Mobile / Contact Number:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ personal_data.prefix_mobile_1 }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">E-mail:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ personal_data.email_address_1 }}" style="text-transform: lowercase">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                         </div><!--End of Row-->    
+                
+    </div><!--End of Panel Body-->
+  </div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+            
+<!--Next of Kin Contact Details
+============================-->            
+<div id="step3" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"   aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>CERTIFICATION / QUALIFICATIONS</strong></a></div>                
+    <div id="detail3" class="panel-collapse collapse" aria-expanded="false">
+      <div class="panel-body"> 
+        <div class="well">
+            <label class="input-label">Certificate of Competency (COC)</label>    
+                        <div class="row">
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Grade of Officer Certificate:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ coc.coc_grade|upper }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Certificate No.:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ coc.coc }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                         </div><!--End of Row-->
+                            
+                         <div class="row">    
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date Issued:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ coc.coc_date_issued }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                             <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date Expires:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ coc.coc_expiry }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                             <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Country of Issue:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ coc.coc_place_issued|upper }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                        </div><!--End of Row-->
+                        </div><!--End of Well-->
+
+        <div class="row">
+                
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-5">
+                      <div class="input-group">
+                              <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">BTOC (V /l-1):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ btoc_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 5-->
+                             <div class="col-md-7">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Expiration Date:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ btoc_documents.expiry }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 7-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Hazardous Materials Certificate (HAZMAT):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ hazmat_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                              <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">ATOT (V /l-2):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ atot_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 5-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Expiration Date:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ atot_documents.expiry  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 7-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                             <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">BMS:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ bms_documents.number }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 5-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date Issued:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ bms_documents.trainings_certificates.issued }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 7-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Basic Safety Training (VI / 1-1 to 1-4):</span>
+                  <input type="text" readonly class="form-control input-form" placeholder="Hazardous Materials Certificate" value="{{ bt_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                              <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">Engine Simulator: </span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ers_erm_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 3-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date Issued:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ers_erm_documents.trainings_certificates.issued  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 9-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                
+                <div class="row">
+                
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Proficiency in Survival & rescue Boat (VI / 2-1):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ psrc_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                              <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">ERM:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ers_erm_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 5-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date Issued:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ers_erm_documents.trainings_certificates.issued  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 7-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Advanced Fire Fighting (VI / 3):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ aff_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">ECDIS JRC:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ecdis_jrc_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Medical First (VI / 4-1):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ mefa.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Risk Assessment / Incident Investigation:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ acni_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                              <!-- <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">Medical Care:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ meca_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 3-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Expiration Date:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ meca_documents.expiry  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 9-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                             <!--  <input type="checkbox" name="optioncheckbox" id="optioncheckbox1" value="option1"> -->
+                  <span class="input-group-addon input-label">Ship Security Officer:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ sso_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 3-->
+                             <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Expiration Date:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ sso_documents.expiry  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 9-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->
+                
+                <div class="row">
+                
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Automatic Radar PLotting Aids (ARPA):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ arpa_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+                    <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">ISM / ISO 9001 / 14001:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ ism_documents.number  }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 12-->
+              </div><!--End of Row-->
+          </div><!--End of Col 6-->
+                    
+        </div><!--End of Row-->  
+
+      </div>
+  </div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+              
+<!-- LANGUAGES
+================================= -->
+<div id="step10" class="panel-msmi panel-msmi-blue" style="margin-top: 10px;">
+  <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>LIST OF SEA SERVICES</strong></div>
+    <div id="detail10" class="panel-collapse collapse in" aria-expanded="false">               
+      <div class="panel-body">
+                         
+      <div class="form-group">
+          <div class="table-responsive">
+            <table class="table  table-hover main-table">
+                                          <thead class="thead">
+                                                  <tr>
+                                                      <th>Propulsion (Steam or Motor)</th>
+                                                      <th>Vessel Name</th>
+                                                      <th>Vessel Type</th>                               
+                                                      <th>Owner</th>
+                                                      <th>DWT</th>
+                                                      <th>Engine Type</th>
+                                                      <th>Rank</th>
+                                                      <th>Sign on Date</th>
+                                                      <th>Sign off Date</th>
+                                                      <th>Sign off Reason</th>
+                                                      <th>Service Months</th>
+                                                    </tr>
+                                                </thead>
+                                          <tbody>
+                                            {% for sea_services in sea_service %}
+                                                  <tr>
+                                                        <td></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.vessel_name|upper }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.vessel_type }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.principal|upper }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.dwt }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.engine_type }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.rank }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.date_joined }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.date_left }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.cause_of_discharge|upper }}"></td>
+                                                        <td><input type="text" readonly class="input-form" value=" {{ sea_services.duration_months }}"></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+              </table><!--End of Table Stripped-->
+          </div><!--End of Table Responsive-->
+        </div><!--End of Form Group-->
+                
+                    <div class="row">
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">TOTAL SEA SERVICE (Yrs):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ sea_service_duration }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">SEA SERVICE IN RANK (Yrs):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ rank_sea_service_duration }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            
+                 </div><!--End of Row-->
+                 
+                 <div class="row">
+                    <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">SEA SERVICE IN CRUDE OIL CARRIERS (Yrs):</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ sea_service_duration }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Date of Application:</span>
+                  <input type="text" readonly class="form-control input-form" value="{{ application_form.application_date }}">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            
+                 </div><!--End of Row-->
+
+                 <div class="row">
+                    <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">Applicant's Signature:</span>
+                  <input type="text" readonly data-toggle="modal" data-target="#view-signature" class="form-control input-form"  placeholder = "CLICK HERE TO SHOW SIGNATURE" >
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 4-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">LANGUAGE:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-4">
+                      <div class="input-group">
+                  <span class="input-group-addon input-label">REFERENCES:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                 </div><!--End of Row-->
+
+      </div><!--End of Panel Body-->
+    </div><!--End of Collapse-->
+</div><!--End of Panel Primary-->
+
+<hr></hr>
+<div class="panel panel-blue">          
+    <div class="panel-body">
+        
+                  <label class="input-label">Comments by Interviewer:</label>
+                          <textarea class="form-control input-form" rows="10" readonly></textarea>
+                            <label class="input-label" style="margin-top: 20px;">Reviewed By:</label>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-6">
+                        <div class="input-group">
+                              <span class="input-group-addon input-label">Chief Exective Officer:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            
+                            <div class="col-md-6">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">FST & Operations Manager.:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            
+            </div><!--End of Row-->
+                       
+                        <div class="row">
+              <div class="col-md-6">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Technical Director:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->
+                            <div class="col-md-6">
+                      <div class="input-group">
+                              <span class="input-group-addon input-label">Crew Manager.:</span>
+                  <input type="text" readonly class="form-control input-form">
+              </div><!--End of Input Group-->
+                            </div><!--End of Col 6-->     
+            </div><!--End of Row-->
+                        
+                    <div class="alert alert-success" role="alert" style="margin-top: 20px;">Age Verification according ADS/2/6.4.1
+                        Is is hereby verified that above
+                        seafarer is not under the age of
+                        18 years old.
+                    </div>
+    </div><!--End of Panel Body-->
+</div><!--End of Panel Primary-->
+
+<div class="modal fade" id="view-signature" tabindex="-1" role="dialog" aria-labelledby="SignatureLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signatureLabel">Signature <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<div class="modal fade" id="view-signature" tabindex="-1" role="dialog" aria-labelledby="SignatureLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="signatureLabel">Signature <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<!-- Sidebar Fixed
+==============================-->
+</div>
+
+<div class="col-md-3">
+  <div class="sidebar" style="position: fixed; width: 246px; margin-top: 20px;">
+    <div class="container-picture">
+      <img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  style="border: 3px solid #2e76b8">
+    </div>
+      <div class="input-group" style="width: 100%;">
+        <input type="text" readonly class="form-control input-form" value="{{ user_profile.code }}" style="text-transform:lowercase">
+        <input type="text" readonly class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" >
+      </div><!--End of Input Group-->
+            <div class="input-group" style="width: 100%;">
+            <input type="text" readonly class="form-control input-form" value="{{ mariners_profile.position }}" >
+      </div>
+
+      <div class="input-group" style="width: 100%">
+                <button type="button" class="btn btn-msmi"><span class="glyphicon glyphicon-print"><strong> Print</strong></span></button>
+            </div><!--End of Input Group-->
+            <ul class="nav bs-docs-sidenav" style="margin-top: 10px;">
+              <li>
+                <a href="#step1">Personal Data</a>
+              </li>
+              <li>
+                <a href="#step2">Contact Details</a>
+              </li>
+              <li>
+                <a href="#step3">Certificates / Qualifications</a>
+              </li>
+              <li>
+                <a href="#step10">List of Sea Service</a>
+              </li>
+                <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
+              </li>
+            </ul>
+          </div><!--End of Sidebar-->
+  </div><!--End of Col-3-->
+    
+    
+      </div><!--End of Container-->
+  </div><!--End of Page Wrapper-->
+</div><!--End of Wrapper-->
+
+
+{% endblock %}

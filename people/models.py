@@ -40,6 +40,9 @@ class AbstractPersonalData(models.Model):
 	# EmailFields
 	email_address_1 = models.EmailField(null=True, default=None)
 	email_address_2 = models.EmailField(blank=True, null=True, default=None)
+	facebook_email = models.EmailField(blank=True, null=True, default=None)
+	twitter_email = models.EmailField(blank=True, null=True, default=None)
+	instagram_email = models.EmailField(blank=True, null=True, default=None)
 
 	# DateFields
 	birth_date = models.DateField(default=None)
@@ -402,5 +405,12 @@ class AbstractSeaService(models.Model):
 	def duration(self):
 		date_joined = self.date_joined
 		date_left = self.date_left
-		duration = date_left = date_joined
+		duration = date_left - date_joined
 		return duration.days
+
+	def duration_months(self):
+		date_joined = self.date_joined
+		date_left = self.date_left
+		duration = date_left - date_joined
+		months = duration.days / 30
+		return months

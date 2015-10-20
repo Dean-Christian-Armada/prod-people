@@ -440,6 +440,7 @@ $(function(){
       changeMonth: true,  
       dateFormat: 'M yy',
       beforeShow: function (e, t) {
+        $(this).datepicker("option", "minDate", 0);
         $("#ui-datepicker-div").addClass("hide-calendar");
         $("#ui-datepicker-div").addClass('HideTodayButton');
       },

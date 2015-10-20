@@ -1,0 +1,583 @@
+{% load static %}
+{% load pdf_image %}
+
+{% static "img/small_logo.png" as small_logo %}
+{# ressource.image.url|get64:domain|add:small_logo #}
+<!-- {{ domain }}/media/{{ appdetails.picture }} -->
+{# ressource.image.url|get64:signature #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/check.jpg' #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/uncheck.jpg' #}
+{# ressource.image.url|get64:'http://deanchrisarmada.com/static/img/small_logo.png' #}
+{# ressource.image.url|get64:picture #}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDF Example</title>
+	<style type="text/css">
+		body{ font-size:12px; }
+		th, td{ padding:5px; padding-bottom:0px; }
+		/*tr, td{ border:0; }*/
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td colspan="2" style="text-align:center"><img style="float:left" src="{{ ressource.image.url|get64:logo }}"></td>
+		</tr>
+		<tr>
+			<td valign="top">
+				<h4 style="color:#009bd9">APPLICATION FORM (TO BE FILLED BY THE SEAMAN)</h4>
+				Date of Application: <b><u>{{ application_form.application_date }}</u></b><br />
+				Position Applied For: <b><u>{{ mariners_profile.position }}</u></b><br />
+				Date of Availability: <b><u>{{ personal_data.availability_date }}</u></b>
+			</td>
+			<td style="text-align:right">
+
+				<img style="float:left" src="{{ ressource.image.url|get64:picture }}">
+			</td>
+		</tr>
+	</table>
+	<br ><br >
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">1. PERSONAL DATA</th>
+				</tr>
+			</table>
+			
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<tr>
+						<td>Surname: <b><u>{{ user_profile.last_name|upper }}</u></b></td>
+						<td>First Name: <b><u>{{ user_profile.first_name|upper }}</u></b></td>
+						<td>Middle Name: <b><u>{{ user_profile.middle_name|upper }}</u></b></td>
+					</tr>
+					<tr>
+						<td>Date of Birth: <b><u>{{ personal_data.birth_date }}</u></b></td>
+						<td>Place of Birth: <b><u>{{ personal_data.birth_place|upper }}</u></b></td>
+						<td>Age: <b><u>{{ personal_data.age }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br >
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">2. CONTACT DETAILS</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<tr>
+						<td colspan="2">Address: <b><u>{{ personal_data.current_address.current_unit|upper }}, {{ personal_data.current_address.current_street|upper }}, {{ personal_data.current_address.current_zip.barangay|upper }}, {{ personal_data.current_address.current_zip.municipality|upper }}</u></b></td>
+					</tr>
+					<tr>
+						<td>Mobile / Contact Number: <b><u>{{ personal_data.prefix_mobile_1 }}</u></b></td>
+						<td>Email: <b><u>{{ personal_data.email_address_1 }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br >
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">3. NEXT OF KIN CONTACT DETAILS</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1px">
+					<tr>
+						<td>Full Name: <b><u>{{ emergency_contact|upper }}</u></b></td>
+						<td>Relationship: <b><u>{{ emergency_contact.relationship|upper }}</u></b></td>
+					</tr>
+					<tr>
+						<td colspan="2">Address: <b><u>{{ emergency_contact.emergency_unit|upper }}, {{ emergency_contact.emergency_street|upper }}, {{ emergency_contact.emergency_zip.barangay|upper }}, {{ emergency_contact.emergency_zip.municipality|upper }}</u></b></td>
+					</tr>
+					<tr>
+						<td>Mobile / Contact No.: <b><u>{{ emergency_contact.prefix_emergency_contact }}</u></b></td>
+						<td>Email: <b><u></u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+	</table>
+	<br />
+	<table border="1px">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">4. TRAVEL DOCUMENTS</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1">
+					<tr>
+						<td colspan="2" style="text-align: center">Document Type</td>
+						<td style="text-align: center">Number</td>
+						<td style="text-align: center">Date of Issue</td>
+						<td style="text-align: center">Date of Expiry</td>
+						<td style="text-align: center">Issue At</td>
+					</tr>
+					<tr>
+						<td colspan="2">Passport</td>
+						<td style="text-align: center">{{ passport.passport }}</td>
+						<td style="text-align: center">{{ passport.none_date_issued }}</td>
+						<td style="text-align: center">{{ passport.none_expiry }}</td>
+						<td style="text-align: center">{{ passport.passport_place_issued|upper }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Seaman's Book</td>
+						<td style="text-align: center">{{ sbook.sbook }}</td>
+						<td style="text-align: center">{{ sbook.none_date_issued }}</td>
+						<td style="text-align: center">{{ sbook.none_date_expiry }}</td>
+						<td style="text-align: center">{{ sbook.sbook_place_issued|upper }}</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-top:0px">U.S. Visa {% if us_visa.us_visa_number %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Y {% if us_visa.us_visa_number %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} N</td>
+						<td style="text-align: center">{{ us_visa.us_visa_number }}</td>
+						<td style="text-align: center">{{ us_visa.none_date_issued }}</td>
+						<td style="text-align: center">{{ us_visa.none_expiry }}</td>
+						<td style="text-align: center">{{ us_visa.us_visa_place_issued|upper }}</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-top:0px">Schengen Visa {% if schengen_visa.schengen_visa_number %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Y {% if schengen_visa.schengen_visa_number %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} N</td>
+						<td style="text-align: center">{{ schengen_visa.schengen_visa_number }}</td>
+						<td style="text-align: center">{{ schengen_visa.none_date_issued }}</td>
+						<td style="text-align: center">{{ schengen_visa.none_expiry }}</td>
+						<td style="text-align: center">{{ schengen_visa.schengen_visa_place_issued|upper }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Yellow Fever</td>
+						<td style="text-align: center">{{ yellow_fever.yellow_fever }}</td>
+						<td style="text-align: center">{{ yellow_fever.none_date_issued }}</td>
+						<td style="text-align: center">{{ yellow_fever.none_expiry }}</td>
+						<td style="text-align: center">{{ yellow_fever.yellow_place_issued|upper }}</td>
+					</tr>
+				</table>
+			</td>
+			
+		</tr>
+	</table>
+	<br />
+	<table border="1px">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">5. LICENSES</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1">
+					<tr>
+						<td colspan="2" style="text-align: center">Document Type</td>
+						<td style="text-align: center">Grade</td>
+						<td style="text-align: center">Number</td>
+						<td style="text-align: center">Date of Issue</td>
+						<td style="text-align: center">Date of Expiry</td>
+						<td style="text-align: center">Issue At</td>
+					</tr>				
+					<tr>
+						<td colspan="2">National Endorsement</td>
+						<td style="text-align: center">{{ license.license_grade|upper }}</td>
+						<td style="text-align: center">{{ license.license }}</td>
+						<td style="text-align: center">{{ license.license_date_issued }}</td>
+						<td style="text-align: center">{{ license.license_expiry }}</td>
+						<td style="text-align: center">{{ license.license_place_issued|upper }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Certificate of Competency</td>
+						<td style="text-align: center">{{ coc.coc_grade|upper }}</td>
+						<td style="text-align: center">{{ coc.coc }}</td>
+						<td style="text-align: center">{{ coc.coc_date_issued }}</td>
+						<td style="text-align: center">{{ coc.coc_expiry }}</td>
+						<td style="text-align: center">{{ coc.coc_place_issued|upper }}</td>
+					</tr>
+				</table>
+			</td>
+			
+		</tr>
+	</table>
+	<br />
+	<table border="1px">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">6. FLAG DOCUMENTS</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1">
+					<tr>
+						<td style="text-align: center">Country</td>
+						<td style="text-align: center">S / B Number</td>
+						<td style="text-align: center">Expiry</td>
+						<td style="text-align: center">License No</td>
+						<td style="text-align: center">Expiry</td>
+						<td style="text-align: center">Rank</td>
+					</tr>				
+					<tr>
+						<td>Marshall Islands</td>
+						<td style="text-align: center">{{ marshall_islands_documents.none_sbook_number }}</td>
+						<td style="text-align: center">{{ marshall_islands_documents.none_sbook_expiry }}</td>
+						<td style="text-align: center">{{ marshall_islands_documents.none_license_number }}</td>
+						<td style="text-align: center">{{ marshall_islands_documents.none_license_expiry }}</td>
+						<td style="text-align: center">{{ marshall_islands_documents.flags_rank|upper }}</td>
+					</tr>
+					<tr>
+						<td>Liberia</td>
+						<td style="text-align: center">{{ liberia_documents.none_sbook_number }}</td>
+						<td style="text-align: center">{{ liberia_documents.none_sbook_expiry }}</td>
+						<td style="text-align: center">{{ liberia_documents.none_license_number }}</td>
+						<td style="text-align: center">{{ liberia_documents.none_license_expiry }}</td>
+						<td style="text-align: center">{{ liberia_documents.flags_rank|upper }}</td>
+					</tr>
+					<tr>
+						<td>Bahamas</td>
+						<td style="text-align: center">{{ bahamas_documents.none_sbook_number }}</td>
+						<td style="text-align: center">{{ bahamas_documents.none_sbook_expiry }}</td>
+						<td style="text-align: center">{{ bahamas_documents.none_license_number }}</td>
+						<td style="text-align: center">{{ bahamas_documents.none_license_expiry }}</td>
+						<td style="text-align: center">{{ bahamas_documents.flags_rank|upper }}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	<br />
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">7. OTHER DOCUMENTS AND OTHER CERTIFICATES </th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1">
+					<tr>
+						<td colspan="2" style="text-align: center">Document Type</td>
+						<td style="text-align: center">Number</td>
+						<td style="text-align: center">Date of Issue</td>
+						<td style="text-align: center">Date of Expiry</td>
+						<td style="text-align: center">Issue At</td>
+					</tr>				
+					<tr>
+						<td colspan="2">Basic Training</td>
+						<td style="text-align: center">{{ bt_documents.none_number }}</td>
+						<td style="text-align: center">{{ bt_documents.none_issued }}</td>
+						<td style="text-align: center">{{ bt_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ bt_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Proficiency in Survival Craft Rescue Boats</td>
+						<td style="text-align: center">{{ psrc_documents.none_number }}</td>
+						<td style="text-align: center">{{ psrc_documents.none_issued }}</td>
+						<td style="text-align: center">{{ psrc_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ psrc_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Advance Fire Fighting</td>
+						<td style="text-align: center">{{ aff_documents.none_number }}</td>
+						<td style="text-align: center">{{ aff_documents.none_issued }}</td>
+						<td style="text-align: center">{{ aff_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ aff_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Medical First Aid</td>
+						<td style="text-align: center">{{ mefa_documents.none_number }}</td>
+						<td style="text-align: center">{{ mefa_documents.none_issued }}</td>
+						<td style="text-align: center">{{ mefa_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ mefa_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Medical Care</td>
+						<td style="text-align: center">{{ mefa_documents.none_number }}</td>
+						<td style="text-align: center">{{ mefa_documents.none_issued }}</td>
+						<td style="text-align: center">{{ mefa_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ mefa_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Proficiency in Fast Rescue Boats</td>
+						<td style="text-align: center">{{ pfrc_documents.none_number }}</td>
+						<td style="text-align: center">{{ pfrc_documents.none_issued }}</td>
+						<td style="text-align: center">{{ pfrc_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ pfrc_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Bridge/Engine Team Management</td>
+						<td style="text-align: center">{{ btm_documents.none_number }}</td>
+						<td style="text-align: center">{{ btm_documents.none_issued }}</td>
+						<td style="text-align: center">{{ btm_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ btm_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Bridge/Engine Resource Management</td>
+						<td style="text-align: center">{{ brm_documents.none_number }}</td>
+						<td style="text-align: center">{{ brm_documents.none_issued }}</td>
+						<td style="text-align: center">{{ brm_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ brm_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship Simulator and Bridge Teamwork</td>
+						<td style="text-align: center">{{ bms_documents.none_number }}</td>
+						<td style="text-align: center">{{ bms_documents.none_issued }}</td>
+						<td style="text-align: center">{{ bms_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ bms_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">GMDSS</td>
+						<td style="text-align: center">{{ gmdss_documents.none_number }}</td>
+						<td style="text-align: center">{{ gmdss_documents.none_issued }}</td>
+						<td style="text-align: center">{{ gmdss_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ gmdss_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">ECDIS Generic</td>
+						<td style="text-align: center">{{ ecdis_documents.none_number }}</td>
+						<td style="text-align: center">{{ ecdis_documents.none_issued }}</td>
+						<td style="text-align: center">{{ ecdis_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ ecdis_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">ECDIS Furuno</td>
+						<td style="text-align: center">{{ ecdis_furuno_documents.none_number }}</td>
+						<td style="text-align: center">{{ ecdis_furuno_documents.none_issued }}</td>
+						<td style="text-align: center">{{ ecdis_furuno_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ ecdis_furuno_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">ECDIS JRC</td>
+						<td style="text-align: center">{{ ecdis_jrc_documents.none_number }}</td>
+						<td style="text-align: center">{{ ecdis_jrc_documents.none_issued }}</td>
+						<td style="text-align: center">{{ ecdis_jrc_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ ecdis_jrc_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">MARPOL I-VI</td>
+						<td style="text-align: center">{{ marpol_documents.none_number }}</td>
+						<td style="text-align: center">{{ marpol_documents.none_issued }}</td>
+						<td style="text-align: center">{{ marpol_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ marpol_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">ISM Code</td>
+						<td style="text-align: center">{{ ism_documents.none_number }}</td>
+						<td style="text-align: center">{{ ism_documents.none_issued }}</td>
+						<td style="text-align: center">{{ ism_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ ism_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship Handling</td>
+						<td style="text-align: center">{{ sh_documents.none_number }}</td>
+						<td style="text-align: center">{{ sh_documents.none_issued }}</td>
+						<td style="text-align: center">{{ sh_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ sh_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship Security Officer</td>
+						<td style="text-align: center">{{ sso_documents.none_number }}</td>
+						<td style="text-align: center">{{ sso_documents.none_issued }}</td>
+						<td style="text-align: center">{{ sso_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ sso_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship Safety Officer</td>
+						<td style="text-align: center">{{ sso_documents.none_number }}</td>
+						<td style="text-align: center">{{ sso_documents.none_issued }}</td>
+						<td style="text-align: center">{{ sso_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ sso_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Deck/Engine WatchKeeping(ratings)</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_number }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_issued }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Radar Simulator Course</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_number }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_issued }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ dwk_ewk_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">ARPA/ROPA</td>
+						<td style="text-align: center">{{ arpa_documents.none_number }}</td>
+						<td style="text-align: center">{{ arpa_documents.none_issued }}</td>
+						<td style="text-align: center">{{ arpa_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ arpa_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Accident and Near Miss Investigation</td>
+						<td style="text-align: center">{{ acni_documents.none_number }}</td>
+						<td style="text-align: center">{{ acni_documents.none_issued }}</td>
+						<td style="text-align: center">{{ acni_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ acni_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship's Catering Services NC1 Training</td>
+						<td style="text-align: center">{{ scs_nc_i_documents.none_number }}</td>
+						<td style="text-align: center">{{ scs_nc_i_documents.none_issued }}</td>
+						<td style="text-align: center">{{ scs_nc_i_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ scs_nc_i_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">Ship's Catering Services NC2 Training</td>
+						<td style="text-align: center">{{ scs_nc_ii_documents.none_number }}</td>
+						<td style="text-align: center">{{ scs_nc_ii_documents.none_issued }}</td>
+						<td style="text-align: center">{{ scs_nc_ii_documents.none_expiry }}</td>
+						<td style="text-align: center">{{ scs_nc_ii_documents.training_place_issued }}</td>
+					</tr>
+					<tr>
+						<td colspan="2">OTHER (please specify)</td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+						<td style="text-align: center"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br />
+	<table border="1px">
+		<tr>
+			<th style="text-align:left">8. LANGUAGES</th>
+		</tr>
+		<tr>	
+			<td>Native Language: <b><u>{{ personal_data.dialect|upper }}</u></b></td>
+		</tr>
+		<tr>
+			<td style="padding-bottom:5px">English: 
+				{% if personal_data.english|upper == 'VERY GOOD' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Very Good
+				{% if personal_data.english|upper == 'GOOD' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Good
+				{% if personal_data.english|upper == 'SATISFACTORY' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Satisfactory
+				{% if personal_data.english|upper == 'POOR' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Poor
+			</td>
+		</tr>
+		<tr>
+			<td>Other (please specify): </td>
+		</tr>
+	</table>
+	<br />
+	<table border="1px">
+		<tr>
+			<th style="text-align:left">9. ESSAY (please tell us about yourself, your experience and the reasons why we should hire you)</th>
+		</tr>
+		<tr>
+			<td><u>{{ application_form.essay }}</u></u></b></td>
+		</tr>
+	</table>
+	<br />
+
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left;" width="60%">10. SEA SERVICE(AT LEAST 10 LAST EMPLOYMENTS)</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>
+				<table border="1">
+					<tr>
+						<th>Vessel</th>
+						<th>Type</th>
+						<th>Engine</th>
+						<th>DWT / GRT</th>
+						<th>Owner</th>
+						<th>Rank</th>
+						<th>Sign On</th>
+						<th>Sign Off</th>
+						<th>Reason of Sign off</th>
+					</tr>
+					{% for sea_services in sea_service %}
+		            	<tr>
+		                	<td style="text-align:center">{{ sea_services.vessel_name|upper }}</td>
+		                    <td style="text-align:center">{{ sea_services.vessel_type }}</td>
+		                    <td style="text-align:center">{{ sea_services.engine_type }}</td>
+		                    <td style="text-align:center">{{ sea_services.grt }}</td>
+		                    <td style="text-align:center">{{ sea_services.principal|upper }}</td>
+		                    <td style="text-align:center">{{ sea_services.rank }}</td>
+		                    <td style="text-align:center">{{ sea_services.date_joined }}</td>
+		                    <td style="text-align:center">{{ sea_services.date_left }}</td>
+		                    <td style="text-align:center">{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}</td>
+		                </tr>
+		            {% endfor %}
+		            <tr>
+		            	<td colspan="5" style="text-align: center">Total Sea Service in Rank(years):</td>
+		            	<td colspan="4" style="text-align: center">Total Sea Service in Dry Cargo Carriers(years)</td>
+		            </tr>
+		            <tr>
+		            	<td colspan="5" style="text-align: center">{{ rank_sea_service_duration }}</td>
+		            	<td colspan="4" style="text-align: center">{{ dry_vessel_types_duration  }}</td>
+		            </tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<br /><br />
+	
+	
+	I certify that all the information given in this Application Form are true and correct.
+	<br />
+	I agree that if I have withheld or misinterpreted any information on this Application Form then I am the only responsible person.
+	<br />
+	I understand that this Application Form shall remain Confidential unless it is used in a legal action against me for untruthful statements made herein.
+	<br /><br />
+	APPLICANT:
+	<br /><br /><br />
+	<table>
+		<tr>
+			<td style="text-align:left">Name: <b><u>{{ user_profile.first_name|upper }} {{ user_profile.last_name|upper }} {{ user_profile.middle_name|upper }}</u></b></td>
+			<td style="text-align:right">Signature: <u><img width="250px" height="250px" src="{{ ressource.image.url|get64:signature }}"></u></td>
+		</tr>
+	</table>
+</body>
+</html>

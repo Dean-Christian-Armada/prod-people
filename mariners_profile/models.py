@@ -221,6 +221,7 @@ class ManningAgency(models.Model):
 
 class CauseOfDischarge(models.Model):
 	cause_of_discharge = models.CharField(max_length=50, default=None)
+	cause_of_discharge_abbreviation = models.CharField(max_length=10, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -517,11 +518,31 @@ class Passport(AbstractPassport):
 	passport_date_issued = models.DateField(default=None, null=True, blank=True)
 	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority())
 
+	def none_date_issued(self):
+		if not self.passport_date_issued:
+			self.passport_date_issued = ''
+		return self.passport_date_issued
+
+	def none_expiry(self):
+		if not self.passport_expiry:
+			self.passport_expiry = ''
+		return self.passport_expiry
+
 class Sbook(AbstractSbook):
 	sbook_place_issued = models.ForeignKey(SBookPlaceIssued, default=null_default_foreign_key_value(SBookPlaceIssued, 'sbook_place', ''), blank=True)
 	sbook_date_issued = models.DateField(default=None, null=True, blank=True)
 	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
 	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
+
+	def none_date_issued(self):
+		if not self.sbook_date_issued:
+			self.sbook_date_issued = ''
+		return self.sbook_date_issued
+
+	def none_date_expiry(self):
+		if not self.sbook_date_expiry:
+			self.sbook_date_expiry = ''
+		return self.sbook_date_expiry
 
 class COC(AbstractCOC):
 	coc_date_issued = models.DateField(default=None, null=True, blank=True)
@@ -529,11 +550,31 @@ class COC(AbstractCOC):
 	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=null_default_foreign_key_value(COCPlaceIssued, 'coc_place', ''), blank=True)
 	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
 
+	def none_date_issued(self):
+		if not self.coc_date_issued:
+			self.coc_date_issued = ''
+		return self.coc_date_issued
+
+	def none_expiry(self):
+		if not self.coc_expiry:
+			self.coc_expiry = ''
+		return self.coc_expiry
+
 class License(AbstractLicense):
 	license_date_issued = models.DateField(default=None, null=True, blank=True)
 	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
 	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=null_default_foreign_key_value(LicensePlaceIssued, 'license_place', ''), blank=True)
+
+	def none_date_issued(self):
+		if not self.license_date_issued:
+			self.license_date_issued = ''
+		return self.license_date_issued
+
+	def none_expiry(self):
+		if not self.license_expiry:
+			self.license_expiry = ''
+		return self.license_expiry
 
 class NTCLicense(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -542,9 +583,29 @@ class NTCLicense(models.Model):
 	ntc_license_date_expiry = models.DateField(default=None, null=True, blank=True)
 	ntc_license_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
+	def none_date_issued(self):
+		if not self.ntc_license_date_issued:
+			self.ntc_license_date_issued = ''
+		return self.ntc_license_date_issued
+
+	def none_expiry(self):
+		if not self.ntc_license_date_expiry:
+			self.ntc_license_date_expiry = ''
+		return self.ntc_license_date_expiry
+
 class SRC(AbstractSRC):
 	src_date_issued = models.DateField(default=None, null=True, blank=True)
 	src_expiry = models.DateField(default=None, null=True, blank=True)
+
+	def none_date_issued(self):
+		if not self.src_date_issued:
+			self.src_date_issued = ''
+		return self.src_date_issued
+
+	def none_expiry(self):
+		if not self.src_expiry:
+			self.src_expiry = ''
+		return self.src_expiry
 
 	def save(self, *args, **kwargs):
 		if self.src_date_issued == '':
@@ -562,7 +623,7 @@ class STCWEndorsement(models.Model):
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
-		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
+		return "%s - %s" % (user, self.stcw_endorsement)
 
 
 class STCWCertificate(models.Model):
@@ -574,7 +635,7 @@ class STCWCertificate(models.Model):
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
-		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
+		return "%s - %s" % (user, self.stcw_certificate)
 
 class GOC(AbstractGOC):
 	goc_date_issued = models.DateField(default=None, null=True, blank=True)
@@ -586,17 +647,47 @@ class USVisa(AbstractUSVisa):
 	us_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	us_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
+	def none_date_issued(self):
+		if not self.us_visa_date_issued:
+			self.us_visa_date_issued = ''
+		return self.us_visa_date_issued
+
+	def none_expiry(self):
+		if not self.us_visa_expiry:
+			self.us_visa_expiry = ''
+		return self.us_visa_expiry
+
 class SchengenVisa(AbstractSchengenVisa):
 	# pass
 	schengen_visa_place_issued = models.ForeignKey(SchengenVisaPlaceIssued, blank=True)
 	schengen_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	schengen_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
+	def none_date_issued(self):
+		if not self.schengen_visa_date_issued:
+			self.schengen_visa_date_issued = ''
+		return self.schengen_visa_date_issued
+
+	def none_expiry(self):
+		if not self.schengen_visa_expiry:
+			self.schengen_visa_expiry = ''
+		return self.schengen_visa_expiry
+
 class YellowFever(AbstractYellowFever):
 	# pass
 	yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, blank=True)
 	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
 	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority())
+
+	def none_date_issued(self):
+		if not self.yellow_fever_date_issued:
+			self.yellow_fever_date_issued = ''
+		return self.yellow_fever_date_issued
+
+	def none_expiry(self):
+		if not self.yellow_fever_expiry:
+			self.yellow_fever_expiry = ''
+		return self.yellow_fever_expiry
 
 class FlagDocuments(AbstractFlagDocuments):
 	flags = models.ManyToManyField(Flags, through='mariners_profile.FlagDocumentsDetailed', blank=True, default=None)
@@ -614,6 +705,26 @@ class FlagDocumentsDetailed(models.Model):
 		user = "%s %s %s" % (self.flags_documents.user.first_name, self.flags_documents.user.middle_name, self.flags_documents.user.last_name)
 		return "%s - %s" % (user, self.flags.flags)
 
+	def none_sbook_number(self):
+		if not self.sbook_number:
+			self.sbook_number = ''
+		return self.sbook_number
+
+	def none_sbook_expiry(self):
+		if not self.sbook_expiry:
+			self.sbook_expiry = ''
+		return self.sbook_expiry
+
+	def none_license_number(self):
+		if not self.license_number:
+			self.license_number = ''
+		return self.license_number
+
+	def none_license_expiry(self):
+		if not self.license_expiry:
+			self.license_expiry = ''
+		return self.license_expiry
+
 class TrainingCertificateDocuments(AbstractTrainingCertificateDocuments):
 	trainings_certificates = models.ManyToManyField(TrainingCertificates, default=None)
 
@@ -629,6 +740,21 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.trainings_certificate_documents.user.first_name, self.trainings_certificate_documents.user.middle_name, self.trainings_certificate_documents.user.last_name)
 		return "%s - %s" % (user, self.trainings_certificates.trainings_certificates)
+
+	def none_number(self):
+		if not self.number:
+			self.number = ''
+		return self.number
+
+	def none_issued(self):
+		if not self.issued:
+			self.issued = ''
+		return self.issued
+
+	def none_expiry(self):
+		if not self.expiry:
+			self.expiry = ''
+		return self.expiry
 
 class PrincipalVesselType(models.Model):
 	principal = models.ForeignKey(Principal)

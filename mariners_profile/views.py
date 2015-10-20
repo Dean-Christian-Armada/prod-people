@@ -50,7 +50,7 @@ def index(request):
 	params2 = {}
 
 	template = "mariner-profile/index.html"
-	context_dict = {"title": "MARINER PROFILES"}
+	context_dict = {"title": "MARINER Profiles"}
 
 	choice_visa = ''
 
@@ -369,7 +369,7 @@ def profile(request, id):
 		context_dict['current_history'] = current_history
 		context_dict['histories'] = histories
 
-		context_dict['title'] = "Mariners Profile - "+str(personal_data)
+		context_dict['title'] = "MARINER'S Profile - "+str(personal_data)
 		context_dict['dependents_num_label'] = dependents_num_label
 
 		return render(request, template, context_dict)

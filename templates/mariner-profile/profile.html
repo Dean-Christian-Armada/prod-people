@@ -198,8 +198,13 @@ th{
     <div class="row"> 
     <div class="sidebar text-center" style="position: fixed; margin-top: 20px; padding-left: 90px; width: 250px;"> 
        <label class="input-label" style="padding-left: 10px;">Forms</label>
+       <div class="col-md-12" style="margin-top: 10px;">
+            <a href="{% url 'manship_form' id=user_profile.id %}" target="_blank"   title="Manship" data-placement="right" class="img-responsive">
+          <img src="{% static 'img/btn-msmi.png' %}">
+         </a>
+        </div><!--End of Column-->
         <div class="col-md-12" style="margin-top: 10px;">
-            <a href="{% url 'fleet_application_form'  principal='psv' id=user_profile.id %}" target="_blank"   title="PSV Hellespont Daring GmbH & Co. KG" data-toggle="tooltip" data-placement="right" class="img-responsive">
+            <a href="{% url 'fleet_application_form'  principal='psv' id=user_profile.id %}" target="_blank"   title="PSV Hellespont Ship Management GmbH & Co. KG" data-toggle="tooltip" data-placement="right" class="img-responsive">
           <img src="{% static 'img/btn-hsm.png' %}">
          </a>
         </div><!--End of Column-->
@@ -1795,7 +1800,7 @@ th{
           <!-- <input type="text" class="form-control input-form" > -->
           <div class="input-group" style="width:100%; text-align: center;">
             <label class="input-group-addon input-label">Code:</label>
-            <input type="text" class="form-control input-form" value="{{ user_profile.code }}" style="text-transform:lowercase" >
+            <input type="text" class="form-control input-form" value="{{ user_profile.code }}" >
           </div>
           <div class="input-group" style="width:100%; text-align: center;">
             <label class="input-group-addon input-label">Position:</label>

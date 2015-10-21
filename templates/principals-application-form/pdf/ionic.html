@@ -33,12 +33,10 @@
 				Date of Availability: <b><u>{{ personal_data.availability_date }}</u></b>
 			</td>
 			<td style="text-align:right">
-
-				<img style="float:left" src="{{ ressource.image.url|get64:picture }}">
+				{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% else %}<img height="200" width="200" style="float:left" src="{{ ressource.image.url|get64:picture_container }}">{% endif %}
 			</td>
 		</tr>
 	</table>
-	<br ><br >
 	<table border="1">
 		<tr>
 			<table border="1">
@@ -78,7 +76,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<tr>
-						<td colspan="2">Address: <b><u>{{ personal_data.current_address.current_unit|upper }}, {{ personal_data.current_address.current_street|upper }}, {{ personal_data.current_address.current_zip.barangay|upper }}, {{ personal_data.current_address.current_zip.municipality|upper }}</u></b></td>
+						<td colspan="2">Address: {% if personal_data.current_address %}<b><u>{{ personal_data.current_address.current_unit|upper }}, {{ personal_data.current_address.current_street|upper }}, {{ personal_data.current_address.current_zip.barangay|upper }}, {{ personal_data.current_address.current_zip.municipality|upper }}</u></b>{% endif %}</td>
 					</tr>
 					<tr>
 						<td>Mobile / Contact Number: <b><u>{{ personal_data.prefix_mobile_1 }}</u></b></td>
@@ -105,7 +103,7 @@
 						<td>Relationship: <b><u>{{ emergency_contact.relationship|upper }}</u></b></td>
 					</tr>
 					<tr>
-						<td colspan="2">Address: <b><u>{{ emergency_contact.emergency_unit|upper }}, {{ emergency_contact.emergency_street|upper }}, {{ emergency_contact.emergency_zip.barangay|upper }}, {{ emergency_contact.emergency_zip.municipality|upper }}</u></b></td>
+						<td colspan="2">Address: {% if emergency_contact %}<b><u>{{ emergency_contact.emergency_unit|upper }}, {{ emergency_contact.emergency_street|upper }}, {{ emergency_contact.emergency_zip.barangay|upper }}, {{ emergency_contact.emergency_zip.municipality|upper }}</u></b>{% endif %}</td>
 					</tr>
 					<tr>
 						<td>Mobile / Contact No.: <b><u>{{ emergency_contact.prefix_emergency_contact }}</u></b></td>
@@ -150,15 +148,15 @@
 						<td style="text-align: center">{{ sbook.sbook_place_issued|upper }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" style="padding-top:0px">U.S. Visa {% if us_visa.us_visa_number %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Y {% if us_visa.us_visa_number %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} N</td>
-						<td style="text-align: center">{{ us_visa.us_visa_number }}</td>
+						<td colspan="2" style="padding-top:0px">U.S. Visa {% if us_visa.us_visa_number %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Y {% if check %}{% if us_visa.us_visa_number %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} N</td>
+						<td style="text-align: center">{% if us_visa.us_visa_number %}{{ us_visa.us_visa_number }}{% else %}&nbsp;{% endif %}</td>
 						<td style="text-align: center">{{ us_visa.none_date_issued }}</td>
 						<td style="text-align: center">{{ us_visa.none_expiry }}</td>
 						<td style="text-align: center">{{ us_visa.us_visa_place_issued|upper }}</td>
 					</tr>
 					<tr>
-						<td colspan="2" style="padding-top:0px">Schengen Visa {% if schengen_visa.schengen_visa_number %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Y {% if schengen_visa.schengen_visa_number %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} N</td>
-						<td style="text-align: center">{{ schengen_visa.schengen_visa_number }}</td>
+						<td colspan="2" style="padding-top:0px">Schengen Visa {% if schengen_visa.schengen_visa_number %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Y {% if check %}{% if schengen_visa.schengen_visa_number %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} N</td>
+						<td style="text-align: center">{% if schengen_visa.schengen_visa_number %}{{ schengen_visa.schengen_visa_number }}{% else %}&nbsp;{% endif %}</td>
 						<td style="text-align: center">{{ schengen_visa.none_date_issued }}</td>
 						<td style="text-align: center">{{ schengen_visa.none_expiry }}</td>
 						<td style="text-align: center">{{ schengen_visa.schengen_visa_place_issued|upper }}</td>
@@ -494,10 +492,10 @@
 		</tr>
 		<tr>
 			<td style="padding-bottom:5px">English: 
-				{% if personal_data.english|upper == 'VERY GOOD' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Very Good
-				{% if personal_data.english|upper == 'GOOD' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Good
-				{% if personal_data.english|upper == 'SATISFACTORY' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Satisfactory
-				{% if personal_data.english|upper == 'POOR' %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Poor
+				{% if personal_data.english|upper == 'VERY GOOD' %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %} Very Good
+				{% if personal_data.english|upper == 'GOOD' %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %} Good
+				{% if personal_data.english|upper == 'SATISFACTORY' %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %} Satisfactory
+				{% if personal_data.english|upper == 'POOR' %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %} Poor
 			</td>
 		</tr>
 		<tr>
@@ -509,9 +507,33 @@
 		<tr>
 			<th style="text-align:left">9. ESSAY (please tell us about yourself, your experience and the reasons why we should hire you)</th>
 		</tr>
+		{% if essay %}
 		<tr>
 			<td><u>{{ application_form.essay }}</u></u></b></td>
 		</tr>
+		{% else %}
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		{% endif %}
 	</table>
 	<br />
 
@@ -537,6 +559,7 @@
 						<th>Sign Off</th>
 						<th>Reason of Sign off</th>
 					</tr>
+					{% if sea_service %}
 					{% for sea_services in sea_service %}
 		            	<tr>
 		                	<td style="text-align:center">{{ sea_services.vessel_name|upper }}</td>
@@ -550,6 +573,118 @@
 		                    <td style="text-align:center">{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}</td>
 		                </tr>
 		            {% endfor %}
+		            {% else %}
+		            	<tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		                <tr>
+		                	<td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                    <td style="text-align:center"> &nbsp; </td>
+		                </tr>
+		            {% endif %}
 		            <tr>
 		            	<td colspan="5" style="text-align: center">Total Sea Service in Rank(years):</td>
 		            	<td colspan="4" style="text-align: center">Total Sea Service in Dry Cargo Carriers(years)</td>
@@ -576,7 +711,7 @@
 	<table>
 		<tr>
 			<td style="text-align:left">Name: <b><u>{{ user_profile.first_name|upper }} {{ user_profile.last_name|upper }} {{ user_profile.middle_name|upper }}</u></b></td>
-			<td style="text-align:right">Signature: <u><img width="250px" height="250px" src="{{ ressource.image.url|get64:signature }}"></u></td>
+			<td style="text-align:right">Signature: <u>{% if signature %}<img width="250px" height="250px" src="{{ ressource.image.url|get64:signature }}">{% else %}<td></td>{% endif %}</u></td>
 		</tr>
 	</table>
 </body>

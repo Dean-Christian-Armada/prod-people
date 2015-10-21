@@ -32,7 +32,7 @@
 				<span style="font-size:24px; font-weight:700">APPLICATION FORM</span><br />
 				<span style="font-size:12px; font-weight:700">FORM REF. MANSHIP QP07-04-07</span><br />
 				<br />
-				<img style="float:left" src="{{ ressource.image.url|get64:picture }}">
+				{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% else %}<img height="200" width="200" style="float:left" src="{{ ressource.image.url|get64:picture_container }}">{% endif %}
 			</td>
 		</tr>
 	</table>
@@ -44,35 +44,35 @@
 		<tr>
 			<td style="padding-left: 20px;">
 				{% if appform.application_source.source.source == "Advertisements" %}
-					<img src="{{ ressource.image.url|get64:check }}">
+					{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}
 				{% else %}
-					<img src="{{ ressource.image.url|get64:uncheck }}">
+					{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}
 				{% endif %}
-					Advertisements {% if appform.application_source.source.source == "Advertisements" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
+					Advertisements{% if appform %} {% if appform.application_source.source.source == "Advertisements" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}{% else %}: __________________ {% endif %} <br />
 				{% if appform.application_source.source.source == "Internet" %}
-					<img src="{{ ressource.image.url|get64:check }}">
+					{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}
 				{% else %}
-					<img src="{{ ressource.image.url|get64:uncheck }}">
+					{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}
 				{% endif %}
-					Internet {% if appform.application_source.source.source == "Internet" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}<br />
+					Internet {% if appform %} {% if appform.application_source.source.source == "Internet" %}: <b>{{ appform.application_source.specific }}</b> {% endif %}{% else %}: __________________ {% endif %}<br />
 				{% if appform.application_source.source.source == "Friends or Relatives" %}
-					<img src="{{ ressource.image.url|get64:check }}">
+					{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}
 				{% else %}
-					<img src="{{ ressource.image.url|get64:uncheck }}">
+					{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}
 				{% endif %}
-					Friends or Relatives {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />
+					Friends or Relatives {% if appform %} {% if appform.application_source.source.source == "Friends or Relatives" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}{% else %}: __________________ {% endif %}<br />
 				{% if appform.application_source.source.source == "Seafarer Center" %}
-					<img src="{{ ressource.image.url|get64:check }}">
+					{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}
 				{% else %}
-					<img src="{{ ressource.image.url|get64:uncheck }}">
+					{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}
 				{% endif %}
 					Seafarer Center <br />
 				{% if appform.application_source.source.source == "Referred By" %}
-					<img src="{{ ressource.image.url|get64:check }}">
+					{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}
 				{% else %}
-					<img src="{{ ressource.image.url|get64:uncheck }}">
+					{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}
 				{% endif %}
-					Referred By {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}<br />&nbsp;
+					Referred By {% if appform %} {% if appform.application_source.source.source == "Referred By" %}: <b>{{ appform.application_source.specific|upper }}</b> {% endif %}{% else %}: __________________ {% endif %}<br />&nbsp;
 			</td>
 		</tr>
 	</table>
@@ -227,18 +227,31 @@
 				COLLEGE
 			</td>
 		</tr>
-		{% for colleges in college %}
+		{% if college %}
+			{% for colleges in college %}
+			<tr>
+				<td colspan="3" style="padding:0px">
+					<table border="1">
+						<td width="60%">Name of College: <b>{{ colleges.college|upper }}</b></td>
+						<td width="40%">Degree Obtained: <b>{{ colleges.degree|upper }}</b></td>
+						<td width="20%" align="center"><b>{{ colleges.collegeyear_from }}</b></td>
+						<td width="20%" align="center"><b>{{ colleges.collegeyear_to }}</b></td>
+					</table>
+				</td>
+			</tr>
+			{% endfor %}
+		{% else %}
 		<tr>
 			<td colspan="3" style="padding:0px">
 				<table border="1">
-					<td width="60%">Name of College: <b>{{ colleges.college|upper }}</b></td>
-					<td width="40%">Degree Obtained: <b>{{ colleges.degree|upper }}</b></td>
-					<td width="20%" align="center"><b>{{ colleges.collegeyear_from }}</b></td>
-					<td width="20%" align="center"><b>{{ colleges.collegeyear_to }}</b></td>
+					<td width="60%">Name of College: <b></b></td>
+					<td width="40%">Degree Obtained: <b></b></td>
+					<td width="20%" align="center"><b></b></td>
+					<td width="20%" align="center"><b></b></td>
 				</table>
 			</td>
 		</tr>
-		{% endfor %}
+		{% endif %}
 		<tr>
 			<td width="100%" style="text-align: left; ">Highschool: <b>{{ highschool.highschool|upper }}</b></th>
 			<td width="20%" align="center"><b>{{ highschool.schoolyear_from }}</b></td>
@@ -250,30 +263,55 @@
 		<tr>
 			<th style="text-align: left">EMERGENCY CONTACT DETAILS</th>
 		</tr>
-		{% for emergencies in emergency %}
-		<tr>
-			<th style="text-align: left">Person to Contact in Case of Emergency: <b>{{ emergencies|upper }}</b></th>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td>Contact No.: <b>{{ emergencies.prefix_emergency_contact }}</b></td>
-					<td>Relationship: <b>{{ emergencies.relationship|upper }}</b></td>
-				</table>
-			</td>
-		</tr>
-		<tr>
-			<td style="padding: 0px;">
-				<table border="1">
-					<td>Unit: <br /><b>{{ emergencies.emergency_unit|upper }}</b></td>
-					<td>Street: <br /><b>{{ emergencies.emergency_street|upper }}</b></td>
-					<td>Barangay: <br /><b>{{ emergencies.emergency_zip.barangay|upper }}</b></td>
-					<td>City/Municipality: <br /><b>{{ emergencies.emergency_zip.municipality|upper }}</b></td>
-					<td>Zip Code: <br /><b>{{ emergencies.emergency_zip }}</b></td>
-				</table>
-			</td>
-		</tr>
-		{% endfor %}
+		{% if emergency %}
+			{% for emergencies in emergency %}
+			<tr>
+				<th style="text-align: left">Person to Contact in Case of Emergency: <b>{{ emergencies|upper }}</b></th>
+			</tr>
+			<tr>
+				<td style="padding: 0px;">
+					<table border="1">
+						<td>Contact No.: <b>{{ emergencies.prefix_emergency_contact }}</b></td>
+						<td>Relationship: <b>{{ emergencies.relationship|upper }}</b></td>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0px;">
+					<table border="1">
+						<td>Unit: <br /><b>{{ emergencies.emergency_unit|upper }}</b></td>
+						<td>Street: <br /><b>{{ emergencies.emergency_street|upper }}</b></td>
+						<td>Barangay: <br /><b>{{ emergencies.emergency_zip.barangay|upper }}</b></td>
+						<td>City/Municipality: <br /><b>{{ emergencies.emergency_zip.municipality|upper }}</b></td>
+						<td>Zip Code: <br /><b>{{ emergencies.emergency_zip }}</b></td>
+					</table>
+				</td>
+			</tr>
+			{% endfor %}
+		{% else %}
+			<tr>
+				<th style="text-align: left">Person to Contact in Case of Emergency: <b>{{ emergencies|upper }}</b></th>
+			</tr>
+			<tr>
+				<td style="padding: 0px;">
+					<table border="1">
+						<td>Contact No.: <b>{{ emergencies.prefix_emergency_contact }}</b></td>
+						<td>Relationship: <b>{{ emergencies.relationship|upper }}</b></td>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 0px;">
+					<table border="1">
+						<td>Unit: <br /><b>{{ emergencies.emergency_unit|upper }}</b></td>
+						<td>Street: <br /><b>{{ emergencies.emergency_street|upper }}</b></td>
+						<td>Barangay: <br /><b>{{ emergencies.emergency_zip.barangay|upper }}</b></td>
+						<td>City/Municipality: <br /><b>{{ emergencies.emergency_zip.municipality|upper }}</b></td>
+						<td>Zip Code: <br /><b>{{ emergencies.emergency_zip }}</b></td>
+					</table>
+				</td>
+			</tr>
+		{% endif %}
 	</table>
 	<br />
 	<table border="1">
@@ -286,8 +324,8 @@
 			<td>
 				Have you ever been denied an application for any visa or entry into another country?
 			</td>
-			<td align="center" style="padding-top:0px;">{% if visa_application.visa_application %}{{ visa_application.visa_application }}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
-			<td align="center" style="padding-top:0px;">{% if visa_application.visa_application %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if visa_application.visa_application %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{%else%}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if check %}{% if visa_application.visa_application %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{%else%}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
 		</tr>
 		{% if visa_application.visa_application %}
 		<tr>
@@ -298,8 +336,8 @@
 			<td>
 				Have you ever been denied or ordered to leave any country?
 			</td>
-			<td align="center" style="padding-top:0px;">{% if detained.detained %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
-			<td align="center" style="padding-top:0px;">{% if detained.detained %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if detained.detained %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{%else%}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if check %}{% if detained.detained %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{%else%}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
 		</tr>
 		{% if detained.detained %}
 		<tr>
@@ -310,8 +348,8 @@
 			<td>
 				Have you ever been subject of any disciplinary action during an employment contract?
 			</td>
-			<td align="center" style="padding-top:0px;">{% if disciplinary_action.disciplinary_action %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
-			<td align="center" style="padding-top:0px;">{% if disciplinary_action.disciplinary_action %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if disciplinary_action.disciplinary_action %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{%else%}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if check %}{% if disciplinary_action.disciplinary_action %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{%else%}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
 		</tr>
 		{% if disciplinary_action.disciplinary_action %}
 		<tr>
@@ -322,8 +360,8 @@
 			<td>
 				Have you ever been charged any offense before an administrative body, prosecutor's office or court of law?
 			</td>
-			<td align="center" style="padding-top:0px;">{% if charged_offense.charged_offense %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
-			<td align="center" style="padding-top:0px;">{% if charged_offense.charged_offense %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if charged_offense.charged_offense %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{%else%}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if check %}{% if charged_offense.charged_offense %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{%else%}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
 		</tr>
 		{% if charged_offense.charged_offense %}
 		<tr>
@@ -334,8 +372,8 @@
 			<td>
 				Have you ever been terminated for cause by any employer?
 			</td>
-			<td align="center" style="padding-top:0px;">{% if termination.termination %}<img src="{{ ressource.image.url|get64:check }}">{%else%}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
-			<td align="center" style="padding-top:0px;">{% if termination.termination %}<img src="{{ ressource.image.url|get64:uncheck }}">{%else%}<img src="{{ ressource.image.url|get64:check }}">{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if termination.termination %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{%else%}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% endif %}</td>
+			<td align="center" style="padding-top:0px;">{% if check %}{% if termination.termination %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{%else%}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td>
 		</tr>
 		{% if termination.termination %}
 		<tr>
@@ -352,7 +390,9 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>Passport No.: <b>{{ passport.passport }}</b></td>
-					<td>Expiry: <b>{{ passport.passport_expiry }}</b></td>
+					<td>Issued: <b>{{ passport.none_date_issued }}</b></td>
+					<td>Expiry: <b>{{ passport.none_expiry }}</b></td>
+					<td>Place Issued: <b>{{ passport.passport_place_issued|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -360,7 +400,9 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>SBook No.: <b>{{ sbook.sbook }}</b></td>
-					<td>Expiry: <b>{{ sbook.sbook_expiry }}</b></td>
+					<td>Issued: <b>{{ sbook.none_date_issued }}</b></td>
+					<td>Expiry: <b>{{ sbook.none_expiry }}</b></td>
+					<td>Place Issued: <b>{{ sbook.sbook_place_issued|upper }}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -368,7 +410,8 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>COC/COE: <b>{{ coc.coc }}</b></td>
-					<td>Expiry: <b>{{ coc.coc_expiry }}</b></td>
+					<td>Issued: <b>{{ coc.none_date_issued }}</b></td>
+					<td>Expiry: <b>{{ coc.none_expiry }}</b></td>
 					<td>Rank: <b>{{ coc.coc_rank.coc_rank }}</b></td>
 				</table>
 			</td>
@@ -377,6 +420,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>License: <b>{{ license.license }}</b></td>
+					<td>Issued: <b>{{ license.none_date_issued }}</b></td>
 					<td>Rank: <b>{{ license.license_rank }}</b></td>
 				</table>
 			</td>
@@ -385,6 +429,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>SRC: <b>{{ src.src }}</b></td>
+					<td>Issued: <b>{{ src.none_date_issued }}</b></td>
 					<td>Rank: <b>{{ src.src_rank }}</b></td>
 				</table>
 			</td>
@@ -393,23 +438,36 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td>GOC: <b>{{ goc.goc }}</b></td>
+					<td>Issued: <b>{{ goc.none_date_issued }}</b></td>
 					<td>Expiry: <b>{{ goc.goc_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
+				<table border="1">	
+					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.usvisa_type %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if us_visa.usvisa_type %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
+					<td>Place Issued: <b>{{ us_visa.us_visa_place_issued|upper }}</b></td>
+					<td>Expiry: <b>{{ us_visa.none_expiry }}</b></td>
+				</table>
+			</td>
+		</tr>
+		<tr>	
+			<td style="padding: 0px;">
 				<table border="1">
-					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if us_visa.usvisa_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
-					<td>Expiry: <b>{{ us_visa.us_visa_expiry }}</b></td>
+					<td style="padding-top:0px" colspan="2">Schengen Visa (Type C) {% if schengen_visa.schengen_type %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if schengen_visa.schengen_type %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
+					<td>Place Issued: <b>{{ schengen_visa.schengen_visa_place_issued|upper }}</b></td>
+					<td>Expiry: <b>{{ schengen_visa.none_expiry }}</b></td>
 				</table>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td style="padding-top:0px">Schengen Visa (Type C) {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:check }}">{% else %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} Yes {% if schengen_visa.schengen_type %}<img src="{{ ressource.image.url|get64:uncheck }}">{% else %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} No</td>
-					<td>Expiry: <b>{{ schengen_visa.schengen_visa_expiry }}</b></td>
+					<td>Yellow Fever: <b>{{yellow_fever.yellow_fever}}</b></td>
+					<td>Place Issue: <b>{{yellow_fever.yellow_fever_place_issued|upper}}</b></td>
+					<td>Date Issued: <b>{{yellow_fever.none_date_issued}}</b></td>
+					<td>Expiry: <b>{{yellow_fever.none_expiry}}</b></td>
 				</table>
 			</td>
 		</tr>
@@ -425,19 +483,52 @@
 	<br /><br /><br /><br /><br /><br /><br /><br />
 	<table border="1">
 		<tr>
-			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES (<i>{{department}}</i>) </th>
+			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES {% if department %}(<i>{{department}}</i>){% endif %} </th>
 		</tr>
 		{{ certificates_html | safe }}
 		</tr>
 	</table>
-	<br /><br /><br /><br /><br /><br />
+	<br />{% if essay %}<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />{% endif %}
 	<table border="1">
 		<tr>
-			<th align="left">ESSAY <i>({{ count_words }}) words</i></th>
+			<th align="left">ESSAY {% if count_words %}<i>({{ count_words }}) words</i>{% endif %} </th>
 		</tr>
+		{% if appform.essay %}
 		<tr>
 			<td><b>{{ appform.essay }}</b></td>
 		</tr>
+		{% else %}
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		<tr>
+			<td> &nbsp; </td>
+		</tr>
+		{% endif %}
 	</table>
 	<br />
 	<table border="1">
@@ -457,7 +548,7 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<td valign="top"><b>Printed Name:</b> <br ><b>{{ user_profile.first_name|upper }} {{ user_profile.middle_name|upper }} {{ user_profile.last_name|upper }}</b></td>
-					<td style="padding-bottom:5px;" colspan="2"><b>Signature:</b> <br ><img src="{{ ressource.image.url|get64:signature }}"></td>
+					<td style="padding-bottom:5px;" colspan="2"><b>Signature:</b> <br >{% if signature %} <img src="{{ ressource.image.url|get64:signature }}"> {% endif %}</td>
 					<td valign="top"><b>Date:</b> <br /> <b>{{ appform.application_date }}</b></td>
 				</table>
 			</td>

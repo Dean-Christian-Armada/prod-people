@@ -246,6 +246,22 @@ input.date {
     background-repeat: no-repeat;
     background-position: right
 }
+input.facebook_logo {
+    background-image: url(/static/img/facebook_input_sign.png);
+    background-repeat: no-repeat;
+    background-position: right
+}
+input.twitter_logo {
+    background-image: url(/static/img/twitter_input_sign.png);
+    background-repeat: no-repeat;
+    background-position: right
+}
+input.instagram_logo {
+    background-image: url(/static/img/instagram_input_sign.png);
+    background-repeat: no-repeat;
+    background-position: right
+}
+
 select.ui-datepicker-year,
 select.ui-datepicker-month {
     color: #2e76b8!important

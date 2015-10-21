@@ -700,6 +700,7 @@ class FlagDocumentsDetailed(models.Model):
 	license_number = models.PositiveIntegerField(null = True, blank=True)
 	license_expiry = models.DateField(null=True, blank=True)
 	flags_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
+	flags_boolean = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.flags_documents.user.first_name, self.flags_documents.user.middle_name, self.flags_documents.user.last_name)
@@ -736,6 +737,7 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	expiry = models.DateField(default=None, null=True, blank=True)
 	place_trained = models.ForeignKey(TrainingCenter, default=null_default_foreign_key_value(TrainingCenter, 'training_center', ''))
 	training_place_issued = models.ForeignKey(TrainingPlaceIssued, default=null_default_foreign_key_value(TrainingPlaceIssued, 'training_place', ''))
+	trainings_certificates_boolean = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.trainings_certificate_documents.user.first_name, self.trainings_certificate_documents.user.middle_name, self.trainings_certificate_documents.user.last_name)
@@ -880,10 +882,13 @@ class Reference(models.Model):
 	def __unicode__(self):
 		return unicode(self.verified_by)
 
+# Same as remarks
 class Evaluation(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	# evalutation = models.ForeignKey(Evaluations, default=None)
 	evaluation = models.TextField(null=True, blank=True, default=None)
+	# evaluated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=None)
+	evaluated_on = models.DateField(auto_now_add=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 

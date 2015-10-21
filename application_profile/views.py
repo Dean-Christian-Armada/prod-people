@@ -47,6 +47,8 @@ def index(request):
 	age = set()
 	vessel_type = set()
 	rank = set()
+	barangay = set()
+	municipality = set()
 	params = {}
 	params2 = {}
 
@@ -70,6 +72,16 @@ def index(request):
 		if 'rank' in request.GET:
 			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
+		# if 'barangay' in request.GET:
+		# 	_barangay = Barangay.objects.get(barangay__iexact=request.GET['barangay'])
+		# 	_barangay = Zip.objects.filter(barangay=_barangay)
+		# 	_barangay = CurrentAddress.objects.filter(current_zip=_barangay)
+			params['current_address__in'] = _barangay
+		if 'municipality' in request.GET:
+			_municipality = Municipality.objects.get(municipality__iexact=request.GET['municipality'])
+			_municipality = Zip.objects.filter(municipality=_municipality)
+			_municipality = CurrentAddress.objects.filter(current_zip__in=_municipality)
+			params['current_address__in'] = _municipality
 		if 'us_visa' in request.GET:
 			us_choice_visa = request.GET['us_visa']
 			# To enable False boolean on the variable
@@ -113,6 +125,8 @@ def index(request):
 	for x, y, z, xx in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
+		barangay.add(y.current_address.current_zip.barangay)
+		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
 
 	
@@ -127,6 +141,8 @@ def index(request):
 		context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
+		context_dict['barangay'] = sorted(barangay)
+		context_dict['municipality'] = sorted(municipality)
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
@@ -250,10 +266,26 @@ def profile(request, id):
 				pass
 			print evaluation_form.errors
 
+		# START, script to change the status and code 
 		if request.GET and 'status' in request.GET:
-			print request.GET
 			_status = request.GET['status']
 			_status = Status.objects.get(id=_status)
+			#  START, Script to update the code
+			first_name = user_profile.first_name[0].lower()
+			middle_name = user_profile.middle_name[0].lower()
+			last_name = user_profile.last_name[0].lower()
+			letter = "a"
+			first_three_letter_name = "%s%s%s" % (last_name, first_name, middle_name)
+			code = UserProfile.objects.filter(code__istartswith=first_three_letter_name)
+			initial_code = first_three_letter_name+letter
+			codes = [x.code for x in code]
+			while initial_code in codes:
+			 letter = chr(ord(letter)+1)
+			 initial_code = first_three_letter_name[:3]+letter
+			 initial_code
+			user_profile.code=initial_code
+			user_profile.save()
+			#  END, Script to update the code
 			application_form.status = _status
 			application_form.save()
 			mariners_profile.status = 1
@@ -261,6 +293,7 @@ def profile(request, id):
 			mariners_profile.save()
 			if str(application_form.status) == 'Passed':
 				return HttpResponseRedirect('/mariners-profile/'+id)
+		# END, script to change the status and code 
 
 		status = StatusForm(initial={'status':str(application_form.status.id)})
 		
@@ -398,7 +431,7 @@ def pdf(request, id):
 		for certificate in certificates:
 			_certificates.add(certificate.trainings_certificates)
 
-		certificates_all = TrainingCertificates.objects.filter()
+		certificates_all = TrainingCertificates.objects.filter(departments=department)
 		for certificates in certificates_all:
 			_certificates_all.add(certificates.trainings_certificates)
 		certificates_all_by_3 = zip(*(iter(_certificates_all),) * 3)

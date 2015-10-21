@@ -1618,7 +1618,7 @@ th{
                                       {{ flag_forms.flags_documents }}
                                       {{ flag_forms.id }}
                                       <tr>
-                                        <td>{{ flag_forms.flags|attr:"style: display:none" }}{{ flag_forms.flags.value|get_data:'Flags' }}</td>
+                                        <td>{{ flag_forms.flags|attr:"style: display:none" }}<strong class="input-label">{{ flag_forms.flags.value|get_data:'Flags' }}</strong></td>
                                         <td>{{ flag_forms.sbook_number|add_class:"form-control input-form" }}</td>
                                         <td>{{ flag_forms.sbook_expiry|add_class:"form-control input-form date" }}</td>
                                         <td>{{ flag_forms.license_number|add_class:"form-control input-form" }}</td>

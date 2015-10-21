@@ -13,6 +13,7 @@ from django.core import serializers
 from easy_pdf.rendering import render_to_pdf_response
 
 from . forms import *
+from . templatetags.pdf_image import get64
 
 import os, shutil, datetime, random, string, urllib, ast
 
@@ -546,15 +547,18 @@ def fleet_application_form(request, principal, id):
 @login_required()
 def manship_form(request, id):
 	user_profile = UserProfile.objects.get(id=id)
+	mariners_profile = MarinersProfile.objects.get(user=user_profile)
 
 	template = "manship/index.html"
 	context_dict = {}
 	context_dict['user_profile'] = user_profile
+	context_dict['mariners_profile'] = mariners_profile
 	return render(request, template, context_dict)
 
 @login_required()
-def pdf_complete_form(request, id):
+def pdf_complete_manship_form(request, id):
 	if id:
+		from application_form.models import ApplicationForm
 		flags_html = ""
 		certificates_html = ""
 
@@ -576,28 +580,28 @@ def pdf_complete_form(request, id):
 		td_count_flags_and_certificates_and_per_row = range(3)
 
 		user_profile = UserProfile.objects.get(id=id)
-		personal_data = ApplicationFormPersonalData.objects.get(name=id)
+		personal_data = PersonalData.objects.get(name=id)
 		try:
-			spouse = ApplicationFormSpouse.objects.get(user=id)
+			spouse = Spouse.objects.get(user=id)
 		except:
 			spouse = ''
-		college = ApplicationFormCollege.objects.filter(user=id)
-		highschool = ApplicationFormHighSchool.objects.get(user=id)
-		emergency_contact = ApplicationFormEmergencyContact.objects.filter(user=id)
-		visa_application = ApplicationFormVisaApplication.objects.get(user=id)
-		detained = ApplicationFormDetained.objects.get(user=id)
-		disciplinary_action = ApplicationFormDisciplinaryAction.objects.get(user=id)
-		charged_offense = ApplicationFormChargedOffense.objects.get(user=id)
-		termination = ApplicationFormTermination.objects.get(user=id)
-		passport = ApplicationFormPassport.objects.get(user=id)
-		sbook = ApplicationFormSbook.objects.get(user=id)
-		coc = ApplicationFormCOC.objects.get(user=id)
-		license = ApplicationFormLicense.objects.get(user=id)
-		src = ApplicationFormSRC.objects.get(user=id)
-		goc = ApplicationFormGOC.objects.get(user=id)
-		us_visa = ApplicationFormUSVisa.objects.get(user=id)
-		schengen_visa = ApplicationFormSchengenVisa.objects.get(user=id)
-		yellow_fever = ApplicationFormYellowFever.objects.get(user=id)
+		college = College.objects.filter(user=id)
+		highschool = HighSchool.objects.get(user=id)
+		emergency_contact = EmergencyContact.objects.filter(user=id)
+		visa_application = VisaApplication.objects.get(user=id)
+		detained = Detained.objects.get(user=id)
+		disciplinary_action = DisciplinaryAction.objects.get(user=id)
+		charged_offense = ChargedOffense.objects.get(user=id)
+		termination = Termination.objects.get(user=id)
+		passport = Passport.objects.get(user=id)
+		sbook = Sbook.objects.get(user=id)
+		coc = COC.objects.get(user=id)
+		license = License.objects.get(user=id)
+		src = SRC.objects.get(user=id)
+		goc = GOC.objects.get(user=id)
+		us_visa = USVisa.objects.get(user=id)
+		schengen_visa = SchengenVisa.objects.get(user=id)
+		yellow_fever = YellowFever.objects.get(user=id)
 
 		# Variables for application form object
 		application_form = ApplicationForm.objects.get(user=id)
@@ -609,13 +613,13 @@ def pdf_complete_form(request, id):
 		department = application_form.position_applied.department
 
 
-		flags = ApplicationFormFlagDocuments.objects.get(user=user_profile)
-		certificates_documents = ApplicationFormTrainingCertificateDocuments.objects.get(user=user_profile)
+		flag_documents = FlagDocuments.objects.get(user=user_profile)
+		flags = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents).filter(~Q(sbook_number=None))
+		certificates_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+		certificates = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=certificates_documents).filter(~Q(number=None))
 
-		
-		flags = flags.flags.filter()
 		for flag in flags:
-			_flags.add(flag.flags)
+			_flags.add(flag.flags.flags)
 		
 		flags_all = Flags.objects.filter(company_standard=1)
 		for flags in flags_all:
@@ -633,12 +637,10 @@ def pdf_complete_form(request, id):
 				flags_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, flags_all_by_3[k-1][l-1])
 			flags_html += '</table></td></tr>' 
 
-
-		certificates = certificates_documents.trainings_certificates.filter(departments=department)
 		for certificate in certificates:
-			_certificates.add(certificate.trainings_certificates)
+			_certificates.add(certificate.trainings_certificates.trainings_certificates)
 
-		certificates_all = TrainingCertificates.objects.filter()
+		certificates_all = TrainingCertificates.objects.filter(departments=department)
 		for certificates in certificates_all:
 			_certificates_all.add(certificates.trainings_certificates)
 		certificates_all_by_3 = zip(*(iter(_certificates_all),) * 3)
@@ -694,6 +696,67 @@ def pdf_complete_form(request, id):
 	else:
 		raise Http404("System Error.")
 
+@login_required
+def blank_pdf_complete_manship_form(request, id):
+	from application_form.models import ApplicationForm
+	_flags_all = set()
+	_certificates_all = set()
+	flags_html = ""
+	certificates_html = ""
+	td_count_flags_and_certificates_and_per_row = range(3)
+
+	domain = request.scheme
+	domain += "://"
+	# returns domain name
+	domain += request.META["HTTP_HOST"]
+	logo = domain+"/static/img/small_logo.png"
+	picture_container = domain+"/static/img/picture-container.jpg"
+	uncheck = domain+"/static/img/uncheck.jpg"
+	partner = "Spouse"
+
+	
+	flags_all = Flags.objects.filter(company_standard=1)
+	for flags in flags_all:
+		_flags_all.add(flags.flags)
+	flags_all_by_3 = zip(*(iter(_flags_all),) * 3)
+	count_flags_all_by_3 = range(len(flags_all_by_3))
+	
+	# Script for parsing and returning a multi-dimensioned array of the flags filter in a 3x3 matrix
+	for k in count_flags_all_by_3:
+		flags_html += '<tr><td style="padding: 0px;"><table border="1">'
+		for l in td_count_flags_and_certificates_and_per_row:
+			checkbox = get64('', uncheck)
+			flags_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, flags_all_by_3[k-1][l-1])
+		flags_html += '</table></td></tr>' 
+
+	certificates_all = TrainingCertificates.objects.filter()
+	for certificates in certificates_all:
+		_certificates_all.add(certificates.trainings_certificates)
+	certificates_all_by_3 = zip(*(iter(_certificates_all),) * 3)
+	count_certificates_all_by_3 = range(len(certificates_all_by_3))
+
+	# Script for parsing and returning a multi-dimensioned array of the certificates filtered with department in a 3x3 matrix
+	for k in count_certificates_all_by_3:
+		certificates_html += '<tr><td style="padding: 0px;"><table border="1">'
+		for l in td_count_flags_and_certificates_and_per_row:
+			checkbox = get64('', uncheck)
+			certificates_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, certificates_all_by_3[k-1][l-1])
+		certificates_html += '</table></td></tr>' 
+
+
+	template = "application_form/pdf-report-complete.html"
+
+	context_dict = {}
+	context_dict['partner'] = partner
+	context_dict['logo'] = logo
+	context_dict['picture'] = ""
+	context_dict['picture_container'] = picture_container
+	context_dict['check'] = ""
+	context_dict['uncheck'] = uncheck
+	context_dict['signature'] = ""
+	context_dict['flags_html'] = flags_html
+	context_dict['certificates_html'] = certificates_html
+	return render_to_pdf_response(request, template, context_dict)
 
 @login_required
 def pdf_fleet_application_form(request, principal, id):
@@ -1104,3 +1167,22 @@ def pdf_fleet_application_form(request, principal, id):
 
 		return render_to_pdf_response(request, template, context_dict)
 		# return HttpResponse(template)
+
+@login_required
+def blank_pdf_fleet_application_form(request, principal, id):
+	domain = request.scheme
+	domain += "://"
+	# returns domain name
+	domain += request.META["HTTP_HOST"]
+	logo = domain+"/static/img/pdf-logos/%s.png" % principal
+	picture_container = domain+"/static/img/picture-container.jpg"
+	uncheck = domain+"/static/img/uncheck.jpg"
+	template = "principals-application-form/pdf/%s.html" % (principal)
+	context_dict = {}
+	context_dict['logo'] = logo
+	context_dict['picture'] = ""
+	context_dict['picture_container'] = picture_container
+	context_dict['check'] = ""
+	context_dict['uncheck'] = uncheck
+	context_dict['signature'] = ""
+	return render_to_pdf_response(request, template, context_dict)

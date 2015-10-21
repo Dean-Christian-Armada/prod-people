@@ -80,13 +80,13 @@
             <h3 id="step-13" style="color: #02be9b;">Social Media</h3>
             <div class="form-group">
               <div class="col-md-4">
-                {{ personal_data.facebook_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Email" }}
+                {{ personal_data.facebook_email|add_class:"form-control facebook_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Email" }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.instagram_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Email" }}
+                {{ personal_data.instagram_email|add_class:"form-control instagram_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Email" }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.twitter_email|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Email" }}
+                {{ personal_data.twitter_email|add_class:"form-control twitter_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Email" }}
               </div>
             </div>
 
@@ -696,7 +696,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="signatureLabel">Signature</h4>
+        <h4 class="modal-title" id="signatureLabel">
+          Signature
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </h4>
+
       </div>
       <div class="modal-body" style="text-align: center">
         {{ application.signature }}

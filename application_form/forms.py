@@ -649,7 +649,7 @@ class FlagForm(forms.ModelForm):
 		flags = value['flags']
 		# looping the flag objects to be inserted on the FlagDocumentsDetailed model with the flagdocuments object
 		for flag_values in flags:
-			x = FlagDocumentsDetailed.objects.get_or_create(flags_documents=flagdocuments, flags=flag_values)
+			x = FlagDocumentsDetailed.objects.get_or_create(flags_documents=flagdocuments, flags=flag_values, flags_boolean=True)
 
 # used for the dyanmic certificates with AJAX in the application form
 class DynamicTrainingCertificateForm(forms.Form):
@@ -687,7 +687,7 @@ class TrainingCertificateForm(forms.ModelForm):
 			place_trained = TrainingCenter.objects.get(training_center='')
 		trainings_certificates = value['trainings_certificates']
 		for trainings_certificates_values in trainings_certificates:
-			x = TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainingcertificatedocuments, trainings_certificates=trainings_certificates_values, place_trained=place_trained)
+			x = TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainingcertificatedocuments, trainings_certificates=trainings_certificates_values, place_trained=place_trained, trainings_certificates_boolean=True)
 
 class SeaServiceForm(forms.ModelForm):
 	vessel_name = forms.CharField()

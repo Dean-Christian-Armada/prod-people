@@ -232,6 +232,48 @@ tr:hover{
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
+
+.sidebar-search{
+  padding: 30px;
+}
+
+.input-group-addon
+{
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: bold;
+   
+}
+.input-group
+{
+  margin-top: 10px;
+}
+.input-form{
+  border: 2px solid #02be9b;
+  border-radius: 0px;
+}
+.btn-blue {
+  color: #fff;
+    box-shadow:0 0 0 3px #428bca 
+  inset, 0 0 0 1px rgba(255,255,255,0.15) 
+  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
+    background-color:#428bca;
+}
+.btn-blue:hover {
+  color: #fff !important;
+    box-shadow:0 0 0 3px #428bca 
+  inset, 0 0 0 1px rgba(255,255,255,0.15) 
+  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
+    background-color:#428bca;
+}
+.btn-blue:focus {
+  color: #fff !important;
+    box-shadow:0 0 0 3px #428bca 
+  inset, 0 0 0 1px rgba(255,255,255,0.15) 
+  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
+    background-color:#428bca;
+}
 </style>
 <body>
 <div id="wrapper">
@@ -254,7 +296,7 @@ tr:hover{
 							<ul class="nav navbar-nav navbar-right">
         								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{{ name }} ({{ request.user }})</a></li>
         								<li class="dropdown">
-<a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8;"><img src="{% static 'img/mrad.pix' %}" width="30" height="30"> <span class="caret"></span></a>
+<a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8; padding-top:0px;"><img src="{% static 'img/mrad.pix' %}" width="50" height="50"> <span class="caret"></span></a>
 							<ul class="dropdown-menu navmenu ">
             							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
             							<li><a href="#">Setting</a></li>
@@ -269,111 +311,116 @@ tr:hover{
 
 <div class="row">
 	<div class="col-sm-3 col-md-2 sidebar">
-		    <ul class="nav nav-sidebar">
-            	<li class="active"><a href="#">Applicant Profiles<span class="sr-only">(current)</span></a></li>
-            	<!--<li><a href="#">Payroll</a></li>-->
-            
-            
-            
-            </ul>
+		    <div class="sidebar-search">
+            <form method="GET">
+              <div class="input-group">
+                  <span class="input-group-btn">
+                   <button class="btn btn-blue btn3" type="button" style="margin-top: -2px;">Search</button>
+              </span>
+                  {{ search.search }}
+              </div>
+            </form>
+                 
+<div class="input-group"><label class="input-label" style="padding-top: 10px; color: #02be9b;">Filter</label> &nbsp;<a href="{% url 'application_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></div>
+                
+              <form method="POST" id="myform" action="{% url 'application_profiles' %}">
+                          {% csrf_token %}
+              <div class="input-group">
+                <span class="input-group-addon input-label" style="color: #2e76b8;">Rank:</span>
+                <select name="rank" class="form-control">
+                  <option>{% if request.GET.rank %}{{ request.GET.rank }}{% endif %}</option>
+                  {% if not request.GET.rank %}
+                    {% for ranks in rank %}
+                      <option>
+                        {{ ranks|upper }}
+                      </option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div>
+                 
+                
+              <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon input-label" style="color: #2e76b8;">Vessel Type:</span>
+                <select name="vessel_type" class="form-control">
+                  <option>{% if request.GET.vessel_type %}{{ request.GET.vessel_type }}{% endif %}</option>
+                  {% if not request.GET.vessel_type %}
+                    {% for vessel_types in vessel_type %}
+                      <option>
+                        {{ vessel_types|upper }}
+                      </option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div>
+           
+                 
+                 
+              <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon input-label" style="color: #2e76b8;">US Visa:</span>
+                <select name="us_visa" class="form-control">
+                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
+                  {% if not request.GET.us_visa %}
+                    {% for choices in us_visa reversed %}
+                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
+                      }
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div>
+           
+              <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon input-label" style="color:#2e76b8;">Schengen Visa:</span>
+                <select name="schengen_visa" class="form-control">
+                 <option>{% if request.GET.schengen_visa %}{% if request.GET.schengen_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
+                  {% if not request.GET.schengen_visa %}
+                    {% for choices in schengen_visa reversed %}
+                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
+                      }
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div>
+
+            <!-- <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon input-label" style="color: #2e76b8;">Barangay:</span>
+                <select name="barangay" class="form-control">
+                  <option>{% if request.GET.barangay %}{{ request.GET.barangay }}{% endif %}</option>
+                  {% if not request.GET.barangay %}
+                    {% for barangays in barangay %}
+                      <option>
+                        {{ barangays|upper }}
+                      </option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div> -->
+
+             <div class="input-group" style="margin-top: 10px;">
+                <span class="input-group-addon input-label" style="color: #2e76b8;">Municipality:</span>
+                <select name="municipality" class="form-control">
+                  <option>{% if request.GET.municipality %}{{ request.GET.municipality }}{% endif %}</option>
+                  {% if not request.GET.municipality %}
+                    {% for municipalitys in municipality %}
+                      <option>
+                        {{ municipalitys|upper }}
+                      </option>
+                    {% endfor %}
+                  {% endif %}
+                </select>
+            </div>
+
+<!--             <div class="input-group" style="margin-top: 10px;">
+            </div> -->
+           
+                
+  </div>
+
     
     </div><!--End of Sidebar-->
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-		  <div class="page-header"><h1>APPLICANT Profiles</h1></div>
           	<div class="panel panel-msmi-blue">
-            	<div class="panel-heading"><strong>Filter</strong></div>
-                	<div class="panel-body panel-body-blue">
-                    	<div class="row">
-                        	<div class="col-md-12">
-                            	<p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i><a href="{% url 'application_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></p>
-                            </div><!--End of Col 12-->
-                         </div><!--End of Row-->
-                         <form method="GET">
-                            <div class="form-group">
-                             <div class="row">
-                              <div class="col-md-3">
-                                <div class="input-group">
-                                <span class="input-group-btn">
-                                  <button class="btn btn-default search-btn" name="submit"><span class="glyphicon glyphicon-search" style="color: #fff;"></span></button>
-                                </span>
-                                {{ search.search }}
-                                </div><!-- /input-group -->
-                              </div>
-                             </div>
-                           </div>
-                         </form>
-                         <form method="POST" id="myform" action="{% url 'application_profiles' %}">
-                          {% csrf_token %}
-                         <div class="row">
-                         	<div class="form-inline">
-                            <div class="col-md-3">
-                            	<label>Rank:&nbsp;</label>
-                               <select name="rank" class="form-control">
-                                  <option>{% if request.GET.rank %}{{ request.GET.rank }}{% endif %}</option>
-                                  {% if not request.GET.rank %}
-                                    {% for ranks in rank %}
-                                      <option>
-                                        {{ ranks|upper }}
-                                      </option>
-                                    {% endfor %}
-                                  {% endif %}
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                            <label>Vessel Type:&nbsp;</label>
-                                <select name="vessel_type" class="form-control">
-                                  <option>{% if request.GET.vessel_type %}{{ request.GET.vessel_type }}{% endif %}</option>
-                                  {% if not request.GET.vessel_type %}
-                                    {% for vessel_types in vessel_type %}
-                                      <option>
-                                        {{ vessel_types|upper }}
-                                      </option>
-                                    {% endfor %}
-                                  {% endif %}
-                                </select>
-                            </div>
-<!--                             <div class="col-md-2">
-                            <label>Age:&nbsp;</label>
-                                <select name="age" class="form-control">
-                                 <option>{% if request.GET.age %}{{ request.GET.age }}{% endif %}</option>
-                                  {% if not request.GET.age %}
-                                    {% for ages in age %}
-                                      <option>
-                                        {{ ages }}
-                                      </option>
-                                    {% endfor %}
-                                  {% endif %}
-                                </select>
-                            </div> -->
-                            <div class="col-md-2">
-                            <label>US Visa:&nbsp;</label>
-                                <select name="us_visa" class="form-control">
-                                 <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
-                                  {% if not request.GET.us_visa %}
-                                    {% for choices in us_visa reversed %}
-                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
-                                      }
-                                    {% endfor %}
-                                  {% endif %}
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                            <label>Schengen Visa:&nbsp;</label>
-                                <select name="schengen_visa" class="form-control">
-                                 <option>{% if request.GET.schengen_visa %}{% if request.GET.schengen_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
-                                  {% if not request.GET.schengen_visa %}
-                                    {% for choices in schengen_visa reversed %}
-                                      <option>{% if choices == True %}YES{% else %}NO{% endif %}</option>
-                                      }
-                                    {% endfor %}
-                                  {% endif %}
-                                </select>
-                            </div>
-                          </div><!--Form Inline-->
-                        </form>
-                      </div><!--End of Row-->
-               		</div><!--End of Panel Body-->
           </div>
            <!-- <form method="GET"> -->
 <div class="panel panel-msmi-green">
@@ -409,6 +456,9 @@ tr:hover{
                         <th>Landline No.</th>
                         <th>US Visa Expiry</th>
                         <th>Schengen Visa Expiry</th>
+                        <th>Barangay</th>
+                        <th>Municipality</th>
+                        <th>Zip</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -424,6 +474,9 @@ tr:hover{
                             <td>{{ personal_data.landline_1 }}</td>
                             <td>{% if us_visa.us_visa_expiry == None %}NO VISA{% else %}{{ us_visa.us_visa_expiry }}{% endif %}</td>
                             <td>{% if schengen_visa.schengen_visa_expiry == None %}NO VISA{% else %}{{ schengen_visa.schengen_visa_expiry }}{% endif %}</td>
+                            <td>{{ personal_data.current_address.current_zip.barangay|upper }}</td>
+                            <td>{{ personal_data.current_address.current_zip.municipality|upper }}</td>
+                            <td>{{ personal_data.current_address.current_zip }}</td>
                           </tr>
                         {% endfor %}
                       {% else %}

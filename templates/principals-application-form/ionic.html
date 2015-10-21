@@ -144,7 +144,7 @@
 	<div id="header">
 		<div class="container">
         	<p class="pull-left"><img src="{% static 'img/application-form-logos/ionic.png' %}" width="150" height="150"></p>
-        	<h1 style="padding-left:170px; margin-top: 40px;"><strong>IONIC Application Form</strong></h1>
+        	<h1 style="padding-left:170px; margin-top: 40px;"><strong>IONIC Forms</strong></h1>
         	<h4 style="padding-left:170px;">General Mariner Information Guide</h4>
 		</div><!---End of Container-->
 	</div><!--End of Header-->
@@ -169,7 +169,7 @@
                 			<a href="{% url 'pdf_fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"><strong> Application Form</strong></span></a>
                             </div><!--End of Col 4-->
                             <div class="col-md-3">
-                      <a href="#" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"><strong> Blank Application Form</strong></span></a>
+                      <a href="{% url 'blank_pdf_fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"><strong> Blank Application Form</strong></span></a>
                             </div><!--End of Col 4-->
                             
                            

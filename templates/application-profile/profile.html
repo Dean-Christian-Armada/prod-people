@@ -1259,7 +1259,8 @@
           </div>
       </div><!--End of Input Group-->
       <div class="input-group" style="width:100%; text-align: center;">
-                <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print</strong></a>
+                <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Form</strong></a>
+                <a href="{% url 'pdf_sea_services' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Sea Service</strong></a>
                <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
             </div><!--End of Input Group-->
             <br />

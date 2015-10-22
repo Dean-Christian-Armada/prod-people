@@ -76,7 +76,7 @@ def index(request):
 		# 	_barangay = Barangay.objects.get(barangay__iexact=request.GET['barangay'])
 		# 	_barangay = Zip.objects.filter(barangay=_barangay)
 		# 	_barangay = CurrentAddress.objects.filter(current_zip=_barangay)
-			params['current_address__in'] = _barangay
+			# params['current_address__in'] = _barangay
 		if 'municipality' in request.GET:
 			_municipality = Municipality.objects.get(municipality__iexact=request.GET['municipality'])
 			_municipality = Zip.objects.filter(municipality=_municipality)
@@ -125,7 +125,7 @@ def index(request):
 	for x, y, z, xx in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
-		barangay.add(y.current_address.current_zip.barangay)
+		# barangay.add(y.current_address.current_zip.barangay)
 		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
 
@@ -136,12 +136,13 @@ def index(request):
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['name'] = name
+		context_dict['nick_name'] = user.nick_name
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
 		context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
-		context_dict['barangay'] = sorted(barangay)
+		# context_dict['barangay'] = sorted(barangay)
 		context_dict['municipality'] = sorted(municipality)
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])

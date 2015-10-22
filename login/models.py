@@ -20,6 +20,14 @@ def default_user_level():
 	user_level = Userlevel.objects.get(userlevel=_user_level)
 	return user_level.id
 
+def default_user_user_level():
+	default = 'default'
+	user_level = Userlevel.objects.get_or_create(userlevel=default)
+	user_level = Userlevel.objects.get(userlevel=default)
+	user_profile = UserProfile.objects.get_or_create(first_name=default, middle_name=default, last_name=default )
+	user_profile = UserProfile.objects.get(first_name=default, middle_name=default, last_name=default )
+	return user_profile.id
+
 class Userlevel(models.Model):
 	userlevel = models.CharField(max_length=50, unique=True, null=True, )
 	def __unicode__(self):

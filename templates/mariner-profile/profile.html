@@ -283,7 +283,10 @@ th{
         </div>
       </div>
 
-      {% if histories != '' %}
+      {{ mariner_status_form.updated_by|attr:"style: display:none" }}
+      {{ mariner_status_form.user|attr:"style: display:none" }}
+
+      {% if histories %}
         <a data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false" style="color: #fff; text-decoration: none;"><p  style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>History Status</strong></p></a>
         <div class ="panel-collapse collapse" aria-expanded="false" id="history-status">
           <div class="panel-body">
@@ -293,7 +296,7 @@ th{
                   <thead class="thead">
                     <tr>
                       <!-- <th></th> -->
-                      <th>Updayed By</th>
+                      <th>Updated By</th>
                       <th>Updated On</th>
                       <th>Principal</th>
                       <th>Status</th>
@@ -307,7 +310,7 @@ th{
                     {% for history in histories %}
                       <tr>
                         <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
-                        <td>mrad</td>
+                        <td>{% if history.updated_by.code %} {{ history.updated_by.code }} {% else %} {{ history.updated_by }} {% endif %}</td>
                         <td>{{ history.updated_on }}</td>
                         <td>{{ history.mariner_principal }}</td>
                         <td>{{ history.mariner_status }}</td>
@@ -834,6 +837,8 @@ th{
                             <div class="form-group">
   <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>College</strong></p>
   <div class="panel-body">
+                  {{spouse_form.user|attr:"style: display:none"}}
+                  {{ college_form.management_form }}
                   {% for college in college_form %}
                   {{college.id}}
                   {{college.user}}
@@ -889,7 +894,7 @@ th{
                               </div><!--End of Col 3-->
                         </div><!--End of Row--> 
                         </div>
-  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Highschool</strong><button class="btn btn-primary update-mariner" style="margin-left: 20px;">UPDATE</button></p>                            <div class="panel-body">
+  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Highschool</strong></p>                            <div class="panel-body">
                               <div class="row">
                               <div class="col-md-8">
                         <div class="input-group">
@@ -946,6 +951,7 @@ th{
                   <div id="detail5" class="panel-collapse collapse" aria-expanded="false">               
                     <div class="panel-body"> 
                           <div class="form-group">
+  {{ land_employment_form.management_form }}                        
   {% for land_employment_forms in land_employment_form %}
   {{ land_employment_forms.id }}
   {{ land_employment_forms.user }}                 
@@ -977,7 +983,7 @@ th{
                               <div class="col-md-3">
                         <div class="input-group">
                     <label class="input-group-addon input-label">Position:</label>
-                    {{ land_employment_forms.land_position|add_class:"form-control input-form" }}
+                    <input class=" autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/LandPositionAutocomplete/" data-widget-bootstrap="text" id="id_landemployment_set-{{ forloop.counter0 }}-land_position" name="landemployment_set-{{ forloop.counter0 }}-land_position" placeholder="Type some text to search in this autocomplete" type="text" value="{{ land_employment_forms.land_position.value|get_data:'LandPosition' }}">
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                               
@@ -1072,7 +1078,7 @@ th{
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>BENEFICIARY DETAILS (In case of Death/Disability)</strong><button class="btn btn-primary update-mariner" style="background-color: #02be9b; margin-left: 20px;">UPDATE</button></div>
       <div id="detail6" class="panel-collapse collapse" aria-expanded="false">               
                       <div class="panel-body">
-  
+  {{ beneficiary_form.management_form }}
   {% for beneficiary_forms in beneficiary_form %}
   {{ beneficiary_forms.id }}
   {{ beneficiary_forms.user }}                      
@@ -1127,6 +1133,7 @@ th{
   <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>ALLOTMENT DETAILS</strong><button class="btn btn-primary update-mariner" style="background-color: #02be9b; margin-left: 20px;">UPDATE</button></div>
                   <div id="detail7" class="panel-collapse collapse" aria-expanded="false">               
                       <div class="panel-body"> 
+  {{ allotee_form.management_form }}                    
   {% for allotee_forms in allotee_form %}
   {{ allotee_forms.id }}
   {{ allotee_forms.user }}
@@ -1232,7 +1239,7 @@ th{
 <p data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false" style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>Licenses</strong> <button class="btn btn-primary update-mariner" style="margin-left: 20px;">UPDATE</button></p>
         <div class ="panel-collapse collapse" aria-expanded="false" id="licenses">               
                       <div class="panel-body">  
-                          
+                          {{ passport_form.user }}
                           <div class="row">
                               <div class="col-md-3">
                         <div class="input-group">
@@ -1249,7 +1256,7 @@ th{
                               <div class="col-md-3">
                         <div class="input-group">
                     <label class="input-group-addon input-label">Date Expiry:</label>
-                   {{sbook_form.sbook_expiry|add_class:"form-control input-form date"}}
+                   {{passport_form.passport_expiry|add_class:"form-control input-form date"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                               <div class="col-md-3">
@@ -1318,6 +1325,7 @@ th{
                               <div class="col-md-3">
                         <div class="input-group">
                     <label class="input-group-addon input-label">STCW Endorsement:</label>
+                    {{stcw_endorsement_form.user|attr:"style:display:none"}}
                     {{stcw_endorsement_form.stcw_endorsement|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
@@ -1345,6 +1353,7 @@ th{
                               <div class="col-md-3">
                         <div class="input-group">
                     <label class="input-group-addon input-label">STCW Certificate:</label>
+                    {{stcw_certificate_form.user|attr:"style:display:none"}}
                     {{stcw_certificate_form.stcw_certificate|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
@@ -1395,10 +1404,38 @@ th{
                               </div><!--End of Col 3-->
                       </div><!--End of Row-->
 
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="input-group">
+                      <label class="input-group-addon input-label">PRC License:</label>
+                      {{license_form.license|add_class:"form-control input-form"}}
+                      </div><!--End of Input Group-->
+                    </div><!--End of Col 3-->
+                    <div class="col-md-3">
+                      <div class="input-group">
+                      <label class="input-group-addon input-label">Date Issued:</label>
+                      {{license_form.license_date_issued|add_class:"form-control input-form date"}}
+                      </div><!--End of Input Group-->
+                    </div><!--End of Col 3-->
+                    <div class="col-md-3">
+                      <div class="input-group">
+                      <label class="input-group-addon input-label">Date Expiry:</label>
+                      {{license_form.license_expiry|add_class:"form-control input-form date"}}
+                      </div><!--End of Input Group-->
+                    </div><!--End of Col 3-->
+                    <div class="col-md-3">
+                      <div class="input-group">
+                      <label class="input-group-addon input-label">Rank:</label>
+                      {{license_form.license_rank|add_class:"form-control input-form"}}
+                      </div><!--End of Input Group-->
+                  </div><!--End of Col 3-->
+                </div><!--End of Row-->
+
                           <div class="row">
                               <div class="col-md-3">
                         <div class="input-group">
                     <label class="input-group-addon input-label">NTC License:</label>
+                    {{ntc_license_form.user|attr:"style:display:none"}}
                     {{ntc_license_form.ntc_license|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
@@ -1450,13 +1487,15 @@ th{
                         </div><!--End of Row-->   
        </div>                  
 </div>                                        
-<p data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false" style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner" style="margin-left: 20px;">UPDATE</button></p>
+<p data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false" style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner" style="margin-left: 20px;" data-params="National">UPDATE</button></p>
         <div class ="panel-collapse collapse" aria-expanded="false" id="national-certificates">   
         <div class="panel-body">
+{{ trainings_certificate_form.management_form }}        
 {% for trainings_certificate_forms in trainings_certificate_form %}
-          {% if 'Certificate of Proficiency'|lower in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
+          
             {{ trainings_certificate_forms.trainings_certificate_documents }}
-            {{ trainings_certificate_forms.id }}                        
+            {{ trainings_certificate_forms.id }}
+            {% if 'Certificate of Proficiency'|lower in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}                  
                           <div class="row">
                               <div class="col-md-4">
                         <div class="input-group">
@@ -1476,8 +1515,11 @@ th{
                     {{ trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
-                      </div><!--End of Row-->
-                          
+                      </div><!--End of Row-->  
+          {% else %}
+              {{ trainings_certificate_forms.number|attr:"style: display:none" }}
+              {{ trainings_certificate_forms.issued|attr:"style: display:none" }}
+              {{ trainings_certificate_forms.expiry|attr:"style: display:none" }}  
           {% endif %}
         {% endfor %}                        
              </div>
@@ -1614,6 +1656,7 @@ th{
                                     </tr>
                                   </thead>
                                   <tbody>
+                                    {{ flag_form.management_form }}
                                     {% for flag_forms in flag_form %}
                                       {{ flag_forms.flags_documents }}
                                       {{ flag_forms.id }}
@@ -1726,7 +1769,7 @@ th{
   <!--National Certificates and Travel Documents
   ================================================-->                                    
   <div  id="step11" class="panel panel-blue" style="margin-top: 10px;">
-      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS/ OTHER CERTIFICATES</strong><button class="btn btn-primary update-mariner" style="background-color: #02be9b; margin-left: 20px;">UPDATE</button></div>
+      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>TRAININGS/ OTHER CERTIFICATES</strong><button class="btn btn-primary update-mariner" style="background-color: #02be9b; margin-left: 20px;" data-params="Certificates">UPDATE</button></div>
                   <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
                     <div class="panel-body"> 
                     <div class="table-responsive">
@@ -1742,10 +1785,11 @@ th{
                                                       </tr>
                                                   </thead>
                                             <tbody>
+                                              {{ trainings_certificate_form.management_form }}      
                                               {% for trainings_certificate_forms in trainings_certificate_form %}
-                                                {% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
                                                 {{ trainings_certificate_forms.trainings_certificate_documents }}
                                                 {{ trainings_certificate_forms.id }}
+                                                {% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower or trainings_certificate_forms.trainings_certificates.value %}
                                                   <tr>
                                                     <td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
                                                     <td>{{ trainings_certificate_forms.number|add_class:"form-control input-form" }}</td>
@@ -1754,7 +1798,11 @@ th{
                                                             <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingPlaceIssuedAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" type="text" value="{{ trainings_certificate_forms.training_place_issued.value|get_data:'TrainingPlaceIssued' }}"></td>
                                                             <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingCenterAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" type="text" value="{{ trainings_certificate_forms.place_trained.value|get_data:'TrainingCenter' }}"></td>
                                                   </tr>
-                                                {% endif %} 
+                                                  {% else %}
+                                                  {{ trainings_certificate_forms.number|attr:"style: display:none" }}
+                                                  {{ trainings_certificate_forms.issued|attr:"style: display:none" }}
+                                                  {{ trainings_certificate_forms.expiry|attr:"style: display:none" }}
+                                                {% endif %}
                                               {% endfor %}
                                       </tbody>
                                           </table><!--End of Table Stripped-->
@@ -1768,8 +1816,52 @@ th{
   <div id="step12" class="panel panel-blue" style="margin-top: 10px;">
       <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false" style="color: #fff; text-decoration: none;"><strong>REMARKS</strong><button class="btn btn-primary update-mariner" style="background-color: #02be9b; margin-left: 20px;">UPDATE</button></div>
       <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
-                      <div class="panel-body">
-                          {{ evaluation_form.evaluation|add_class:"form-control input-form" }}
+        <div class="panel-body">
+            <div class="col-md-12">
+        <p style="color: #00aeef;"><strong>NOTE:</strong>&nbsp;<i>Please Take note that everytime the status is changed it will be recorded in the history status below.</i></p>
+      </div>
+            <div class="col-md-6">
+                        <div class="input-group">
+                                <div class="input-group form-group">
+                                <label class="input-group-addon input-label">Updated by:</label>
+                                {{ evaluation_form.evaluated_by|add_class:"form-control input-form"|attr:"disabled"|attr:"style:text-transform: uppercase"}}
+                                </div>
+                        </div>
+            </div>
+            {{ evaluation_form.evaluated_by|attr:"style: display:none" }}
+            {{ evaluation_form.user|attr:"style: display:none" }}
+            {{ evaluation_form.evaluation|add_class:"form-control input-form" }}
+            {% if evaluations %}
+                <a data-toggle="collapse" data-parent="#accordion" href="#evaluation-history" aria-expanded="false" style="color: #fff; text-decoration: none;"><p  style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>Evaluation History</strong></p></a>
+                <div class ="panel-collapse collapse" aria-expanded="false" id="evaluation-history">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover sea-tb main-table">
+                          <thead class="thead">
+                            <tr>
+                              <!-- <th></th> -->
+                              <th>Updated By</th>
+                              <th>Updated On</th>
+                              <th>Evaluation</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for evaluation in evaluations %}
+                              <tr>
+                                <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
+                                <td>{% if evaluation.evaluated_by.code %} {{ evaluation.evaluated_by.code }} {% else %} {{ evaluation.evaluated_by }} {% endif %}</td>
+                                <td>{{ evaluation.evaluated_on }}</td>
+                                <td>{{ evaluation.evaluation }}</td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
                           </div><!--End of Panel Body-->
                 </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->            
@@ -1794,13 +1886,13 @@ th{
   <p>FORM REF. MANSHIP QP07-04-07</p>-->
     <div class="container-picture"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  style="border: 5px solid #2e76b8"></div>
           <div class="input-group" style="width: 100%; text-align: center; text-transform: uppercase">
-          <input type="text" class="form-control input-form"  value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}">
+          <input type="text" class="form-control input-form"  value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" readonly="">
       </div><!--End of Input Group-->
             <div class="input-group" style="width: 100%; text-align: center">
           <!-- <input type="text" class="form-control input-form" > -->
           <div class="input-group" style="width:100%; text-align: center;">
             <label class="input-group-addon input-label">Code:</label>
-            <input type="text" class="form-control input-form" value="{{ user_profile.code }}" >
+            <input type="text" class="form-control input-form" value="{{ user_profile.code }}" readonly="" >
           </div>
           <div class="input-group" style="width:100%; text-align: center;">
             <label class="input-group-addon input-label">Position:</label>
@@ -1902,11 +1994,12 @@ th{
         x = $('option:selected', this).text();
         $(this).parent().parent().parent().after("<div class='col-md-12'><label for='non-conforming-seafarer-reason' class='input-label'>Non-Conforming Seafarer Reason</label><textarea id='non-conforming-seafarer-reason' class='form-control'>dasda</textarea></div>");
       });
-      $(".mariner-history-status-comments").click(function(){
+      $("body").on("click", ".mariner-history-status-comments", function(){ 
         comment = $(this).attr('data-comments'); 
         $(".mariner-history-status-comment").text(comment);
         $("#modal-mariner-history-status-comment").modal('show');
       });
+
       $("body").on("click", ".update-mariner", function(){
         child = $(this);
         parent = $(this).parent();
@@ -1915,16 +2008,49 @@ th{
         img = "{% static 'img/updating.gif' %}";
         mini_img = "{% static 'img/mini-loading-x.gif' %}";
         finish_img = "{% static 'img/finish.png' %}";
+        var url = "{% url 'mariners_profile' id=mariners_profile.user.id %}";
+        var csrfmiddlewaretoken = "{{ csrf_token }}";
+
+        var child = $(this);
+        var parent = $(this).parent();
+        // var parent_html = $(this).parent().html();
+        var parent_next = $(this).parent().next();
+        // var parent_next_html = $(this).parent().next().html();
+        var json_name_val = {csrfmiddlewaretoken: csrfmiddlewaretoken};
+        if($(this).attr('data-params')){
+          param = $(this).attr('data-params');
+          json_name_val['param'] = param;
+        }
+        if(parent_next.hasClass('in')){
+          parent_next.find('input, select, textarea').each(function(){
+            if($(this).attr('type') == 'radio'){
+              if($(this).is(':checked')){
+                name = $(this).attr('name');
+                value = $(this).val();
+              }else{
+                $(this).removeAttr('name');
+              }
+            }
+            name = $(this).attr('name');
+            value = $(this).val();
+            json_name_val[name] = value;
+          });
+        }
+        console.log(json_name_val);
+
         if(parent.next().hasClass('in')){
           child.parent().next().html('<div class="text-center"><img src = "'+img+'"></div>');  
           child.parent().html('<div class="update-mariner"><img src = "'+mini_img+'"></div>');
-          setTimeout(function(){ 
+          $.post(url, json_name_val, function(result){
             parent.html(parent_html); 
-            parent.next().html(parent_next_html);
-            parent.append('&nbsp;&nbsp;<img src ="'+finish_img+'" width="25px" height="25px"> UPDATED');
-          }, 1000);
+            parent_next.html(result);
+          });
         } 
       });
+
+      
+
+
     });
   </script>
 {% endblock %}

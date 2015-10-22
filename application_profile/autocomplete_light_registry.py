@@ -30,6 +30,7 @@ class MarinersAutocomplete(autocomplete_light.AutocompleteModelTemplate):
    		('first_name'),
    		('middle_name'),
    		('last_name'), 
+      ('code'), 
    		)
 	autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(MarinersAutocomplete)

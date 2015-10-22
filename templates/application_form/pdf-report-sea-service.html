@@ -13,7 +13,7 @@
 <body>
 	<table border="1">
 		<tr>
-			<th style="text-align: left; " colspan="16">SEA SERVICE ({{ sea_service_count }} Vessel{% if sea_service_count > 1 %}s{% endif %})</th>
+			<th style="text-align: left; " colspan="16">SEA SERVICE {% if sea_service_count %}({{ sea_service_count }} Vessel{% if sea_service_count > 1 %}s{% endif %}){% endif %}</th>
 		</tr>
 		<tr>
 			<th>Vessel Name</th>
@@ -33,26 +33,49 @@
 			<th>Rank</th>
 			<th>Cause of Discharge</th>
 		</tr>
-		{% for seaservice in sea_service %}
-		<tr>
-			<td>{{ seaservice.vessel_name|upper }}</td>
-			<td>{{ seaservice.vessel_type|upper }}</td>
-			<td>{{ seaservice.flag|upper }}</td>
-			<td>{{ seaservice.grt }}</td>
-			<td>{{ seaservice.dwt }}</td>
-			<td>{{ seaservice.year_built }}</td>
-			<td>{{ seaservice.engine_type|upper }}</td>
-			<td>{{ seaservice.hp }}</td>
-			<td>{{ seaservice.kw }}</td>
-			<td>{{ seaservice.manning_agency|upper }}</td>
-			<td>{{ seaservice.principal|upper }}</td>
-			<td>{{ seaservice.date_joined }}</td>
-			<td>{{ seaservice.date_left }}</td>
-			<td>{{ seaservice.duration }}</td>
-			<td>{{ seaservice.rank|upper }}</td>
-			<td>{{ seaservice.cause_of_discharge|upper }}</td>
-		</tr>
-		{% endfor %}
+		{% if sea_service %}
+			{% for seaservice in sea_service %}
+			<tr>
+				<td>{{ seaservice.vessel_name|upper }}</td>
+				<td>{{ seaservice.vessel_type|upper }}</td>
+				<td>{{ seaservice.flag|upper }}</td>
+				<td>{{ seaservice.grt }}</td>
+				<td>{{ seaservice.dwt }}</td>
+				<td>{{ seaservice.year_built }}</td>
+				<td>{{ seaservice.engine_type|upper }}</td>
+				<td>{{ seaservice.hp }}</td>
+				<td>{{ seaservice.kw }}</td>
+				<td>{{ seaservice.manning_agency|upper }}</td>
+				<td>{{ seaservice.principal|upper }}</td>
+				<td>{{ seaservice.date_joined }}</td>
+				<td>{{ seaservice.date_left }}</td>
+				<td>{{ seaservice.duration }}</td>
+				<td>{{ seaservice.rank|upper }}</td>
+				<td>{{ seaservice.cause_of_discharge|upper }}</td>
+			</tr>
+			{% endfor %}
+		{% else %}
+			{% for x in sea_service_blank_count %}
+				<tr>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+					<td> &nbsp; </td>
+				</tr>
+			{% endfor %}
+		{% endif %}
 	</table>
 </body>
 </html>

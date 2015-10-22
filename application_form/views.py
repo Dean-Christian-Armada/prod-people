@@ -614,9 +614,9 @@ def pdf_complete_manship_form(request, id):
 
 
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
-		flags = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents).filter(~Q(sbook_number=None))
+		flags = FlagDocumentsDetailed.objects.filter(flags_documents=flag_documents).filter(~Q(sbook_number=None) | Q(flags_boolean=True))
 		certificates_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
-		certificates = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=certificates_documents).filter(~Q(number=None))
+		certificates = TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=certificates_documents).filter(~Q(number=None) | Q(trainings_certificates_boolean=True))
 
 		for flag in flags:
 			_flags.add(flag.flags.flags)
@@ -693,6 +693,33 @@ def pdf_complete_manship_form(request, id):
 
 		return render_to_pdf_response(request, template, context_dict)
 		# return render(request, template, context_dict)
+	else:
+		raise Http404("System Error.")
+
+@login_required
+def pdf_manship_sea_services_form(request, id):
+	if id:
+		sea_service = SeaService.objects.filter(user=id)
+		sea_service_count = len(sea_service)
+		template = "application_form/pdf-report-sea-service.html"
+		context_dict = {}
+		context_dict['sea_service'] = sea_service
+		context_dict['sea_service_count'] = sea_service_count
+		return render_to_pdf_response(request, template, context_dict)
+	else:
+		raise Http404("System Error.")
+
+@login_required
+def blank_pdf_manship_sea_services_form(request, id):
+	if id:
+		sea_service = ''
+		sea_service_count = ''
+		template = "application_form/pdf-report-sea-service.html"
+		context_dict = {}
+		context_dict['sea_service'] = sea_service
+		context_dict['sea_service_count'] = sea_service_count
+		context_dict['sea_service_blank_count'] = range(0, 10)
+		return render_to_pdf_response(request, template, context_dict)
 	else:
 		raise Http404("System Error.")
 

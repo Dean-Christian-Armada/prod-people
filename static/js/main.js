@@ -630,7 +630,7 @@ $(function(){
       }
     });
 
-    $("#id-application-form, #id-application-profile").submit(function(){
+    $("#id-application-form, #id-application-profile, #status").submit(function(){
       $("#loading").modal('show');
       // return false;
     });

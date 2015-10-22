@@ -193,13 +193,18 @@ class PrimarySchoolForm(forms.ModelForm):
 		exclude = ('primaryschool', )
 
 	def save(self, commit=True):
-		primaryschool_name = self.cleaned_data['primaryschool']
-		primaryschool = super(PrimarySchoolForm, self).save(commit=False)
-		primaryschools = PrimarySchools.objects.get_or_create({'primaryschool_name':primaryschool_name}, primaryschool_name__iexact=primaryschool_name)
-		if primaryschools:
-			primaryschools = PrimarySchools.objects.get(primaryschool_name__iexact=primaryschool_name)
-		primaryschool.primaryschool = primaryschools
-		primaryschool.save()
+		print "test "
+		try:
+			print "exact"
+			primaryschool_name = self.cleaned_data['primaryschool']
+			primaryschool = super(PrimarySchoolForm, self).save(commit=False)
+			primaryschools = PrimarySchools.objects.get_or_create({'primaryschool_name':primaryschool_name}, primaryschool_name__iexact=primaryschool_name)
+			if primaryschools:
+				primaryschools = PrimarySchools.objects.get(primaryschool_name__iexact=primaryschool_name)
+			primaryschool.primaryschool = primaryschools
+			primaryschool.save()
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class ReferenceForm(forms.ModelForm):
 	company = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Company"}), required=False)
@@ -241,10 +246,10 @@ class ReferenceForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class LandEmploymentForm(forms.ModelForm):
-	land_position = forms.CharField(widget=autocomplete_light.TextWidget('LandPositionAutocomplete'))
-	employer_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
-	employer_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
-	employer_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
+	land_position = forms.CharField(widget=autocomplete_light.TextWidget('LandPositionAutocomplete'), required=False)
+	employer_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}), required=False)
+	employer_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'), required=False)
+	employer_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'), required=False)
 	# spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
 
 	class Meta:
@@ -252,29 +257,32 @@ class LandEmploymentForm(forms.ModelForm):
 		fields = '__all__'
 
 	def clean(self):
-		land_position = self.cleaned_data['land_position']
-		_land_position = LandPosition.objects.get_or_create({'land_position':land_position}, land_position__iexact=land_position)
-		if _land_position:
-			_land_position = LandPosition.objects.get(land_position__iexact=land_position)
-		self.cleaned_data['land_position'] = _land_position
+		try:
+			land_position = self.cleaned_data['land_position']
+			_land_position = LandPosition.objects.get_or_create({'land_position':land_position}, land_position__iexact=land_position)
+			if _land_position:
+				_land_position = LandPosition.objects.get(land_position__iexact=land_position)
+			self.cleaned_data['land_position'] = _land_position
 
-		zip = self.cleaned_data['employer_zip']
-		_zip = Zip.objects.get_or_create({'zip':zip}, zip__iexact=zip)
-		if _zip:
-			_zip = Zip.objects.get(zip__iexact=zip)
-		self.cleaned_data['employer_zip'] = _zip
+			zip = self.cleaned_data['employer_zip']
+			_zip = Zip.objects.get_or_create({'zip':zip}, zip__iexact=zip)
+			if _zip:
+				_zip = Zip.objects.get(zip__iexact=zip)
+			self.cleaned_data['employer_zip'] = _zip
 
-		barangay = self.cleaned_data['employer_barangay']
-		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
-		if _barangay:
-			_barangay = Barangay.objects.get(barangay__iexact=barangay)
-		self.cleaned_data['employer_barangay'] = _barangay
+			barangay = self.cleaned_data['employer_barangay']
+			_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
+			if _barangay:
+				_barangay = Barangay.objects.get(barangay__iexact=barangay)
+			self.cleaned_data['employer_barangay'] = _barangay
 
-		municipality = self.cleaned_data['employer_municipality']
-		_municipality = Municipality.objects.get_or_create({'municipality':municipality}, municipality__iexact=municipality)
-		if _municipality:
-			_municipality = Municipality.objects.get(municipality__iexact=municipality)
-		self.cleaned_data['employer_municipality'] = _municipality
+			municipality = self.cleaned_data['employer_municipality']
+			_municipality = Municipality.objects.get_or_create({'municipality':municipality}, municipality__iexact=municipality)
+			if _municipality:
+				_municipality = Municipality.objects.get(municipality__iexact=municipality)
+			self.cleaned_data['employer_municipality'] = _municipality
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 	def save(self, commit=True):
 		try:
@@ -308,20 +316,20 @@ class BeneficiaryForm(forms.ModelForm):
 		model = Reference
 		fields = '__all__'
 
-	def clean(self):
-		relationship = self.cleaned_data['beneficiary_relationship']
-		_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
-		if _relationship:
-			_relationship = Relationship.objects.get(relationship__iexact=relationship)
-		self.cleaned_data['beneficiary_relationship'] = _relationship
+	# def clean(self):
+	# 	relationship = self.cleaned_data['beneficiary_relationship']
+	# 	_relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
+	# 	if _relationship:
+	# 		_relationship = Relationship.objects.get(relationship__iexact=relationship)
+	# 	self.cleaned_data['beneficiary_relationship'] = _relationship
 
 		
 	def save(self, commit=True):
 		try:
-			relationship = self.cleaned_data['relationship']
+			# relationship = self.cleaned_data['relationship']
 			beneficiary = super(BeneficiaryForm, self).save(commit=False)
 
-			beneficiary.beneficiary_relationship = relationship
+			# beneficiary.beneficiary_relationship = relationship
 			beneficiary.save()
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
@@ -329,9 +337,9 @@ class BeneficiaryForm(forms.ModelForm):
 class AlloteeForm(forms.ModelForm):
 	# allotee_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
 	# bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
-	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
-	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
-	allotee_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
+	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}), required=False)
+	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'), required=False)
+	allotee_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'), required=False)
 
 	class Meta:
 		model = Reference
@@ -344,12 +352,14 @@ class AlloteeForm(forms.ModelForm):
 		# 	_relationship = Relationship.objects.get(relationship__iexact=relationship)
 		# self.cleaned_data['allotee_relationship'] = _relationship
 
-		bank = self.cleaned_data['bank']
-		_bank = Bank.objects.get_or_create({'bank':bank}, bank__iexact=bank)
-		if _bank:
-			_bank = Bank.objects.get(bank__iexact=bank)
-		self.cleaned_data['bank'] = _bank
+		# bank = self.cleaned_data['bank']
+		# _bank = Bank.objects.get_or_create({'bank':bank}, bank__iexact=bank)
+		# if _bank:
+		# 	_bank = Bank.objects.get(bank__iexact=bank)
+		# self.cleaned_data['bank'] = _bank
 
+		print "=----------------"
+		print self.cleaned_data
 		barangay = self.cleaned_data['allotee_barangay']
 		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
 		if _barangay:
@@ -360,26 +370,37 @@ class AlloteeForm(forms.ModelForm):
 		if _municipality:
 			_municipality = Municipality.objects.get(municipality__iexact=municipality)
 		
+		print "dewam"
 		zip = self.cleaned_data['allotee_zip']
+		print "mada"
+		print zip
 		try:
 			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
+			print "xx"
 		except:
 			_zip = Zip.objects.get(zip=zip)
+			print _zip
+			print "ZIZPDPS"
 		self.cleaned_data['allotee_zip'] = _zip
+		print self.cleaned_data['allotee_zip']
 
 		
 	def save(self, commit=True):
 		try:
 			# relationship = self.cleaned_data['allotee_relationship']
-			bank = self.cleaned_data['bank']
+			# bank = self.cleaned_data['bank']
+			print "czcvbvgsdfg"
 			allotee_zip = str(self.cleaned_data['allotee_zip'])
+			print allotee_zip
+			print "SSSSSSSS"
 			allotee = super(AlloteeForm, self).save(commit=False)
 
 			# allotee.allotee_relationship = relationship
-			allotee.bank = bank
+			# allotee.bank = bank
 			allotee.zip = zip
 			allotee.save()
 		except:
+			print "DASDASDA"
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class EmergencyContactForm(forms.ModelForm):
@@ -435,6 +456,19 @@ class EvaluationForm(forms.ModelForm):
 		model = Evaluation
 		fields = '__all__'
 
+	def save(self, commit=True):
+		evaluated_by = self.cleaned_data['evaluated_by']
+		evaluation = self.cleaned_data['evaluation']
+		user = self.cleaned_data['user']
+		evaluation_form = super(EvaluationForm, self).save(commit=False)
+		_evaluation = Evaluation.objects.get_or_create(evaluation=evaluation, user=user, evaluated_by=evaluated_by)
+		if _evaluation:
+			_evaluation = Evaluation.objects.get(evaluation=evaluation, user=user, evaluated_by=evaluated_by)
+		evaluation_form.evaluation = _evaluation
+		self.cleaned_data['evaluation'] = _evaluation
+		value = self.cleaned_data
+		Evaluation.objects.get_or_create(**value)
+
 class PassportForm(forms.ModelForm):
 	passport_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('PassportPlaceIssuedAutocomplete'), required=False)
 	class Meta:
@@ -469,8 +503,8 @@ class SBookForm(forms.ModelForm):
 
 class USVisaForm(forms.ModelForm):
 	CHOICES = (
-			('True', 'Yes'),
-			('False', 'No'),
+			(True, 'Yes'),
+			(False, 'No'),
 		)
 	us_visa = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
 	us_visa_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('USVisaPlaceIssuedAutocomplete'), required=False)
@@ -490,8 +524,8 @@ class USVisaForm(forms.ModelForm):
 
 class SchengenVisaForm(forms.ModelForm):
 	CHOICES = (
-		('True', 'Yes'),
-		('False', 'No'),
+		(True, 'Yes'),
+		(False, 'No'),
 	)
 	schengen_visa = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))	
 	schengen_visa_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('SchengenVisaPlaceIssuedAutocomplete'), required=False)
@@ -526,7 +560,7 @@ class YellowFeverForm(forms.ModelForm):
 		yellow_fever.save()
 
 class COCForm(forms.ModelForm):
-	coc_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('COCPlaceIssuedAutocomplete'), required=False)
+	coc_place_issued = forms.CharField(widget=autocomplete_light.TextWidget('COCPlaceIssuedAutocomplete'), initial='dasda', required=False)
 	coc_rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'), required=False)
 	class Meta:
 		model = COC

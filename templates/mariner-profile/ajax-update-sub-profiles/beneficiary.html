@@ -1,0 +1,60 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}      
+
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>	 
+      <!-- </ul> -->
+    </div>  
+</div>
+
+<div class="panel-body">
+  {{ beneficiary_form.management_form }}
+  {% for beneficiary_forms in beneficiary_form %}
+  {{ beneficiary_forms.id }}
+  {{ beneficiary_forms.user }}                      
+  <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false" style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{% if beneficiary_forms.beneficiary_first_name.value %}{{ beneficiary_forms.beneficiary_first_name.value|upper }}{% endif %}  {% if beneficiary_forms.beneficiary_middle_name.value %} {{ beneficiary_forms.beneficiary_middle_name.value|upper }} {% endif %} {% if beneficiary_forms.beneficiary_last_name.value %} {{ beneficiary_forms.beneficiary_last_name.value|upper }} {% endif %}</strong></p></a> 
+  <div class="panel-body">
+                   <div id="benefit{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
+                          <div class="row">
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Last name:</label>
+                    {{ beneficiary_forms.beneficiary_last_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">First name:</label>
+                    {{ beneficiary_forms.beneficiary_first_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Middle Name:</label>
+                    {{ beneficiary_forms.beneficiary_middle_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                        </div><!--End of Row-->
+                              
+                              <div class="row">
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Relationship:</label>
+                    {{ beneficiary_forms.beneficiary_relationship|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 6-->
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Nos.:</label>
+                    {{ beneficiary_forms.beneficiary_number|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 6-->
+                        </div><!--End of Row-->
+                              </div><!--End of Collapse-->
+                          </div>
+{% endfor %}
+                          </div><!--End of Panel Body-->

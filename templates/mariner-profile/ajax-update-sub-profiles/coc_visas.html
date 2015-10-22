@@ -1,0 +1,119 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}    
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+
+<div class="panel-body">            
+      <div class="row">
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">TESDA C.O.C.:</label>
+    {{coc_form.coc|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Grade:</label>
+    {{coc_form.coc_grade|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Issued:</label>
+    {{coc_form.coc_date_issued|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Expiry:</label>
+    {{coc_form.coc_expiry|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Rank:</label>
+    {{coc_form.coc_rank|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Place Issued:</label>
+    {{coc_form.coc_place_issued|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 3-->
+      </div><!--End of Row-->
+      <hr>
+          <div class="row">
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">US Visa(C1/D):</label>
+    {{us_visa_form.us_visa}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Number:</label>
+    {{us_visa_form.us_visa_number|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Place Issued:</label>
+    {{us_visa_form.us_visa_place_issued|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-6">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Issued:</label>
+    {{us_visa_form.us_visa_date_issued|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-6">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Expiry:</label>
+    {{us_visa_form.us_visa_expiry|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+        </div><!--End of Row-->
+        <hr>
+              
+              <div class="row">
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Schengen Visa(Type C):</label>
+    {{schengen_visa_form.schengen_visa}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Number:</label>
+    {{schengen_visa_form.schengen_visa_number|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-4">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Place Issued:</label>
+    {{schengen_visa_form.schengen_visa_place_issued|add_class:"form-control input-form"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-6">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Issued:</label>
+    {{schengen_visa_form.schengen_visa_date_issued|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+              <div class="col-md-6">
+        <div class="input-group">
+    <label class="input-group-addon input-label">Date Expiry:</label>
+    {{schengen_visa_form.schengen_visa_expiry|add_class:"form-control input-form date"}}
+</div><!--End of Input Group-->
+              </div><!--End of Col 4-->
+        </div><!--End of Row-->
+        </div>

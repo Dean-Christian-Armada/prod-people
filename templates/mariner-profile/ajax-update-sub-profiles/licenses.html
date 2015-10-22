@@ -1,0 +1,230 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}      
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+
+<div class="panel-body">  
+                          {{ passport_form.user }}
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Passport No.:</label>
+                    {{passport_form.passport|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                   {{passport_form.passport_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                   {{passport_form.passport_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Place Issued:</label>
+                    {{passport_form.passport_place_issued|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Seaman's Book No.:</label>
+                    {{sbook_form.sbook|add_class:"form-control input-form "}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{sbook_form.sbook_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{sbook_form.sbook_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Place Issued:</label>
+                    {{sbook_form.sbook_place_issued|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">S.R.C.:</label>
+                    {{src_form.src|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{src_form.src_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{src_form.src_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Rank:</label>
+                    {{src_form.src_rank|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                         
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">STCW Endorsement:</label>
+                    {{stcw_endorsement_form.stcw_endorsement|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{stcw_endorsement_form.stcw_endorsement_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{stcw_endorsement_form.stcw_endorsement_date_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Rank:</label>
+                    {{stcw_endorsement_form.stcw_endorsement_rank|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">STCW Certificate:</label>
+                    {{stcw_certificate_form.stcw_certificate|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{stcw_certificate_form.stcw_certificate_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{stcw_certificate_form.stcw_certificate_date_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Rank:</label>
+                    {{stcw_certificate_form.stcw_certificate_rank|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">G.O.C.:</label>
+                    {{goc_form.goc|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{goc_form.goc_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{goc_form.goc_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Rank:</label>
+                    {{goc_form.goc_rank|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+
+                          <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">NTC License:</label>
+                    {{ntc_license_form.ntc_license|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{ntc_license_form.ntc_license_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{ntc_license_form.ntc_license_date_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Rank:</label>
+                    {{ntc_license_form.ntc_license_rank|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                      </div><!--End of Row-->
+                            <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Yellow Fever:</label>
+                    {{yellow_fever_form.yellow_fever|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Issued:</label>
+                    {{yellow_fever_form.yellow_fever_date_issued|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Date Expiry:</label>
+                    {{yellow_fever_form.yellow_fever_expiry|add_class:"form-control input-form date"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Place Issued:</label>
+                    {{yellow_fever_form.yellow_fever_place_issued|add_class:"form-control input-form"}}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                        </div><!--End of Row-->   
+       </div>

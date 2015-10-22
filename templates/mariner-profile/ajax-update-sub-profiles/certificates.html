@@ -1,0 +1,50 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}      
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+
+
+<div class="panel-body"> 
+                    <div class="table-responsive">
+                                          <table class="table table-hover sea-tb main-table">
+                                            <thead class="thead">
+                                                    <tr>
+                                                        <th>Training Course</th>
+                                                        <th>Number</th>
+                                                        <th>Date Issued</th>
+                                                        <th>Date Expiry</th>
+                                                        <th>Place Issued</th>
+                                                        <th style="white-space: nowrap;">School / Training Center</th>
+                                                      </tr>
+                                                  </thead>
+                                            <tbody>
+                                              {{ trainings_certificate_form.management_form }}      
+                                              {% for trainings_certificate_forms in trainings_certificate_form %}
+                                                {{ trainings_certificate_forms.trainings_certificate_documents }}
+                                                {{ trainings_certificate_forms.id }}
+                                                {% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
+                                                  <tr>
+                                                    <td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
+                                                    <td>{{ trainings_certificate_forms.number|add_class:"form-control input-form" }}</td>
+                                                            <td>{{ trainings_certificate_forms.issued|add_class:"form-control input-form date" }}</td>
+                                                            <td>{{ trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}</td>
+                                                            <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingPlaceIssuedAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" type="text" value="{{ trainings_certificate_forms.training_place_issued.value|get_data:'TrainingPlaceIssued' }}"></td>
+                                                            <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingCenterAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" type="text" value="{{ trainings_certificate_forms.place_trained.value|get_data:'TrainingCenter' }}"></td>
+                                                  </tr>
+                                                  {% else %}
+                                                  {{ trainings_certificate_forms.number|attr:"style: display:none" }}
+                                                  {{ trainings_certificate_forms.issued|attr:"style: display:none" }}
+                                                  {{ trainings_certificate_forms.expiry|attr:"style: display:none" }}
+                                                {% endif %}
+                                              {% endfor %}
+                                      </tbody>
+                                          </table><!--End of Table Stripped-->
+                                        </div><!--End of Table Responsive-->
+                  </div><!--End of Panel Body-->

@@ -1,0 +1,131 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}      
+
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>	 
+      <!-- </ul> -->
+    </div>  
+  </div>
+
+<div class="panel-body"> 
+                          <div class="form-group">
+  {% for land_employment_forms in land_employment_form %}
+  {{ land_employment_forms.id }}
+  {{ land_employment_forms.user }}                 
+  <a data-toggle="collapse" data-parent="#accordion" href="#employer{{forloop.counter}}" aria-expanded="false" style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{% if land_employment_forms.employer_first_name.value %}{{ land_employment_forms.employer_first_name.value|upper }}{% endif %}  {% if land_employment_forms.employer_middle_name.value %} {{ land_employment_forms.employer_middle_name.value|upper }} {% endif %} {% if land_employment_forms.employer_last_name.value %} {{ land_employment_forms.employer_last_name.value|upper }} {% endif %}</strong></p></a>
+                              <div id="employer{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
+                              <div class="panel-body">   
+                              <div class="row">
+                      <div class="col-md-4">
+                      <div class="input-group">
+                    <label class="input-group-addon input-label">Employer Last Name:</label>
+                    {{ land_employment_forms.employer_last_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Employer First Name:</label>
+                    {{ land_employment_forms.employer_middle_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Employer Middle Name:</label>
+                    {{ land_employment_forms.employer_first_name|add_class:"form-control input-form" }}
+                </div>
+                </div>
+                </div>
+
+                            <div class="row">
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Position:</label>
+                    {{ land_employment_forms.land_position|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 3-->
+                              
+                              
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Start Date:</label>
+                    {{ land_employment_forms.start_date|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">End Date:</label>
+                    {{ land_employment_forms.end_date|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                       <div class="col-md-3">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Person Number:</label>
+                    {{ land_employment_forms.contact_person_number|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              </div><!--End of Row-->
+
+                        <div class="row">
+                              <div class="col-md-4">
+                      <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Person Last Name:</label>
+                    {{ land_employment_forms.contact_last_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Person First Name:</label>
+                    {{ land_employment_forms.contact_first_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Person Middle Name:</label>
+                    {{ land_employment_forms.contact_middle_name|add_class:"form-control input-form" }}
+                </div>
+                </div>
+                            
+                        </div><!--End of Row-->
+                              
+                              <div class="row">
+                              <div class="col-md-2 padding-right-negator">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Unit:</label>
+                    {{ land_employment_forms.employer_unit|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Street:</label>
+                    {{ land_employment_forms.employer_street|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Barangay:</label>
+                    <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_landemployment_set-{{ forloop.counter0 }}-employer_barangay" name="landemployment_set-{{ forloop.counter0 }}-employer_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ land_employment_forms.employer_zip.value|get_data_field:'Zip,barangay' }}">
+
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Municipality:</label>
+                                <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_landemployment_set-{{ forloop.counter0 }}-employer_municipality" name="landemployment_set-{{ forloop.counter0 }}-employer_municipality" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{ land_employment_forms.employer_zip.value|get_data_field:'Zip,municipality' }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">ZIP Code:</label>
+                                <input class="form-control input-form" id="id_landemployment_set-{{ forloop.counter0 }}-employer_zip" min="0" name="landemployment_set-{{ forloop.counter0 }}-employer_zip" type="number" value="{{ land_employment_forms.employer_zip.value|get_data:'Zip' }}">                    
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                      </div><!--End of Row-->
+                        </div>
+                              </div><!--End of Collapse-->
+{% endfor %}
+                          </div><!--End of Form Group-->                     
+                        </div><!--End of Panel Body-->

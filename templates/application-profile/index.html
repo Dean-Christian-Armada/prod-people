@@ -255,9 +255,9 @@ tr:hover{
 }
 .btn-blue {
   color: #fff;
-    box-shadow:0 0 0 3px #428bca 
+    box-shadow:0 0 0 1px #428bca 
   inset, 0 0 0 1px rgba(255,255,255,0.15) 
-  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
+  inset, 0 1px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
     background-color:#428bca;
 }
 .btn-blue:hover {
@@ -294,7 +294,7 @@ tr:hover{
                 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav navbar-right">
-        								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{{ name }} ({{ request.user }})</a></li>
+        								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{% if nick_name %} {{ nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a></li>
         								<li class="dropdown">
 <a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8; padding-top:0px;"><img src="{% static 'img/mrad.pix' %}" width="50" height="50"> <span class="caret"></span></a>
 							<ul class="dropdown-menu navmenu ">
@@ -420,6 +420,7 @@ tr:hover{
     </div><!--End of Sidebar-->
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <div class="panel-heading" style="padding: 15px;"><h1>APPLICANT Profiles</h1>
           	<div class="panel panel-msmi-blue">
           </div>
            <!-- <form method="GET"> -->

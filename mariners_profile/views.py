@@ -46,6 +46,8 @@ def index(request):
 	age = set()
 	vessel_type = set()
 	rank = set()
+	barangay = set()
+	municipality = set()
 	params = {}
 	params2 = {}
 
@@ -67,6 +69,15 @@ def index(request):
 		if 'rank' in request.GET:
 			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
+		# if 'barangay' in request.GET:
+		# 	_barangay = Barangay.objects.get(barangay__iexact=request.GET['barangay'])
+		# 	_barangay = Zip.objects.filter(barangay=_barangay)
+		# 	_barangay = CurrentAddress.objects.filter(current_zip=_barangay)
+		if 'municipality' in request.GET:
+			_municipality = Municipality.objects.get(municipality__iexact=request.GET['municipality'])
+			_municipality = Zip.objects.filter(municipality=_municipality)
+			_municipality = CurrentAddress.objects.filter(current_zip__in=_municipality)
+			params['current_address__in'] = _municipality
 		if 'us_visa' in request.GET:
 			us_choice_visa = request.GET['us_visa']
 			# To enable False boolean on the variable
@@ -84,7 +95,7 @@ def index(request):
 		try:
 			searches = request.GET['search']
 			searches = searches.partition(' ')[0]
-			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches))
+			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches) | Q(code__iexact=searches))
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
@@ -119,6 +130,8 @@ def index(request):
 	for x, y, z, xx in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
+		# barangay.add(y.current_address.current_zip.barangay)
+		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
 
 	
@@ -127,11 +140,14 @@ def index(request):
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['name'] = name
+		context_dict['nick_name'] = user.nick_name
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
 		context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
+		# context_dict['barangay'] = sorted(barangay)
+		context_dict['municipality'] = sorted(municipality)
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
@@ -147,6 +163,7 @@ def index(request):
 def profile(request, id):
 	if id:
 		user_profile = UserProfile.objects.get(id=id)
+		current_user = UserProfile.objects.get(user=request.user)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
 		personal_data = PersonalData.objects.get(name=id)
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
@@ -163,6 +180,7 @@ def profile(request, id):
 		# END
 		# START, variables used to prepopulate inlineformset for training and certificates
 		rank = Rank.objects.get(id=mariners_profile.position.id)
+		
 		trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
 		trainings_certificate_standard_num = len(trainings_certificate_standard)
 		trainings_certificate_num = len(TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents))
@@ -194,14 +212,14 @@ def profile(request, id):
 
 		try:
 			spouse = Spouse.objects.get(user=id)
-			spouse_form = SpouseForm(instance=spouse)
+			spouse_form = SpouseForm(request.POST or None, instance=spouse)
 		except:
 			spouse = ''
-			spouse_form = SpouseForm(initial={'user':personal_data.name, } )
+			spouse_form = SpouseForm(request.POST or None, initial={'user':personal_data.name, } )
 
 		# Used for formset updating / inlineformset_factory
 		CollegeFormSet = inlineformset_factory(UserProfile, College, extra=0, can_delete=False, form=CollegeForm )
-		college_form = CollegeFormSet(instance=user_profile)
+		college_form = CollegeFormSet(request.POST or None, instance=user_profile)
 
 		# sample = [{'emergency_municipality':'Quezon City', 'emergency_barangay':'Holy Spirit', 'emergency_zip':1127}]
 		EmergencyContactFormSet = inlineformset_factory(UserProfile, EmergencyContact, extra=0, can_delete=False, form=EmergencyContactForm )
@@ -218,20 +236,20 @@ def profile(request, id):
 		dependents_form = DependentsFormSet(instance=user_profile)
 
 		FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
-		flag_form = FlagFormSet(instance=flag_documents)
+		flag_form = FlagFormSet(request.POST or None, instance=flag_documents)
 
 		TrainingCertificateFormSet = inlineformset_factory(TrainingCertificateDocuments, TrainingCertificateDocumentsDetailed, extra=0, can_delete=False, form=TrainingCertificateForm)
-		trainings_certificate_form = TrainingCertificateFormSet(instance=trainings_certificate_documents)
+		trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents)
 
 		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
 		sea_service_form = SeaServiceFormSet(instance=user_profile)
 
 		try:
 			vocational = Vocational.objects.get(user=id)
-			vocational_form = VocationalForm(instance=vocational, initial={'vocational':vocational.vocational})
+			vocational_form = VocationalForm(request.POST or None, instance=vocational, initial={'vocational':vocational.vocational})
 		except:
 			vocational = ''
-			vocational_form = VocationalForm(initial={'user': personal_data.name} )
+			vocational_form = VocationalForm(request.POST or None, initial={'user': personal_data.name} )
 
 		try:
 			land_employment = LandEmployment.objects.filter(user=id)
@@ -240,7 +258,7 @@ def profile(request, id):
 			elif len(land_employment) < 1:
 				num_extra = 2
 			LandEmploymentFormSet = inlineformset_factory(UserProfile, LandEmployment, fk_name='user', extra=1, can_delete=True, form=LandEmploymentForm )
-			land_employment_form = LandEmploymentFormSet(instance=user_profile )
+			land_employment_form = LandEmploymentFormSet(request.POST or None, instance=user_profile )
 
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
@@ -253,7 +271,7 @@ def profile(request, id):
 			elif len(beneficiary) < 1:
 				num_extra = 2
 			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=1, can_delete=True, form=BeneficiaryForm )
-			beneficiary_form = BeneficiaryFormSet(instance=user_profile )
+			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
@@ -265,65 +283,75 @@ def profile(request, id):
 			elif len(allotee) < 1:
 				num_extra = 2
 			AlloteeFormSet = inlineformset_factory(UserProfile, Allotee, fk_name='user', extra=num_extra, can_delete=True, form=AlloteeForm )
-			allotee_form = AlloteeFormSet(instance=user_profile )
+			allotee_form = AlloteeFormSet(request.POST or None, instance=user_profile )
 
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
-		highschool_form = HighSchoolForm(instance=highschool, initial={'highschool':highschool.highschool})
+		highschool_form = HighSchoolForm(request.POST or None, instance=highschool, initial={'highschool':highschool.highschool})
 
 		try:
 			primaryschool = PrimarySchool.objects.get(user=id)
-			primaryschool_form = PrimarySchoolForm(instance=primaryschool, initial={'primaryschool':primaryschool.primaryschool})
+			primaryschool_form = PrimarySchoolForm(request.POST or None, instance=primaryschool, initial={'primaryschool':primaryschool.primaryschool})
 		except:
-			primaryschool_form = PrimarySchoolForm(initial={'user': personal_data.name} )
+			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
 
 		try:
 			stcw_endorsement = STCWEndorsement.objects.get(user=id)
-			stcw_endorsement_form = STCWEndorsementForm(instance=stcw_endorsement, initial={'stcw_endorsement_rank':stcw_endorsement.stcw_endorsement_rank})
+			stcw_endorsement_form = STCWEndorsementForm(request.POST or None, instance=stcw_endorsement, initial={'stcw_endorsement_rank':stcw_endorsement.stcw_endorsement_rank})
 		except:
-			stcw_endorsement_form = STCWEndorsementForm(initial={'user': personal_data.name} )
+			stcw_endorsement_form = STCWEndorsementForm(request.POST or None, initial={'user': personal_data.name} )
 
 		try:
 			stcw_certificate = STCWCertificate.objects.get(user=id)
-			stcw_certificate_form = STCWCertificateForm(instance=stcw_certificate, initial={'stcw_certificate_rank':stcw_certificate.stcw_certificate_rank})
+			stcw_certificate_form = STCWCertificateForm(request.POST or None, instance=stcw_certificate, initial={'stcw_certificate_rank':stcw_certificate.stcw_certificate_rank})
 		except:
-			stcw_certificate_form = STCWCertificateForm(initial={'user': personal_data.name} )
+			stcw_certificate_form = STCWCertificateForm(request.POST or None, initial={'user': personal_data.name} )
 
 		try:
 			ntc_license = NTCLicense.objects.get(user=id)
-			ntc_license_form = NTCLicenseForm(instance=ntc_license, initial={'ntc_license_rank':ntc_license.ntc_license_rank})
+			ntc_license_form = NTCLicenseForm(request.POST or None, instance=ntc_license, initial={'ntc_license_rank':ntc_license.ntc_license_rank})
 		except:
-			ntc_license_form = NTCLicenseForm(initial={'user': personal_data.name} )
+			ntc_license_form = NTCLicenseForm(request.POST or None, initial={'user': personal_data.name} )
 
 		try:
-			evaluation = Evaluation.objects.get(user=id)
-			evaluation_form = EvaluationForm(instance=evaluation, initial={'evaluation':evaluation.evaluation})
+			# evaluation = Evaluation.objects.get(user=id)
+			evaluation = Evaluation.objects.filter(user=id).order_by('-id')
+			current_evaluation = evaluation[0]
+			evaluations = evaluation[1:]
+			evaluation_form = EvaluationForm(request.POST or None, instance=current_evaluation, initial={'evaluation':current_evaluation.evaluation, 'evaluated_by': current_user})
 		except:
-			evaluation_form = EvaluationForm(initial={'user': personal_data.name} )
+			evaluation = ''
+			current_evaluation = ''
+			evaluations = ''
+			evaluation_form = EvaluationForm(initial={'user': personal_data.name, 'evaluated_by': current_user} )
 		
 		try:
 			history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
 			current_history = history[0]
 			histories = history[1:]
-			mariner_status_form = MarinerStatusForm(instance=current_history, initial={'mariner_status_comment':current_history .mariner_status_comment.mariner_status_comment})
+			mariner_status_form = MarinerStatusForm(request.POST or None, instance=current_history, initial={'mariner_status_comment':current_history.mariner_status_comment.mariner_status_comment, 'updated_by': current_user})
 		except:
 			history = ''
 			current_history = ''
 			histories = ''
-			mariner_status_form = MarinerStatusForm(initial={'user': personal_data.name} )
+			mariner_status_form = MarinerStatusForm(request.POST or None, initial={'user': personal_data.name, 'updated_by': current_user})
 
-
-		passport_form = PassportForm(instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
-		sbook_form = SBookForm(instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
-		us_visa_form = USVisaForm(instance=us_visa, initial={'us_visa':us_visa.us_visa, 'us_visa_place_issued':us_visa.us_visa_place_issued})
-		schengen_visa_form = SchengenVisaForm(instance=schengen_visa, initial={'schengen_visa':schengen_visa.schengen_visa, 'schengen_visa_place_issued':schengen_visa.schengen_visa_place_issued})
-		yellow_fever_form = YellowFeverForm(instance=yellow_fever, initial={'yellow_fever_place_issued':yellow_fever.yellow_fever_place_issued})
-		license_form = LicenseForm(instance=license, initial={'license_place_issued':license.license_place_issued, 'license_rank':license.license_rank})
-		coc_form = COCForm(instance=coc, initial={'coc_place_issued':coc.coc_place_issued, 'coc_rank':coc.coc_rank})
-		src_form = SRCForm(instance=src, initial={'src_rank':src.src_rank})
-		goc_form = GOCForm(instance=goc, initial={'goc_rank':goc.goc_rank})
+		print "-------------"
+		print coc
+		passport_form = PassportForm(request.POST or None, instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
+		sbook_form = SBookForm(request.POST or None, instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
+		us_visa_form = USVisaForm(request.POST or None, instance=us_visa, initial={'us_visa':us_visa.us_visa, 'us_visa_place_issued':us_visa.us_visa_place_issued})
+		schengen_visa_form = SchengenVisaForm(request.POST or None, instance=schengen_visa, initial={'schengen_visa':schengen_visa.schengen_visa, 'schengen_visa_place_issued':schengen_visa.schengen_visa_place_issued})
+		yellow_fever_form = YellowFeverForm(request.POST or None, instance=yellow_fever, initial={'yellow_fever_place_issued':yellow_fever.yellow_fever_place_issued})
+		license_form = LicenseForm(request.POST or None, instance=license, initial={'license_place_issued':license.license_place_issued, 'license_rank':license.license_rank})
+		coc_form = COCForm(request.POST or None, instance=coc, initial={'coc_place_issued':coc.coc_place_issued, 'coc_rank':coc.coc_rank})
+		src_form = SRCForm(request.POST or None, instance=src, initial={'src_rank':src.src_rank})
+		goc_form = GOCForm(request.POST or None, instance=goc, initial={'goc_rank':goc.goc_rank})
 		mariners_position_form = MarinersChangePosition(mariners_profile.position.id, request.POST or None, instance=mariners_profile)
+
+		
+
 		
 		template = "mariner-profile/profile.html"
 
@@ -368,9 +396,243 @@ def profile(request, id):
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['current_history'] = current_history
 		context_dict['histories'] = histories
+		context_dict['current_evaluation'] = current_evaluation
+		context_dict['evaluations'] = evaluations
 
 		context_dict['title'] = "MARINER'S Profile - "+str(personal_data)
 		context_dict['dependents_num_label'] = dependents_num_label
+
+		if request.method == "POST":
+			print "DEAN"
+			print request.POST
+
+			if 'highschool' in request.POST and 'vocational' in request.POST and 'primaryschool' in request.POST:
+				if vocational_form.is_valid():
+					vocational_form.save()
+				else:
+					print vocational_form.errors
+
+				if highschool_form.is_valid():
+					highschool_form.save()
+				else:
+					print highschool_form.errors
+
+				if primaryschool_form.is_valid():
+					primaryschool_form.save()
+				else:
+					print primaryschool_form.errors
+
+				if college_form.is_valid():
+					for college in college_form:
+						college.save()
+				else:
+					print college_form.errors
+
+				template = "mariner-profile/ajax-update-sub-profiles/educational-information.html"
+				return render(request, template, context_dict)
+			
+			if 'landemployment_set-0-user' in request.POST:
+				if land_employment_form.is_valid():
+					for land_employment in land_employment_form:
+						land_employment.save()
+				else:
+					print land_employment_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/land-employment.html"
+				return render(request, template, context_dict)
+
+			if 'beneficiary_set-0-user' in request.POST:
+				if beneficiary_form.is_valid():
+					for beneficiary in beneficiary_form:
+						beneficiary.save()
+				else:
+					print beneficiary_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/beneficiary.html"
+				return render(request, template, context_dict)
+
+			if 'allotee_set-0-user' in request.POST:
+				if allotee_form.is_valid():
+					for allotee in allotee_form:
+						allotee.save()
+				else:
+					print allotee_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/allotment.html"
+				return render(request, template, context_dict)
+
+			if 'evaluation' in request.POST:
+				if evaluation_form.is_valid():
+					evaluation_form.save()
+				else:
+					print evaluation_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/evaluation.html"
+				return render(request, template, context_dict)
+
+			if 'mariner_status' in request.POST:
+				if mariner_status_form.is_valid():
+					mariner_status_form.save()
+				else:
+					print mariner_status_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/mariner-status.html"
+				return render(request, template, context_dict)
+
+			if 'flagdocumentsdetailed_set-0-flags_documents' in request.POST:
+				if flag_form.is_valid():
+					for flag in flag_form:
+						flag.save()
+				else:
+					print flag_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/flags.html"
+				return render(request, template, context_dict)
+			
+			if 'passport' in request.POST and 'sbook' in request.POST and 'yellow_fever' in request.POST and 'license' in request.POST and 'ntc_license' in request.POST and 'goc' in request.POST and 'src' in request.POST and 'stcw_endorsement' in request.POST and 'stcw_certificate' in request.POST:
+				if passport_form.is_valid():
+					passport_form.save()
+				else:
+					print passport_form.errors
+				if sbook_form.is_valid():
+					sbook_form.save()
+				else:
+					print sbook_form.errors
+
+				if yellow_fever_form.is_valid():
+					yellow_fever_form.save()
+				else:
+					print yellow_fever_form.errors
+
+				if license_form.is_valid():
+					license_form.save()
+				else:
+					print license_form.errors
+
+				if ntc_license_form.is_valid():
+					ntc_license_form.save()
+				else:
+					print ntc_license_form.errors	
+
+				if goc_form.is_valid():
+					goc_form.save()
+				else:
+					print goc_form.errors	
+
+				if src_form.is_valid():
+					src_form.save()
+				else:
+					print src_form.errors	
+
+				if stcw_endorsement_form.is_valid():
+					stcw_endorsement_form.save()
+				else:
+					print stcw_endorsement_form.errors
+
+				if stcw_certificate_form.is_valid():
+					stcw_certificate_form.save()
+				else:
+					print stcw_certificate_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/licenses.html"
+				return render(request, template, context_dict)
+
+			if 'us_visa' in request.POST and 'coc' in request.POST and 'schengen_visa' in request.POST:
+				if us_visa_form.is_valid():
+					us_visa_form.save()		
+				else:
+					print us_visa_form.errors
+
+				if schengen_visa_form.is_valid():
+					schengen_visa_form.save()
+				else:
+					print schengen_visa_form.errors
+
+				if coc_form.is_valid():
+					coc_form.save()
+				else:
+					print coc_form.errors
+				template = "mariner-profile/ajax-update-sub-profiles/coc_visas.html"
+				return render(request, template, context_dict)
+
+			if 'trainingcertificatedocumentsdetailed_set-0-trainings_certificate_documents' in request.POST:
+				if trainings_certificate_form.is_valid():
+					for trainings_certificate in trainings_certificate_form:
+						trainings_certificate.save()
+				else:
+					print trainings_certificate_form.errors
+				if request.POST['param']:
+					if request.POST['param'] == 'National':
+						html = 'national-certificates'
+					else:
+						html = 'certificates'
+				print html
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			else:
+				return HttpResponse('FAIL CATCH')
+
+			# if sea_service_form.is_valid():
+			# 	for sea_service in sea_service_form:
+			# 		sea_service.save()
+			# else:
+			# 	print sea_service_form.errors
+
+			
+
+			# if applicant_name_form.is_valid():
+			# 	applicant_name_form.save()
+			# else:
+			# 	print applicant_name_form.errors
+
+			# if personal_data_form.is_valid():
+			# 	personal_data_form.save()
+			# else:
+			# 	print personal_data_form.errors
+
+			# if permanent_address_form.is_valid():
+			# 	permanent_address_form.save()
+			# else:
+			# 	print permanent_address_form.errors
+
+			# if current_address_form.is_valid():
+			# 	current_address_form.save()
+			# else:
+			# 	print current_address_form.errors
+
+			# if spouse_form.is_valid():
+			# 	spouse_form.save()
+			# else:
+			# 	print spouse_form.errors
+
+			# if emergency_contact_form.is_valid():
+			# 	for emergency_contact in emergency_contact_form:
+			# 		emergency_contact.save()
+			# else:
+			# 	print emergency_contact_form.errors
+
+			# if dependents_form.is_valid():
+			# 	for dependents in dependents_form:
+			# 		dependents.save()
+			# else:
+			# 	print dependents_form.errors
+
+			# # Travel Documents Testing
+			# if passport_form.is_valid() and sbook_form.is_valid() and us_visa_form.is_valid() and schengen_visa_form.is_valid() and yellow_fever_form.is_valid():
+			# 		passport_form.save()
+			# 		sbook_form.save()
+			# 		us_visa_form.save()
+			# 		schengen_visa_form.save()
+			# 		yellow_fever_form.save()
+			# else:
+			# 	passport_form.errors
+			# 	sbook_form.errors
+			# 	us_visa_form.errors
+			# 	schengen_visa_form.errors
+			# 	yellow_fever_form.errors
+
+
+			# # LICENSES
+			# if license_form.is_valid() and coc_form.is_valid():
+			# 	license_form.save()
+			# 	coc_form.save()
+			# else:
+			# 	print license_form.errors
+			# 	print coc_form.errors
 
 		return render(request, template, context_dict)
 

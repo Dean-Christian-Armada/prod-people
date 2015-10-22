@@ -14,4 +14,6 @@ urlpatterns = [
 	url(r'^manship/(?P<id>[0-9]*)/$', views.manship_form, name='manship_form'),
 	url(r'^manship/(?P<id>[0-9]*)/pdf/$', views.pdf_complete_manship_form, name='pdf_complete_manship_form'),
 	url(r'^manship/(?P<id>[0-9]*)/pdf/blank/$', views.blank_pdf_complete_manship_form, name='blank_pdf_complete_manship_form'),
+	url(r'^manship/sea-services/(?P<id>[0-9]*)/pdf/$', views.pdf_manship_sea_services_form, name='pdf_manship_sea_services_form'),
+	url(r'^manship/sea-services/(?P<id>[0-9]*)/pdf/blank/$', views.blank_pdf_manship_sea_services_form, name='blank_pdf_manship_sea_services_form'),
 ]

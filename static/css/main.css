@@ -395,6 +395,7 @@ textarea{ resize: none; }
   max-height: 250px !important;
   overflow: auto !important;
   text-transform: uppercase !important;
+  z-index: 9999 !important;
 }
 .yourlabs-autocomplete .choice{
   display: inline !important;

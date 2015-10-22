@@ -1,0 +1,109 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}      
+
+
+<div class="form-group">
+    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+      <!-- <ul class="errorlist"> -->
+        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+
+<div class="panel-body"> 
+  {{ allotee_form.management_form }}                    
+  {% for allotee_forms in allotee_form %}
+  {{ allotee_forms.id }}
+  {{ allotee_forms.user }}
+  <a data-toggle="collapse" data-parent="#accordion" href="#Allotee{{forloop.counter}}" aria-expanded="false" style="color: #fff; text-decoration: none;"><p style="margin-top: 20px; background: #02be9b; padding: 10px;"><strong>{% if allotee_forms.allotee_first_name.value %}{{ allotee_forms.allotee_first_name.value|upper }}{% endif %}  {% if allotee_forms.allotee_middle_name.value %} {{ allotee_forms.allotee_middle_name.value|upper }} {% endif %} {% if allotee_forms.allotee_last_name.value %} {{ allotee_forms.allotee_last_name.value|upper }} {% endif %}</strong></p></a> 
+                              <div id="Allotee{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
+                              <div class="panel-body"> 
+                          <div class="row">    
+                      <div class="col-md-4">
+                      <div class="input-group">
+                    <label class="input-group-addon input-label">Last Name:</label>
+                    {{ allotee_forms.allotee_last_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">First Name:</label>
+                    {{ allotee_forms.allotee_first_name|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-4">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Middle Name:</label>
+                    {{ allotee_forms.allotee_middle_name|add_class:"form-control input-form" }}
+                </div>
+                </div>
+                          </div>
+
+
+                      <div class="row">
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Relationship:</label>
+                    {{ allotee_forms.allotee_relationship|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 6-->
+                              <div class="col-md-6 ">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Contact Nos.:</label>
+                    {{ allotee_forms.allotee_number|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-2 padding-right-negator">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Unit:</label>
+                    {{ allotee_forms.allotee_unit|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Street:</label>
+                    {{ allotee_forms.allotee_street|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 4-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Barangay:</label>
+<input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_barangay" name="allotee_set-{{ forloop.counter0 }}-allotee_barangay" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{ allotee_forms.allotee_zip.value|get_data_field:'Zip,barangay' }}">                    
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-3">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">Municipality:</label>
+                    <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_municipality" name="allotee_set-{{ forloop.counter0 }}-allotee_municipality" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{allotee_forms.allotee_zip.value|get_data_field:'Zip,barangay' }}">
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                              <div class="col-md-2">
+                        <div class="input-group">
+                                <label class="input-group-addon input-label">ZIP Code:</label>
+                                <input class="form-control input-form " id="id_allotee_set-{{ forloop.counter0 }}-allotee_zip" min="0" name="allotee_set-{{ forloop.counter0 }}-allotee_zip" value="{{ allotee_forms.allotee_zip.value|get_data:'Zip' }} ">                               
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 2-->
+                      </div><!--End of Row-->
+                          
+                          <div class="row">
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Bank Name:</label>
+                    {{ allotee_forms.bank|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 6-->
+                              <div class="col-md-6">
+                        <div class="input-group">
+                    <label class="input-group-addon input-label">Account No.:</label>
+                    {{ allotee_forms.allotment_account_number|add_class:"form-control input-form" }}
+                </div><!--End of Input Group-->
+                              </div><!--End of Col 6-->
+                      </div><!--End of Row-->
+                      </div><!--End of Panel Body-->
+                          </div><!--End of Collapse-->
+        {% endfor %}
+                          </div><!--End of Panel Body-->

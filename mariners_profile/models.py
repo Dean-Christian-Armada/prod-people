@@ -4,7 +4,7 @@ from django.db import models
 
 from django_date_extensions.fields import ApproximateDateField
 
-from login.models import UserProfile
+from login.models import UserProfile, default_user_user_level
 from people.models import *
 
 import datetime
@@ -516,7 +516,7 @@ class Termination(AbstractTermination):
 class Passport(AbstractPassport):
 	passport_place_issued = models.ForeignKey(PassportPlaceIssued, default=null_default_foreign_key_value(PassportPlaceIssued, 'passport_place', ''), blank=True)
 	passport_date_issued = models.DateField(default=None, null=True, blank=True)
-	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority())
+	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority(), null=True, blank=True)
 
 	def none_date_issued(self):
 		if not self.passport_date_issued:
@@ -532,7 +532,7 @@ class Sbook(AbstractSbook):
 	sbook_place_issued = models.ForeignKey(SBookPlaceIssued, default=null_default_foreign_key_value(SBookPlaceIssued, 'sbook_place', ''), blank=True)
 	sbook_date_issued = models.DateField(default=None, null=True, blank=True)
 	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
-	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
+	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
 
 	def none_date_issued(self):
 		if not self.sbook_date_issued:
@@ -548,7 +548,7 @@ class COC(AbstractCOC):
 	coc_date_issued = models.DateField(default=None, null=True, blank=True)
 	coc_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
 	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=null_default_foreign_key_value(COCPlaceIssued, 'coc_place', ''), blank=True)
-	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority())
+	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
 
 	def none_date_issued(self):
 		if not self.coc_date_issued:
@@ -677,7 +677,7 @@ class YellowFever(AbstractYellowFever):
 	# pass
 	yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, blank=True)
 	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
-	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority())
+	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority(), null=True, blank=True)
 
 	def none_date_issued(self):
 		if not self.yellow_fever_date_issued:
@@ -815,7 +815,7 @@ class MarinerStatusComment(models.Model):
 
 class MarinerStatusHistory(models.Model):
 	user = models.ForeignKey(UserProfile, related_name='mariner_user', default=None)
-	# updated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=None)
+	updated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=default_user_user_level())
 	updated_on = models.DateField(auto_now_add=True)
 	mariner_principal = models.ForeignKey(Principal, default=null_default_foreign_key_value(Principal, 'principal', ''))
 	mariner_status = models.ForeignKey(MarinerStatus, default=null_default_foreign_key_value(MarinerStatus, 'mariner_status', ''))
@@ -832,11 +832,13 @@ class MarinerStatusHistory(models.Model):
 		until = self.until
 		if not self.until:
 			until = datetime.date.today()
-		days = until - since
-		days = str(days).split(' ')
-		days = days[0]
+		try:
+			days = until - since
+			days = str(days).split(' ')
+			days = days[0]
+		except:
+			days = ''
 		# not yet working
-		print until
 		return days
 
 	def str_mariner_status_comment(self):
@@ -887,13 +889,13 @@ class Evaluation(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	# evalutation = models.ForeignKey(Evaluations, default=None)
 	evaluation = models.TextField(null=True, blank=True, default=None)
-	# evaluated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=None)
+	evaluated_by = models.ForeignKey(UserProfile, related_name='evaluated_by', default=default_user_user_level())
 	evaluated_on = models.DateField(auto_now_add=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __str__(self):
-		return "%s - %s" % (self.user, self.evaluation)
+		return "%s" % (self.evaluation)
 
 class Dependents(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

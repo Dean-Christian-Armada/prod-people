@@ -568,7 +568,7 @@ $(function(){
       municipality = $("#"+params+"_municipality").val();
       address = barangay+"+"+municipality+"+"+"zip code";
       address = address.replace(/ /g,"+");
-      var myWindow = window.open("http://windowww.google.com.ph/#q="+address, "", "width=1000, height=700");
+      var myWindow = window.open("http://www.google.com.ph/#q="+address, "", "width=1000, height=700");
     });
     $("body").on("click", ".emergency-search-zip", function(){
       params = $(this).attr('data-params');

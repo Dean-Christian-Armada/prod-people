@@ -41,8 +41,8 @@ class AbstractPersonalData(models.Model):
 	email_address_1 = models.EmailField(null=True, default=None)
 	email_address_2 = models.EmailField(blank=True, null=True, default=None)
 	facebook_email = models.EmailField(blank=True, null=True, default=None)
-	twitter_email = models.EmailField(blank=True, null=True, default=None)
-	instagram_email = models.EmailField(blank=True, null=True, default=None)
+	twitter_email = models.CharField(max_length=30, blank=True, null=True, default=None)
+	instagram_email = models.CharField(max_length=30, blank=True, null=True, default=None)
 
 	# DateFields
 	birth_date = models.DateField(default=None)
@@ -414,3 +414,13 @@ class AbstractSeaService(models.Model):
 		duration = date_left - date_joined
 		months = duration.days / 30
 		return months
+
+	def none_dwt(self):
+		if not self.dwt:
+			self.dwt = ''
+		return self.dwt
+
+	def none_grt(self):
+		if not self.grt:
+			self.grt = ''
+		return self.grt

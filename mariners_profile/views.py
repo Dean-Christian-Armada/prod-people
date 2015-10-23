@@ -236,10 +236,12 @@ def profile(request, id):
 		dependents_form = DependentsFormSet(instance=user_profile)
 
 		FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
-		flag_form = FlagFormSet(request.POST or None, instance=flag_documents)
+		flag_form = FlagFormSet(request.POST or None, instance=flag_documents, queryset=FlagDocumentsDetailed.objects.filter(flags__manship_standard=True))
 
 		TrainingCertificateFormSet = inlineformset_factory(TrainingCertificateDocuments, TrainingCertificateDocumentsDetailed, extra=0, can_delete=False, form=TrainingCertificateForm)
-		trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents)
+		trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents, queryset=TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificates__national_certificate=False))
+		national_trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents, queryset=TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificates__national_certificate=True))
+
 
 		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
 		sea_service_form = SeaServiceFormSet(instance=user_profile)
@@ -386,6 +388,7 @@ def profile(request, id):
 		context_dict['stcw_certificate_form'] = stcw_certificate_form
 		context_dict['flag_form'] = flag_form
 		context_dict['trainings_certificate_form'] = trainings_certificate_form
+		context_dict['national_trainings_certificate_form'] = national_trainings_certificate_form
 		context_dict['evaluation_form'] = evaluation_form
 		context_dict['sea_service_form'] = sea_service_form
 		context_dict['mariner_status_form'] = mariner_status_form

@@ -389,7 +389,7 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>Passport No.: <b>{{ passport.passport }}</b></td>
+					<td>Passport No.: <b>{{ passport.passport|upper }}</b></td>
 					<td>Issued: <b>{{ passport.none_date_issued }}</b></td>
 					<td>Expiry: <b>{{ passport.none_expiry }}</b></td>
 					<td>Place Issued: <b>{{ passport.passport_place_issued|upper }}</b></td>
@@ -399,7 +399,7 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>SBook No.: <b>{{ sbook.sbook }}</b></td>
+					<td>SBook No.: <b>{{ sbook.sbook|upper }}</b></td>
 					<td>Issued: <b>{{ sbook.none_date_issued }}</b></td>
 					<td>Expiry: <b>{{ sbook.none_expiry }}</b></td>
 					<td>Place Issued: <b>{{ sbook.sbook_place_issued|upper }}</b></td>
@@ -409,7 +409,7 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">
-					<td>COC/COE: <b>{{ coc.coc }}</b></td>
+					<td>COC/COE: <b>{{ coc.coc|upper }}</b></td>
 					<td>Issued: <b>{{ coc.none_date_issued }}</b></td>
 					<td>Expiry: <b>{{ coc.none_expiry }}</b></td>
 					<td>Rank: <b>{{ coc.coc_rank.coc_rank }}</b></td>
@@ -446,7 +446,7 @@
 		<tr>
 			<td style="padding: 0px;">
 				<table border="1">	
-					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.usvisa_type %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if us_visa.usvisa_type %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
+					<td style="padding-top:0px">US Visa (C1/D) {% if us_visa.us_visa %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if us_visa.us_visa %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
 					<td>Place Issued: <b>{{ us_visa.us_visa_place_issued|upper }}</b></td>
 					<td>Expiry: <b>{{ us_visa.none_expiry }}</b></td>
 				</table>
@@ -455,7 +455,7 @@
 		<tr>	
 			<td style="padding: 0px;">
 				<table border="1">
-					<td style="padding-top:0px" colspan="2">Schengen Visa (Type C) {% if schengen_visa.schengen_type %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if schengen_visa.schengen_type %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
+					<td style="padding-top:0px" colspan="2">Schengen Visa (Type C) {% if schengen_visa.schengen_visa %}{% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %}{% else %} {% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %} {% endif %} Yes {% if check %}{% if schengen_visa.schengen_visa %}{% if uncheck %} <img src="{{ ressource.image.url|get64:uncheck }}"> {% endif %}{% else %} {% if check %} <img src="{{ ressource.image.url|get64:check }}"> {% endif %} {% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} No</td>
 					<td>Place Issued: <b>{{ schengen_visa.schengen_visa_place_issued|upper }}</b></td>
 					<td>Expiry: <b>{{ schengen_visa.none_expiry }}</b></td>
 				</table>
@@ -480,7 +480,7 @@
 		{{ flags_html | safe }}
 	</table>
 
-	<br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br />
 	<table border="1">
 		<tr>
 			<th style="text-align: left">TRAINING AND OTHER CERTIFICATES {% if department %}(<i>{{department}}</i>){% endif %} </th>

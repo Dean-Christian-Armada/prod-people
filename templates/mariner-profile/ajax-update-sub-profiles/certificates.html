@@ -29,7 +29,6 @@
                                               {% for trainings_certificate_forms in trainings_certificate_form %}
                                                 {{ trainings_certificate_forms.trainings_certificate_documents }}
                                                 {{ trainings_certificate_forms.id }}
-                                                {% if 'Certificate of Proficiency'|lower not in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}
                                                   <tr>
                                                     <td>{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates' }}</td>
                                                     <td>{{ trainings_certificate_forms.number|add_class:"form-control input-form" }}</td>
@@ -38,11 +37,6 @@
                                                             <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingPlaceIssuedAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-training_place_issued" type="text" value="{{ trainings_certificate_forms.training_place_issued.value|get_data:'TrainingPlaceIssued' }}"></td>
                                                             <td><input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TrainingCenterAutocomplete/" data-widget-bootstrap="text" id="id_trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-place_trained" type="text" value="{{ trainings_certificate_forms.place_trained.value|get_data:'TrainingCenter' }}"></td>
                                                   </tr>
-                                                  {% else %}
-                                                  {{ trainings_certificate_forms.number|attr:"style: display:none" }}
-                                                  {{ trainings_certificate_forms.issued|attr:"style: display:none" }}
-                                                  {{ trainings_certificate_forms.expiry|attr:"style: display:none" }}
-                                                {% endif %}
                                               {% endfor %}
                                       </tbody>
                                           </table><!--End of Table Stripped-->

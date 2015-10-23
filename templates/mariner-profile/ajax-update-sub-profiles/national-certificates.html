@@ -11,36 +11,30 @@
   </div>
 
 <div class="panel-body">
-{{ trainings_certificate_form.management_form }}        
-{% for trainings_certificate_forms in trainings_certificate_form %}
+{{ national_trainings_certificate_form.management_form }}        
+{% for national_trainings_certificate_forms in national_trainings_certificate_form %}
           
-            {{ trainings_certificate_forms.trainings_certificate_documents }}
-            {{ trainings_certificate_forms.id }}
-            {% if 'Certificate of Proficiency'|lower in trainings_certificate_forms.trainings_certificates.value|get_data:'TrainingCertificates'|lower %}                  
+            {{ national_trainings_certificate_forms.trainings_certificate_documents }}
+            {{ national_trainings_certificate_forms.id }}                
                           <div class="row">
                               <div class="col-md-4">
                         <div class="input-group">
-                    <label class="input-group-addon input-label">{{ trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ trainings_certificate_forms.trainings_certificates.value|get_data_field:'TrainingCertificates,trainings_certificates_abbreviation' }}:</label>
-                    {{ trainings_certificate_forms.number|add_class:"form-control input-form" }}
+                    <label class="input-group-addon input-label">{{ national_trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ national_trainings_certificate_forms.trainings_certificates.value|get_data_field:'TrainingCertificates,trainings_certificates_abbreviation' }}:</label>
+                    {{ national_trainings_certificate_forms.number|add_class:"form-control input-form" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                               <div class="col-md-4">
                         <div class="input-group">
                     <label class="input-group-addon input-label">Date Issued:</label>
-                    {{ trainings_certificate_forms.issued|add_class:"form-control input-form date" }}
+                    {{ national_trainings_certificate_forms.issued|add_class:"form-control input-form date" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                               <div class="col-md-4">
                         <div class="input-group">
                     <label class="input-group-addon input-label">Date Expiry:</label>
-                    {{ trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
+                    {{ national_trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 3-->
                       </div><!--End of Row-->  
-          {% else %}
-              {{ trainings_certificate_forms.number|attr:"style: display:none" }}
-              {{ trainings_certificate_forms.issued|attr:"style: display:none" }}
-              {{ trainings_certificate_forms.expiry|attr:"style: display:none" }}  
-          {% endif %}
-        {% endfor %}                        
+        {% endfor %}                   
              </div>

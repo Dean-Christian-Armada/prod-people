@@ -123,7 +123,7 @@ class CurrentAddressForm(forms.ModelForm):
 
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
-	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
+	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('PreferredVesselTypeAutocomplete'))
 	# regex field for mobile numbersNumberInput 
 	mobile_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
 	mobile_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
@@ -131,13 +131,13 @@ class PersonalDataForm(forms.ModelForm):
 	landline_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
 	landline_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
 	# regex fild for sss
-	sss = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
+	sss = forms.RegexField(widget=forms.TextInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
 	# regex field for philhealth
-	philhealth = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
+	philhealth = forms.RegexField(widget=forms.TextInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
 	# regex fild for tin
-	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
+	tin = forms.RegexField(widget=forms.TextInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
 	# regex fild for pagibig
-	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
+	pagibig = forms.RegexField(widget=forms.TextInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
 	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
  
@@ -628,7 +628,7 @@ class YellowFeverForm(forms.ModelForm):
 		YellowFever.objects.create(**value)
 
 class FlagForm(forms.ModelForm):
-	flags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=Flags.objects.filter(company_standard=1), required=False)
+	flags = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=Flags.objects.filter(manship_standard=1), required=False)
 	class Meta:
 		model = ApplicationFormFlagDocuments
 		fields = ('flags', )

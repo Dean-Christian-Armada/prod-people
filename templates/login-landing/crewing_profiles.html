@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<nav class="navbar navbar-default navbar-static-top" style="height:100px; background-color: #2e76b8;">
+<nav class="navbar navbar-default navbar-static-top account-landing">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -18,14 +18,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin: 23px;">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" class="navbar-link" style="color: #fff; margin-top: 5px; background-color: #2e76b8;">JR</a></li>
+            <li><a href="#" class="navbar-link account-landing-picture-identifier">{% if user_profile.nick_name %}{{user_profile.nick_name}}{% else %}{{ request.user }}{% endif %}</a></li>
            
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background-color: #2e76b8;"><img src="{% static 'img/mrad.pix' %}" style="margin-top: -10px;" height="50" width="50"><span class="caret"></span></a>
-              <ul class="dropdown-menu" style="background-color: #2e76b8; box-shadow: none; border: none;">
-                
+              <a href="#" class="dropdown-toggle background-msmi-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="margin-top-landing" src="{{MEDIA_URL}}{{user_profile.picture}}" height="50px" width="50px"><span class="caret"></span></a>
+              <ul class="dropdown-menu account-landing-dropdown-menu">
                 <li><a href="">Change password</a></li>
-                
                 <li><a href="" target="_blank">Manage Accounts</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
               </ul>
@@ -39,50 +37,30 @@
     <div class="container">
       <div class="col-xs-6 col-md-6">
         <div class="thumbnail">
-          <a href="{% url 'application_profiles' %}" target="_blank" title="People Centre"><img src="{% static "img/login-landing/applicants.png" %}" alt="People Centre" style="padding-top: 15px;"></a>
+          <a href="{% url 'application_profiles' %}" target="_blank" title="People Centre"><img class="account-landing-thumbnail-img" src="{% static "img/login-landing/applicants.png" %}" alt="People Centre"></a>
           <div class="caption">
-            <h3><b>APPLICANT Profiles</b></h3>
-            <p style="font-size:12px;">View and manage Applicants.</p>
+            <h3><b>MANSHIP Applicants</b></h3>
+            <p class="account-landing-thumbnail-desc">See who wants to join us!</p>
             <p><a href="{% url 'application_profiles' %}" target="_blank" class="btn btn-primary" role="button">Launch</a></p>
           </div>
         </div>
       </div>
       <div class="col-xs-6 col-md-6">
         <div class="thumbnail">
-          <a href="{% url 'mariners_profiles' %}" target="_blank" title="Mariners Profile"><img src="{% static "img/login-landing/mariners.png" %}" alt="Mariners Profile" style="padding-top: 15px;"></a>
+          <a href="{% url 'mariners_profiles' %}" target="_blank" title="Mariners Profile"><img class="account-landing-thumbnail-img" src="{% static "img/login-landing/mariners.png" %}" alt="Mariners Profile"></a>
           <div class="caption">
-            <h3><b>MARINER Profiles</b></h3>
-            <p style="font-size:12px;">View and manage Mariners.</p>
+            <h3><b>MANSHIP Mariners</b></h3>
+            <p class="account-landing-thumbnail-desc">See our team of highly competent, trustworthy and well-taken care of mariners!</p>
             <p><a href="{% url 'mariners_profiles' %}" target="_blank" class="btn btn-primary" role="button">Launch</a></p>
           </div>
         </div>
       </div>
-        <!-- <div class="col-xs-6 col-md-3">
-        <div class="thumbnail">
-          <a href="#" title="Payroll"><img src="{% static "img/login-landing/payroll.png" %}" alt="Payroll" style="padding-top: 15px;"></a>
-          <div class="caption">
-            <h3><b>Payroll</b></h3>
-            <p style="font-size:12px;">View the voyage information of the vessels and/or create reports.</p>
-            <p><a href="#" class="btn btn-primary" role="button">Launch</a></p>
-          </div>
-        </div>
-      </div>
-        <div class="col-xs-6 col-md-3">
-        <div class="thumbnail">
-          <a href="/admin/crew/bio/" target="_blank" title="Admin"><img src="{% static "img/login-landing/admin.png" %}" alt="Admin" style="padding-top: 15px;"></a>
-          <div class="caption">
-            <h3><b>Crew Application</b></h3>
-            <p style="font-size:12px;">Manage user accounts, vessels, and more.</p>
-            <p><a href="/admin/crew/bio/" target="_blank" class="btn btn-primary" role="button">Launch</a></p>
-          </div>
-        </div>
-      </div> -->
     </div>
     </div>
 
     <!------FOOTER---------->
-    <div style="border-top: 2px solid #02be9b; font-size: 12px; padding-top:10px;" align="center">
-    <div class="container-fluid">
+    <div class="text-center">
+    <div class="container-fluid account-landing-footer">
     Copyright © {% now "Y" %} Manila Shipmanagement &amp; Manning, Inc. All rights reserved.
     </div>
   </div>

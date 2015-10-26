@@ -1,17 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 <style type="text/css">
-	.navbar {
-	background: #2e76b8;
-	}
-.navbar-toggle{
-		height: 40px;
-	}
-.navbar-right{
-	margin-top: 10px;
-	}
+
 .footer{
 font-size: 12px; 
 padding-top: 5px;
@@ -19,9 +12,6 @@ background: #fff;
 height: 100%;
 margin: 15px -25px 0 -20px;   
 border-top: 3px solid #2e76b8;	
-	}
-.navbar-header{
-	margin-top: -5px;
 	}
 .thead-main{
 	background: #82ca9c;	
@@ -255,32 +245,28 @@ tr:hover{
 }
 .btn-blue {
   color: #fff;
-    box-shadow:0 0 0 1px #428bca 
-  inset, 0 0 0 1px rgba(255,255,255,0.15) 
-  inset, 0 1px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
-    background-color:#428bca;
+  background-color:#428bca;
 }
 .btn-blue:hover {
   color: #fff !important;
-    box-shadow:0 0 0 3px #428bca 
-  inset, 0 0 0 1px rgba(255,255,255,0.15) 
-  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
-    background-color:#428bca;
+  background-color:#428bca;
 }
 .btn-blue:focus {
   color: #fff !important;
-    box-shadow:0 0 0 3px #428bca 
-  inset, 0 0 0 1px rgba(255,255,255,0.15) 
-  inset, 0 3px 0 0 #04508e, 0 0px 0 0px rgba(0,0,0,0.4), 0 0 0 0 rgba(0,0,0,0.5);
-    background-color:#428bca;
+  background-color:#428bca;
 }
+
+.input-label{
+  color: #2e76b8 !important;
+}
+
 </style>
 <body>
 <div id="wrapper">
 		<nav class="navbar navbar-fixed-top">
 				<div class="container-fluid">
 
-				<div class="navbar-header">
+				<div class="navbar-header extra-margin-navbar-header">
 							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
 										<span class="sr-only">Toggle navigation</span>
 										<span class="icon-bar"></span>
@@ -293,10 +279,10 @@ tr:hover{
                 </div><!--End of Navbar Header-->
                 
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav navbar-right">
-        								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{% if nick_name %} {{ nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a></li>
+							<ul class="nav navbar-nav navbar-right extra-margin-navbar-right">
+        								<li><a href="#" style="color: #fff; background: #2e76b8;"><!-- Username -->{% if user.nick_name %} {{ user.nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a></li>
         								<li class="dropdown">
-<a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8; padding-top:0px;"><img src="{% static 'img/mrad.pix' %}" width="50" height="50"> <span class="caret"></span></a>
+<a href="#" class="dropdown-toggle nav-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background: #2e76b8; padding-top:0px;"><img src="{{MEDIA_URL}}{{user.picture}}" width="50" height="50"> <span class="caret"></span></a>
 							<ul class="dropdown-menu navmenu ">
             							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
             							<li><a href="#">Setting</a></li>
@@ -312,22 +298,13 @@ tr:hover{
 <div class="row">
 	<div class="col-sm-3 col-md-2 sidebar">
 		    <div class="sidebar-search">
-            <form method="GET">
-              <div class="input-group">
-                  <span class="input-group-btn">
-                   <button class="btn btn-blue btn3" type="button" style="margin-top: -2px;">Search</button>
-              </span>
-                  {{ search.search }}
-              </div>
-            </form>
-                 
 <div class="input-group"><label class="input-label" style="padding-top: 10px; color: #02be9b;">Filter</label> &nbsp;<a href="{% url 'application_profiles' %}" class="btn btn-info" role="button"> Reset Filter</a></div>
                 
               <form method="POST" id="myform" action="{% url 'application_profiles' %}">
                           {% csrf_token %}
               <div class="input-group">
                 <span class="input-group-addon input-label" style="color: #2e76b8;">Rank:</span>
-                <select name="rank" class="form-control">
+                <select name="rank" class="form-control input-form">
                   <option>{% if request.GET.rank %}{{ request.GET.rank }}{% endif %}</option>
                   {% if not request.GET.rank %}
                     {% for ranks in rank %}
@@ -342,7 +319,7 @@ tr:hover{
                 
               <div class="input-group" style="margin-top: 10px;">
                 <span class="input-group-addon input-label" style="color: #2e76b8;">Vessel Type:</span>
-                <select name="vessel_type" class="form-control">
+                <select name="vessel_type" class="form-control input-form">
                   <option>{% if request.GET.vessel_type %}{{ request.GET.vessel_type }}{% endif %}</option>
                   {% if not request.GET.vessel_type %}
                     {% for vessel_types in vessel_type %}
@@ -358,7 +335,7 @@ tr:hover{
                  
               <div class="input-group" style="margin-top: 10px;">
                 <span class="input-group-addon input-label" style="color: #2e76b8;">US Visa:</span>
-                <select name="us_visa" class="form-control">
+                <select name="us_visa" class="form-control input-form">
                  <option>{% if request.GET.us_visa %}{% if request.GET.us_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
                   {% if not request.GET.us_visa %}
                     {% for choices in us_visa reversed %}
@@ -371,7 +348,7 @@ tr:hover{
            
               <div class="input-group" style="margin-top: 10px;">
                 <span class="input-group-addon input-label" style="color:#2e76b8;">Schengen Visa:</span>
-                <select name="schengen_visa" class="form-control">
+                <select name="schengen_visa" class="form-control input-form">
                  <option>{% if request.GET.schengen_visa %}{% if request.GET.schengen_visa == "YES" %}YES{% else %}NO{% endif %}{% endif %}</option>
                   {% if not request.GET.schengen_visa %}
                     {% for choices in schengen_visa reversed %}
@@ -398,7 +375,7 @@ tr:hover{
 
              <div class="input-group" style="margin-top: 10px;">
                 <span class="input-group-addon input-label" style="color: #2e76b8;">Municipality:</span>
-                <select name="municipality" class="form-control">
+                <select name="municipality" class="form-control input-form">
                   <option>{% if request.GET.municipality %}{{ request.GET.municipality }}{% endif %}</option>
                   {% if not request.GET.municipality %}
                     {% for municipalitys in municipality %}
@@ -420,30 +397,51 @@ tr:hover{
     </div><!--End of Sidebar-->
     
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <div class="panel-heading" style="padding: 15px;"><h1>APPLICANT Profiles</h1>
+          <div class="panel-heading" style="padding: 15px;"><h1>MANSHIP Applicants</h1>
           	<div class="panel panel-msmi-blue">
           </div>
            <!-- <form method="GET"> -->
 <div class="panel panel-msmi-green">
 	<div class="panel-heading" style="padding: 15px;"><strong>Crew Applicants</strong>
-			<div class="form-inline pull-right" style="margin-top: -6px;">
+<!-- 			<div class="form-inline pull-right" style="margin-top: -6px;">
             		<label>Per Page:</label>
                     <select class="form-control">
                     	<option>10</option>
                         <option>50</option>
                         <option>100</option>
                     </select>
-
-			
-       
-                    
-            </div>	    
+            </div>	  -->   
  </div>
   <!-- </form> -->
  
  <!--Second Panel-->
     	<div class="panel-body panel-body-green">
-        	<p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i></p>
+        	<!-- <p style="color: #00aeef;"><strong>Note:</strong>&nbsp;<i>Detailed instructions will be written here.</i></p> -->
+          <div class="row">
+
+            <!-- <div class="form-group"> -->
+              <div class="col-md-4">
+                <form method="GET">
+                  <div class="input-group form-group">
+                      <span class="input-group-btn">
+                       <button class="btn btn-blue btn3">Search</button>
+                      </span>
+                      {{ search.search|add_class:"input-form" }}
+                  </div>
+                </form>
+            </div>
+            <div class="col-md-2 pull-right">
+                <div class="input-group form-group">
+                  <label class="input-group-addon input-label">Per Page:</label>
+                  <select class="form-control input-form">
+                    <option>10</option>
+                      <option>50</option>
+                      <option>100</option>
+                  </select>
+                </div>
+            </div>
+            <!-- </div> -->
+          </div>
         	<div class="table table-bordered">
         		<table class="table table-striped">
         			<thead class="thead-main">

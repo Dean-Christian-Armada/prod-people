@@ -21,12 +21,15 @@ def default_user_level():
 	return user_level.id
 
 def default_user_user_level():
-	default = 'default'
-	user_level = Userlevel.objects.get_or_create(userlevel=default)
-	user_level = Userlevel.objects.get(userlevel=default)
-	user_profile = UserProfile.objects.get_or_create(first_name=default, middle_name=default, last_name=default )
-	user_profile = UserProfile.objects.get(first_name=default, middle_name=default, last_name=default )
-	return user_profile.id
+	try:
+		default = 'default'
+		user_level = Userlevel.objects.get_or_create(userlevel=default)
+		user_level = Userlevel.objects.get(userlevel=default)
+		user_profile = UserProfile.objects.get_or_create(first_name=default, middle_name=default, last_name=default )
+		user_profile = UserProfile.objects.get(first_name=default, middle_name=default, last_name=default )
+		return user_profile.id
+	except:
+		return None
 
 class Userlevel(models.Model):
 	userlevel = models.CharField(max_length=50, unique=True, null=True, )
@@ -45,6 +48,7 @@ class UserProfile(models.Model):
 	middle_name = models.CharField(max_length=50, null=True)
 	last_name = models.CharField(max_length=50, null=True)
 	nick_name = models.CharField(max_length=50, null=True, blank=True, default=None)
+	picture = models.ImageField(upload_to='photos/manship-employees', null=True, blank=True, default=None)
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.first_name, self.middle_name, self.last_name)

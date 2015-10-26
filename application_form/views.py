@@ -179,7 +179,7 @@ def form(request):
 
 
 	template = "application_form/index.html"
-	context_dict = {"title": "Application Form"}
+	context_dict = {"title": "MANSHIP Application Form"}
 	context_dict['applicant_name'] = applicant_name
 	context_dict['permanent_address'] = permanent_address
 	context_dict['current_address'] = current_address
@@ -473,8 +473,13 @@ def fleet_application_form(request, principal, id):
 
 		application_received_form = ApplicationReceivedForm()
 
+		print principal
+		_principal = Principal.objects.get(principal__iexact=principal)
+		print _principal
+		print "DEAN"
+
 		template = "principals-application-form/%s.html" % (principal)
-		title = ("%s application form" % (principal)).upper()
+		title = "%s Forms" % (_principal.principal_code)
 		context_dict = {}
 		context_dict['title'] = title
 
@@ -551,6 +556,7 @@ def manship_form(request, id):
 
 	template = "manship/index.html"
 	context_dict = {}
+	context_dict['title'] = "MANSHIP Forms"
 	context_dict['user_profile'] = user_profile
 	context_dict['mariners_profile'] = mariners_profile
 	return render(request, template, context_dict)

@@ -12,9 +12,8 @@ from . models import *
 
 def home(request):
 	user = request.user
+	userprofile = ''
 	template = "home.html"
-	context_dict = {}
-	context_dict = {"title": "Manship People Software"}
 	if user.is_authenticated():
 		user = User.objects.get(username=user)
 		try:
@@ -37,6 +36,9 @@ def home(request):
 			print userlevel
 			print type(userlevel)
 			return HttpResponse("DEFAULT<a href='/logout/'>Log Out</a>")
+	context_dict = {}
+	context_dict = {"title": "MANSHIP People"}
+	context_dict['user_profile'] = userprofile
 	return render(request, template, context_dict)
 
 def validation(request):

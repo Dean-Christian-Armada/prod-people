@@ -52,7 +52,7 @@ def index(request):
 	params2 = {}
 
 	template = "mariner-profile/index.html"
-	context_dict = {"title": "MARINER Profiles"}
+	context_dict = {"title": "MANSHIP Mariners"}
 
 	choice_visa = ''
 
@@ -140,7 +140,7 @@ def index(request):
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['name'] = name
-		context_dict['nick_name'] = user.nick_name
+		context_dict['user'] = user
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
 		context_dict['age'] = sorted(age)
@@ -402,8 +402,10 @@ def profile(request, id):
 		context_dict['current_evaluation'] = current_evaluation
 		context_dict['evaluations'] = evaluations
 
-		context_dict['title'] = "MARINER'S Profile - "+str(personal_data)
+		context_dict['title'] = "Mariner's Profile - "+str(personal_data).upper()
 		context_dict['dependents_num_label'] = dependents_num_label
+
+		context_dict['personal_data'] = personal_data
 
 		if request.method == "POST":
 			print "DEAN"

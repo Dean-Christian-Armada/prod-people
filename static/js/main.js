@@ -172,6 +172,14 @@ $(function(){
         $("#id_spouse_middle_name").val("");
         $("#id_birthdate").val("");
         $("#id_spouse_contact").val("");
+
+        $("#id_married_date").attr("Placeholder", "");
+        $("#id_spouse_last_name").attr("Placeholder", "");
+        $("#id_spouse_first_name").attr("Placeholder", "");
+        $("#id_spouse_middle_name").attr("Placeholder", "");
+        $("#id_birthdate").attr("Placeholder", "");
+        $("#id_spouse_contact").attr("Placeholder", "");
+
         $("#id_married_date").prop("disabled", true);
         $("#id_spouse_last_name").prop("disabled", true);
         $("#id_spouse_first_name").prop("disabled", true);
@@ -630,7 +638,7 @@ $(function(){
       }
     });
 
-    $("#id-application-form, #id-application-profile, #status").submit(function(){
+    $("#id-application-form, #id-application-profile, #status, #login-form").submit(function(){
       $("#loading").modal('show');
       // return false;
     });

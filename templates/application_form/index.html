@@ -13,7 +13,7 @@
     <div id="header">
       <div class="bs-doc-header">
         <div class="container">
-          <h1>Step 1 : APPLICATION FORM</h1>
+          <h1>MANSHIP Application Form</h1>
           <h4>Explore your opportunities here!</h4>
           <div class="image-holder pull-right"><img src="{% static 'img/mascot.png' %}" ></div>
         </div>
@@ -80,13 +80,13 @@
             <h3 id="step-13" style="color: #02be9b;">Social Media</h3>
             <div class="form-group">
               <div class="col-md-4">
-                {{ personal_data.facebook_email|add_class:"form-control facebook_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Email" }}
+                {{ personal_data.facebook_account|add_class:"form-control facebook_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Account or Email" }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.instagram_email|add_class:"form-control instagram_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Email" }}
+                {{ personal_data.instagram_account|add_class:"form-control instagram_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Account" }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.twitter_email|add_class:"form-control twitter_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Email" }}
+                {{ personal_data.twitter_account|add_class:"form-control twitter_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Account" }}
               </div>
             </div>
 
@@ -309,7 +309,7 @@
             <h3 id='step-4' style="color: #02be9b;">Educational Information</h3>
             <div class="form-group bottom-zero">
               <div class="col-md-12">
-                <i><u>Colleges</u></i> &nbsp;&nbsp;<button type="button" class="btn btn-info add-college">Add more Colleges</button><button type="button" class="btn btn-danger delete-college">Delete College</button>
+                <i><u>Colleges</u></i> &nbsp;&nbsp;<button type="button" class="btn btn-info add-college">Add more Colleges</button> <button type="button" class="btn btn-danger delete-college">Delete College</button>
               </div>
             </div>
             {% for college_form in college %}
@@ -360,7 +360,7 @@
               </div>
             </div>
 
-            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details &nbsp;<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button><button type="button" class="btn btn-danger delete-emergency">Delete Bottom Emergency Contact</button></h3>
+            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details &nbsp;<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button> <button type="button" class="btn btn-danger delete-emergency">Delete Emergency Contact</button></h3>
             {% for emergencycontact_form in emergency %}
               <div class="emergency-contacts">  
                 <div class="form-group">
@@ -619,6 +619,22 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="welcome-message" tabindex="-1" role="dialog" aria-labelledby="PictureLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- <h4 class="modal-title" id="pictureLabel"><b>Welcome to Manship</b></h4> -->
+      </div>
+      <div class="modal-body webcam-container" style="margin-left: auto; margin-right: auto;">
+        <center><img src="{% static 'img/mascot.png' %}" width="215px" height="215px">
+        <h3>Thank you for choosing MANSHIP!</h3></center>
+      </div>
+      <div class="modal-footer">
+        <center><button type="button" class="btn btn-info half-width" data-dismiss="modal">Proceed to picture</button></center>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal fade" id="seaservice" tabindex="-1" role="dialog" aria-labelledby="SeaServiceLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -795,6 +811,7 @@
         setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
 
         $("#webcam").modal('show');
+        $("#welcome-message").modal('show');
 
         // Used in the input[name='source'] click function
         function referred_by_focus(){ setTimeout(function(){ $("#id_referred_by").focus(); }, 300); }; 

@@ -388,7 +388,7 @@ class Flags(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.flags
+		return self.flags.capitalize()
 
 class TrainingCertificates(models.Model):
 	trainings_certificates = models.CharField(max_length=100, default=None)
@@ -408,6 +408,7 @@ class TrainingCertificates(models.Model):
 
 class Principal(models.Model):
 	principal = models.CharField(max_length=50, default=None)
+	principal_code = models.CharField(max_length=15, null=True, blank=True, default=None)
 	company_standard = models.NullBooleanField(default=False)
 	manship_standard = models.BooleanField(default=False)
 	flags_standard = models.ManyToManyField(Flags, blank=True)

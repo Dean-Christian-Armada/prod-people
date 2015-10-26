@@ -53,7 +53,7 @@ def index(request):
 	params2 = {}
 
 	template = "application-profile/index.html"
-	context_dict = {"title": "APPLICANT Profiles"}
+	context_dict = {"title": "MANSHIP Applicants"}
 
 	choice_visa = ''
 
@@ -136,7 +136,7 @@ def index(request):
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['name'] = name
-		context_dict['nick_name'] = user.nick_name
+		context_dict['user'] = user
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
 		context_dict['age'] = sorted(age)
@@ -332,7 +332,7 @@ def profile(request, id):
 		context_dict['reference_form'] = reference_form
 		context_dict['principal_select_form'] = principal_select_form
 
-		context_dict['title'] = "APPLICANT'S Profile - "+str(personal_data).upper()
+		context_dict['title'] = "Applicant's Profile - "+str(personal_data).upper()
 		context_dict['sea_service'] = sea_service
 		context_dict['application_form'] = application_form
 		context_dict['mariners_profile'] = mariners_profile

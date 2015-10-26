@@ -771,7 +771,7 @@ class DependentsForm(forms.ModelForm):
 
 class SeaServiceForm(forms.ModelForm):
 	vessel_name = forms.CharField(widget=autocomplete_light.TextWidget('ManshipVesselNameAutocomplete'))
-	flag = forms.ModelChoiceField(queryset=Flags.objects.filter(manship_standard=1))
+	flag = forms.ModelChoiceField(queryset=Flags.objects.filter())
 	principal = forms.CharField(widget=autocomplete_light.TextWidget('ManshipPrincipalAutocomplete'))
 	manning_agency = forms.ModelChoiceField(queryset=ManningAgency.objects.filter(), initial=ManningAgency.objects.get(manning_agency='MANSHIP'))
 	trade_area = forms.CharField(widget=autocomplete_light.TextWidget('TradeAreaAutocomplete'), required=False)

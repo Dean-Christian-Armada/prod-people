@@ -169,7 +169,7 @@
 <div id="wrapper">
   <div id="header">
     <div class="container">
-          <h1 style="margin-left: 50px;"><strong>APPLICANT'S Profile</strong></h1>
+          <h1 style="margin-left: 50px;"><strong>Applicant's Profile</strong></h1>
           <h4 style="margin-left: 50px;">Your Applicant Information Guide</h4>
             <div class="pull-left"><img src="{% static 'img/mascot-mariners-profile.png' %}" width="120" height="200" style="margin-bottom: -75px; margin-top: -130px; margin-left: -80px;"></div>
     </div><!---End of Container-->
@@ -343,31 +343,31 @@
  
     <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Permanent Address</strong></p>
                         <div class="row">
-                            <div class="col-md-2 padding-right-negator">
+                            <div class="col-md-6 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Unit:</span>
+                              <span class="input-group-addon input-label">Unit / Lot / House:</span>
                   <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Street:</span>
+                              <span class="input-group-addon input-label">Street / Subdivision:</span>
                   <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Barangay:</span>
                   <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Municipality:</span>
                   <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">ZIP Code:</span>
                   <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
@@ -377,31 +377,31 @@
                         
     <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Current Address</strong></p>
                         <div class="row">
-                            <div class="col-md-2 padding-right-negator">
+                            <div class="col-md-6 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Unit:</span>
+                              <span class="input-group-addon input-label">Unit / Lot / House:</span>
                   <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Street:</span>
+                              <span class="input-group-addon input-label">Street / Subidivision:</span>
                   <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Barangay:</span>
                   <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Municipality:</span>
                   <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">ZIP Code:</span>
                   <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
@@ -897,31 +897,31 @@
                       </div><!--End of Row-->
                             
                        <div class="row">
-                            <div class="col-md-2 padding-right-negator">
+                            <div class="col-md-6 padding-right-negator">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Unit:</span>
+                              <span class="input-group-addon input-label">Unit / Lot / House:</span>
                   <input type="text" class="form-control input-form" placeholder="Lot / House" aria-describedby="basic-addon1" value="{{ emergencies.emergency_unit }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-2">
+                            <div class="col-md-6">
                       <div class="input-group">
-                              <span class="input-group-addon input-label">Street:</span>
+                              <span class="input-group-addon input-label">Street / Subdivision:</span>
                   <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ emergencies.emergency_street }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 4-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Barangay:</span>
                   <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">Municipality:</span>
                   <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.municipality }}">
               </div><!--End of Input Group-->
                             </div><!--End of Col 2-->
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                       <div class="input-group">
                               <span class="input-group-addon input-label">ZIP Code:</span>
                   <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >

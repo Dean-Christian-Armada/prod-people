@@ -183,7 +183,7 @@ th{
 <div id="wrapper">
   <div id="header">
     <div class="container">
-          <h1 style="margin-left: 150px;"><strong>MARINER'S Profile</strong></h1>
+          <h1 style="margin-left: 150px;"><strong>Mariner's Profile</strong></h1>
           <h4 style="margin-left: 150px;">Your Mariner Information Guide</h4>
             <div class="pull-left"><img src="{% static 'img/mascot-mariners-profile.png' %}" width="120" height="200" style="margin-bottom: -75px; margin-top: -130px; "></div>
     </div><!---End of Container-->
@@ -199,7 +199,7 @@ th{
     <div class="sidebar text-center" style="position: fixed; margin-top: 20px; padding-left: 90px; width: 250px;"> 
        <label class="input-label" style="padding-left: 10px;">Forms</label>
        <div class="col-md-12" style="margin-top: 10px;">
-            <a href="{% url 'manship_form' id=user_profile.id %}" target="_blank"   title="Manship" data-placement="right" class="img-responsive">
+            <a href="{% url 'manship_form' id=user_profile.id %}" target="_blank" title="Manship" data-toggle="tooltip" data-placement="right" class="img-responsive">
           <img src="{% static 'img/btn-msmi.png' %}">
          </a>
         </div><!--End of Column-->
@@ -370,7 +370,7 @@ th{
                               <div class="col-md-4">
                         <div class="input-group">
                     <label class="input-group-addon input-label">Age:</label>
-                    {{personal_data_form.age|add_class:"form-control input-form"}}
+                    <input type="text" readonly="" class="form-control input-form" value="{{ personal_data.age }}">
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
                               <div class="col-md-4">
@@ -492,31 +492,31 @@ th{
      <p data-toggle="collapse" data-parent="#accordion" href="#permanent-address" aria-expanded="false" style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>Permanent Address</strong> <button class="btn btn-primary update-mariner" style="margin-left: 20px;">UPDATE</button></p>
         <div class ="panel-collapse collapse" aria-expanded="false" id="permanent-address">
                           <div class="row panel-body">
-                              <div class="col-md-2 padding-right-negator">
+                              <div class="col-md-6 padding-right-negator">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Unit:</label>
+                                <label class="input-group-addon input-label">Unit / Lot / House:</label>
                     {{permanent_address_form.permanent_unit|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-2">
+                              <div class="col-md-6">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Street:</label>
+                                <label class="input-group-addon input-label">Street / Subdivision:</label>
                     {{permanent_address_form.permanent_street|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Barangay:</label>
                     {{permanent_address_form.permanent_barangay|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Municipality:</label>
                     {{permanent_address_form.permanent_municipality|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-2">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">ZIP Code:</label>
                     {{permanent_address_form.permanent_zip|add_class:"form-control input-form"}}
@@ -527,31 +527,31 @@ th{
        <p data-toggle="collapse" data-parent="#accordion" href="#current-address" aria-expanded="false" style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>Current Address</strong><button class="btn btn-primary update-mariner" style="margin-left: 20px;">UPDATE</button></p>
         <div class ="panel-collapse collapse" aria-expanded="false" id="current-address">
                           <div class="row panel-body">
-                              <div class="col-md-2 padding-right-negator">
+                              <div class="col-md-6 padding-right-negator">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Unit:</label>
+                                <label class="input-group-addon input-label">Unit / Lot / House:</label>
                     {{current_address_form.current_unit|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-2">
+                              <div class="col-md-6">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Street:</label>
+                                <label class="input-group-addon input-label">Street / Subdivision:</label>
                     {{current_address_form.current_street|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Barangay:</label>
                     {{current_address_form.current_barangay|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Municipality:</label>
                     {{current_address_form.current_municipality|add_class:"form-control input-form"}}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-2">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">ZIP Code:</label>
                     {{current_address_form.current_zip|add_class:"form-control input-form"}}
@@ -1031,32 +1031,32 @@ th{
                         </div><!--End of Row-->
                               
                               <div class="row">
-                              <div class="col-md-2 padding-right-negator">
+                              <div class="col-md-6 padding-right-negator">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Unit:</label>
+                                <label class="input-group-addon input-label">Unit / Lot / House:</label>
                     {{ land_employment_forms.employer_unit|add_class:"form-control input-form" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-2">
+                              <div class="col-md-6">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Street:</label>
+                                <label class="input-group-addon input-label">Street / Subdivision:</label>
                     {{ land_employment_forms.employer_street|add_class:"form-control input-form" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Barangay:</label>
                     <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_landemployment_set-{{ forloop.counter0 }}-employer_barangay" name="landemployment_set-{{ forloop.counter0 }}-employer_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ land_employment_forms.employer_zip.value|get_data_field:'Zip,barangay' }}">
 
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Municipality:</label>
                                 <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_landemployment_set-{{ forloop.counter0 }}-employer_municipality" name="landemployment_set-{{ forloop.counter0 }}-employer_municipality" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{ land_employment_forms.employer_zip.value|get_data_field:'Zip,municipality' }}">
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-2">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">ZIP Code:</label>
                                 <input class="form-control input-form" id="id_landemployment_set-{{ forloop.counter0 }}-employer_zip" min="0" name="landemployment_set-{{ forloop.counter0 }}-employer_zip" type="number" value="{{ land_employment_forms.employer_zip.value|get_data:'Zip' }}">                    
@@ -1721,31 +1721,31 @@ th{
                         </div><!--End of Row-->
                               
                          <div class="row">
-                              <div class="col-md-2 padding-right-negator">
+                              <div class="col-md-6 padding-right-negator">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Unit:</label>
+                                <label class="input-group-addon input-label">Unit / Lot / House:</label>
                     {{ emergency_contact_forms.emergency_unit|add_class:"form-control input-form" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-2">
+                              <div class="col-md-6">
                         <div class="input-group">
-                                <label class="input-group-addon input-label">Street:</label>
+                                <label class="input-group-addon input-label">Street / Subdivision:</label>
                     {{ emergency_contact_forms.emergency_street|add_class:"form-control input-form" }}
                 </div><!--End of Input Group-->
                               </div><!--End of Col 4-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Barangay:</label>
                     <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,barangay' }}">
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-3">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">Municipality:</label>
                     <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ emergency_contact_forms.emergency_zip.value|get_data_field:'Zip,municipality' }}">
                 </div><!--End of Input Group-->
                               </div><!--End of Col 2-->
-                              <div class="col-md-2">
+                              <div class="col-md-4">
                         <div class="input-group">
                                 <label class="input-group-addon input-label">ZIP Code:</label>
                     <input class="form-control input-form" id="id_emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" min="0" name="emergencycontact_set-{{ forloop.counter0 }}-emergency_zip" type="number" value="{{ emergency_contact_forms.emergency_zip.value|get_data:'Zip' }}">

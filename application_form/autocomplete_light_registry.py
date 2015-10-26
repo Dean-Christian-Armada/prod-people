@@ -66,6 +66,18 @@ class VesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(VesselTypeAutocomplete)
 
+class PreferredVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      VesselType.objects.filter(manship_standard=1)
+      )
+
+    search_fields = (
+      ('vessel_type'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(PreferredVesselTypeAutocomplete)
+
 class EngineTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
       EngineType.objects.filter(company_standard=1)

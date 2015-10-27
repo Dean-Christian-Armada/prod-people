@@ -188,6 +188,7 @@ $(function(){
         $("#id_spouse_contact").prop("disabled", true);
       }else if(val == 'Domestic Partner'){
         $("#id_married_date").val("");
+        $("#id_married_date").attr("Placeholder", "");
         $("#id_spouse_last_name").attr("Placeholder", "Live-in's Maiden Last Name");
         $("#id_spouse_first_name").attr("Placeholder", "Live-in's First Name");
         $("#id_spouse_middle_name").attr("Placeholder", "Live-in's Maiden Middle Name");
@@ -200,6 +201,7 @@ $(function(){
         $("#id_birthdate").prop("disabled", false);
         $("#id_spouse_contact").prop("disabled", false);
       }else{
+        $("#id_married_date").attr("Placeholder", "Date of Marriage");
         $("#id_spouse_last_name").attr("Placeholder", "Spouse's Maiden Last Name");
         $("#id_spouse_first_name").attr("Placeholder", "Spouse's First Name");
         $("#id_spouse_middle_name").attr("Placeholder", "Spouse's Maiden Middle Name");

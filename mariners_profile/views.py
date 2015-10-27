@@ -326,7 +326,7 @@ def profile(request, id):
 			evaluation = ''
 			current_evaluation = ''
 			evaluations = ''
-			evaluation_form = EvaluationForm(initial={'user': personal_data.name, 'evaluated_by': current_user} )
+			evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name, 'evaluated_by': current_user} )
 		
 		try:
 			history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')

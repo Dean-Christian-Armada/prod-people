@@ -18,6 +18,8 @@ from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalV
 
 import sys, urllib, cStringIO, base64
 
+
+
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
 	elif method == "GET": request_method = request.GET

@@ -1,0 +1,71 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+<div class="panel-body"> 
+  <div class="table-responsive">
+    <table class="table table-hover sea-tb main-table">
+      <thead class="thead">
+        <tr>
+          <th><button class="btn btn-success form-control">ADD</button></th>
+          <th>Vessel Name</th>
+          <th>Vessel Type</th>
+          <th>Flag</th>
+          <th>GRT</th>
+          <th>DWT</th>
+          <th>Year Built</th>
+          <th>Engine Type</th>
+          <th>Propulsion</th>
+          <th>HP</th>
+          <th>KW</th>
+          <th>Manning Agency</th>
+          <th>Principal/ ShipOwner</th>
+          <th>Trade Area</th>
+          <th>Date Joined</th>
+          <th>Date Left</th>
+          <th>Days</th>
+          <th>Rank</th>
+          <th>Cause of Discharge</th>
+         </tr>
+      </thead>
+      <tbody>
+        {{ sea_service_form.management_form }}
+        {% for sea_service_forms in sea_service_form %}
+          {{ sea_service_forms.sea_service_documents }}
+          {{ sea_service_forms.id }}
+          <tr>
+            <td><button class="btn btn-danger">DELETE</button></td>
+            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
+            <td>{{ sea_service_forms.vessel_type|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.flag|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.grt|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.dwt|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.year_built|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.engine_type|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.propulsion|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.hp|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.kw|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.manning_agency|add_class:" input-form" }}</td>
+            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipPrincipalAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-principal" name="seaservice_set-{{ forloop.counter0 }}-principal" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.principal.value|get_data:'Principal' }}"></td>
+            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TradeAreaAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-trade_area" name="seaservice_set-{{ forloop.counter0 }}-trade_area" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.trade_area.value|get_data:'TradeArea' }}"></td>
+            <td>{{ sea_service_forms.date_joined|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.date_left|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.duration|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.rank|add_class:" input-form" }}</td>
+            <td>{{ sea_service_forms.cause_of_discharge|add_class:" input-form" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table><!--End of Table Stripped-->
+  </div><!--End of Table Responsive-->
+</div><!--End of Panel Body-->

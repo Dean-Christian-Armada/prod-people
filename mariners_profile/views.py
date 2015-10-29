@@ -13,9 +13,6 @@ from mariners_profile.forms import *
 
 import sys
 
-def sample_only(request):
-	print request.user
-
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
 	elif method == "GET": request_method = request.GET
@@ -176,7 +173,10 @@ def profile(request, id):
 		if(flags_standard_num != flags_num):
 			for flags in flags_standard:
 				flag = Flags.objects.get(flags=flags.flags)
-				FlagDocumentsDetailed.objects.get_or_create(flags_documents=flag_documents, flags=flag)
+				try:
+					FlagDocumentsDetailed.objects.get_or_create(flags_documents=flag_documents, flags=flag)
+				except:
+					pass
 		# END
 		# START, variables used to prepopulate inlineformset for training and certificates
 		rank = Rank.objects.get(id=mariners_profile.position.id)
@@ -187,7 +187,10 @@ def profile(request, id):
 		if(trainings_certificate_standard_num != trainings_certificate_num):
 			for trainings_certificate in trainings_certificate_standard:
 				training_certificate = TrainingCertificates.objects.get(trainings_certificates=trainings_certificate.trainings_certificates)
-				TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainings_certificate_documents, trainings_certificates=training_certificate)
+				try:
+					TrainingCertificateDocumentsDetailed.objects.get_or_create(trainings_certificate_documents=trainings_certificate_documents, trainings_certificates=training_certificate)
+				except:
+					pass
 		# END
 
 		# Used for formset updating / inlineformset_factory
@@ -205,10 +208,14 @@ def profile(request, id):
 		src = SRC.objects.get(user=id)
 		goc = GOC.objects.get(user=id)
 
+		# the name of the mariner
 		applicant_name_form = ApplicantNameForm(instance=user_profile)
-		personal_data_form = PersonalDataForm(instance=personal_data, initial={'birth_place':personal_data.birth_place, 'preferred_vessel_type':personal_data.preferred_vessel_type, 'dialect':personal_data.dialect})
-		permanent_address_form = PermanentAddressForm(instance=personal_data.permanent_address, initial={'permanent_zip':personal_data.permanent_address.permanent_zip.zip, 'permanent_barangay':personal_data.permanent_address.permanent_zip.barangay, 'permanent_municipality':personal_data.permanent_address.permanent_zip.municipality})
-		current_address_form = CurrentAddressForm(instance=personal_data.current_address, initial={'current_zip':personal_data.current_address.current_zip.zip, 'current_barangay':personal_data.current_address.current_zip.barangay, 'current_municipality':personal_data.current_address.current_zip.municipality})
+		personal_data_form = PersonalDataForm(request.POST or None, instance=personal_data, initial={'birth_place':personal_data.birth_place, 'preferred_vessel_type':personal_data.preferred_vessel_type, 'dialect':personal_data.dialect})
+		personal_data_father_form = PersonalDataFatherForm(request.POST or None, instance=personal_data)
+		personal_data_mother_form = PersonalDataMotherForm(request.POST or None, instance=personal_data)
+		personal_data_civil_status_form = PersonalDataCivilStatusForm(request.POST or None, instance=personal_data)
+		permanent_address_form = PermanentAddressForm(request.POST or None, instance=personal_data.permanent_address, initial={'permanent_zip':personal_data.permanent_address.permanent_zip.zip, 'permanent_barangay':personal_data.permanent_address.permanent_zip.barangay, 'permanent_municipality':personal_data.permanent_address.permanent_zip.municipality})
+		current_address_form = CurrentAddressForm(request.POST or None, instance=personal_data.current_address, initial={'current_zip':personal_data.current_address.current_zip.zip, 'current_barangay':personal_data.current_address.current_zip.barangay, 'current_municipality':personal_data.current_address.current_zip.municipality})
 
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -223,7 +230,7 @@ def profile(request, id):
 
 		# sample = [{'emergency_municipality':'Quezon City', 'emergency_barangay':'Holy Spirit', 'emergency_zip':1127}]
 		EmergencyContactFormSet = inlineformset_factory(UserProfile, EmergencyContact, extra=0, can_delete=False, form=EmergencyContactForm )
-		emergency_contact_form = EmergencyContactFormSet(instance=user_profile)
+		emergency_contact_form = EmergencyContactFormSet(request.POST or None, instance=user_profile)
 
 		dependents = Dependents.objects.filter(user=id)
 		if len(dependents) < 1:
@@ -233,7 +240,7 @@ def profile(request, id):
 			dependents_num_extra = 0
 			dependents_num_label = len(dependents)
 		DependentsFormSet = inlineformset_factory(UserProfile, Dependents, extra=0, can_delete=False, form=DependentsForm )
-		dependents_form = DependentsFormSet(instance=user_profile)
+		dependents_form = DependentsFormSet(request.POST or None, instance=user_profile)
 
 		FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
 		flag_form = FlagFormSet(request.POST or None, instance=flag_documents, queryset=FlagDocumentsDetailed.objects.filter(flags__manship_standard=True))
@@ -244,7 +251,7 @@ def profile(request, id):
 
 
 		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
-		sea_service_form = SeaServiceFormSet(instance=user_profile)
+		sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile)
 
 		try:
 			vocational = Vocational.objects.get(user=id)
@@ -259,6 +266,8 @@ def profile(request, id):
 				num_extra = 1
 			elif len(land_employment) < 1:
 				num_extra = 2
+			elif len(land_employment) == 2:
+				num_extra = 0
 			LandEmploymentFormSet = inlineformset_factory(UserProfile, LandEmployment, fk_name='user', extra=1, can_delete=True, form=LandEmploymentForm )
 			land_employment_form = LandEmploymentFormSet(request.POST or None, instance=user_profile )
 
@@ -272,7 +281,9 @@ def profile(request, id):
 				num_extra = 1
 			elif len(beneficiary) < 1:
 				num_extra = 2
-			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=1, can_delete=True, form=BeneficiaryForm )
+			elif len(beneficiary) == 2:
+				num_extra = 0
+			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=num_extra, can_delete=True, form=BeneficiaryForm )
 			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
 		except:
@@ -284,6 +295,8 @@ def profile(request, id):
 				num_extra = 1
 			elif len(allotee) < 1:
 				num_extra = 2
+			elif len(allotee) == 2:
+				num_extra = 0
 			AlloteeFormSet = inlineformset_factory(UserProfile, Allotee, fk_name='user', extra=num_extra, can_delete=True, form=AlloteeForm )
 			allotee_form = AlloteeFormSet(request.POST or None, instance=user_profile )
 
@@ -339,8 +352,6 @@ def profile(request, id):
 			histories = ''
 			mariner_status_form = MarinerStatusForm(request.POST or None, initial={'user': personal_data.name, 'updated_by': current_user})
 
-		print "-------------"
-		print coc
 		passport_form = PassportForm(request.POST or None, instance=passport, initial={'passport_place_issued':passport.passport_place_issued})
 		sbook_form = SBookForm(request.POST or None, instance=sbook, initial={'sbook_place_issued':sbook.sbook_place_issued})
 		us_visa_form = USVisaForm(request.POST or None, instance=us_visa, initial={'us_visa':us_visa.us_visa, 'us_visa_place_issued':us_visa.us_visa_place_issued})
@@ -351,6 +362,7 @@ def profile(request, id):
 		src_form = SRCForm(request.POST or None, instance=src, initial={'src_rank':src.src_rank})
 		goc_form = GOCForm(request.POST or None, instance=goc, initial={'goc_rank':goc.goc_rank})
 		mariners_position_form = MarinersChangePosition(mariners_profile.position.id, request.POST or None, instance=mariners_profile)
+		mariners_picture_form = MarinersChangePicture(request.POST or None, request.FILES or None, instance=mariners_profile)
 
 		
 
@@ -362,6 +374,9 @@ def profile(request, id):
 		# form variables
 		context_dict['applicant_name_form'] = applicant_name_form
 		context_dict['personal_data_form'] = personal_data_form
+		context_dict['personal_data_father_form'] = personal_data_father_form
+		context_dict['personal_data_mother_form'] = personal_data_mother_form
+		context_dict['personal_data_civil_status_form'] = personal_data_civil_status_form
 		context_dict['permanent_address_form'] = permanent_address_form
 		context_dict['current_address_form'] = current_address_form
 		context_dict['spouse_form'] = spouse_form
@@ -393,6 +408,7 @@ def profile(request, id):
 		context_dict['sea_service_form'] = sea_service_form
 		context_dict['mariner_status_form'] = mariner_status_form
 		context_dict['mariners_position_form'] = mariners_position_form
+		context_dict['mariners_picture_form'] = mariners_picture_form
 
 		# queryset variables
 		context_dict['user_profile'] = user_profile
@@ -407,9 +423,20 @@ def profile(request, id):
 
 		context_dict['personal_data'] = personal_data
 
+		if request.GET and 'status' in request.GET:
+			from application_form.models import ApplicationForm
+			mariners_profile.status = 0
+			mariners_profile.save()
+			_status = Status.objects.get(status="Reverted from Mariners Profile")
+			application_form = ApplicationForm.objects.get(user=id)
+			application_form.status = _status
+			application_form.save()
+			return HttpResponseRedirect('/application-profile/'+id)
+
 		if request.method == "POST":
 			print "DEAN"
 			print request.POST
+			print request.FILES
 
 			if 'highschool' in request.POST and 'vocational' in request.POST and 'primaryschool' in request.POST:
 				if vocational_form.is_valid():
@@ -432,7 +459,7 @@ def profile(request, id):
 						college.save()
 				else:
 					print college_form.errors
-
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/educational-information.html"
 				return render(request, template, context_dict)
 			
@@ -442,6 +469,7 @@ def profile(request, id):
 						land_employment.save()
 				else:
 					print land_employment_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/land-employment.html"
 				return render(request, template, context_dict)
 
@@ -451,6 +479,7 @@ def profile(request, id):
 						beneficiary.save()
 				else:
 					print beneficiary_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/beneficiary.html"
 				return render(request, template, context_dict)
 
@@ -460,6 +489,7 @@ def profile(request, id):
 						allotee.save()
 				else:
 					print allotee_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/allotment.html"
 				return render(request, template, context_dict)
 
@@ -468,6 +498,7 @@ def profile(request, id):
 					evaluation_form.save()
 				else:
 					print evaluation_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/evaluation.html"
 				return render(request, template, context_dict)
 
@@ -476,6 +507,7 @@ def profile(request, id):
 					mariner_status_form.save()
 				else:
 					print mariner_status_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/mariner-status.html"
 				return render(request, template, context_dict)
 
@@ -485,6 +517,7 @@ def profile(request, id):
 						flag.save()
 				else:
 					print flag_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/flags.html"
 				return render(request, template, context_dict)
 			
@@ -532,6 +565,7 @@ def profile(request, id):
 					stcw_certificate_form.save()
 				else:
 					print stcw_certificate_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/licenses.html"
 				return render(request, template, context_dict)
 
@@ -550,32 +584,136 @@ def profile(request, id):
 					coc_form.save()
 				else:
 					print coc_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/coc_visas.html"
 				return render(request, template, context_dict)
 
 			if 'trainingcertificatedocumentsdetailed_set-0-trainings_certificate_documents' in request.POST:
-				if trainings_certificate_form.is_valid():
-					for trainings_certificate in trainings_certificate_form:
-						trainings_certificate.save()
-				else:
-					print trainings_certificate_form.errors
 				if request.POST['param']:
 					if request.POST['param'] == 'National':
 						html = 'national-certificates'
+						if national_trainings_certificate_form.is_valid():
+							for national_trainings_certificate in national_trainings_certificate_form:
+								national_trainings_certificate.save()
+						else:
+							print national_trainings_certificate_form.errors
 					else:
 						html = 'certificates'
-				print html
+						if trainings_certificate_form.is_valid():
+							for trainings_certificate in trainings_certificate_form:
+								trainings_certificate.save()
+						else:
+							print trainings_certificate_form.errors
+				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
 				return render(request, template, context_dict)
 
-			else:
-				return HttpResponse('FAIL CATCH')
+			if 'code' in request.POST or 'first_name' in request.POST or 'first_name' in request.POST or 'middle_name' in request.POST:
+				if personal_data_form.is_valid():
+					personal_data_form.save()
+				else:
+					print personal_data_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
 
-			# if sea_service_form.is_valid():
-			# 	for sea_service in sea_service_form:
-			# 		sea_service.save()
-			# else:
-			# 	print sea_service_form.errors
+			if 'permanent_unit' in request.POST or 'permanent_zip' in request.POST or 'permanent_barangay' in request.POST or 'permanent_street' in request.POST:
+				if permanent_address_form.is_valid():
+					permanent_address_form.save()
+				else:
+					print permanent_address_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'current_unit' in request.POST or 'current_zip' in request.POST or 'current_barangay' in request.POST or 'current_street' in request.POST:
+				if current_address_form.is_valid():
+					current_address_form.save()
+				else:
+					print current_address_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+			
+			
+			if 'father_first_name' in request.POST or 'father_first_name' in request.POST or 'father_middle_name' in request.POST:
+				if personal_data_father_form.is_valid():
+					personal_data_father_form.save()
+				else:
+					print personal_data_father_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'mother_first_name' in request.POST or 'mother_first_name' in request.POST or 'mother_middle_name' in request.POST:
+				if personal_data_mother_form.is_valid():
+					personal_data_mother_form.save()
+				else:
+					print personal_data_mother_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'civil_status' in request.POST or 'spouse_first_name' in request.POST or 'spouse_first_name' in request.POST or 'spouse_middle_name' in request.POST:
+				if spouse_form.is_valid() and personal_data_civil_status_form.is_valid():
+					spouse_form.save()
+					personal_data_civil_status_form.save()
+				else:
+					print spouse_form.errors
+					print personal_data_civil_status_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'dependents_set-0-dependent_relationship' in request.POST or 'dependents_set-0-dependent_zip' in request.POST or 'dependents_set-0-dependent_last_name' in request.POST or 'dependents_set-0-dependent_first_name' in request.POST or 'dependents_set-0-dependent_middle_name' in request.POST or 'dependents_set-0-user' in request.POST:
+				print "DEANSSSSSSSSSs"
+				if dependents_form.is_valid():
+					for dependents in dependents_form:
+						dependents.save()
+				else:
+					print dependents_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = request.POST['param']
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'emergencycontact_set-0-emergency_last_name' in request.POST or 'emergencycontact_set-0-emergency_middle_name' in request.POST or 'emergencycontact_set-0-emergency_first_name' in request.POST or 'emergencycontact_set-0-user' in request.POST:
+				if emergency_contact_form.is_valid():
+					for emergency_contact in emergency_contact_form:
+						emergency_contact.save()
+				else:
+					print emergency_contact_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = 'emergency'
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'seaservice_set-0-vessel_type' in request.POST or 'seaservice_set-0-vessel_name' in request.POST or 'seaservice_set-0-year_built' in request.POST:
+				if sea_service_form.is_valid():
+					for sea_service in sea_service_form:
+						sea_service.save()
+				else:
+					print sea_service_form.errors
+				context_dict['ajax_submit_flag'] = 1
+				html = 'sea-service'
+				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
+				return render(request, template, context_dict)
+
+			if 'picture' in request.FILES:
+				if mariners_picture_form.is_valid():
+					mariners_picture_form.save()
+				else:
+					print mariners_picture_form.errors
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+			else:
+				return HttpResponse('SECTION STILL IN DEVELOPMENT')
 
 			
 
@@ -583,61 +721,6 @@ def profile(request, id):
 			# 	applicant_name_form.save()
 			# else:
 			# 	print applicant_name_form.errors
-
-			# if personal_data_form.is_valid():
-			# 	personal_data_form.save()
-			# else:
-			# 	print personal_data_form.errors
-
-			# if permanent_address_form.is_valid():
-			# 	permanent_address_form.save()
-			# else:
-			# 	print permanent_address_form.errors
-
-			# if current_address_form.is_valid():
-			# 	current_address_form.save()
-			# else:
-			# 	print current_address_form.errors
-
-			# if spouse_form.is_valid():
-			# 	spouse_form.save()
-			# else:
-			# 	print spouse_form.errors
-
-			# if emergency_contact_form.is_valid():
-			# 	for emergency_contact in emergency_contact_form:
-			# 		emergency_contact.save()
-			# else:
-			# 	print emergency_contact_form.errors
-
-			# if dependents_form.is_valid():
-			# 	for dependents in dependents_form:
-			# 		dependents.save()
-			# else:
-			# 	print dependents_form.errors
-
-			# # Travel Documents Testing
-			# if passport_form.is_valid() and sbook_form.is_valid() and us_visa_form.is_valid() and schengen_visa_form.is_valid() and yellow_fever_form.is_valid():
-			# 		passport_form.save()
-			# 		sbook_form.save()
-			# 		us_visa_form.save()
-			# 		schengen_visa_form.save()
-			# 		yellow_fever_form.save()
-			# else:
-			# 	passport_form.errors
-			# 	sbook_form.errors
-			# 	us_visa_form.errors
-			# 	schengen_visa_form.errors
-			# 	yellow_fever_form.errors
-
-
-			# # LICENSES
-			# if license_form.is_valid() and coc_form.is_valid():
-			# 	license_form.save()
-			# 	coc_form.save()
-			# else:
-			# 	print license_form.errors
-			# 	print coc_form.errors
 
 		return render(request, template, context_dict)
 

@@ -17,7 +17,7 @@
             </div>
             <div class="error">{{ request.GET.error }}</div>
             <div class="form-row">
-              <input id="id_username" class="form-control" type="text" name="username" maxlength="254">
+              <input id="id_username" class="form-control" type="text" name="username">
               <div id = "usernamesubmit" /></div>
             </div>
             <div class="form-row">
@@ -35,17 +35,14 @@
         </div>
       </div>
     </div>
-    <div style="color: #2e76b8; text-align: center; margin-top: 50px;">
-      <strong>Copyright © 2015 Manila Shipmanagement & Manning, Inc. All rights reserved.</strong>
+    <div class="msmi-blue-color text-center" style="margin-top: 50px;">
+      <strong>Copyright © {% now "Y" %} Manila Shipmanagement & Manning, Inc. All rights reserved.</strong>
     </div>
 
 <div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="signatureLabel"></h4>
-      </div>
-      <div class="modal-body" style="text-align: center">
+      <div class="modal-body text-center">
         <img src="{% static 'img/loading-x.gif' %}">
       </div>
     </div>

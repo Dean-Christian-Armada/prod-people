@@ -28,14 +28,15 @@ class MarinersChangePosition(forms.ModelForm):
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
+class MarinersChangePicture(forms.ModelForm):
+	class Meta:
+		model = MarinersProfile
+		fields = ('picture', )
 
 class ApplicantNameForm(ApplicantNameForm):
 	class Meta:
 		model = UserProfile
 		fields = ('last_name', 'first_name', 'middle_name', 'code')
-
-
-
 
 class PermanentAddressForm(forms.ModelForm):
 	permanent_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
@@ -109,18 +110,18 @@ class PersonalDataForm(forms.ModelForm):
 	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
 	# regex fild for pagibig
 	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
-	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
+	age = forms.IntegerField(required=False)
 	class Meta:
 		model = PersonalData
 		fields = '__all__'
-		exclude = ('name', 'birth_place','permanent_address', 'current_address', 'dialect', 'availability_date')
+		exclude = ('name', 'birth_place','permanent_address', 'current_address', 'dialect', 'availability_date',  'father_last_name', 'father_first_name', 'father_middle_name', 'mother_last_name', 'civil_status', 'mother_first_name', 'nationality', 'mother_middle_name')
 
 	def save(self, commit=True):
 		print self.cleaned_data
 		birthplace = self.cleaned_data['birth_place']
 		dialects = self.cleaned_data['dialect']
-		permanent_address = ApplicationFormPermanentAddress.objects.latest('id')
-		current_address = ApplicationFormCurrentAddress.objects.latest('id')
+		# permanent_address = ApplicationFormPermanentAddress.objects.latest('id')
+		# current_address = ApplicationFormCurrentAddress.objects.latest('id')
 		personal_data = super(PersonalDataForm, self).save(commit=False)
 		birth_place = BirthPlace.objects.get_or_create({'birth_place':birthplace}, birth_place__iexact=birthplace)
 		if birth_place:
@@ -132,7 +133,22 @@ class PersonalDataForm(forms.ModelForm):
 		personal_data.dialect = dialect
 		personal_data.save()
 
-class SpouseForm(forms.ModelForm):
+class PersonalDataCivilStatusForm(forms.ModelForm):
+	class Meta:
+		model = PersonalData
+		fields = ('civil_status', )
+
+class PersonalDataFatherForm(forms.ModelForm):
+	class Meta:
+		model = PersonalData
+		fields = ('father_last_name', 'father_first_name', 'father_middle_name', )
+
+class PersonalDataMotherForm(forms.ModelForm):
+	class Meta:
+		model = PersonalData
+		fields = ('mother_last_name', 'mother_first_name', 'mother_middle_name', )
+
+class SpouseForm(PersonalDataCivilStatusForm):
 	# spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
 	class Meta:
 		model = Spouse
@@ -335,9 +351,7 @@ class BeneficiaryForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class AlloteeForm(forms.ModelForm):
-	# allotee_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
-	# bank = forms.CharField(widget=autocomplete_light.TextWidget('BankAutocomplete'), required=False)
-	allotee_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}), required=False)
+	allotee_zip = forms.IntegerField(widget=forms.TextInput(attrs={'min':0}), required=False)
 	allotee_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'), required=False)
 	allotee_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'), required=False)
 
@@ -346,19 +360,7 @@ class AlloteeForm(forms.ModelForm):
 		fields = '__all__'
 
 	def clean(self):
-		# relationship = self.cleaned_data['allotee_relationship']
-		# _relationship = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
-		# if _relationship:
-		# 	_relationship = Relationship.objects.get(relationship__iexact=relationship)
-		# self.cleaned_data['allotee_relationship'] = _relationship
 
-		# bank = self.cleaned_data['bank']
-		# _bank = Bank.objects.get_or_create({'bank':bank}, bank__iexact=bank)
-		# if _bank:
-		# 	_bank = Bank.objects.get(bank__iexact=bank)
-		# self.cleaned_data['bank'] = _bank
-
-		print "=----------------"
 		print self.cleaned_data
 		barangay = self.cleaned_data['allotee_barangay']
 		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
@@ -370,17 +372,12 @@ class AlloteeForm(forms.ModelForm):
 		if _municipality:
 			_municipality = Municipality.objects.get(municipality__iexact=municipality)
 		
-		print "dewam"
+		print "--------------"
 		zip = self.cleaned_data['allotee_zip']
-		print "mada"
-		print zip
 		try:
 			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
-			print "xx"
 		except:
 			_zip = Zip.objects.get(zip=zip)
-			print _zip
-			print "ZIZPDPS"
 		self.cleaned_data['allotee_zip'] = _zip
 		print self.cleaned_data['allotee_zip']
 

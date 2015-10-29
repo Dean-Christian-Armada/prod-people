@@ -1,0 +1,159 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+<div class="panel-body in">
+  <div class="row">
+    <div class="col-md-3 col-laptop-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Code:</label>
+        {{applicant_name_form.code|add_class:"form-control input-form"|attr:"readonly"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-3 col-laptop-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Last Name:</label>
+       {{applicant_name_form.last_name|add_class:"form-control input-form"|attr:"readonly"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-3 col-laptop-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">First Name:</label>
+        {{applicant_name_form.first_name|add_class:"form-control input-form"|attr:"readonly"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-3 col-laptop-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Middle Name:</label>
+        {{applicant_name_form.middle_name|add_class:"form-control input-form"|attr:"readonly"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+  </div><!--End of Row-->
+              
+  <div class="row">
+    <div class="col-md-4">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Age:</label>
+        <input type="text" readonly="" class="form-control input-form" value="{{ personal_data.age }}">
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-4">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Date of Birth:</label>
+        {{personal_data_form.birth_date|add_class:"form-control input-form date"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-4">
+        <div class="input-group">
+          <label class="input-group-addon input-label">Place of Birth:</label>
+          {{personal_data_form.birth_place|add_class:"form-control input-form"}}
+        </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+
+    <div class="col-md-4">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Mobile No. 1:</label>
+        {{personal_data_form.mobile_1|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-4">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Mobile No. 2:</label>
+        {{personal_data_form.mobile_2|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-4">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Mobile No. 3:</label>
+        {{personal_data_form.mobile_3|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Landline No. 1:</label>
+        {{personal_data_form.landline_1|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Landline No. 2:</label>
+        {{personal_data_form.landline_2|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Email Address 1:</label>
+        {{personal_data_form.email_address_1|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Email Address 2:</label>
+        {{personal_data_form.email_address_2|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Perferred Type of Vessel:</label>
+        {{personal_data_form.preferred_vessel_type|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Date Hired:</label>
+        <input type="text" class="form-control input-form"  aria-describedby="basic-addon1" value="{{ mariners_profile.date_hired }}" readonly="">
+      </div><!--End of Input Group-->
+    </div><!--End of Col 6-->
+
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">SSS No.:</label>
+        {{personal_data_form.sss|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 4-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Philhealth No.:</label>
+        {{personal_data_form.philhealth|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 6-->
+
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">TIN No.:</label>
+        {{personal_data_form.tin|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 6-->
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Pagibig No.:</label>
+       {{personal_data_form.pagibig|add_class:"form-control input-form"}}
+      </div><!--End of Input Group-->
+    </div><!--End of Col 6-->
+
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">Native Dialect:</label>
+        {{personal_data_form.dialect|add_class:"form-control input-form"}}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-addon input-label">English:</label>
+        {{personal_data_form.english|add_class:"form-control input-form"}}
+      </div>
+    </div>
+  </div>
+</div>

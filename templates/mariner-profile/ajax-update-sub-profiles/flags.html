@@ -2,42 +2,44 @@
 {% load widget_tweaks %}
 {% load get_data %}      
 
-<div class="form-group">
-    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
+{% endif %}
 
 <div class="panel-body"> 
-<div class="table-responsive">
-  <table class="table table-hover sea-tb main-table">
-        <thead class="thead">
+  <div class="table-responsive">
+    <table class="table table-hover sea-tb main-table">
+      <thead class="thead">
+        <tr>
+          <th>COUNTRY</th>
+          <th>SB No.</th>
+          <th>Expiry</th>
+          <th>License No.</th>
+          <th>Expiry</th>
+          <th>Rank</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ flag_form.management_form }}
+        {% for flag_forms in flag_form %}
+          {{ flag_forms.flags_documents }}
+          {{ flag_forms.id }}
           <tr>
-            <th>COUNTRY</th>
-            <th>SB No.</th>
-            <th>Expiry</th>
-            <th>License No.</th>
-            <th>Expiry</th>
-            <th>Rank</th>
+            <td>{{ flag_forms.flags|add_class:"hide" }}<strong class="input-label">{{ flag_forms.flags.value|get_data:'Flags' }}</strong></td>
+            <td>{{ flag_forms.sbook_number|add_class:"form-control input-form" }}</td>
+            <td>{{ flag_forms.sbook_expiry|add_class:"form-control input-form date" }}</td>
+            <td>{{ flag_forms.license_number|add_class:"form-control input-form" }}</td>
+            <td>{{ flag_forms.license_expiry|add_class:"form-control input-form date" }}</td>
+            <td>{{ flag_forms.flags_rank|add_class:"form-control input-form" }}</td>
           </tr>
-        </thead>
-        <tbody>
-          {{ flag_form.management_form }}
-          {% for flag_forms in flag_form %}
-            {{ flag_forms.flags_documents }}
-            {{ flag_forms.id }}
-            <tr>
-              <td>{{ flag_forms.flags|attr:"style: display:none" }}<strong class="input-label">{{ flag_forms.flags.value|get_data:'Flags' }}</strong></td>
-              <td>{{ flag_forms.sbook_number|add_class:"form-control input-form" }}</td>
-              <td>{{ flag_forms.sbook_expiry|add_class:"form-control input-form date" }}</td>
-              <td>{{ flag_forms.license_number|add_class:"form-control input-form" }}</td>
-              <td>{{ flag_forms.license_expiry|add_class:"form-control input-form date" }}</td>
-              <td>{{ flag_forms.flags_rank|add_class:"form-control input-form" }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table><!--End of Table Stripped-->
-    </div><!--End of Table Responsive-->                
+        {% endfor %}
+      </tbody>
+    </table><!--End of Table Stripped-->
+  </div><!--End of Table Responsive-->                
 </div><!--End of Panel Body-->

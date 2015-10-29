@@ -8,17 +8,23 @@ from django.db import models
 def default_user():
 	user_name = 'default'
 	try:
-		user = User.objects.create_user(user_name, '', user_name)
-		user.save()
+		try:
+			user = User.objects.create_user(user_name, '', user_name)
+			user.save()
+		except:
+			user = User.objects.get(username=user_name)
+		return user.id
 	except:
-		user = User.objects.get(username=user_name)
-	return user.id
+		return None
 
 def default_user_level():
-	_user_level = 'default'
-	user_level = Userlevel.objects.get_or_create(userlevel=_user_level)
-	user_level = Userlevel.objects.get(userlevel=_user_level)
-	return user_level.id
+	try:
+		_user_level = 'default'
+		user_level = Userlevel.objects.get_or_create(userlevel=_user_level)
+		user_level = Userlevel.objects.get(userlevel=_user_level)
+		return user_level.id
+	except:
+		return None
 
 def default_user_user_level():
 	try:

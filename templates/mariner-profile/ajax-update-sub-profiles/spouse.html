@@ -1,0 +1,63 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+{{spouse_form.user|add_class:"hide"}}
+<div class="panel-body">           
+	<div class="row">
+	  <div class="col-md-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Civil Status:</label>
+	      {{personal_data_civil_status_form.civil_status|add_class:"form-control input-form"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 4-->
+	  <div class="col-md-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Date of Marriage:</label>
+	      {{spouse_form.married_date|add_class:"form-control input-form date"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 6-->
+
+	  <div class="col-md-4 col-laptop-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Maiden Last Name:</label>
+	      {{spouse_form.spouse_last_name|add_class:"form-control input-form"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 4-->
+	  <div class="col-md-4 col-laptop-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">First Name:</label>
+	      {{spouse_form.spouse_first_name|add_class:"form-control input-form"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 4-->
+	  <div class="col-md-4 col-laptop-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Maiden Middle Name:</label>
+	      {{spouse_form.spouse_middle_name|add_class:"form-control input-form"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 4-->
+
+	  <div class="col-md-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Birthday:</label>
+	      {{spouse_form.birthdate|add_class:"form-control input-form date"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 4-->
+	  <div class="col-md-6">
+	    <div class="input-group">
+	      <label class="input-group-addon input-label">Contact No.:</label>
+	      {{spouse_form.spouse_contact|add_class:"form-control input-form"}}
+	    </div><!--End of Input Group-->
+	  </div><!--End of Col 6-->
+	</div><!--End of Row-->
+</div>  

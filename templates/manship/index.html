@@ -3,210 +3,61 @@
 {% load widget_tweaks %}
 
 {% block content %}
-<style>
+<body class="crewing-profile">
 
-.panel-msmi {
-  margin-bottom: 20px;
-  background-color: #fff;
-  border: none !important;
-  border-radius: none !important; 
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-		
-}
+  <div id="wrapper">
+  	<div id="header">
+  		<div class="container form-container">
+      	<p class="pull-left"><img class="manship" src="{% static 'img/manship.png' %}"></p>
+      	<h1 class="margin-top"><strong>MANSHIP</strong></h1>
+      	<h4>Forms</h4>
+  		</div><!---End of Container-->
+  	</div><!--End of Header-->
+      
+     
+      
+  	<div id="page-wrapper">
+  		<div class="container-fluid">
+  			<div class="col-md-8 col-md-offset-1">
+          <div class="panel-msmi panel-msmi-blue">          
+        		<div class="panel-body">
+            	<div class="form-group">	
+                <div class="row">
+                  <div class="col-md-4 col-laptop-5">
+    			          <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+                  </div><!--End of Col 4-->
+                  <div class="col-md-4 col-laptop-5">
+                    <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+                  </div><!--End of Col 4-->
+                  <div class="col-md-4 col-laptop-5">
+                    <a href="{% url 'pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Sea Service Application Form</strong></a>
+                  </div>
+                  <div class="col-md-4 col-laptop-5">
+                    <a href="{% url 'blank_pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Blank Sea Service Application Form</strong></a>
+                  </div>        
+            		</div><!--End of Row-->     				
+            	</div><!--End of Form Group-->
+        		</div><!--End of Panel Body-->
+      		</div><!--End of Panel Primary-->
+        </div>
 
-#header{
-	background: #2e76b8;
-	color: #fff;
-	padding: 30px;
-	}
-.tooltip-left .tooltip-arrow {
-  top: 50%;
-  right: 0;
-  margin-top: -5px;
-  border-left-color: #000000;
-  border-width: 5px 0 5px 5px;
-}
-.main-menu{
-	padding-top: 30px;
-	padding-bottom: 30px;
-	}
-.input-label{
-	color: #2e76b8;
-	}	
-.input-form{
-	border: 2px solid #02be9b;
-	}		
-.main-table {
-  border: 1px solid #02be9b;
-  font-size: 12px;
-}
-.main-table > thead > tr > th,
-.main-table > tbody > tr > th,
-.main-table > tfoot > tr > th,
-.main-table > thead > tr > td,
-.main-table > tbody > tr > td,
-.main-table > tfoot > tr > td {
-  border: 1px solid #02be9b;	
-}
-.main-table > thead > tr > th,
-.main-table > thead > tr > td {
-  border-bottom-width: 2px;
-}	
-.btn-main{
-	font-size: 12px;
-	}
-.btn{
-	border: 1px solid transparent !important;	
-	}
-.thead{
-	background: #82ca9c; 
-	color: #fff;"
-	}
-.container-picture{
-  text-align: center;
-	}
-.input-group-addon{
-	background: none;
-	border: none;
-	font-size: 12px;
-	font-weight: bold;	
-	}
-.input-group{
-	margin-top: 10px;	
-	}	
-.panel-heading{
-	border-bottom: 4px solid #04508e;
-	}
-#main-header{
-	text-align: center !important;
-	margin-top: 20px;
-	}
-	
-/* Button Custom */
-
-.btn-msmi  {
-  color: #fff;
-  background-color: #82ca9c;
-  margin-top: 5px;
-  width: 100%;
-  border-bottom: 4px solid #02be9b !important;
-}
-.btn-msmi:focus,
-.btn-msmi.focus {
-  color: #fff;
-  background-color: #02be9b;
-  border-color: #02be9b;
-  border-radius: none !important;
-  border-bottom: 1px solid #02be9b !important;
-}
-.btn-msmi:hover {
-  color: #fff;
-  background-color: #82ca9c;
-  border-radius: none !important;
-  border-color: #82ca9c;   
-}
-
-/* Custom Panel */
-.panel-msmi-blue{
-  border-color: #2e76b8;
-    border-top-left-radius: none !important;
-  border-top-right-radius: none !important; 
-  border-bottom: 5px solid #04508e;
-}
-.panel-msmi-blue > .panel-heading {
-  color: #fff;
-    border-top-left-radius: none !important;
-  border-top-right-radius: none !important; 
-  background-color: #2e76b8;
-  border-color: 1px solid #2e76b8;
-}
-.panel-msmi-blue > .panel-heading + .panel-collapse > .panel-body {
-  border-color: 1px solid #2e76b8;
-    border-top-left-radius: none !important;
-  border-top-right-radius: none !important; 
-}
-.panel-msmi-blue > .panel-heading .badge {
-  color: #dff0d8;
-  background-color: #3c763d;
-}
-.panel-msmi-blue > .panel-footer + .panel-collapse > .panel-body-green {
-  border-color: 1px solid 2e76b8;
-}
-.coc{
-	border: 2px solid #2e76b8;
-	padding: 20px;
-}
-
-</style>
-<body>
-
-<div id="wrapper">
-	<div id="header">
-		<div class="container">
-        	<p class="pull-left"><img  style="margin-top:25px" align="bottom" src="{% static 'img/manship.png' %}"></p>
-        	<h1 style="padding-left:170px; margin-top: 40px;"><strong>MANSHIP</strong></h1>
-        	<h4 style="padding-left:170px;">Forms</h4>
-		</div><!---End of Container-->
-	</div><!--End of Header-->
-    
-   
-    
-	<div id="page-wrapper">
-		<div class="container-fluid">
-			<div class="col-md-8 col-md-offset-1">
-            
-        <!--<div id="main-header">
-            <label class="input-label">IONIC SHIPPING (MGT) INC. BULKER FLEET MANUAL<br>
-            [CREW] CONFIDENTIAL: INTERVIEW RECORDS<br>
-            VERSION (revXXX / XXXX-XX-XX) CHECKLIST: 403 Mod: XXXX-XX-XX sec: 3.04.3</label><br>         
-       	</div>-->
-        
-        <div class="panel-msmi panel-msmi-blue">          
-                		<div class="panel-body">
-                        	<div class="form-group">	
-                            <div class="row">
-                            <div class="col-md-4">
-                			<a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
-                            </div><!--End of Col 4-->
-                            <div class="col-md-4">
-                      <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
-                            </div><!--End of Col 4-->
-                      <div class="col-md-4">
-                        <a href="{% url 'pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"></span><strong> Sea Service Application Form</strong></a>
-                      </div>
-                      <div class="col-md-4">
-                        <a href="{% url 'blank_pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi"><span class="glyphicon glyphicon-print"></span><strong> Blank Sea Service Application Form</strong></a>
-                      </div>
-                            
-                           
-                		</div><!--End of Row-->     				
-                	</div><!--End of Form Group-->
-            		</div><!--End of Panel Body-->
-		</div><!--End of Panel Primary-->
-            
-</div>
-
-<div class="col-md-3">
-	<div class="sidebar" style="position: fixed; width: 246px; margin-top: 20px;">
-		<div class="container-picture">
-			<img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  style="border: 3px solid #2e76b8">
-		</div>
-      <div class="input-group" style="width: 100%;">
-        <input type="text" readonly class="form-control input-form" value="{{ user_profile.code }}">
-        <input type="text" readonly class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" >
-			</div><!--End of Input Group-->
-            <div class="input-group" style="width: 100%;">
-  				  <input type="text" readonly class="form-control input-form" value="{{ mariners_profile.position }}" >
-			</div>
-
+        <div class="col-md-3">
+        	<div class="sidebar">
+        		<div class="text-center form-group">
+        			<img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}" >
+        		</div>
+            <div class="input-group">
+              <input type="text" readonly class="form-control input-form" value="{{ user_profile.code }}">
+            </div>
+            <div class="input-group">
+              <input type="text" readonly class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" >
+            </div>
+            <div class="input-group">
+          		<input type="text" readonly class="form-control input-form" value="{{ mariners_profile.position }}" >
+        		</div>
           </div><!--End of Sidebar-->
-	</div><!--End of Col-3-->
-    
-    
-   		</div><!--End of Container-->
-	</div><!--End of Page Wrapper-->
-</div><!--End of Wrapper-->
-
-
+        </div><!--End of Col-3-->
+     	</div><!--End of Container-->
+  	</div><!--End of Page Wrapper-->
+  </div><!--End of Wrapper-->
 {% endblock %}

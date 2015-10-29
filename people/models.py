@@ -32,6 +32,7 @@ class AbstractPersonalData(models.Model):
 	landline_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	mobile_1 = models.PositiveIntegerField(null=True, default=None)
 	mobile_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
+	mobile_3 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	sss = models.PositiveIntegerField(null=True, default=None)
 	philhealth = models.BigIntegerField(null=True, blank=True, default=None)
 	tin = models.BigIntegerField(null=True, blank=True, default=None)
@@ -77,13 +78,25 @@ class AbstractPersonalData(models.Model):
 		count =  len(str(self.mobile_1))
 		if count == 10:
 			self.mobile_1 = '+63'+str(self.mobile_1)
+		elif not self.mobile_1:
+			self.mobile_1 = ''
 		return self.mobile_1
 
 	def prefix_mobile_2(self):
 		count =  len(str(self.mobile_2))
 		if count == 10:
 			self.mobile_2 = '+63'+str(self.mobile_2)
+		elif not self.mobile_2:
+			self.mobile_2 = ''
 		return self.mobile_2
+
+	def prefix_mobile_3(self):
+		count =  len(str(self.mobile_3))
+		if count == 10:
+			self.mobile_3 = '+63'+str(self.mobile_3)
+		elif not self.mobile_3:
+			self.mobile_3 = ''
+		return self.mobile_3
 
 	def age(self):
 		today = date.today()

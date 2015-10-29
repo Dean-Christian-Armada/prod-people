@@ -4,12 +4,6 @@
 
 {% block content %}
   <body>
-    <!--[if lt IE 8]>
-        <p class="browserupgrade">You are using an <strong>outhated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
-    <![endif]-->
-    
-
-
     <div id="header">
       <div class="bs-doc-header">
         <div class="container">
@@ -27,8 +21,8 @@
           <div class="bs-docs-section" id='application-form'> 
             {% csrf_token%}
             {% include "application_form/error_validations.html" %}
-            {{ application.scheme|attr:"style:display:none" }}
-            {{ application.http_host|attr:"style:display:none" }}
+            {{ application.scheme|add_class:"hide" }}
+            {{ application.http_host|add_class:"hide" }}
             <div class="form-group">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -55,12 +49,12 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6" style="text-align:right;">
+                <div class="col-md-6 text-right">
                   <div class="form-group">
                     <div class="pull-right" id="picture-container">
                       {% if request.POST %}  
                         <img src="{{request.POST.application_picture}}">
-                        <input type="text" name="application_picture" value="{{request.POST.application_picture}}" style="display:none">
+                        <input type="text" name="application_picture" value="{{request.POST.application_picture}}" class="hide">
                       {% endif %}
                     </div>
                   </div>
@@ -72,12 +66,12 @@
                 </div>
               </div>
 
-            <h3 id='step-2' style="color: #02be9b;">How did you learn about Manship?</h3>
+            <h3 id='step-2'>How did you learn about Manship?</h3>
             {{ application.source.errors }}
             {{ application.source }}
             {{ application.referred_by.errors }}
 
-            <h3 id="step-13" style="color: #02be9b;">Social Media</h3>
+            <h3 id="step-13">Social Media</h3>
             <div class="form-group">
               <div class="col-md-4">
                 {{ personal_data.facebook_account|add_class:"form-control facebook_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Account or Email" }}
@@ -91,7 +85,7 @@
             </div>
 
 
-            <h3 id='step-3' style="color: #02be9b;">Personal Data</h3>
+            <h3 id='step-3'>Personal Data</h3>
             <div class="form-group">
               {% for name in applicant_name  %}
                 <div class="col-md-4">
@@ -116,28 +110,32 @@
             </div>
             <div class="form-group">
               <div class="col-md-4">
-                {{ personal_data.landline_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 1" }}
-                {{ personal_data.landline_1.errors }}
-              </div>
-              <div class="col-md-4">
-                <b>+63</b> {{ personal_data.mobile_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 1"|attr:"style:width:89%; display: inline" }}
+                <b>+63</b> {{ personal_data.mobile_1|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 1" }}
                 {{ personal_data.mobile_1.errors }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.email_address_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:EMAIL ADDRESS 1" }}
-                {{ personal_data.email_address_1.errors }}
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-md-4">
-                {{ personal_data.landline_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 2" }}
-                {{ personal_data.landline_2.errors }}
-              </div>
-              <div class="col-md-4">
-                <b>+63</b> {{ personal_data.mobile_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 2"|attr:"style:width:89%; display: inline" }}
+                <b>+63</b> {{ personal_data.mobile_2|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 2" }}
                 {{ personal_data.mobile_2.errors }}
               </div>
               <div class="col-md-4">
+                <b>+63</b> {{ personal_data.mobile_3|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 3" }}
+                {{ personal_data.mobile_3.errors }}
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-3">
+                {{ personal_data.landline_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 1" }}
+                {{ personal_data.landline_1.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ personal_data.landline_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 2" }}
+                {{ personal_data.landline_2.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ personal_data.email_address_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:EMAIL ADDRESS 1" }}
+                {{ personal_data.email_address_1.errors }}
+              </div>
+              <div class="col-md-3">
                 {{ personal_data.email_address_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:EMAIL ADDRESS 2" }}
                 {{ personal_data.email_address_2.errors }}
               </div>
@@ -177,7 +175,7 @@
                 <div class="col-md-12">
                   <div class="col-md-12">
                     <i><u>Permanent Address</u></i>
-                    <span class="search-zip pull-right" data-params="permanent" style="">Search zip code</span>
+                    <span class="search-zip pull-right" data-params="permanent">Search zip code</span>
                   </div>
                 </div>
               </div>
@@ -212,7 +210,7 @@
                 <div class="col-md-12">
                   <div class="col-md-12">
                     <i><u>Current Address</u></i>
-                    <span class="search-zip pull-right" data-params="current" style="">Search zip code</span>
+                    <span class="search-zip pull-right" data-params="current">Search zip code</span>
                   </div>
                 </div>
               </div>
@@ -306,7 +304,7 @@
               </div>
             </div>
 
-            <h3 id='step-4' style="color: #02be9b;">Educational Information</h3>
+            <h3 id='step-4'>Educational Information</h3>
             <div class="form-group bottom-zero">
               <div class="col-md-12">
                 <i><u>Colleges</u></i> &nbsp;&nbsp;<button type="button" class="btn btn-info add-college">Add more Colleges</button> <button type="button" class="btn btn-danger delete-college">Delete College</button>
@@ -360,7 +358,7 @@
               </div>
             </div>
 
-            <h3 id='step-5' style="color: #02be9b;">Emergency Contact Details &nbsp;<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button> <button type="button" class="btn btn-danger delete-emergency">Delete Emergency Contact</button></h3>
+            <h3 id='step-5'>Emergency Contact Details &nbsp;<button type="button" class="btn btn-info add-emergency">Add more Emergency Contacts</button> <button type="button" class="btn btn-danger delete-emergency">Delete Emergency Contact</button></h3>
             {% for emergencycontact_form in emergency %}
               <div class="emergency-contacts">  
                 <div class="form-group">
@@ -393,7 +391,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="col-md-12">
-                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter0 }}" style="">Search zip code</span>
+                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter0 }}">Search zip code</span>
                     </div>
                   </div>
                 </div>
@@ -424,7 +422,7 @@
 
             <h3 id='step-6'><a href = "#seaservice" role="button" data-toggle="modal" rel="tooltip" data-original-title="Click here to add more sea services" class="btn btn-info btn-lg sea-service-button form-control">Sea Service</a></h3>
 
-            <h3 id='step-7' style="color: #02be9b;">Background Information</h3>
+            <h3 id='step-7'>Background Information</h3>
               <p>
                 {{ visa_application.visa_application.errors }}
                 A.) Have you ever been denied an application for any visa or entry into another country?
@@ -456,7 +454,7 @@
                 {{ termination.termination_reason }}
               </p>
 
-            <h3 id='step-8' style="color: #02be9b;">National Certificates and Travel Documents</h3>
+            <h3 id='step-8'>National Certificates and Travel Documents</h3>
             <div class="form-group">
               <div class="col-md-6">
                 {{ passport_form.passport|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Passport No." }}
@@ -554,7 +552,7 @@
               </div>
             </div>
 
-            <h3 id='step-9' style="color: #02be9b;">Flag Documents</h3>
+            <h3 id='step-9'>Flag Documents</h3>
             <p>Please check the box if you possess any of the specified flag document</p>
             <div class="form-group">
                 {% for flag in flags.flags %}
@@ -564,25 +562,22 @@
                 {% endfor %}
             </div>
 
-            <h3 id='step-10' style="color: #02be9b;">Training and Other Certificates</h3>
+            <h3 id='step-10'>Training and Other Certificates</h3>
             <p>Please check the box if you possess any of the specified certificates</p>
             <p>{{ trainings_certificates.trainings_certificates.errors }}</p>
             <div class="form-group dynamic-training-certificates-section">  
               
             </div>
 
-            <div id="application-form-essay">
-              <h3 id='step-11' style="color: #02be9b;">Essay</h3>
-                <p>Kindly say something about yourself, your qualifications and any other reasons why we should hire you.</p>
-                <p><b>(Take note: Essay must be at least 50 words)</b></p>
-                <p><b>TOTAL WORD COUNT: <span id="display_count">0</span> words</b></p>
-                {{ application.essay.errors }}
-                <p>
-                  {{ application.essay }}       
-                </p>
-            </div>
+            <h3 id='step-11'>Essay</h3>
+            <p>Kindly say something about yourself, your qualifications and any other reasons why we should hire you.</p>
+            <p><b>(Take note: Essay must be at least 50 words)</b></p>
+            <p><b>TOTAL WORD COUNT: <span id="display_count">0</span> words</b></p>
+            {{ application.essay.errors }}
+            <p>{{ application.essay }}</p>
+
             <div class="certification">
-                <h3 id='step-12' style="margin-top:0px; color: #02be9b;">Certification</h3>
+                <h3 id='step-12' class="margin-top-negator msmi-green-color">Certification</h3>
                 <p>1.) I certify that all information I have provided on this Application Form is, to the best of my knowledge true and correct</p>
                 <p>2.) I agree that if I have withheld or misrepresented any information on this Application Form. I alone am responsible and accountable for any consequence of such withholding or misrepresentation</p>
                 <p>3.) I understand that the information I provided in this Application Form shall remain confidential, but I may be held liable for any untruthful statements made therein</p>
@@ -601,7 +596,7 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-success form-control submit-application" >Submit Application</button>
+              <button class="btn btn-success btn-msmi-success form-control submit-application" >Submit Application</button>
             <br /> &nbsp;  
           </div>
         </div>
@@ -611,7 +606,7 @@
       <div class="modal-header">
         <h4 class="modal-title" id="pictureLabel"><b>TAKE PICTURE</b></h4>
       </div>
-      <div class="modal-body webcam-container" style="margin-left: auto; margin-right: auto;">
+      <div class="modal-body webcam-container col-centered">
       </div>
       <div class="modal-footer">
         <center><button type="button" class="btn btn-info half-width" id="start-application" onClick="take_snapshot()" data-dismiss="modal">Start Application</button></center>
@@ -625,12 +620,12 @@
       <div class="modal-header">
         <!-- <h4 class="modal-title" id="pictureLabel"><b>Welcome to Manship</b></h4> -->
       </div>
-      <div class="modal-body webcam-container" style="margin-left: auto; margin-right: auto;">
+      <div class="modal-body webcam-container col-centered">
         <center><img src="{% static 'img/mascot.png' %}" width="215px" height="215px">
         <h3>Thank you for choosing MANSHIP!</h3></center>
       </div>
       <div class="modal-footer">
-        <center><button type="button" class="btn btn-info half-width" data-dismiss="modal">Proceed to picture</button></center>
+        <center><button type="button" class="btn btn-info half-width" data-dismiss="modal">Proceed</button></center>
       </div>
     </div>
   </div>
@@ -693,7 +688,7 @@
                   <td>{{ seaservice.principal|attr:"data-toggle:tooltip"|attr:"Placeholder:Principal / Shipowner"|add_class:"td-170" }}</td>
                   <td>{{ seaservice.date_joined|add_class:"date date-joined"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Joined" }}</td>
                   <td>{{ seaservice.date_left|add_class:"date date-left"|attr:"data-toggle:tooltip"|attr:"Placeholder:Date Left"|attr:"disabled" }}</td>
-                  <td style="display:none">{{ seaservice.duration|add_class:"duration"|attr:"data-toggle:tooltip"|attr:"Placeholder:Days"|attr:"readonly" }}</td>
+                  <td class="hide">{{ seaservice.duration|add_class:"duration"|attr:"data-toggle:tooltip"|attr:"Placeholder:Days"|attr:"readonly" }}</td>
                    
                    <td>{{ seaservice.cause_of_discharge|attr:"data-toggle:tooltip"|add_class:"first-choice cause_of_discharge" }}</td>
                 </tr>
@@ -718,9 +713,9 @@
         </h4>
 
       </div>
-      <div class="modal-body" style="text-align: center">
+      <div class="modal-body text-center">
         {{ application.signature }}
-        <button class="btn btn-info form-control half-width" style="margin-top: 15px; margin-bottom: 15px;">Submit Application</button>
+        <button class="btn btn-info form-control half-width margin-top-bottom-buffer">Submit Application</button>
       </div>
     </div>
   </div> 
@@ -729,10 +724,7 @@
 <div class="modal fade" id="loading" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="signatureLabel"></h4>
-      </div>
-      <div class="modal-body" style="text-align: center">
+      <div class="modal-body text-center">
         <img src="{% static 'img/loading-x.gif' %}">
       </div>
     </div>
@@ -747,9 +739,9 @@
       <div class="container">
         <p>Princess Building, 104 Esteban Street, Legaspi Village, Makati City 1229, Philippines<br>
         Tel No.: +63 2 892 4071 to 74; Fax No.: +63 2 816 6993<br>
-        Website:<a href="http://www.manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;www.manship.com</a> 
-        E-mail:<a href="mailto:recruitment@manship.com" title="Click here!" target="_blank" style="text-decoration: none; color: #fff;">&nbsp;recruitment@manship.com</a></p>
-        <p>&copy 2015 Manila Shipmanagement & Manning, Inc. All rights reserved.</p>
+        Website:<a href="http://www.manship.com" title="Click here!" target="_blank">&nbsp;www.manship.com</a> 
+        E-mail:<a href="mailto:recruitment@manship.com" title="Click here!" target="_blank">&nbsp;recruitment@manship.com</a></p>
+        <p>&copy {% now "Y" %} Manila Shipmanagement & Manning, Inc. All rights reserved.</p>
       </div>
     </div>
 {% endblock %}
@@ -784,7 +776,7 @@
               var image_url = text;
               // show JPEG image in page
               // Extra parameter for Image Caching
-              document.getElementById('picture-container').innerHTML = '<img src="' + image_url + '?'+d.getTime()+'"><input type="text" name="application_picture" value="'+image_url+'" style="display:none">';
+              document.getElementById('picture-container').innerHTML = '<img src="' + image_url + '?'+d.getTime()+'"><input type="text" name="application_picture" value="'+image_url+'" class="hide">';
               // reset camera for another shot
               $("#picture-container").css("border", "0px")
             }

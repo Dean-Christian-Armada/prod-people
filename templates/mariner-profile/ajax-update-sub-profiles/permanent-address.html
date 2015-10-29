@@ -1,0 +1,46 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+<div class="row panel-body">
+	<div class="col-md-6 padding-right-negator">
+	  <div class="input-group">
+	    <label class="input-group-addon input-label">Unit / Lot / House:</label>
+	    {{permanent_address_form.permanent_unit|add_class:"form-control input-form"}}
+	  </div><!--End of Input Group-->
+	</div><!--End of Col 4-->
+	<div class="col-md-6">
+	  <div class="input-group">
+	    <label class="input-group-addon input-label">Street / Subdivision:</label>
+	    {{permanent_address_form.permanent_street|add_class:"form-control input-form"}}
+	  </div><!--End of Input Group-->
+	</div><!--End of Col 4-->
+	<div class="col-md-4">
+	  <div class="input-group">
+	    <label class="input-group-addon input-label">Barangay:</label>
+	    {{permanent_address_form.permanent_barangay|add_class:"form-control input-form"}}
+	  </div><!--End of Input Group-->
+	</div><!--End of Col 2-->
+	<div class="col-md-4">
+	  <div class="input-group">
+	    <label class="input-group-addon input-label">Municipality:</label>
+	    {{permanent_address_form.permanent_municipality|add_class:"form-control input-form"}}
+	  </div><!--End of Input Group-->
+	</div><!--End of Col 2-->
+	<div class="col-md-4">
+	  <div class="input-group">
+	    <label class="input-group-addon input-label">ZIP Code:</label>
+	    {{permanent_address_form.permanent_zip|add_class:"form-control input-form"}}
+	  </div><!--End of Input Group-->
+	</div><!--End of Col 2-->
+</div><!--End of Row-->

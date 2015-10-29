@@ -13,9 +13,7 @@
 
 <div class="container application-success">
 	<h1>Thank you for applying at  Manship!</h1>
-	<p><a href="/application-form/" class="btn btn-info half-width btn-lg" role="button">Return to Application Form</a></p>
-<!-- 	<p><a href="/application-form/pdf-report/form/" class="btn btn-info half-width btn-lg" role="button">Print Application Form</a></p>
-	<a href="/application-form/pdf-report/sea-service/" class="btn btn-info half-width btn-lg" role="button">Print Sea Service</a> -->
+	<p><a href="{% url 'application_form' %}" class="btn btn-info half-width btn-lg" role="button">Return to Application Form</a></p>
 </div>
 
 {% include "footer.html" %}

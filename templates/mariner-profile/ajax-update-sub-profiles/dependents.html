@@ -1,0 +1,92 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+{{ dependents_form.management_form }}
+{% for dependents_forms in dependents_form %}
+  {{ dependents_forms.id }}
+  {{ dependents_forms.user }}
+  <div class="panel-body">
+    <p><strong>{{ dependents_forms.dependent_first_name.value|upper }} {{ dependents_forms.dependent_middle_name.value|upper }} {{ dependents_forms.dependent_last_name.value|upper }}</strong></p>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Last Name:</label>
+              {{ dependents_forms.dependent_last_name|add_class:"form-control input-form" }}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 4-->
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">First Name:</label>
+              {{ dependents_forms.dependent_first_name|add_class:"form-control input-form" }}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 4-->
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Middle Name:</label>
+              {{ dependents_forms.dependent_middle_name|add_class:"form-control input-form" }}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 4-->
+        </div><!--End of Row-->                        
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Relationship:</label>
+              {{dependents_forms.dependent_relationship|add_class:"form-control input-form"}}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 3-->
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Contact Nos.:</label>
+              {{dependents_forms.dependent_contact|add_class:"form-control input-form"}}
+            </div><!--End of Col 3-->
+          </div><!--End of Input Group-->
+        </div><!--End of Row-->
+                    
+        <div class="row">
+          <div class="col-md-6 padding-right-negator">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Unit / Lot / House:</label>
+              {{ dependents_forms.dependent_unit|add_class:"form-control input-form" }}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 4-->
+          <div class="col-md-6">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Street / Subdivision:</label>
+              {{ dependents_forms.dependent_street|add_class:"form-control input-form" }}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 4-->
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Barangay:</label>
+              <input class=" autocomplete vTextField autocomplete-light-text-widget form-control input-form" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_barangay" name="dependents_set-{{ forloop.counter0 }}-dependent_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,barangay' }}">
+            </div><!--End of Input Group-->
+          </div><!--End of Col 2-->
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Municipality:</label>
+              <input class="autocomplete vTextField autocomplete-light-text-widget form-control input-form" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_dependents_set-{{ forloop.counter0 }}-dependent_municipality" name="dependents_set-{{ forloop.counter0 }}-dependent_municipality" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ dependents_forms.dependent_zip.value|get_data_field:'Zip,municipality' }}">
+            </div><!--End of Input Group-->
+          </div><!--End of Col 2-->
+          <div class="col-md-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">ZIP Code:</label>
+              <input class="form-control input-form" id="id_dependents_set-{{ forloop.counter0 }}-dependent_zip" min="0" name="dependents_set-{{ forloop.counter0 }}-dependent_zip" type="number" value="{{ dependents_forms.dependent_zip.value|get_data:'Zip' }}">
+            </div><!--End of Input Group-->
+          </div><!--End of Col 2-->
+        </div><!--End of Row-->
+      </div>
+  </div>
+{% endfor %}

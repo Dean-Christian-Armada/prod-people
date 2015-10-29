@@ -1,0 +1,34 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load get_data %}   
+
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
+      <!-- <ul class="errorlist"> -->
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+      <!-- </ul> -->
+    </div>  
+  </div>
+{% endif %}
+
+<div class="row panel-body">
+  <div class="col-md-4">
+    <div class="input-group">
+      <label class="input-group-addon input-label">Maiden Last Name:</label>
+      {{personal_data_mother_form.mother_last_name|add_class:"form-control input-form"}}
+    </div><!--End of Input Group-->
+  </div><!--End of Col 4-->
+  <div class="col-md-4">
+    <div class="input-group">
+      <label class="input-group-addon input-label">First Name:</label>
+      {{personal_data_mother_form.mother_first_name|add_class:"form-control input-form"}}
+    </div><!--End of Input Group-->
+  </div><!--End of Col 4-->
+  <div class="col-md-4">
+    <div class="input-group">
+      <label class="input-group-addon input-label">Maiden Middle Name:</label>
+      {{personal_data_mother_form.mother_middle_name|add_class:"form-control input-form"}}
+    </div><!--End of Input Group-->
+  </div><!--End of Col 4-->
+</div><!--End of Row-->

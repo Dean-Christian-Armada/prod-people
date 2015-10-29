@@ -296,6 +296,8 @@ def profile(request, id):
 			mariners_profile.save()
 			if str(application_form.status) == 'Passed':
 				return HttpResponseRedirect('/mariners-profile/'+id)
+			else:
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 		# END, script to change the status and code 
 
 		status = StatusForm(initial={'status':str(application_form.status.id)})

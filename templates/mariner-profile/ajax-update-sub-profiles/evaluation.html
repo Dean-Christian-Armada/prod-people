@@ -2,58 +2,58 @@
 {% load widget_tweaks %}
 {% load get_data %}      
 
-<div class="form-group">
-    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
+{% endif %}
 
 <div class="panel-body">
-            <div class="col-md-12">
-              <p style="color: #00aeef;"><strong>NOTE:</strong>&nbsp;<i>Please Take note that everytime the status is changed it will be recorded in the history status below.</i></p>
-            </div>
-            <div class="col-md-6">
-                        <div class="input-group">
-                                <div class="input-group form-group">
-                                <label class="input-group-addon input-label">Updated by:</label>
-                                {{ evaluation_form.evaluated_by|add_class:"form-control input-form"|attr:"disabled"|attr:"style:text-transform: uppercase"}}
-                                </div>
-                        </div>
-            </div>
-            {{ evaluation_form.evaluated_by|attr:"style: display:none" }}
-            {{ evaluation_form.user|attr:"style: display:none" }}
-            {{ evaluation_form.evaluation|add_class:"form-control input-form" }}
-            {% if evaluations %}
-                <a data-toggle="collapse" data-parent="#accordion" href="#evaluation-history" aria-expanded="false" style="color: #fff; text-decoration: none;"><p  style="margin-top: 20px; margin-bottom:0px; background: #02be9b; color: #fff; padding: 10px;"><strong>Evaluation History</strong></p></a>
-                <div class ="panel-collapse collapse" aria-expanded="false" id="evaluation-history">
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="table-responsive">
-                        <table class="table table-hover sea-tb main-table">
-                          <thead class="thead">
-                            <tr>
-                              <!-- <th></th> -->
-                              <th>Updated By</th>
-                              <th>Updated On</th>
-                              <th>Evaluation</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for evaluation in evaluations %}
-                              <tr>
-                                <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
-                                <td>{% if evaluation.evaluated_by.code %} {{ evaluation.evaluated_by.code }} {% else %} {{ evaluation.evaluated_by }} {% endif %}</td>
-                                <td>{{ evaluation.evaluated_on }}</td>
-                                <td>{{ evaluation.evaluation }}</td>
-                              </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              {% endif %}
-                          </div><!--End of Panel Body-->
+  <p><strong>NOTE:</strong>&nbsp;<i>Please Take note that everytime the status is changed it will be recorded in the history status below.</i></p>
+  <div class="col-md-6">
+    <div class="input-group">
+      <div class="input-group form-group">
+        <label class="input-group-addon input-label">Updated by:</label>
+        {{ evaluation_form.evaluated_by|add_class:"form-control input-form text-uppercase"}}
+      </div>
+    </div>
+  </div>
+  {{ evaluation_form.evaluated_by|add_class:"hide" }}
+  {{ evaluation_form.user|add_class:"hide" }}
+  {{ evaluation_form.evaluation|add_class:"form-control input-form" }}
+  {% if evaluations %}
+    <a data-toggle="collapse" data-parent="#accordion" href="#evaluation-history" aria-expanded="false"><p><strong>Remarks History</strong></p></a>
+    <div class ="panel-collapse collapse" aria-expanded="false" id="evaluation-history">
+      <div class="panel-body">
+        <div class="row">
+          <div class="table-responsive">
+            <table class="table table-hover sea-tb main-table">
+              <thead class="thead">
+                <tr>
+                  <!-- <th></th> -->
+                  <th>Updated By</th>
+                  <th>Updated On</th>
+                  <th>Evaluation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for evaluation in evaluations %}
+                  <tr>
+                    <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
+                    <td>{% if evaluation.evaluated_by.code %} {{ evaluation.evaluated_by.code }} {% else %} {{ evaluation.evaluated_by }} {% endif %}</td>
+                    <td>{{ evaluation.evaluated_on }}</td>
+                    <td>{{ evaluation.evaluation }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div><!--End of Panel Body-->

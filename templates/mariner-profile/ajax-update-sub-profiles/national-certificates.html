@@ -2,39 +2,40 @@
 {% load widget_tweaks %}
 {% load get_data %}      
 
-<div class="form-group">
-    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
+{% endif %}
 
 <div class="panel-body">
-{{ national_trainings_certificate_form.management_form }}        
-{% for national_trainings_certificate_forms in national_trainings_certificate_form %}
-          
-            {{ national_trainings_certificate_forms.trainings_certificate_documents }}
-            {{ national_trainings_certificate_forms.id }}                
-                          <div class="row">
-                              <div class="col-md-4">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">{{ national_trainings_certificate_forms.trainings_certificates|attr:"style: display:none" }} {{ national_trainings_certificate_forms.trainings_certificates.value|get_data_field:'TrainingCertificates,trainings_certificates_abbreviation' }}:</label>
-                    {{ national_trainings_certificate_forms.number|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-4">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Date Issued:</label>
-                    {{ national_trainings_certificate_forms.issued|add_class:"form-control input-form date" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-4">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Date Expiry:</label>
-                    {{ national_trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                      </div><!--End of Row-->  
-        {% endfor %}                   
-             </div>
+  {{ national_trainings_certificate_form.management_form }}        
+  {% for national_trainings_certificate_forms in national_trainings_certificate_form %}
+    {{ national_trainings_certificate_forms.trainings_certificate_documents }}
+    {{ national_trainings_certificate_forms.id }}                
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group">
+          <label class="input-group-addon input-label">{{ national_trainings_certificate_forms.trainings_certificates|add_class:"hide" }} {{ national_trainings_certificate_forms.trainings_certificates.value|get_data_field:'TrainingCertificates,trainings_certificates_abbreviation' }}:</label>
+          {{ national_trainings_certificate_forms.number|add_class:"form-control input-form" }}
+        </div><!--End of Input Group-->
+      </div><!--End of Col 3-->
+      <div class="col-md-4">
+        <div class="input-group">
+          <label class="input-group-addon input-label">Date Issued:</label>
+          {{ national_trainings_certificate_forms.issued|add_class:"form-control input-form date" }}
+        </div><!--End of Input Group-->
+      </div><!--End of Col 3-->
+      <div class="col-md-4">
+        <div class="input-group">
+          <label class="input-group-addon input-label">Date Expiry:</label>
+          {{ national_trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
+        </div><!--End of Input Group-->
+      </div><!--End of Col 3-->
+    </div><!--End of Row-->  
+  {% endfor %}                        
+</div>

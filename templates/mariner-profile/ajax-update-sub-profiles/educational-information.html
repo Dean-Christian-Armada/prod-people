@@ -2,9 +2,9 @@
 {% load widget_tweaks %}
 {% load get_data %}      
 
-
-<div class="form-group">
-    <div class="errorlist-group" style="padding: 10px; border: 2px solid #02be9b">
+{% if ajax_submit_flag %}
+  <div class="form-group">
+    <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
       	{% if vocational_form.errors or highschool_form.errors or primaryschool_form.errors  %}
       	<ul class="errorlist">
@@ -12,118 +12,122 @@
       		{% if highschool_form.errors %}<li>{{ highschool_form.errors }}</li>{% endif %}
       		{% if primaryschool_form.errors %}<li>{{ primaryschool_form.errors }}</li>{% endif %}
       	</ul>
-		{% else %}
-        <h3 style="margin-top:10px; color:#02be9b"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>	 
+  	{% else %}
+        <h3 class="msmi-green-color " style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>	 
       	{% endif %}
       <!-- </ul> -->
     </div>  
   </div>
+{% endif %}
 
-                      <div class="panel-body">
-                            <div class="form-group">
-  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>College</strong></p>
-  <div class="panel-body">
-                  {{spouse_form.user|attr:"style: display:none"}}
-                  {{ college_form.management_form }}
-                  {% for college in college_form %}
-                  {{college.id}}
-                  {{college.user}}
-                  
-                              <div class="row">
-                              <div class="col-md-5">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">College:</label>
-                    {{college.college|add_class:"form-control input-form"}}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-3">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Degree Obtained:</label>
-                    {{college.degree|add_class:"form-control input-form"}}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">From:</label>
-                    {{college.collegeyear_from|add_class:"form-control input-form"}}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">To:</label>
-                    {{college.collegeyear_to|add_class:"form-control input-form"}}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                        </div><!--End of Row-->
-                      
-   {% endfor %}
-   </div> 
-  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Vocational</strong></p>                            <div class="panel-body">
-                              <div class="row">
-                              <div class="col-md-8">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Vocational:</label>
-                    {{ vocational_form.vocational|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">From:</label>
-                    {{ vocational_form.vocationalyear_from|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">To:</label>
-                    {{ vocational_form.vocationalyear_to|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                        </div><!--End of Row--> 
-                        </div>
-  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Highschool</strong></p>                            <div class="panel-body">
-                              <div class="row">
-                              <div class="col-md-8">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Highschool:</label>
-                    {{ highschool_form.highschool|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">From:</label>
-                    {{ highschool_form.schoolyear_from|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">To:</label>
-                    {{ highschool_form.schoolyear_to|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                        </div><!--End of Row-->
-                      </div>
-  <p style="margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;"><strong>Elementary</strong></p>
-                  <div class="panel-body">
-                              <div class="row">
-                              <div class="col-md-8">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">Elementary:</label>
-                    {{ primaryschool_form.primaryschool|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">From:</label>
-                    {{ primaryschool_form.primaryschoolyear_from|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                              <div class="col-md-2">
-                        <div class="input-group">
-                    <label class="input-group-addon input-label">To:</label>
-                    {{ primaryschool_form.primaryschoolyear_to|add_class:"form-control input-form" }}
-                </div><!--End of Input Group-->
-                              </div><!--End of Col 3-->
-                        </div><!--End of Row-->    
-                      </div>
-                              </div><!--End of Form Group-->
-                    </div><!--End of Panel Body-->
+<div class="panel-body">
+  <div class="form-group">
+    <p><strong>College</strong></p>
+    <div class="panel-body">
+      {{highschool_form.user|add_class:"hide"}}
+      {{ college_form.management_form }}
+      {% for college in college_form %}
+        {{college.id}}
+        {{college.user}}
+        <div class="row">
+          <div class="col-md-5 col-laptop-12">
+            <div class="input-group">
+              <label class="input-group-addon input-label">College:</label>
+              {{college.college|add_class:"form-control input-form"}}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 3-->
+          <div class="col-md-3 col-laptop-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">Degree Obtained:</label>
+              {{college.degree|add_class:"form-control input-form"}}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 3-->
+          <div class="col-md-2 col-laptop-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">From:</label>
+              {{college.collegeyear_from|add_class:"form-control input-form"}}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 3-->
+          <div class="col-md-2 col-laptop-4">
+            <div class="input-group">
+              <label class="input-group-addon input-label">To:</label>
+              {{college.collegeyear_to|add_class:"form-control input-form"}}
+            </div><!--End of Input Group-->
+          </div><!--End of Col 3-->
+        </div><!--End of Row-->
+      {% endfor %}
+    </div> 
+
+    <p><strong>Vocational</strong></p>                            
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-8 col-laptop-5">
+          <div class="input-group">
+            <label class="input-group-addon input-label">Vocational:</label>
+            {{ vocational_form.vocational|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2 col-laptop-4">
+          <div class="input-group">
+            <label class="input-group-addon input-label">From:</label>
+            {{ vocational_form.vocationalyear_from|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2  col-laptop-3">
+          <div class="input-group">
+            <label class="input-group-addon input-label">To:</label>
+            {{ vocational_form.vocationalyear_to|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+      </div><!--End of Row--> 
+    </div>
+
+    <p><strong>Highschool</strong></p>                            
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-8 col-laptop-5">
+          <div class="input-group">
+            <label class="input-group-addon input-label">Highschool:</label>
+            {{ highschool_form.highschool|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2  col-laptop-4">
+          <div class="input-group">
+            <label class="input-group-addon input-label">From:</label>
+            {{ highschool_form.schoolyear_from|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2  col-laptop-3">
+          <div class="input-group">
+            <label class="input-group-addon input-label">To:</label>
+            {{ highschool_form.schoolyear_to|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+      </div><!--End of Row-->
+    </div>
+
+    <p><strong>Elementary</strong></p>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-8 col-laptop-5">
+          <div class="input-group">
+            <label class="input-group-addon input-label">Elementary:</label>
+            {{ primaryschool_form.primaryschool|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2 col-laptop-4">
+          <div class="input-group">
+            <label class="input-group-addon input-label">From:</label>
+            {{ primaryschool_form.primaryschoolyear_from|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+        <div class="col-md-2 col-laptop-3">
+          <div class="input-group">
+            <label class="input-group-addon input-label">To:</label>
+            {{ primaryschool_form.primaryschoolyear_to|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 3-->
+      </div><!--End of Row-->    
+    </div>
+  </div><!--End of Form Group-->
+</div><!--End of Panel Body-->

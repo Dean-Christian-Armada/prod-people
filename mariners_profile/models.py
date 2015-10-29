@@ -10,40 +10,58 @@ from people.models import *
 import datetime
 
 def null_default_foreign_key_value(model, field, value):
-	param = {field:value}
-	query = model.objects.get_or_create(**param)
-	query = model.objects.get(**param)
-	return query.id
+	try:
+		param = {field:value}
+		query = model.objects.get_or_create(**param)
+		query = model.objects.get(**param)
+		return query.id
+	except:
+		return None
 
 def dfa_issuing_authority():
-	issuing_authority_value = 'DFA'
-	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
-	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
-	return issuing_authority.id
+	try:
+		issuing_authority_value = 'DFA'
+		issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+		issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+		return issuing_authority.id
+	except:
+		return None
 
 def marina_issuing_authority():
-	issuing_authority_value = 'Marina'
-	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
-	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
-	return issuing_authority.id
+	try:
+		issuing_authority_value = 'Marina'
+		issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+		issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+		return issuing_authority.id
+	except:
+		return None
 
 def yellow_fever_issuing_authority():
-	issuing_authority_value = 'DOH /Bureau of Quarantine'
-	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
-	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
-	return issuing_authority.id
+	try:
+		issuing_authority_value = 'DOH /Bureau of Quarantine'
+		issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+		issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+		return issuing_authority.id
+	except:
+		return None
 
 def tc_issuing_authority():
-	issuing_authority_value = 'TC'
-	issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
-	issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
-	return issuing_authority.id
+	try:
+		issuing_authority_value = 'TC'
+		issuing_authority = IssuingAuthority.objects.get_or_create({'issuing_authority':issuing_authority_value}, issuing_authority__iexact=issuing_authority_value)
+		issuing_authority = IssuingAuthority.objects.get(issuing_authority__iexact=issuing_authority_value)
+		return issuing_authority.id
+	except:
+		return None
 
 def filipino_nationality():
-	nationality_value = 'Filipino'
-	nationality = Nationality.objects.get_or_create({'nationality':nationality_value}, nationality__iexact=nationality_value)
-	nationality = Nationality.objects.get(nationality__iexact=nationality_value)
-	return nationality.id
+	try:
+		nationality_value = 'Filipino'
+		nationality = Nationality.objects.get_or_create({'nationality':nationality_value}, nationality__iexact=nationality_value)
+		nationality = Nationality.objects.get(nationality__iexact=nationality_value)
+		return nationality.id
+	except:
+		return None
 
 class Evaluations(models.Model):
 	evaluations = models.TextField(null=True, blank=True, default=None)
@@ -798,6 +816,8 @@ class MarinersProfile(models.Model):
 	referrer = models.ForeignKey(ReferrersPool)
 	position = models.ForeignKey(Rank)
 	picture = models.ImageField(upload_to='photos/mariners-profile', blank=True, default=None)
+	picture_last_modified = models.DateTimeField(null=True, blank=True, default=None)
+	status_last_modified = models.DateTimeField(null=True, blank=True, default=None)
 	signature = models.ImageField(upload_to='signatures/mariners-profile', blank=True, default=None)
 	date_hired = models.DateField(default=None, null=True, blank=True)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
@@ -924,7 +944,7 @@ class LandEmployment(models.Model):
 	employer_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
 	employer_middle_name = models.CharField(max_length=50, null=True, blank=True, default=None)
 	employer_last_name = models.CharField(max_length=50, null=True, blank=True, default=None)
-	land_position = models.ForeignKey(LandPosition, default=None)
+	land_position = models.ForeignKey(LandPosition, blank=True, default=None)
 	start_date = models.DateField(default=None, null=True, blank=True)
 	end_date = models.DateField(default=None, null=True, blank=True)
 	contact_first_name = models.CharField(max_length=50, null=True, blank=True, default=None)
@@ -933,7 +953,7 @@ class LandEmployment(models.Model):
 	contact_person_number =  models.BigIntegerField(null=True, blank=True, default=None)
 	employer_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	employer_street = models.CharField(max_length=50, null=True, blank=True, default=None)
-	employer_zip = models.ForeignKey('mariners_profile.Zip', default=None)
+	employer_zip = models.ForeignKey('mariners_profile.Zip', blank=True, default=None)
 
 	def __unicode__(self):
 		employer = "%s %s %s" % (self.employer_first_name, self.employer_middle_name, self.employer_last_name)
@@ -953,13 +973,17 @@ class Beneficiary(models.Model):
 
 class Allotee(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
-	allotee_first_name = models.CharField(max_length=50, null=True, default=None)
-	allotee_middle_name = models.CharField(max_length=50, null=True, default=None)
-	allotee_last_name = models.CharField(max_length=50, null=True, default=None)
-	allotee_relationship = models.ForeignKey(Relationship, default=None)
+	allotee_first_name = models.CharField(max_length=50, blank=True, null=True, default=None)
+	allotee_middle_name = models.CharField(max_length=50, blank=True, null=True, default=None)
+	allotee_last_name = models.CharField(max_length=50, blank=True, null=True, default=None)
+	allotee_relationship = models.ForeignKey(Relationship, blank=True, default=None)
 	allotee_number = models.BigIntegerField(null=True, blank=True, default=None)
 	allotee_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotee_street = models.CharField(max_length=50, null=True, blank=True, default=None)
-	allotee_zip = models.ForeignKey('mariners_profile.Zip', default=None)
-	bank = models.ForeignKey(Bank, default=None)
+	allotee_zip = models.ForeignKey('mariners_profile.Zip', blank=True, default=None)
+	bank = models.ForeignKey(Bank, blank=True, default=None)
 	allotment_account_number = models.BigIntegerField(null=True, blank=True, default=None)
+
+	def __unicode__(self):
+		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)
+		return allotee

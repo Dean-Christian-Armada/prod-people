@@ -62,6 +62,7 @@
             <div class="col-md-3 col-laptop-6">
               <div class="input-group">
                 <label class="input-group-addon input-label">Contact Person Number:</label>
+                {% if land_employment_forms.contact_person_number.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
                 {{ land_employment_forms.contact_person_number|add_class:"form-control input-form" }}
               </div><!--End of Input Group-->
             </div><!--End of Col 4-->

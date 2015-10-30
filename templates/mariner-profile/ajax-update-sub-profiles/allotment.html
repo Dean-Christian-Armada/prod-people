@@ -52,6 +52,7 @@
         <div class="col-md-6 ">
           <div class="input-group">
             <label class="input-group-addon input-label">Contact Nos.:</label>
+            {% if allotee_forms.allotee_number.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
             {{ allotee_forms.allotee_number|add_class:"form-control input-form" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 4-->

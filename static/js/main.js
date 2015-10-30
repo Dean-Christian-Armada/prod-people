@@ -196,14 +196,14 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", true);
         $("#id_birthdate").prop("disabled", true);
         $("#id_spouse_contact").prop("disabled", true);
-      }else if(val == 'Domestic Partner'){
+      }else if(val == 'Partner'){
         $("#id_married_date").val("");
         $("#id_married_date").attr("Placeholder", "");
-        $("#id_spouse_last_name").attr("Placeholder", "Live-in's Maiden Last Name");
-        $("#id_spouse_first_name").attr("Placeholder", "Live-in's First Name");
-        $("#id_spouse_middle_name").attr("Placeholder", "Live-in's Maiden Middle Name");
-        $("#id_birthdate").attr("Placeholder", "Live-in's birthday");
-        $("#id_spouse_contact").attr("Placeholder", "Live-in's Contact No.");
+        $("#id_spouse_last_name").attr("Placeholder", "Partner's Maiden Last Name");
+        $("#id_spouse_first_name").attr("Placeholder", "Partner's First Name");
+        $("#id_spouse_middle_name").attr("Placeholder", "Partner's Maiden Middle Name");
+        $("#id_birthdate").attr("Placeholder", "Partner's birthday");
+        $("#id_spouse_contact").attr("Placeholder", "Partner's Contact No.");
         $("#id_married_date").prop("disabled", true);
         $("#id_spouse_last_name").prop("disabled", false);
         $("#id_spouse_first_name").prop("disabled", false);

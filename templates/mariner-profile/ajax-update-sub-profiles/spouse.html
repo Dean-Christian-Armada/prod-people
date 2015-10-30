@@ -55,7 +55,7 @@
 	  </div><!--End of Col 4-->
 	  <div class="col-md-6">
 	    <div class="input-group">
-	      <label class="input-group-addon input-label">Contact No.:</label>
+	      <label class="input-group-addon input-label">Contact No.:</label> {% if spouse.area_code_spouse_contact %} <h3 class="input-group-addon area-code-addon">{{spouse.area_code_spouse_contact}}</h3> {% endif %}
 	      {{spouse_form.spouse_contact|add_class:"form-control input-form"}}
 	    </div><!--End of Input Group-->
 	  </div><!--End of Col 6-->

@@ -51,8 +51,11 @@
                 <div class="row">
                   <form method="GET" id="status">
                     {% csrf_token %}
+                    {% if mariners_profile.status_last_modified %}
+                      <p><i>Status Last Modified</i>: <b>{{ mariners_profile.status_last_modified }}</b> </p>
+                    {% endif %}
                     {% for statii in status.status %}
-                      <div class="col-lg-3">
+                      <div class="col-lg-2">
                         {{ statii }}
                       </div>
                     {% endfor %}

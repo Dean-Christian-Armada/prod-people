@@ -111,6 +111,20 @@
               {% endif %}
             </select>
           </div>
+
+          <div class="input-group">
+            <span class="input-group-addon input-label">Status:</span>
+            <select name="status" class="form-control input-form">
+              <option>{% if request.GET.status %}{{ request.GET.status }}{% endif %}</option>
+              {% if not request.GET.status %}
+                {% for status in status %}
+                  <option>
+                    {{ status|upper }}
+                  </option>
+                {% endfor %}
+              {% endif %}
+            </select>
+          </div>
         </div>
       </div><!--End of Sidebar-->
     

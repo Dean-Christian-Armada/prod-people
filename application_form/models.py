@@ -8,6 +8,15 @@ from login.models import UserProfile
 from people.models import *
 from mariners_profile.models import Zip, Flags, TrainingCertificates, Sources, Specifics, Rank, Status
 
+# Creates Applicant Status
+def default_applicant_status():
+	try:
+		status_value = "Pending"
+		status = Status.objects.get_or_create({'status':status_value}, status__iexact=status_value)
+		status = Status.objects.get(status__iexact=status_value)
+		return status.id
+	except:
+		return None
 
 class ApplicationFormCurrentAddress(models.Model):
 	current_zip = models.ForeignKey(Zip, default=None)
@@ -119,7 +128,7 @@ class ApplicationForm(models.Model):
 	alternative_position = models.ForeignKey(Rank, related_name="alternative_position", default=None)
 	application_source = models.ForeignKey(AppSource, default=None)
 	# Status of the applicant if passed, failed or onhold
-	status = models.ForeignKey(Status, default=3)
+	status = models.ForeignKey(Status, default=default_applicant_status())
 
 	# Date Fields
 	application_date = models.DateField(default=None)

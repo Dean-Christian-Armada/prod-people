@@ -353,3 +353,15 @@ class ManshipFlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(ManshipFlagsAutocomplete)
+
+class DialectAutocomplete(autocomplete_light.AutocompleteModelTemplate):
+    choices = (
+      Dialect.objects.filter()
+      )
+
+    search_fields = (
+      ('dialect'), 
+      )
+    # Template that removes the "Results not Found"
+    autocomplete_template = 'autocomplete_template.html'
+autocomplete_light.register(DialectAutocomplete)

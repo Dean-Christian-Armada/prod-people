@@ -113,7 +113,7 @@
                   {% include "mariner-profile/ajax-update-sub-profiles/current-address.html" %}
                 </div>
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false">Spouse</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="spouse">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false"> {% if personal_data.civil_status.civil_status == 'Partner' %} Partner {% else %} Spouse {% endif %} </strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="spouse">UPDATE</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="spouse">
                   {% include "mariner-profile/ajax-update-sub-profiles/spouse.html" %}
                 </div>
@@ -274,7 +274,14 @@
             <!-- <input type="file" class="hide" id="change-picture"> -->
             <div class="hide">
               {{mariners_picture_form.picture|attr:"id:change-picture"}}
+              {{mariners_picture_form.picture_last_modified}}
             </div>
+            {% if mariners_profile.picture_last_modified %}
+              <p>Last Picture Change: <br />{{mariners_profile.picture_last_modified}}</p>
+            {% endif %}
+            {% if picture_age_indicator >= 730 %}
+              <strong>PICTURE already over two years</strong>
+            {% endif %}
           </form>
           <div class="input-group">
             <input type="text" class="form-control input-form"  value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" readonly="">
@@ -369,15 +376,38 @@
     </div> 
   </div>
 
+  {% if picture_age_indicator >= 730 %}              
+    <div class="modal fade modal-size-500" id="modal-picture-age-indicator" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="signatureLabel">PICTURE AGE INDICATOR<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+          </div>
+          <div class="modal-body mariner-history-status-comment text-center">
+            <img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}">
+            <h3>PLEASE BE INFORMED THAT THE MARINER'S PICTURE IS ALREADY 2 YEARS AND OVER</h3>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div> 
+    </div>
+  {% endif %}
+
 {% endblock %}
 {% block extra_scripts %}
   <script type="text/javascript">
     $(function(){
 
-       $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
-            //alert('Error encountered while communicating with the server. (' + thrownError + ')');
-            document.write(jqxhr.responseText);
-        });
+      $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
+          //alert('Error encountered while communicating with the server. (' + thrownError + ')');
+          document.write(jqxhr.responseText);
+      });
+
+      {% if picture_age_indicator >= 730 %}
+        $("#modal-picture-age-indicator").modal("show");
+      {% endif %}
 
       $(".sidebar a").click(function(){
         href = $(this).attr("href");

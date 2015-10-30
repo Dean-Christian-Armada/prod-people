@@ -662,8 +662,8 @@ def pdf_complete_manship_form(request, id):
 				certificates_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, certificates_all_by_3[k-1][l-1])
 			certificates_html += '</table></td></tr>' 
 
-		if str(personal_data.civil_status) == "Domestic Partner":
-			partner = "Live-In"
+		if str(personal_data.civil_status) == "Partner":
+			partner = "Partner"
 		else:
 			partner = "Spouse"
 

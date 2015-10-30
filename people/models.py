@@ -136,6 +136,15 @@ class AbstractSpouseData(models.Model):
 			self.spouse_contact = '+63'+str(self.spouse_contact)
 		return self.spouse_contact
 
+	def area_code_spouse_contact(self):
+		count =  len(str(self.spouse_contact))
+		area_code = ''
+		if count == 10:
+			area_code = '(+63)'
+		else:
+			area_code = None
+		return area_code
+
 class AbstractCollege(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	college = models.ForeignKey('mariners_profile.Colleges', default=None)

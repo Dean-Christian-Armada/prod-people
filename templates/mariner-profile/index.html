@@ -111,6 +111,35 @@
               {% endif %}
             </select>
           </div>
+
+          <div class="input-group">
+            <span class="input-group-addon input-label">Principal:</span>
+            <select name="principal" class="form-control input-form">
+              <option>{% if request.GET.principal %}{{ request.GET.principal }}{% endif %}</option>
+              {% if not request.GET.principal %}
+                {% for principals in principal %}
+                  <option>
+                    {{ principals|upper }}
+                  </option>
+                {% endfor %}
+              {% endif %}
+            </select>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon input-label">Status:</span>
+            <select name="status" class="form-control input-form">
+              <option>{% if request.GET.status %}{{ request.GET.status }}{% endif %}</option>
+              {% if not request.GET.status %}
+                {% for statuss in status %}
+                  <option>
+                    {{ statuss|upper }}
+                  </option>
+                {% endfor %}
+              {% endif %}
+            </select>
+          </div>
+
         </div>
       </div><!--End of Sidebar-->
     

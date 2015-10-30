@@ -442,7 +442,8 @@ ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underlin
 
 .errorlist-group{ width: 100%; border-radius: 15px; border: 2px solid black; margin-top: 25px; padding: 20px; }
 
-#webcam, #loading, #modal-mariner-history-status-comment, #welcome-message{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px;}
+#webcam, #loading, #modal-mariner-history-status-comment, #welcome-message{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px; }
+.modal-size-500{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px; }
 #loading{ margin-top: 100px; }
 
 .application-success{ padding-top: 100px; font-weight: 700; color: #2e76b8; text-align: center }
@@ -991,6 +992,11 @@ input[type="email"]:read-only{
 }
 
 .mariner-profile-updated-padding{
+  padding: 5px;
+}
+
+.area-code-addon{
+  font-size: 15px;
   padding: 5px;
 }
 

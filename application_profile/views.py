@@ -51,13 +51,12 @@ def index(request):
 	rank = set()
 	barangay = set()
 	municipality = set()
+	status_choices = set()
 	params = {}
 	params2 = {}
 
 	template = "application-profile/index.html"
 	context_dict = {"title": "MANSHIP Applicants"}
-
-	choice_visa = ''
 
 	if request.method == 'POST':
 		# used for multiple returns
@@ -89,13 +88,16 @@ def index(request):
 			# To enable False boolean on the variable
 			us_choice_visa = us_choice_visa in ['YES']
 			mariners_profile = USVisa.objects.filter(user__in=mariners_profile.values('user')).filter(us_visa=us_choice_visa)
-			us_choice_visa = int(mariners_profile.values('us_visa').distinct()[0]['us_visa'])
+
 		if 'schengen_visa' in request.GET:
 			schengen_choice_visa = request.GET['schengen_visa']
 			# To enable False boolean on the variable
 			schengen_choice_visa = schengen_choice_visa in ['YES']
 			mariners_profile = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).filter(schengen_visa=schengen_choice_visa)
-			schengen_choice_visa = int(mariners_profile.values('schengen_visa').distinct()[0]['schengen_visa'])
+
+		if 'status' in request.GET:
+			_status = Status.objects.get(status__iexact=request.GET['status'])
+			mariners_profile = ApplicationForm.objects.filter(user__in=mariners_profile.values('user')).filter(status=_status)
 
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
@@ -120,20 +122,22 @@ def index(request):
 	schengen_visa_choices = schengen_visa_choices_values
 	schengen_visa = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
+	# Applicant Status Dynamic Filtering
+	status = ApplicationForm.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
+
+
 
 	# Zipped is used for the table data
-	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, status)
 
-	for x, y, z, xx in zipped_data:
+	for x, y, z, xx, zz in zipped_data:
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		# barangay.add(y.current_address.current_zip.barangay)
 		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
+		status_choices.add(zz.status)
 
-	
-	# [0] is put to break the instance into the unicode value
-	print age
 	try:
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
@@ -154,6 +158,9 @@ def index(request):
 
 	# used for dynamic choices in us visa
 	context_dict['schengen_visa'] = schengen_visa_choices
+
+	# used for dynamic choices in us visa
+	context_dict['status'] = status_choices
 	
 
 	return render(request, template, context_dict)
@@ -273,28 +280,34 @@ def profile(request, id):
 		if request.GET and 'status' in request.GET:
 			_status = request.GET['status']
 			_status = Status.objects.get(id=_status)
-			#  START, Script to update the code
-			first_name = user_profile.first_name[0].lower()
-			middle_name = user_profile.middle_name[0].lower()
-			last_name = user_profile.last_name[0].lower()
-			letter = "a"
-			first_three_letter_name = "%s%s%s" % (last_name, first_name, middle_name)
-			code = UserProfile.objects.filter(code__istartswith=first_three_letter_name)
-			initial_code = first_three_letter_name+letter
-			codes = [x.code for x in code]
-			while initial_code in codes:
-			 letter = chr(ord(letter)+1)
-			 initial_code = first_three_letter_name[:3]+letter
-			 initial_code
-			user_profile.code=initial_code
-			user_profile.save()
-			#  END, Script to update the code
 			application_form.status = _status
 			application_form.save()
-			mariners_profile.status = 1
-			mariners_profile.date_hired = today
-			mariners_profile.save()
+
 			if str(application_form.status) == 'Passed':
+				#  START, Script to update the code
+				first_name = user_profile.first_name[0].lower()
+				middle_name = user_profile.middle_name[0].lower()
+				last_name = user_profile.last_name[0].lower()
+				letter = "a"
+				first_three_letter_name = "%s%s%s" % (last_name, first_name, middle_name)
+				code = UserProfile.objects.filter(code__istartswith=first_three_letter_name)
+				initial_code = first_three_letter_name+letter
+				codes = [x.code for x in code]
+				while initial_code in codes:
+				 letter = chr(ord(letter)+1)
+				 initial_code = first_three_letter_name[:3]+letter
+				 initial_code
+				user_profile.code=initial_code
+				user_profile.save()
+				#  END, Script to update the code
+				mariners_profile.status = 1
+				mariners_profile.date_hired = today
+				mariners_profile.save()
+				mariner_status_comment = "New Mariner in the Pool"
+				_mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
+				if _mariner_status_comment:
+					_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
+				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
 				return HttpResponseRedirect('/mariners-profile/'+id)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

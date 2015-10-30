@@ -3,6 +3,7 @@ from django.forms.models import modelformset_factory, inlineformset_factory
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from datetime import datetime as now
 
 from login.models import UserProfile
 from . models import *
@@ -12,6 +13,8 @@ from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 from mariners_profile.forms import *
 
 import sys
+
+now = now.now()
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -43,6 +46,8 @@ def index(request):
 	age = set()
 	vessel_type = set()
 	rank = set()
+	principal_choices = set()
+	status_choices = set()
 	barangay = set()
 	municipality = set()
 	params = {}
@@ -88,6 +93,19 @@ def index(request):
 			mariners_profile = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).filter(schengen_visa=schengen_choice_visa)
 			schengen_choice_visa = int(mariners_profile.values('schengen_visa').distinct()[0]['schengen_visa'])
 
+		if 'status' in request.GET:
+			_status = MarinerStatus.objects.get(mariner_status__iexact=request.GET['status'])
+			# Used Group By Like SQL QUERY
+			# Query Set that gets the latest status for each user filtered
+			mariners_profile = MarinerStatusHistory.objects.filter(id__in=MarinerStatusHistory.objects.filter(user__in=mariners_profile.values('user')).order_by().values('user').annotate(max_id=models.Max('id')).values('max_id')).filter(mariner_status=_status)
+
+		if 'principal' in request.GET:
+			_principal = Principal.objects.get(principal__iexact=request.GET['principal'])
+			# Used Group By Like SQL QUERY
+			# Query Set that gets the latest principal for each user filtered
+			mariners_profile = MarinerStatusHistory.objects.filter(id__in=MarinerStatusHistory.objects.filter(user__in=mariners_profile.values('user')).order_by().values('user').annotate(max_id=models.Max('id')).values('max_id')).filter(mariner_principal=_principal)
+
+
 	if request.method == 'GET' and 'search' in request.GET:
 		try:
 			searches = request.GET['search']
@@ -118,7 +136,18 @@ def index(request):
 	# Schengen Visa Dynamic Filtering
 	schengen_visa_choices_values = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('schengen_visa', flat=True).distinct().order_by('schengen_visa')
 	schengen_visa_choices = schengen_visa_choices_values
-	schengen_visa = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
+	schengen_visa = SchengenVisa.objects.filter(user__in=mariners_profile.values('user')).order_by('-id').distinct()
+
+	# Mariner Status and Principal Dynamic Filtering
+	# mariner_status_history = MarinerStatusHistory.objects.filter(user__in=mariners_profile.values('user')).order_by('-id').distinct()
+	# Used Group By Like SQL QUERY
+	# Query Set that gets the latest principal for each user filtered
+	mariner_status_history = MarinerStatusHistory.objects.filter(id__in=MarinerStatusHistory.objects.filter(user__in=mariners_profile.values('user')).order_by().values('user').annotate(max_id=models.Max('id')).values('max_id'))
+
+	# Fills the options of the selectbox for principals and status
+	for x in mariner_status_history:
+		principal_choices.add(x.mariner_principal)
+		status_choices.add(x.mariner_status)
 
 
 	# Zipped is used for the table data
@@ -130,6 +159,8 @@ def index(request):
 		# barangay.add(y.current_address.current_zip.barangay)
 		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
+		# principal_choices.add(yy.mariner_principal)
+		# status_choices.add(yy.mariner_status)
 
 	
 	# [0] is put to break the instance into the unicode value
@@ -153,9 +184,16 @@ def index(request):
 
 	# used for dynamic choices in us visa
 	context_dict['schengen_visa'] = schengen_visa_choices
+
+	# used for dynamic choices in status
+	context_dict['status'] = status_choices
+
+	# used for dynamic choices in principal
+	context_dict['principal'] = principal_choices
 	
 
 	return render(request, template, context_dict)
+
 @login_required()
 def profile(request, id):
 	if id:
@@ -192,6 +230,11 @@ def profile(request, id):
 				except:
 					pass
 		# END
+
+		try:
+			picture_age_indicator = (now.date() - mariners_profile.picture_last_modified.date()).days
+		except:
+			picture_age_indicator = ""
 
 		# Used for formset updating / inlineformset_factory
 		college = College.objects.filter(user=id)
@@ -362,11 +405,9 @@ def profile(request, id):
 		src_form = SRCForm(request.POST or None, instance=src, initial={'src_rank':src.src_rank})
 		goc_form = GOCForm(request.POST or None, instance=goc, initial={'goc_rank':goc.goc_rank})
 		mariners_position_form = MarinersChangePosition(mariners_profile.position.id, request.POST or None, instance=mariners_profile)
-		mariners_picture_form = MarinersChangePicture(request.POST or None, request.FILES or None, instance=mariners_profile)
+		mariners_picture_form = MarinersChangePicture(request.POST or None, request.FILES or None, instance=mariners_profile, initial={'picture_last_modified':now})
 
-		
 
-		
 		template = "mariner-profile/profile.html"
 
 		context_dict = {}
@@ -413,10 +454,13 @@ def profile(request, id):
 		# queryset variables
 		context_dict['user_profile'] = user_profile
 		context_dict['mariners_profile'] = mariners_profile
+		context_dict['picture_age_indicator'] = picture_age_indicator
 		context_dict['current_history'] = current_history
 		context_dict['histories'] = histories
 		context_dict['current_evaluation'] = current_evaluation
 		context_dict['evaluations'] = evaluations
+		context_dict['spouse'] = spouse
+		context_dict['dependents'] = dependents
 
 		context_dict['title'] = "Mariner's Profile - "+str(personal_data).upper()
 		context_dict['dependents_num_label'] = dependents_num_label
@@ -426,6 +470,7 @@ def profile(request, id):
 		if request.GET and 'status' in request.GET:
 			from application_form.models import ApplicationForm
 			mariners_profile.status = 0
+			mariners_profile.status_last_modified = now
 			mariners_profile.save()
 			_status = Status.objects.get(status="Reverted from Mariners Profile")
 			application_form = ApplicationForm.objects.get(user=id)

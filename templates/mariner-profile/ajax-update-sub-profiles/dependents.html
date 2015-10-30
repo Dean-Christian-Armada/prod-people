@@ -50,6 +50,7 @@
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Contact Nos.:</label>
+              {% if dependents_forms.dependent_contact.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
               {{dependents_forms.dependent_contact|add_class:"form-control input-form"}}
             </div><!--End of Col 3-->
           </div><!--End of Input Group-->

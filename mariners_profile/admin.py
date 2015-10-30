@@ -23,6 +23,13 @@ class BankResource(resources.ModelResource):
 class BankImport(ImportExportModelAdmin):
 	resource_class = BankResource
 
+class DialectResource(resources.ModelResource):
+	class Meta:
+		model = Dialect
+
+class DialectImport(ImportExportModelAdmin):
+	resource_class = DialectResource
+
 class ReferrersPoolResource(resources.ModelResource):
 	class Meta:
 		model = ReferrersPool
@@ -115,7 +122,7 @@ admin.site.register(YellowFeverPlaceIssued)
 admin.site.register(LicensePlaceIssued)
 admin.site.register(COCPlaceIssued)
 admin.site.register(TradeArea)
-admin.site.register(Dialect)
+admin.site.register(Dialect, DialectImport)
 admin.site.register(English)
 admin.site.register(LandEmployment)
 admin.site.register(Beneficiary)

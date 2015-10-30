@@ -63,6 +63,24 @@ def filipino_nationality():
 	except:
 		return None
 
+def default_mariner_status():
+	try:
+		mariner_status_value = 'NO STATUS YET'
+		mariner_status = MarinerStatus.objects.get_or_create({'mariner_status':mariner_status_value}, mariner_status__iexact=mariner_status_value)
+		mariner_status = MarinerStatus.objects.get(mariner_status__iexact=mariner_status_value)
+		return mariner_status.id
+	except:
+		return None
+
+def default_mariner_principal():
+	try:
+		mariner_principal_value = 'NO PRINCIPAL YET'
+		mariner_principal = Principal.objects.get_or_create({'principal':mariner_principal_value}, principal__iexact=mariner_principal_value)
+		mariner_principal = Principal.objects.get(principal__iexact=mariner_principal_value)
+		return mariner_principal.id
+	except:
+		return None
+
 class Evaluations(models.Model):
 	evaluations = models.TextField(null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -838,8 +856,8 @@ class MarinerStatusHistory(models.Model):
 	user = models.ForeignKey(UserProfile, related_name='mariner_user', default=None)
 	updated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=default_user_user_level())
 	updated_on = models.DateField(auto_now_add=True)
-	mariner_principal = models.ForeignKey(Principal, default=null_default_foreign_key_value(Principal, 'principal', ''))
-	mariner_status = models.ForeignKey(MarinerStatus, default=null_default_foreign_key_value(MarinerStatus, 'mariner_status', ''))
+	mariner_principal = models.ForeignKey(Principal, default=default_mariner_principal())
+	mariner_status = models.ForeignKey(MarinerStatus, default=default_mariner_status())
 	since = models.DateField(null=True, blank=True, default=None)
 	until = models.DateField(null=True, blank=True, default=None)
 	mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
@@ -938,6 +956,15 @@ class Dependents(models.Model):
 		if count == 10:
 			self.dependent_contact = '+63'+str(self.dependent_contact)
 		return self.dependent_contact
+
+	def area_code_dependent_contact(self):
+		count =  len(str(self.dependent_contact))
+		area_code = ''
+		if count == 10:
+			area_code = '(+63)'
+		else:
+			area_code = None
+		return area_code
 
 class LandEmployment(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

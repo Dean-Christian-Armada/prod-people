@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -27,6 +28,8 @@ def xyz(request, method):
 	url += request.get_full_path()
 
 	params = "?"
+	if 'page' in request.GET:
+		params = ""
 
 	for x in request_method:
 		if x != 'csrfmiddlewaretoken' and x != 'submit' and x != 'page':
@@ -38,6 +41,9 @@ def xyz(request, method):
 # Create your views here.
 @login_required()
 def index(request):
+	crew_on_table = 2
+	per_page_list = [2, 1, 3, 4]
+
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=1)
@@ -65,6 +71,14 @@ def index(request):
 		return HttpResponseRedirect(url+params)
 
 	if request.method == 'GET':
+		# # manipulates number of crew displayed 
+		if 'crew_on_table' in request.GET:
+			_crew_on_table = request.GET['crew_on_table']
+			crew_on_table = int(_crew_on_table)
+			remove = per_page_list.index(crew_on_table)
+			per_page_list.pop(remove)
+			per_page_list.insert(0, crew_on_table)
+
 		if 'vessel_type' in request.GET:
 			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type
@@ -149,6 +163,25 @@ def index(request):
 		principal_choices.add(x.mariner_principal)
 		status_choices.add(x.mariner_status)
 
+	# START Script to paginate the query and retrieve all the parameters to the URL
+	# Script to retrieve all the parameters to a variable
+	params, url = xyz(request, "GET")
+
+	# Script to paginate the query
+	paginator = Paginator(mariners_profile, crew_on_table)
+
+	if 'page' in request.GET:
+		page = int(request.GET.get('page'))
+	else:
+		page=1
+
+	try:
+		mariners_profile = paginator.page(page)
+	except PageNotAnInteger:
+		mariners_profile = paginator.page(1)
+	except EmptyPage:
+		mariners_profile = paginator.page(paginator.num_pages)
+	# END Script to paginate the query and retrieve all the parameters to the URL
 
 	# Zipped is used for the table data
 	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
@@ -161,6 +194,8 @@ def index(request):
 		rank.add(x.position)
 		# principal_choices.add(yy.mariner_principal)
 		# status_choices.add(yy.mariner_status)
+
+
 
 	
 	# [0] is put to break the instance into the unicode value
@@ -190,6 +225,13 @@ def index(request):
 
 	# used for dynamic choices in principal
 	context_dict['principal'] = principal_choices
+
+	# used to retrieve all the parameters on the page links
+	context_dict['params'] = params
+
+	context_dict['range_pages'] = range(page, page+3)
+	context_dict['page'] = page
+	context_dict['per_page_list'] = per_page_list
 	
 
 	return render(request, template, context_dict)

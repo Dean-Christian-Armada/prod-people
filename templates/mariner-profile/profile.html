@@ -435,7 +435,7 @@
         img = "{% static 'img/updating.gif' %}";
         mini_img = "{% static 'img/mini-loading-x.gif' %}";
         finish_img = "{% static 'img/finish.png' %}";
-        var url = "{% url 'mariners_profile' id=mariners_profile.user.id %}";
+        var url = "{% url 'mariners_profile' slug=mariners_profile.user.slug %}";
         var csrfmiddlewaretoken = "{{ csrf_token }}";
 
         var child = $(this);

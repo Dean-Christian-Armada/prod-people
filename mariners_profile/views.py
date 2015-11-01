@@ -237,9 +237,10 @@ def index(request):
 	return render(request, template, context_dict)
 
 @login_required()
-def profile(request, id):
-	if id:
-		user_profile = UserProfile.objects.get(id=id)
+def profile(request, slug):
+	if slug:
+		user_profile = UserProfile.objects.get(slug=slug)
+		id = user_profile.id
 		current_user = UserProfile.objects.get(user=request.user)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
 		personal_data = PersonalData.objects.get(name=id)

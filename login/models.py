@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.template.defaultfilters import slugify
 from django.db import models
 
 # Create your models here.
@@ -55,6 +56,14 @@ class UserProfile(models.Model):
 	last_name = models.CharField(max_length=50, null=True)
 	nick_name = models.CharField(max_length=50, null=True, blank=True, default=None)
 	picture = models.ImageField(upload_to='photos/manship-employees', null=True, blank=True, default=None)
+	slug = models.SlugField(null=True, blank=True, unique=True,  default=None)
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.first_name, self.middle_name, self.last_name)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.first_name+" "+self.middle_name+" "+self.last_name)
+		try:
+			super(UserProfile, self).save(*args, **kwargs)
+		except:
+			pass

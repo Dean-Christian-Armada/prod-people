@@ -241,15 +241,15 @@
                   <tbody>
                     {% if mariners_profile %}
                       {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
-                        <tr onclick="window.open('{% url 'mariners_profile' id=mariners_profile.user.id %}', '_blank')">
+                        <tr onclick="window.open('{% url 'mariners_profile' slug=mariners_profile.user.slug %}', '_blank')">
                           <td>{{ forloop.revcounter }}</td>  
                           <td>{{ mariners_profile.user.code }}</td>
                           <td>{{ mariners_profile|upper }}</td>
                           <td>{{ mariners_profile.position|upper }}</td>
                           <td>{{ personal_data.age }}</td>
                           <td>{{ personal_data.preferred_vessel_type|upper }}</td>
-                          <td>+63{{ personal_data.mobile_1 }}</td>
-                          <td>{{ personal_data.landline_1 }}</td>
+                          <td>{{ personal_data.prefix_mobile_1 }}</td>
+                          <td>{{ personal_data.none_landline_1 }}</td>
                           <td>{% if us_visa.us_visa_expiry == None %}NO VISA{% else %}{{ us_visa.us_visa_expiry }}{% endif %}</td>
                           <td>{% if schengen_visa.schengen_visa_expiry == None %}NO VISA{% else %}{{ schengen_visa.schengen_visa_expiry }}{% endif %}</td>
                           <td>{{ personal_data.current_address.current_zip.barangay|upper }}</td>

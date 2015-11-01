@@ -98,6 +98,16 @@ class AbstractPersonalData(models.Model):
 			self.mobile_3 = ''
 		return self.mobile_3
 
+	def none_landline_1(self):
+		if not self.landline_1:
+			self.landline_1 = ''
+		return self.landline_1
+
+	def none_landline_2(self):
+		if not self.landline_2:
+			self.landline_2 = ''
+		return self.landline_2
+
 	def age(self):
 		today = date.today()
 		birthday = self.birth_date

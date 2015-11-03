@@ -34,6 +34,7 @@
     REMARKS
       - Remarks History
     SIGNATURE
+    SCANNED DOCUMENTS
 -->
 
 <body class="crewing-profile">
@@ -87,7 +88,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong><button class="btn btn-primary update-mariner">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger">Return to Application Profile</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong><button class="btn btn-primary update-mariner">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -157,6 +158,499 @@
             </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->
 
+        <div id="step13" class="panel panel-blue">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#scanned-documents"   aria-expanded="false"><strong>SCANNED DOCUMENTS</strong></div>                  
+            <div id="scanned-documents" class="panel-collapse collapse" aria-expanded="false"> 
+              <div class="panel-body"> 
+                <div class="form-group">
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-licenses" aria-expanded="false"><strong>Licenses</strong></p>
+                  <div id="scanned-licenses" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-prc-licenses" aria-expanded="false" style="background:#006400"><strong>PRC License</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-prc-licenses" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-coc-licenses" aria-expanded="false" style="background:#006400"><strong>COC License</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-coc-licenses" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-marina-licenses" aria-expanded="false" style="background:#006400"><strong>Marina License</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-marina-licenses" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-certificates" aria-expanded="false"><strong>Certificates</strong></p>
+                  <div id="scanned-certificates" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-national-certificates" aria-expanded="false" style="background:#006400"><strong>National Certificates</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-national-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="panel-body padding-top-bottom-negator">
+                          <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-training-certificates" aria-expanded="false" style="background:#00BFFF"><strong>COP - BT</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                          <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-training-certificates" aria-expanded="false" style="background:#00BFFF"><strong>COP - AFF</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                        </div>
+                        <!-- <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-training-certificates" aria-expanded="false" style="background:#006400"><strong>Training Certificates</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-training-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="panel-body padding-top-bottom-negator">
+                          <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-training-certificates" aria-expanded="false" style="background:#00BFFF"><strong>BT</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                          <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-training-certificates" aria-expanded="false" style="background:#00BFFF"><strong>AFF</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                        </div>
+                      </div>
+                      <!-- <div id="scanned-training-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div> -->
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-inhouse-certificates" aria-expanded="false" style="background:#006400"><strong>Inhouse Certificates</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-inhouse-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>PDOS.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>APAT.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>MAEAS.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-sms-certificates" aria-expanded="false" style="background:#006400"><strong>SMS Certificates</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-sms-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-medical-certificates" aria-expanded="false" style="background:#006400"><strong>Medical Certificates</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-medical-certificates" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags" aria-expanded="false"><strong>Flags</strong></p>
+                  <div id="scanned-flags" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-marshall-islands" aria-expanded="false" style="background:#006400"><strong>Marshall Islands</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-marshall-islands" class="panel-collapse collapse" aria-expanded="false">
+                        <!-- <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div> -->
+                        <div class="panel-body padding-top-bottom-negator">
+                            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-marshall-islands" aria-expanded="false" style="background:#00BFFF"><strong>Licenses</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-marshall-islands" aria-expanded="false" style="background:#00BFFF"><strong>Books</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-marshall-islands" aria-expanded="false" style="background:#00BFFF"><strong>Document</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-marshall-islands" aria-expanded="false" style="background:#00BFFF"><strong>Application</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-cayman-islands" aria-expanded="false" style="background:#006400"><strong>Cayman Islands</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-cayman-islands" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-liberia" aria-expanded="false" style="background:#006400"><strong>Liberia</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-liberia" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-cyprus" aria-expanded="false" style="background:#006400"><strong>Cyprus</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-cyprus" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-greek" aria-expanded="false" style="background:#006400"><strong>Greek</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-greek" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-flags-singapore" aria-expanded="false" style="background:#006400"><strong>Singapore</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-flags-singapore" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-visas" aria-expanded="false"><strong>Travel Documents</strong></p>
+                  <div id="scanned-visas" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-passport-document" aria-expanded="false" style="background:#006400"><strong>Passport</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-passport-document" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-sbook-document" aria-expanded="false" style="background:#006400"><strong>Seaman's Book</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-sbook-document" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-us-visa" aria-expanded="false" style="background:#006400"><strong>US Visa</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-us-visa" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-schengen-visa" aria-expanded="false" style="background:#006400"><strong>Schengen Visa</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-schengen-visa" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-other-visa" aria-expanded="false" style="background:#006400"><strong>Other Visas</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-other-visa" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-contracts" aria-expanded="false"><strong>Contracts</strong></p>
+                  <div id="scanned-contracts" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-poea-contract" aria-expanded="false" style="background:#006400"><strong>POEA</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-poea-contract" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-itf-contract" aria-expanded="false" style="background:#006400"><strong>ITF</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-itf-contract" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-kg-contract" aria-expanded="false" style="background:#006400"><strong>KG</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-kg-contract" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-mandatory-documents" aria-expanded="false"><strong>Others</strong></p>
+                  <div id="scanned-mandatory-documents" class="panel-collapse collapse" aria-expanded="false">
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-promotion-paper" aria-expanded="false" style="background:#006400"><strong>Promotion Papers</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-promotion-paper" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-checklist" aria-expanded="false" style="background:#006400"><strong>Checklist</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-checklist" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-briefing-disbriefing-document" aria-expanded="false" style="background:#006400"><strong>Briefing / Debriefing Forms</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-briefing-disbriefing-document" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Sample-File.file</h4>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-body padding-top-bottom-negator">
+                      <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-application-requirements" aria-expanded="false" style="background:#006400"><strong>Application Requirements</strong> <button class="btn btn-primary">UPLOAD</button></p>
+                      <div id="scanned-application-requirements" class="panel-collapse collapse" aria-expanded="false">
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Application-Form.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>CES-Test.file</h4>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <img src="http://www.clker.com/cliparts/w/4/5/T/Y/m/empty-unix-file.svg" width="75" height="75">
+                          <h4>Interview-Sheet.file</h4>
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                </div>
+              </div><!--End of Panel Body-->
+            </div><!--End of Collapse-->
+        </div><!--End of Panel Primary-->
+
                     
         <!--Educational Information
         ====================================-->
@@ -199,20 +693,22 @@
         <div id="step8" class="panel panel-blue">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
           <div id="detail8" class="panel-collapse collapse" aria-expanded="false">
-            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
-            <div class ="panel-collapse collapse" aria-expanded="false" id="licenses">               
-              {% include "mariner-profile/ajax-update-sub-profiles/licenses.html" %}             
-            </div>                                        
-  
-            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="National">UPDATE</button></p>
-            <div class ="panel-collapse collapse" aria-expanded="false" id="national-certificates">   
-              {% include "mariner-profile/ajax-update-sub-profiles/national-certificates.html" %}       
-            </div> 
-  
-            <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
-            <div class ="panel-collapse collapse" aria-expanded="false" id="coc-visas">   
-              {% include "mariner-profile/ajax-update-sub-profiles/coc_visas.html" %}       
-            </div><!--End of Panel Body-->
+            <div class="panel-body">
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
+              <div class ="panel-collapse collapse" aria-expanded="false" id="licenses">               
+                {% include "mariner-profile/ajax-update-sub-profiles/licenses.html" %}             
+              </div>                                        
+    
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="National">UPDATE</button></p>
+              <div class ="panel-collapse collapse" aria-expanded="false" id="national-certificates">   
+                {% include "mariner-profile/ajax-update-sub-profiles/national-certificates.html" %}       
+              </div> 
+    
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
+              <div class ="panel-collapse collapse" aria-expanded="false" id="coc-visas">   
+                {% include "mariner-profile/ajax-update-sub-profiles/coc_visas.html" %}       
+              </div><!--End of Panel Body-->
+            </div>
           </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->
                 
@@ -399,11 +895,10 @@
 {% block extra_scripts %}
   <script type="text/javascript">
     $(function(){
-
-      $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
-          //alert('Error encountered while communicating with the server. (' + thrownError + ')');
-          document.write(jqxhr.responseText);
-      });
+      // $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
+      //     //alert('Error encountered while communicating with the server. (' + thrownError + ')');
+      //     document.write(jqxhr.responseText);
+      // });
 
       {% if picture_age_indicator >= 730 %}
         $("#modal-picture-age-indicator").modal("show");
@@ -473,6 +968,189 @@
             parent_next.html(result);
           });
         } 
+      });
+
+      $(".add-more-fields-3").click(function(){
+        var count = -1;
+        var child = $(this);
+        var parent = $(this).parent();
+        var parent_html = $(this).parent().html();
+        var parent_next = $(this).parent().parent().parent().next().find('tr').first();
+        var parent_next_html = $(this).parent().parent().parent().next().find('tr').first().html();
+
+        // parent_next_row_html = $(this).parent().next().find('.adding-row').last().html();
+        total_forms = $(this).parent().siblings(".total-forms").find('input').first();
+
+        // alert(parent_next_html);
+        // document.write(parent_next_html)
+
+        parent_next.before("<tr>"+parent_next_html+"</tr>");
+
+        count_tr = $(this).parent().parent().parent().next().find('tr');
+
+        count_tr.each(function(){
+          count++;
+        });
+
+        parent_next = $(this).parent().parent().parent().next().find('tr').first();
+
+        select = parent_next.find('select');
+        input = parent_next.find('input');
+
+        select.each(function(){
+          id_select_this = $(this).attr("id");
+          name_select_this = $(this).attr("name");
+          replace_id_select = id_select_this.match(/\d+/)[0] // "3
+          replace_id_select = count;
+          replace_id_select = id_select_this.replace( /[\d]/g, replace_id_select );
+          replace_name_select = name_select_this.match(/\d+/)[0] // "3
+          replace_name_select = count;
+          replace_name_select = name_select_this.replace( /[\d]/g, replace_name_select );
+          $(this).attr("id", replace_id_select);
+          $(this).attr("name", replace_name_select);
+        });
+
+        input.each(function(){
+          // $("#id_married_date").prop("disabled", true);
+          // alert($(this).prop("disabled"));
+          if($(this).prop("disabled") == false ) {
+            id_input_this = $(this).attr("id");
+            name_input_this = $(this).attr("name");
+            replace_id_input = id_input_this.match(/\d+/)[0] // "3
+            replace_id_input = count;
+            replace_id_input = id_input_this.replace( /[\d]/g, replace_id_input );
+            replace_name_input = name_input_this.match(/\d+/)[0] // "3
+            replace_name_input = count;
+            replace_name_input = name_input_this.replace( /[\d]/g, replace_name_input );
+            $(this).attr("id", replace_id_input);
+            $(this).attr("name", replace_name_input);
+          }
+        });
+
+        input.val('');
+        select.val('');
+
+        total_forms.val(parseInt(total_forms.val())+1);
+      });
+
+      $(".add-more-fields-2").click(function(){
+        var count = -1;
+        var child = $(this);
+        var parent = $(this).parent();
+        var parent_html = $(this).parent().html();
+        var parent_next = $(this).parent().next();
+        var parent_next_html = $(this).parent().next().html();
+
+        parent_next_row_html = $(this).parent().next().find('.adding-row').last().html();
+        total_forms = $(this).parent().siblings(".total-forms").find('input').first();
+
+        parent_next.before("<div class='panel-body'>"+parent_next_html+"</div>");
+
+        var parent_next = $(this).parent().next();
+
+        // parent_next_row = $(this).parent().next().find('.panel-body').last();
+        count_panel_body = $(this).parent().siblings('.panel-body');
+
+        count_panel_body.each(function(){
+          count++;
+        });
+
+        select = parent_next.find('select');
+        input = parent_next.find('input');
+        p = parent_next.find('p');
+        p.html('');
+
+        select.each(function(){
+          id_select_this = $(this).attr("id");
+          name_select_this = $(this).attr("name");
+          replace_id_select = id_select_this.match(/\d+/)[0] // "3
+          replace_id_select = count;
+          replace_id_select = id_select_this.replace( /[\d]/g, replace_id_select );
+          replace_name_select = name_select_this.match(/\d+/)[0] // "3
+          replace_name_select = count;
+          replace_name_select = name_select_this.replace( /[\d]/g, replace_name_select );
+          $(this).attr("id", replace_id_select);
+          $(this).attr("name", replace_name_select);
+        });
+
+        input.each(function(){
+          id_input_this = $(this).attr("id");
+          name_input_this = $(this).attr("name");
+          replace_id_input = id_input_this.match(/\d+/)[0] // "3
+          replace_id_input = count;
+          replace_id_input = id_input_this.replace( /[\d]/g, replace_id_input );
+          replace_name_input = name_input_this.match(/\d+/)[0] // "3
+          replace_name_input = count;
+          replace_name_input = name_input_this.replace( /[\d]/g, replace_name_input );
+          $(this).attr("id", replace_id_input);
+          $(this).attr("name", replace_name_input);
+        });
+
+        input.val('');
+        select.val('');
+
+        total_forms.val(parseInt(total_forms.val())+1);
+
+      });
+
+      $(".add-more-fields-1").click(function(){
+        child = $(this);
+        parent = $(this).parent();
+        parent_html = $(this).parent().html();
+        parent_next = $(this).parent().next();
+        parent_next_html = $(this).parent().next().html();
+        
+        parent_next_row_html = $(this).parent().next().find('.adding-row').last().html();
+        total_forms = $(this).parent().siblings(".total-forms").find('input').first();
+
+        parent_next.append("<div class='row adding-row'>"+parent_next_row_html+"</div>");
+
+        parent_next_row = $(this).parent().next().find('.adding-row').last();
+        select = parent_next_row.find('select');
+        input = parent_next_row.find('input');
+
+        select.each(function(){
+          id_select_this = $(this).attr("id");
+          name_select_this = $(this).attr("name");
+          replace_id_select = id_select_this.match(/\d+/)[0] // "3
+          replace_id_select = parseInt(replace_id_select)+1;
+          replace_id_select = id_select_this.replace( /[\d]/g, replace_id_select );
+          replace_name_select = name_select_this.match(/\d+/)[0] // "3
+          replace_name_select = parseInt(replace_name_select)+1;
+          replace_name_select = name_select_this.replace( /[\d]/g, replace_name_select );
+          $(this).attr("id", replace_id_select);
+          $(this).attr("name", replace_name_select);
+        });
+
+        input.each(function(){
+          id_input_this = $(this).attr("id");
+          name_input_this = $(this).attr("name");
+          replace_id_input = id_input_this.match(/\d+/)[0] // "3
+          replace_id_input = parseInt(replace_id_input)+1;
+          replace_id_input = id_input_this.replace( /[\d]/g, replace_id_input );
+          replace_name_input = name_input_this.match(/\d+/)[0] // "3
+          replace_name_input = parseInt(replace_name_input)+1;
+          replace_name_input = name_input_this.replace( /[\d]/g, replace_name_input );
+          $(this).attr("id", replace_id_input);
+          $(this).attr("name", replace_name_input);
+        });
+
+        input.val('');
+        select.val('');
+
+        total_forms.val(parseInt(total_forms.val())+1);
+      });
+
+      $('.sea-tb').find('.date-joined').each(function(){
+        date_joined = $(this).val();
+        date_joined = new Date(date_joined);
+        // alert(date_joined);
+        date_left = $(this).parent().next().children().val();
+        date_left = new Date(date_left);
+        // alert(date_left);
+        duration = Math.abs(date_left.getTime() - date_joined.getTime());
+        duration = Math.ceil(duration / (1000 * 3600 * 24));
+        $(this).parent().next().next().children().val(duration);
       });
     });
   </script>

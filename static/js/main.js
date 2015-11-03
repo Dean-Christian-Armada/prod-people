@@ -241,7 +241,7 @@ $(function(){
 
   // START College Dynamic Fields Scripts
     // undisplays all except the first college
-    $(".colleges:not(:eq(0))").hide();
+    $(".colleges:not(:eq("+eq+"))").hide();
     // Makes sure the form group shows if fields are not null upon post request
     $(".colleges").each(function(){
       $(this).find('input').each(function(){
@@ -278,7 +278,7 @@ $(function(){
   // END College Dynamic Fields Scripts
 
   // START Emergency Contact Dynamic Fields Scripts
-    $(".emergency-contacts:not(:eq(0))").hide();
+    $(".emergency-contacts:not(:eq("+eq+"))").hide();
     // Makes sure the form group shows if fields are not null upon post request
     $(".emergency-contacts").each(function(){
       $(this).children().children().find('input[type="text"]').each(function(){

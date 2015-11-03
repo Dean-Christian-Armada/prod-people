@@ -264,7 +264,15 @@ class CauseOfDischarge(models.Model):
 	def __unicode__(self):
 		return self.cause_of_discharge
 
+class Region(models.Model):
+	region = models.CharField(max_length=50, default=None)
+
+	def __unicode__(self):
+		return self.region
+
+# This is the model for city or province
 class Municipality(models.Model):
+	region = models.ForeignKey(Region, default=null_default_foreign_key_value(Region, 'region', ''))
 	municipality = models.CharField(max_length=50, default=None)
 	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -273,6 +281,7 @@ class Municipality(models.Model):
 	def __unicode__(self):
 		return self.municipality
 
+# This is the model for barangay or municipality
 class Barangay(models.Model):
 	barangay = models.CharField(max_length=50, default=None)
 	company_standard = models.NullBooleanField(default=True)
@@ -407,7 +416,7 @@ class IssuingAuthority(models.Model):
 		return self.issuing_authority
 
 class Zip(models.Model):
-	zip = models.PositiveIntegerField(unique=True, default=None)
+	zip = models.PositiveIntegerField(default=None)
 	barangay = models.ForeignKey(Barangay, default=None)
 	municipality = models.ForeignKey(Municipality, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )

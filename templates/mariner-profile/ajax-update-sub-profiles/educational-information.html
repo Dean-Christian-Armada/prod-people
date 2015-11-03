@@ -20,16 +20,17 @@
   </div>
 {% endif %}
 
+
+{{highschool_form.user|add_class:"hide"}}
 <div class="panel-body">
   <div class="form-group">
-    <p><strong>College</strong></p>
+    <div class="total-forms">{{ college_form.management_form }}</div>
+    <p><strong>College</strong> <button class="btn btn-warning add-mariner add-more-fields-1">ADD</button></p>
     <div class="panel-body">
-      {{highschool_form.user|add_class:"hide"}}
-      {{ college_form.management_form }}
       {% for college in college_form %}
-        {{college.id}}
-        {{college.user}}
-        <div class="row">
+        <div class="row adding-row">
+          {{college.id}}
+          {{college.user}}
           <div class="col-md-5 col-laptop-12">
             <div class="input-group">
               <label class="input-group-addon input-label">College:</label>

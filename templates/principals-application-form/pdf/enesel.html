@@ -1,0 +1,412 @@
+{% load static %}
+{% load pdf_image %}
+
+{% static "img/small_logo.png" as small_logo %}
+{# ressource.image.url|get64:domain|add:small_logo #}
+<!-- {{ domain }}/media/{{ appdetails.picture }} -->
+{# ressource.image.url|get64:signature #}
+{# ressource.image.url|get64:check #}
+{# ressource.image.url|get64:uncheck #}
+{# ressource.image.url|get64:small_logo #}
+{# ressource.image.url|get64:picture #}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDF Example</title>
+	<style type="text/css">
+		body{ font-size:12px; }
+		th, td{ padding:5px; padding-bottom:0px; }
+		/*tr, td{ border:0; }*/
+	</style>
+</head>
+<body>
+	<table>
+	<tr>
+		<td colspan="2" style="text-align:center">
+			<img src="{{ ressource.image.url|get64:logo }}"> 
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h4 style="color: #0e4f6f">SEAGOING PERSONNEL APPLICATION AND INTERVIEW RECORD</h4>
+			Position applied for:</br>
+			Available from:
+		</td> 
+		<td border="1" style="text-align: right">
+		</td>
+	</tr>
+	</table>
+	<br>
+	<br>
+
+<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left; color: #fff; background: #0e4f6f;" width="60%">PERSONAL DATA</th>
+				</tr>
+			</table>
+		</tr>
+		<tr>
+			<td style="padding: 0px;">
+				<table border="1">
+					<tr>
+						<td>Surname:</td>
+						<td>First Name:</td>
+						<td>Middle Name:</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="color: #fff; background: #0e4f6f;"><h4>FATHER'S NAME:</h4></td>
+					</tr>
+					<tr>
+						<td>Surname:</td>
+						<td>First Name:</td>
+						<td>Middle Name:</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="color: #fff; background: #0e4f6f;"><h4>MOTHER'S NAME:</h4></td>
+					</tr>
+					<tr>
+						<td>Surname:</td>
+						<td>First Name:</td>
+						<td>Middle Name:</td>
+					</tr>
+					<tr>
+						<td>Date of Birth:</td>
+						<td>Place of Birth:</td>
+						<td>Over 18 years of age: Yes No</td>
+					</tr>
+					<tr>
+						<td colspan="2">Marital status: Single Married </td>
+						<td>Nationality:</td>
+					</tr>
+					<tr>
+						<td colspan="3">Home Address:</td>
+					</tr>
+					<tr>
+						<td>Tel No.:</td>
+						<td>Tel No.:</td>
+						<td>E-mail:</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="color: #fff; background: #0e4f6f;"><h4>NEXT OF KIN:</h4></td>
+					</tr>
+					<tr>
+						<td>Surname:</td>
+						<td>First Name:</td>
+						<td>Middle Name:</td>
+					</tr>
+					<tr>
+						<td colspan="3">Home Address:</td>
+					</tr>
+					<tr>
+						<td>Tel No.:</td>
+						<td colspan="2">Dependants (number):</td>
+					</tr>
+					<tr>
+						<td>VAT No.:</td>
+						<td colspan="2">VAT Register Authority:</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<br>
+		<table border="1">
+			<tr>
+				<th>DOCUMENTS</th>
+				<th>NUMBER</th>
+				<th>ISSUING</th>
+				<th>ISSUE DATE</th>
+				<th>EXPIRY DATE</th>
+			</tr>
+			<tr>
+				<td>Passport</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td>National Seaman's Book</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td>Other Seaman's Book</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td>Medical Fitness Certificate</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Yellow Fever Vaccination</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+		</table>
+	</table>
+	<br>
+
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left; color: #fff; background: #0e4f6f;" width="60%">QUALIFICATIONS</th>
+				</tr>
+			</table>
+			
+		</tr>
+		<table border="1">
+			<tr>
+				<th colspan="2">CERTIFICATES</th>
+				<th>YES</th>
+				<th>NO</th>
+				<th>ISSUING AUTHORITY</th>
+				<th>ISSUE DATE</th>
+				<th>EXPIRY DATE</th>
+			</tr>
+			<tr>
+				<td colspan="2">National Endorsement</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Other Endorsement</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Tanker Safety (operational-V/1.1)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Tanker Safety (management-V/1.2) </td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">ECDIS-(generic)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">ECDIS-(type specific)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Life Saving & Fire Fighting (VI)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Medical Care (VI /4.4)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Ship Security Officer / SSA and SDSD</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Cargo Handling Simulator</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">BRM-Simulator-Ship Handling</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">ERM-Simulator</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Risk Assessment</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Incident Investigation</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Antipiracy</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Ice Navigation</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Marpol (Annex I,II,V,VI)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Hazardous Material</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td colspan="2">Ship Safety Officer (SOC)</td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+		</table>
+		<br>
+		<table border="1">
+			<tr>
+				<td colspan="3">Native language:</td>
+			</tr>
+			<tr>
+				<td colspan="3">English: Good  Basic</td>
+				<td colspan="3">Other language: Good  Basic</td>
+			</tr>
+		</table>	
+	</table>
+	<br>
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left; color: #fff; background: #0e4f6f;" width="60%">PREVIOUS SEA SERVICE (Last 10 years)</th>
+				</tr>
+			</table>
+			
+		</tr>
+		<table border="1">
+			<tr>
+				<th>VESSEL'NAME</th>
+				<th>TYPE</th>
+				<th>ENGINE</th>
+				<th>DWT / GRT</th>
+				<th>OWNER / MANAGER</th>
+				<th>RANK</th>
+				<th>SERVICE PERIOD</th>
+				<th>SIGN OFF REASON</th>
+			</tr>
+			<tr>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+			<tr>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+				<td style="text-align:center"></td>
+			</tr>
+	</table>
+	<br>
+	<table border="1">
+		<tr>
+			<table border="1">
+				<tr>
+					<th style="text-align: left; color: #fff; background: #0e4f6f;" width="60%">SUMMARY OF KNOWLEDGE & EXPERIENCE ACQUIRED</th>
+				</tr>
+			</table>
+			
+		</tr>
+		<table>
+				<tr>
+					<th style="text-align: left;">(Resume your career and describe your experience at sea, type of ships, engines, voyage):</th>
+				</tr>
+
+		</table>
+		<br>
+		<table border="1"> 
+		<tr>
+			<td>Applicant's Name:</td>
+			<td>Signature:</td>
+			<td>Date:</td>
+		</tr>
+		</table>
+	</table>	
+</body>
+</html>

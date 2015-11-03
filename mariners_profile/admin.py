@@ -1,13 +1,23 @@
 from django.contrib import admin
 
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources
+from import_export import resources, widgets, fields
 
 # from .models import Flags, TrainingCertificates, Colleges, Degree, HighSchools, Barangay, Municipality, Relationship, Sources, Specifics, Reasons, Rank, BirthPlace, VesselType, CivilStatus, VesselName, EngineType, ManningAgency, Principal, CauseOfDischarge, Status, Zip
 
 from .models import *
 
 # Register your models here.
+
+class NullImporter(widgets.ForeignKeyWidget):
+	def clean(self, value):
+		val = value
+		if val == None:
+			val = ''
+		return self.model.objects.get(**{self.field: val})
+
+
+
 
 class TrainingCertificatesResource(resources.ModelResource):
 	class Meta:
@@ -49,12 +59,50 @@ class RankImport(ImportExportModelAdmin):
 	list_filter = ('hiring', 'department')
 	list_display = ('rank', 'hiring', 'order', 'department')
 	ordering = ('order', )
-	
+
+class RegionResource(resources.ModelResource):
+	class Meta:
+		model = Region
+
+class RegionImport(ImportExportModelAdmin):
+	resource_class = RegionResource
+
+class MunicipalityResource(resources.ModelResource):
+	region = fields.Field(column_name='region', attribute='region', widget=NullImporter(Region, 'region', ))
+
+	class Meta:
+		model = Municipality
+		field = ['id', 'municipality']
+
+class MunicipalityImport(ImportExportModelAdmin):
+	resource_class = MunicipalityResource
+
+class BarangayResource(resources.ModelResource):
+	class Meta:
+		model = Barangay
+
+class BarangayImport(ImportExportModelAdmin):
+	resource_class = BarangayResource
+	list_per_page = 2010
+
+class ZipResource(resources.ModelResource):
+	barangay = fields.Field(column_name='barangay', attribute='barangay', widget=NullImporter(Barangay, 'barangay', ))
+	municipality = fields.Field(column_name='municipality', attribute='municipality', widget=NullImporter(Municipality, 'municipality', ))
+
+	class Meta:
+		model = Zip
+		field = ['id', 'zip']
+
+class ZipImport(ImportExportModelAdmin):
+	resource_class = ZipResource
+	list_per_page = 2010
+	ordering = ('zip', )
+
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000
 
 admin.site.register(Evaluation)
-admin.site.register(Zip)
+admin.site.register(Zip, ZipImport)
 admin.site.register(CurrentAddress)
 admin.site.register(PermanentAddress)
 admin.site.register(CivilStatus)
@@ -70,8 +118,8 @@ admin.site.register(Vocational)
 admin.site.register(PrimarySchools)
 admin.site.register(PrimarySchool)
 admin.site.register(EmergencyContact)
-admin.site.register(Barangay)
-admin.site.register(Municipality)
+admin.site.register(Barangay, BarangayImport)
+admin.site.register(Municipality, MunicipalityImport)
 admin.site.register(Relationship)
 admin.site.register(VisaApplication)
 admin.site.register(Detained)
@@ -137,3 +185,4 @@ admin.site.register(NonConformingSeafarerReason)
 admin.site.register(Bank, BankImport)
 admin.site.register(Propulsion)
 admin.site.register(IssuingAuthority)
+admin.site.register(Region, RegionImport)

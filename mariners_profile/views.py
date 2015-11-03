@@ -28,7 +28,8 @@ def xyz(request, method):
 	url += request.get_full_path()
 
 	params = "?"
-	if 'page' in request.GET:
+
+	if 'page' in request.GET and len(request.GET) > 0:
 		params = ""
 
 	for x in request_method:
@@ -43,6 +44,8 @@ def xyz(request, method):
 def index(request):
 	crew_on_table = 2
 	per_page_list = [2, 1, 3, 4]
+	param_connector = "?"
+	count = 0
 
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
@@ -56,6 +59,7 @@ def index(request):
 	status_choices = set()
 	barangay = set()
 	municipality = set()
+	num = set()
 	params = {}
 	params2 = {}
 
@@ -159,9 +163,21 @@ def index(request):
 	mariner_status_history = MarinerStatusHistory.objects.filter(id__in=MarinerStatusHistory.objects.filter(user__in=mariners_profile.values('user')).order_by().values('user').annotate(max_id=models.Max('id')).values('max_id'))
 
 	# Fills the options of the selectbox for principals and status
-	for x in mariner_status_history:
-		principal_choices.add(x.mariner_principal)
-		status_choices.add(x.mariner_status)
+	for w in mariner_status_history:
+		principal_choices.add(w.mariner_principal)
+		status_choices.add(w.mariner_status)
+
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
+
+	for x, y, z, xx in zipped_data:
+		count += 1
+		age.add(y.age)
+		vessel_type.add(y.preferred_vessel_type)
+		barangay.add(y.current_address.current_zip.barangay)
+		municipality.add(y.current_address.current_zip.municipality)
+		rank.add(x.position)
+		num.add(count)
 
 	# START Script to paginate the query and retrieve all the parameters to the URL
 	# Script to retrieve all the parameters to a variable
@@ -175,6 +191,9 @@ def index(request):
 	else:
 		page=1
 
+	if 'page' not in request.GET:
+		params = params.replace('?', '')
+
 	try:
 		mariners_profile = paginator.page(page)
 	except PageNotAnInteger:
@@ -184,18 +203,7 @@ def index(request):
 	# END Script to paginate the query and retrieve all the parameters to the URL
 
 	# Zipped is used for the table data
-	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa)
-
-	for x, y, z, xx in zipped_data:
-		age.add(y.age)
-		vessel_type.add(y.preferred_vessel_type)
-		# barangay.add(y.current_address.current_zip.barangay)
-		municipality.add(y.current_address.current_zip.municipality)
-		rank.add(x.position)
-		# principal_choices.add(yy.mariner_principal)
-		# status_choices.add(yy.mariner_status)
-
-
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, sorted(num, reverse=True))
 
 	
 	# [0] is put to break the instance into the unicode value
@@ -228,6 +236,7 @@ def index(request):
 
 	# used to retrieve all the parameters on the page links
 	context_dict['params'] = params
+	context_dict['param_connector'] = param_connector
 
 	context_dict['range_pages'] = range(page, page+3)
 	context_dict['page'] = page
@@ -312,7 +321,7 @@ def profile(request, slug):
 
 		# Used for formset updating / inlineformset_factory
 		CollegeFormSet = inlineformset_factory(UserProfile, College, extra=0, can_delete=False, form=CollegeForm )
-		college_form = CollegeFormSet(request.POST or None, instance=user_profile)
+		college_form = CollegeFormSet(request.POST or None, instance=user_profile, queryset=College.objects.filter().order_by('-collegeyear_to'))
 
 		# sample = [{'emergency_municipality':'Quezon City', 'emergency_barangay':'Holy Spirit', 'emergency_zip':1127}]
 		EmergencyContactFormSet = inlineformset_factory(UserProfile, EmergencyContact, extra=0, can_delete=False, form=EmergencyContactForm )
@@ -325,7 +334,7 @@ def profile(request, slug):
 		else:
 			dependents_num_extra = 0
 			dependents_num_label = len(dependents)
-		DependentsFormSet = inlineformset_factory(UserProfile, Dependents, extra=0, can_delete=False, form=DependentsForm )
+		DependentsFormSet = inlineformset_factory(UserProfile, Dependents, extra=dependents_num_extra, can_delete=False, form=DependentsForm )
 		dependents_form = DependentsFormSet(request.POST or None, instance=user_profile)
 
 		FlagFormSet = inlineformset_factory(FlagDocuments, FlagDocumentsDetailed, extra=0, can_delete=False, form=FlagForm)
@@ -337,7 +346,7 @@ def profile(request, slug):
 
 
 		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
-		sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile)
+		sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile, queryset=SeaService.objects.filter().order_by('-date_left'))
 
 		try:
 			vocational = Vocational.objects.get(user=id)

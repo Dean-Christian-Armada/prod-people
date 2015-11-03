@@ -12,10 +12,12 @@
   </div>
 {% endif %}
 
+<div class="total-forms">{{ emergency_contact_form.management_form }}</div>
+<span><button style="margin-top: 20px;" class="btn btn-warning add-mariner add-more-fields-2">ADD</button></span>
+
+{% for emergency_contact_forms in emergency_contact_form %}
 <div class="panel-body">
-  <div class="form-group">
-  	{{ emergency_contact_form.management_form }}
-    {% for emergency_contact_forms in emergency_contact_form %}   
+   
       {{ emergency_contact_forms.id }}
       {{ emergency_contact_forms.user }}              
       <p><strong>{% if emergency_contact_forms.emergency_first_name.value %}{{ emergency_contact_forms.emergency_first_name.value|upper }}{% endif %}  {% if emergency_contact_forms.emergency_middle_name.value %} {{ emergency_contact_forms.emergency_middle_name.value|upper }} {% endif %} {% if emergency_contact_forms.emergency_last_name.value %} {{ emergency_contact_forms.emergency_last_name.value|upper }} {% endif %}  {% if emergency_contact_forms.relationship.value %}(<i>{{ emergency_contact_forms.relationship.value|get_data:'Relationship'|upper }}</i>){% endif %}</strong></p>
@@ -89,7 +91,6 @@
             </div><!--End of Input Group-->
           </div><!--End of Col 2-->
         </div><!--End of Row-->
-      </div>
-    {% endfor %}                
-  </div><!--End of Form Group-->
+      </div> 
 </div><!--End of Panel Body-->
+{% endfor %}             

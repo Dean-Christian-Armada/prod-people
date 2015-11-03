@@ -27,6 +27,12 @@
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
       <script type="text/javascript" src="{% static 'js/pace.js' %}"></script>
+      <script type="text/javascript">
+        // Used in the application form
+        certificates_initial = '';
+        // For Dynamic Fields like college and emergency to indicate which field will start to be hidden
+        eq = 0;
+      </script>
     </head>
 
     <!--[if lt IE 8]>

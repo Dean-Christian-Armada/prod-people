@@ -12,14 +12,16 @@
   </div>
 {% endif %}
 
-{{ dependents_form.management_form }}
+<div class="total-forms">{{ dependents_form.management_form }}</div>
+<span><button class="btn btn-warning add-mariner add-more-fields-2">ADD</button></span>
 {% for dependents_forms in dependents_form %}
+  
+  <div class="panel-body">
   {{ dependents_forms.id }}
   {{ dependents_forms.user }}
-  <div class="panel-body">
     <p><strong>{{ dependents_forms.dependent_first_name.value|upper }} {{ dependents_forms.dependent_middle_name.value|upper }} {{ dependents_forms.dependent_last_name.value|upper }}</strong></p>
       <div class="panel-body">
-        <div class="row">
+        <div class="row adding-row">
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">Last Name:</label>
@@ -38,9 +40,7 @@
               {{ dependents_forms.dependent_middle_name|add_class:"form-control input-form" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
-        </div><!--End of Row-->                        
 
-        <div class="row">
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Relationship:</label>
@@ -54,9 +54,7 @@
               {{dependents_forms.dependent_contact|add_class:"form-control input-form"}}
             </div><!--End of Col 3-->
           </div><!--End of Input Group-->
-        </div><!--End of Row-->
-                    
-        <div class="row">
+
           <div class="col-md-6 padding-right-negator">
             <div class="input-group">
               <label class="input-group-addon input-label">Unit / Lot / House:</label>

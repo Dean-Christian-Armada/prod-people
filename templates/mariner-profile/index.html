@@ -38,7 +38,7 @@
     </nav>
 
     <div class="row">
-      <div class="col-sm-3 col-md-2 sidebar laptop-sidebar">
+      <div class="col-sm-3 col-md-2 sidebar scroll-sidebar laptop-sidebar">
         <div class="sidebar-search">
         <div class="input-group display-table"><label class="input-label">Filter</label> &nbsp;<a href="{% url 'mariners_profiles' %}" class="btn btn-info btn-msmi-blue" role="button"> Reset Filter</a></div>
               
@@ -240,9 +240,9 @@
                   </thead>
                   <tbody>
                     {% if mariners_profile %}
-                      {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
+                      {% for mariners_profile, personal_data, us_visa, schengen_visa, num in zipped_data %}
                         <tr onclick="window.open('{% url 'mariners_profile' slug=mariners_profile.user.slug %}', '_blank')">
-                          <td>{{ forloop.revcounter }}</td>  
+                          <td>{{ num }}</td>  
                           <td>{{ mariners_profile.user.code }}</td>
                           <td>{{ mariners_profile|upper }}</td>
                           <td>{{ mariners_profile.position|upper }}</td>
@@ -259,7 +259,7 @@
                       {% endfor %}
                     {% else %}
                       <tr>
-                        <td colspan="7" align="center"><strong>There are no mariners left in the pool at the moment.</strong></td>
+                        <td colspan="13" align="center"><strong>There are no mariners left in the pool at the moment.</strong></td>
                       </tr>
                     {% endif %}
                   </tbody>
@@ -275,11 +275,11 @@
                          
                         {#params#}
                         {% if mariners_profile.has_previous %}
-                          <li><a href="{{params}}&page={{mariners_profile.previous_page_number}}">{{mariners_profile.previous_page_number}}</a></li>
+                          <li><a href="{{ param_connector }}page={{mariners_profile.previous_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.previous_page_number}}</a></li>
                         {% endif %}
-                        <li class="active"><a href="{{params}}&page={{mariners_profile.number}}">{{mariners_profile.number}}</a></li>
+                        <li class="active"><a>{{mariners_profile.number}}</a></li>
                         {% if mariners_profile.has_next %}
-                          <li><a href="{{params}}&page={{mariners_profile.next_page_number}}">{{mariners_profile.next_page_number}}</a></li>
+                          <li><a href="{{ param_connector }}page={{mariners_profile.next_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.next_page_number}}</a></li>
                         {% endif %}
            <!--               -->
                         <!-- <li class="previous">

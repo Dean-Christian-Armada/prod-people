@@ -263,6 +263,11 @@ select option {
   padding-top: 0px !important;
 }
 
+.padding-top-bottom-negator{
+   padding-top: 0px !important;
+   padding-bottom: 0px !important;
+}
+
 .margin-top-negator{
   margin-top: 0px !important;
 }
@@ -608,8 +613,12 @@ body.crewing-profile .panel p{
   margin-top: 20px; background: #02be9b; color: #fff; padding: 10px;
 }
 
-body.crewing-profile .update-mariner{
+.update-mariner{
   background-color: #02be9b; margin-left: 20px;
+}
+
+.add-mariner{
+  margin-left: 20px;
 }
 
 body.crewing-profile .sidebar .input-group{
@@ -677,6 +686,10 @@ body.crewing-profile .right-sidebar{
 
   .laptop-padding-left-negator{
     padding-left: 0px;
+  }
+
+  .scroll-sidebar{
+    overflow-y: scroll;
   }
 
   /*body.crewing-profile .col-md-8 .col-md-4{
@@ -998,10 +1011,6 @@ input[type="email"]:read-only{
 .area-code-addon{
   font-size: 15px;
   padding: 5px;
-}
-
-.sidebar{
-  overflow-y: scroll;
 }
 
 .tooltip{

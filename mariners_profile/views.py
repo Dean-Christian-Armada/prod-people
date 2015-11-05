@@ -316,7 +316,7 @@ def profile(request, slug):
 				scanned_upload_button = ""
 				uploads = ""
 				if sub_folders.upload == True:
-					scanned_upload_button = '<button class="btn btn-primary event-propagation" id="%s-upload">UPLOAD</button>' % str(sub_folders.name).lower()
+					scanned_upload_button = '<button class="btn btn-primary event-propagation" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name().lower()
 					uploads = File.objects.filter(location=sub_folders)		
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
 				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button)
@@ -332,8 +332,32 @@ def profile(request, slug):
 						scanned_document_html += '</div>'
 					scanned_document_html += '</div>' # END class.form-group
 					scanned_document_html += '</div>' # END class.panel-collapse
-					scanned_document_html += '<div class="modal fade modal-size-500" id="modal-src-license-upload" tabindex="-1" role="dialog">' # START MODAL UPLOAD
-					scanned_document_html += '</div>' # END MODAL UPLOAD
+				scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name().lower()  # START MODAL UPLOAD
+				scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
+				scanned_document_html += '<div class="modal-content">' # START modal-content
+				scanned_document_html += '<div class="modal-header">' # START modal-header
+				scanned_document_html += '<h4 class="modal-title" id="signatureLabel">UPLOAD %s <button type="button" class="close" data-dismiss="modal">&times;</button></h4>' % sub_folders.name
+				scanned_document_html += '<div class="modal-body text-center">' # START modal-body
+				fields = Fields.objects.filter(location=sub_folders)
+				if fields:
+					for field in fields:
+						location = str(field.location).replace("/", "-").lower()
+						name = field.name.replace(" ", "-").lower()
+						input_id = "id-%s-%s" % (name, location)
+						label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (input_id, field.name)
+						scanned_document_html += '<div class="input-group">' # START input-group
+						scanned_document_html += '<label for="%s" class="input-group-addon input-label">' % input_id
+						scanned_document_html += '%s' % field.name
+						scanned_document_html += '</label>'
+						scanned_document_html += str(field)
+						scanned_document_html += '</div>' # END input-group
+				else:
+					scanned_document_html += '<h3>NO FIELDS HAS BEEN CONFIGURED YET ON THIS FOLDER</h3>'
+				scanned_document_html += '</div>' # END modal-body
+				scanned_document_html += '</div>' # END modal-header
+				scanned_document_html += '</div>' # END modal-content
+				scanned_document_html += '</div>' # END modal-dialog
+				scanned_document_html += '</div>' # END MODAL UPLOAD
 				scanned_document_html += '</div>' # END class.panel-body
 
 

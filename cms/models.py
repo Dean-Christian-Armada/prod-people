@@ -77,16 +77,25 @@ class Fields(models.Model):
 	# 	return "dean"
 
 	# def field(self):
+
+	def label(self):
+		location = str(self.location).replace("/", "-").lower()
+		name = self.name.replace(" ", "-").lower()
+		id = "id-%s-%s" % (name, location)
+		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
+		return label
+
+
 	def __unicode__(self):
 		location = str(self.location).replace("/", "-").lower()
 		name = self.name.replace(" ", "-").lower()
 		id = "id-%s-%s" % (name, location)
-		label = "<label for='%s' class='input-group-addon input-label'>%s<label>" % (id, self.name)
+		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		if self.type == 'select':
 			field = "<select name='%s' id='%s' class='%s'></select>" % (name, id, self.classes)
 		else:
 			field = "<input type ='%s' name='%s' id='%s' class='%s'>" % (self.type, name, id, self.classes) 
-		return "%s: %s" % (label, field)
+		return "%s" % (field)
 
 class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)

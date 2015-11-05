@@ -669,9 +669,21 @@ $(function(){
     //     event.stopPropagation();
     //     // now do your stuff        
     // }
+    // Prevents the parent element to trigger an event
+    // Used for disabling parent toggle-modal
     $('.event-propagation').on('click', function (e) {
       e.stopPropagation();
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
     });
+
+    var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
+
+    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
+    $confModal.on('hidden', function() {
+        $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
+    });
+
+    $confModal.modal({ backdrop : false });
 }); 

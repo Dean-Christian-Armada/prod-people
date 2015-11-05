@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from datetime import datetime as now
 
 from login.models import UserProfile
+from cms.models import Folder, SubFolder, File, Fields, FileFieldValue
 from . models import *
 
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm, DynamicTrainingCertificateForm
@@ -75,7 +76,7 @@ def index(request):
 		return HttpResponseRedirect(url+params)
 
 	if request.method == 'GET':
-		# # manipulates number of crew displayed 
+		# manipulates number of crew displayed 
 		if 'crew_on_table' in request.GET:
 			_crew_on_table = request.GET['crew_on_table']
 			crew_on_table = int(_crew_on_table)
@@ -238,8 +239,6 @@ def index(request):
 	context_dict['params'] = params
 	context_dict['param_connector'] = param_connector
 
-	context_dict['range_pages'] = range(page, page+3)
-	context_dict['page'] = page
 	context_dict['per_page_list'] = per_page_list
 	
 
@@ -248,6 +247,8 @@ def index(request):
 @login_required()
 def profile(request, slug):
 	if slug:
+		scanned_document_html = ''
+
 		user_profile = UserProfile.objects.get(slug=slug)
 		id = user_profile.id
 		current_user = UserProfile.objects.get(user=request.user)
@@ -302,6 +303,59 @@ def profile(request, slug):
 		coc = COC.objects.get(user=id)
 		src = SRC.objects.get(user=id)
 		goc = GOC.objects.get(user=id)
+
+		# START Objects for scanning documents
+		scanned_folders = Folder.objects.filter(~Q(name=''))
+
+		for folders in scanned_folders:
+			scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder__name=' '))
+			scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong></p>' % (folders.slug_name().lower(), folders)
+			scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % str(folders).lower() # START of Class PANEL
+			scanned_document_html += '<div class="panel-body padding-top-bottom-negator">'
+			for sub_folders in scanned_sub_folders: # START of Class PANEL-BODY
+				scanned_upload_button = ""
+				uploads = ""
+				if sub_folders.upload == True:
+					scanned_upload_button = '<button class="btn btn-primary event-propagation" id="%s-upload">UPLOAD</button>' % str(sub_folders.name).lower()
+					uploads = File.objects.filter(location=sub_folders)		
+				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
+				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button)
+				if uploads:
+					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name().lower() # START class.panel-collapse
+					scanned_document_html += '<div class="form-group">' # START class.form-group
+					for upload in uploads:
+						scanned_document_html += '<div class="col-md-3 text-center">'
+						scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
+						scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
+						scanned_document_html += '<h5>%s</h5>' % upload.file_name()
+						scanned_document_html += '</div>'
+						scanned_document_html += '</div>'
+					scanned_document_html += '</div>' # END class.form-group
+					scanned_document_html += '</div>' # END class.panel-collapse
+					scanned_document_html += '<div class="modal fade modal-size-500" id="modal-src-license-upload" tabindex="-1" role="dialog">' # START MODAL UPLOAD
+					scanned_document_html += '</div>' # END MODAL UPLOAD
+				scanned_document_html += '</div>' # END class.panel-body
+
+
+				# START EXTRA SUB FOLDERS SECTION
+				_scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder=sub_folders))
+				if _scanned_sub_folders:
+					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % (sub_folders.slug_name().lower()) # START panel on _scanned_sub_folders variable
+					for _sub_folders in _scanned_sub_folders:
+						scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START panel-body on _scanned_sub_folders variable
+						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary">UPLOAD</button></p>' % (_sub_folders.slug_name().lower(), str(_sub_folders.name))
+						scanned_document_html += '</div>' # END panel-body on _scanned_sub_folders variable
+					scanned_document_html += '</div>' # END panel on _scanned_sub_folders variable
+				# END EXTRA SUB FOLDERS SECTION
+
+
+			scanned_document_html += '</div>' # END of Class PANEL-BODY
+			scanned_document_html += '</div>' # END of Class PANEL
+		# END Objects for scanning documents
+		
+		# START Form Objects for scanning documents
+		
+		# END Form Objects for scanning documents
 
 		# the name of the mariner
 		applicant_name_form = ApplicantNameForm(instance=user_profile)
@@ -519,6 +573,12 @@ def profile(request, slug):
 
 		context_dict['personal_data'] = personal_data
 
+		# START ScannedVariables
+		context_dict['scanned_folders'] = scanned_folders
+		context_dict['scanned_sub_folders'] = scanned_sub_folders
+		context_dict['scanned_document_html'] = scanned_document_html
+		# END ScannedVariables
+
 		if request.GET and 'status' in request.GET:
 			from application_form.models import ApplicationForm
 			mariners_profile.status = 0
@@ -528,7 +588,7 @@ def profile(request, slug):
 			application_form = ApplicationForm.objects.get(user=id)
 			application_form.status = _status
 			application_form.save()
-			return HttpResponseRedirect('/application-profile/'+id)
+			return HttpResponseRedirect('/application-profile/'+user_profile.slug)
 
 		if request.method == "POST":
 			print "DEAN"
@@ -808,6 +868,30 @@ def profile(request, slug):
 				else:
 					print mariners_picture_form.errors
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+			# if 'scan' in request.FILES:
+			# 	if 'prc_folder' in request.POST:
+			# 		if license_prc_folder_form.is_valid():
+			# 			license_prc_folder_form.save()
+			# 		else:
+			# 			print license_prc_folder_form.errors
+			# 	if 'src_folder' in request.POST:
+			# 		if license_src_folder_form.is_valid():
+			# 			license_src_folder_form.save()
+			# 		else:
+			# 			print license_src_folder_form.errors
+			# 	if 'coc_folder' in request.POST:
+			# 		if license_coc_folder_form.is_valid():
+			# 			license_coc_folder_form.save()
+			# 		else:
+			# 			print license_coc_folder_form.errors
+			# 	if 'marina_folder' in request.POST:
+			# 		if license_marina_folder_form.is_valid():
+			# 			license_marina_folder_form.save()
+			# 		else:
+			# 			print license_marina_folder_form.errors
+			# 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 			else:
 				return HttpResponse('SECTION STILL IN DEVELOPMENT')

@@ -7,8 +7,10 @@ from django_date_extensions.fields import ApproximateDateField
 from login.models import UserProfile, default_user_user_level
 from people.models import *
 
-import datetime
+import datetime, os
 
+# START Default Methods
+# These Methods are used for Foreign Keys filling up creating default value
 def null_default_foreign_key_value(model, field, value):
 	try:
 		param = {field:value}
@@ -80,6 +82,7 @@ def default_mariner_principal():
 		return mariner_principal.id
 	except:
 		return None
+# END Default Methods
 
 class Evaluations(models.Model):
 	evaluations = models.TextField(null=True, blank=True, default=None)
@@ -1023,3 +1026,23 @@ class Allotee(models.Model):
 	def __unicode__(self):
 		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)
 		return allotee
+
+# class DynamicPathFolders(models.Model):
+# 	name = models.CharField(max_length=100, null=True, blank=True, default=None)
+
+# 	def __unicode__(self):
+# 		return self.name
+
+# A scipt used for dynamic folders in picture file upload
+def content_file_name(instance, filename):
+    upload_dir = os.path.join('scanned',instance.folder_path.name)
+    # if not os.path.exists(upload_dir):
+    #     os.makedirs(upload_dir)
+    return os.path.join(upload_dir, filename)
+# class ScannedDocuments(models.Model):
+# 	user = models.ForeignKey(UserProfile, default=None)
+# 	folder_path = models.ForeignKey(DynamicPathFolders, default=None)
+# 	scan = models.ImageField(upload_to=content_file_name, blank=True)
+# 	uploaded_by = models.ForeignKey(UserProfile, related_name='uploaded_by', default=default_user_user_level())
+# 	uploaded_date = models.DateTimeField(auto_now_add=True, )
+# 	archive = models.BooleanField(default=False)

@@ -98,6 +98,15 @@
             </select>
           </div>
 
+          <div class="input-group form-group hide">
+            <label class="input-group-addon input-label">Per Page:</label>
+            <select class="form-control input-form crew_on_table" name="crew_on_table">
+              {% for x in per_page_list %}
+                <option>{{ x }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
            <div class="input-group">
             <span class="input-group-addon input-label">Municipality:</span>
             <select name="municipality" class="form-control input-form">
@@ -133,17 +142,8 @@
         	<div class="panel panel-msmi-blue"></div>
           <!-- <form method="GET"> -->
           <div class="panel panel-msmi-green">
-          	<div class="panel-heading panel-body"><strong>Crew Applicants</strong>
-              <!-- 	<div class="form-inline pull-right" style="margin-top: -6px;">
-                  		<label>Per Page:</label>
-                        <select class="form-control">
-                        	<option>10</option>
-                            <option>50</option>
-                            <option>100</option>
-                        </select>
-                    </div>	  -->   
+          	<div class="panel-heading panel-body"><strong>Crew Applicants</strong> 
             </div>
-            <!-- </form> -->
  
             <!--Second Panel-->
           	<div class="panel-body panel-border-bottom-green">
@@ -160,17 +160,38 @@
                     </div>
                   </form>
                 </div>
-                <div class="col-md-3 pull-right">
+                <div class="col-md-3 pull-right above-table-search-section">
                   <div class="input-group form-group">
                     <label class="input-group-addon input-label">Per Page:</label>
-                    <select class="form-control input-form">
-                      <option>10</option>
-                      <option>50</option>
-                      <option>100</option>
+                    <select class="form-control input-form crew_on_table" name="crew_on_table">
+                      {% for x in per_page_list %}
+                        <option>{{ x }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
                 <!-- </div> -->
+              </div>
+              <div class="row">
+                <div class="form-inline">
+                  <div class="col-md-12">   
+                    <!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
+                    <span class="pull-left"><strong>Showing {{mariners_profile.number}} of {{mariners_profile.paginator.num_pages}} entries</strong></span>
+                    <nav class="pull-right">
+                      <ul class="pagination margin-top-negator">
+                         
+                        {#params#}
+                        {% if mariners_profile.has_previous %}
+                          <li><a href="{{params}}&page={{mariners_profile.previous_page_number}}">{{mariners_profile.previous_page_number}}</a></li>
+                        {% endif %}
+                        <li class="active"><a href="{{params}}&page={{mariners_profile.number}}">{{mariners_profile.number}}</a></li>
+                        {% if mariners_profile.has_next %}
+                          <li><a href="{{params}}&page={{mariners_profile.next_page_number}}">{{mariners_profile.next_page_number}}</a></li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+                  </div>
+                </div>  
               </div>
             	<div class="table table-bordered">
             		<table class="table table-striped main-table">
@@ -193,7 +214,7 @@
                   <tbody>
                     {% if mariners_profile %}
                       {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
-                        <tr onclick="window.open('{% url 'application_profile' id=mariners_profile.user.id %}', '_blank')">
+                        <tr onclick="window.open('{% url 'application_profile' slug=mariners_profile.user.slug %}', '_blank')">
                           <td>{{ forloop.revcounter }}</td>  
                           <td>{{ mariners_profile|upper }}</td>
                           <td>{{ mariners_profile.position|upper }}</td>
@@ -217,27 +238,40 @@
             		</table>
             	</div>
               <div class="row">
-            		<div class="form-inline">
+                <div class="form-inline">
                   <div class="col-md-12">   
-                		<!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
-                    <span class="pull-left"><strong>Showing 1 of 1 entries</strong></span>
+                    <!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
+                    <span class="pull-left"><strong>Showing {{mariners_profile.number}} of {{mariners_profile.paginator.num_pages}} entries</strong></span>
                     <nav class="pull-right">
-                			<ul class="pagination margin-top-negator">
-                 				 <!-- <li>
-                   				 <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-                  			</li> -->
-                  			<li class="active"><a href="#">1</a></li>
-                  			<!-- <li><a href="#">2</a></li>
-                  			<li><a href="#">3</a></li>
-                  			<li><a href="#">4</a></li>
-                 				 <li><a href="#">5</a></li> -->
-                  			<!-- <li>
-                   		 		<a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-                  			</li> -->
-                			</ul>
+                      <ul class="pagination margin-top-negator">
+                         
+                        {#params#}
+                        {% if mariners_profile.has_previous %}
+                          <li><a href="{{ param_connector }}page={{mariners_profile.previous_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.previous_page_number}}</a></li>
+                        {% endif %}
+                        <li class="active"><a>{{mariners_profile.number}}</a></li>
+                        {% if mariners_profile.has_next %}
+                          <li><a href="{{ param_connector }}page={{mariners_profile.next_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.next_page_number}}</a></li>
+                        {% endif %}
+           <!--               -->
+                        <!-- <li class="previous">
+                           <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                        </li> -->
+                        <!-- {% for range_page in range_pages %}
+                          <li {% if range_page == page %}class="active"{% endif %} ><a href="{{params}}&page={{range_page}}">{{range_page}}</a></li>
+                        {% endfor %} -->
+                        <!-- <li class="active"><a href="{{params}}&page=1">1</a></li>
+                        <li><a href="{{params}}&page=2">2</a></li>
+                        <li><a href="{{params}}&page=3">3</a></li> -->
+                        <!-- <li><a href="{{params}}&page=4">4</a></li>
+                        <li><a href="{{params}}&page=5">5</a></li> -->
+                        <!-- <li class="next">
+                          <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                        </li> -->
+                      </ul>
                     </nav>
                   </div>
-                </div>	
+                </div>  
               </div>
             </div>
           </div><!--End of Main-->
@@ -253,6 +287,14 @@
 <script type="text/javascript">
   $(function(){
     $("select").change(function(){
+      $("#myform").submit();
+    });
+    $("#myformcrewnum select").change(function(){
+      $("#myformcrewnum").submit();
+    });
+    $(".above-table-search-section .crew_on_table").change(function(){
+      val = $('option:selected', this).val();
+      $("#myform .crew_on_table").val(val);
       $("#myform").submit();
     });
   });

@@ -828,3 +828,9 @@ class MarinerStatusForm(forms.ModelForm):
 		value = self.cleaned_data
 		MarinerStatusHistory.objects.get_or_create(**value)
 		# mariner_status_form.save()
+
+class ScannedDocumentsForm(forms.ModelForm):
+	pass
+	# class Meta:
+	# 	model = ScannedDocuments
+	# 	fields = ('user', 'folder_path', 'scan', 'uploaded_by')

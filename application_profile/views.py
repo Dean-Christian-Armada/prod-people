@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.formsets import formset_factory
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -41,6 +42,11 @@ def xyz(request, method):
 
 @login_required()
 def index(request):
+	crew_on_table = 2
+	per_page_list = [2, 1, 3, 4]
+	param_connector = "?"
+	count = 0
+
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=0)
@@ -52,6 +58,7 @@ def index(request):
 	barangay = set()
 	municipality = set()
 	status_choices = set()
+	num = set()
 	params = {}
 	params2 = {}
 
@@ -65,6 +72,14 @@ def index(request):
 		return HttpResponseRedirect(url+params)
 
 	if request.method == 'GET':
+		# manipulates number of crew displayed 
+		if 'crew_on_table' in request.GET:
+			_crew_on_table = request.GET['crew_on_table']
+			crew_on_table = int(_crew_on_table)
+			remove = per_page_list.index(crew_on_table)
+			per_page_list.pop(remove)
+			per_page_list.insert(0, crew_on_table)
+		
 		# if 'age' in request.GET:
 		# 	params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
@@ -131,12 +146,40 @@ def index(request):
 	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, status)
 
 	for x, y, z, xx, zz in zipped_data:
+		count += 1
 		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type)
 		# barangay.add(y.current_address.current_zip.barangay)
 		municipality.add(y.current_address.current_zip.municipality)
 		rank.add(x.position)
 		status_choices.add(zz.status)
+		num.add(count)
+
+	# START Script to paginate the query and retrieve all the parameters to the URL
+	# Script to retrieve all the parameters to a variable
+	params, url = xyz(request, "GET")
+
+	# Script to paginate the query
+	paginator = Paginator(mariners_profile, crew_on_table)
+
+	if 'page' in request.GET:
+		page = int(request.GET.get('page'))
+	else:
+		page=1
+
+	if 'page' not in request.GET:
+		params = params.replace('?', '')
+
+	try:
+		mariners_profile = paginator.page(page)
+	except PageNotAnInteger:
+		mariners_profile = paginator.page(1)
+	except EmptyPage:
+		mariners_profile = paginator.page(paginator.num_pages)
+	# END Script to paginate the query and retrieve all the parameters to the URL
+
+	# Zipped is used for the table data
+	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, sorted(num, reverse=True))
 
 	try:
 		context_dict['personaldata'] = personal_data
@@ -161,15 +204,22 @@ def index(request):
 
 	# used for dynamic choices in us visa
 	context_dict['status'] = status_choices
+
+	# used to retrieve all the parameters on the page links
+	context_dict['params'] = params
+	context_dict['param_connector'] = param_connector
+
+	context_dict['per_page_list'] = per_page_list
 	
 
 	return render(request, template, context_dict)
 
 
 @login_required()
-def profile(request, id):
-	if id:
-		user_profile = UserProfile.objects.get(id=id)
+def profile(request, slug):
+	if slug:
+		user_profile = UserProfile.objects.get(slug=slug)
+		id = user_profile.id
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)
 		num_extra = 0 # Used in evaluation for controlling inline formset
 		principal_select_form = PrincipalSelectForm()
@@ -308,7 +358,7 @@ def profile(request, id):
 				if _mariner_status_comment:
 					_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
 				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
-				return HttpResponseRedirect('/mariners-profile/'+id)
+				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 		# END, script to change the status and code 

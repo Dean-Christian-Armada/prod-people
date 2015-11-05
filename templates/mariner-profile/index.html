@@ -160,14 +160,6 @@
           <!-- <form method="GET"> -->
           <div class="panel panel-msmi-green">
             <div class="panel-heading panel-body"><strong>Crew Applicants</strong>
-              <!--  <div class="form-inline pull-right" style="margin-top: -6px;">
-                      <label>Per Page:</label>
-                        <select class="form-control">
-                          <option>10</option>
-                            <option>50</option>
-                            <option>100</option>
-                        </select>
-                    </div>    -->   
             </div>
             <!-- </form> -->
  
@@ -314,12 +306,9 @@
 {% block extra_scripts %}
 <script type="text/javascript">
   $(function(){
-    $(".pagination .next")
-
     $("#myform select").change(function(){
       $("#myform").submit();
     });
-
     $("#myformcrewnum select").change(function(){
       $("#myformcrewnum").submit();
     });

@@ -658,7 +658,20 @@ $(function(){
     $("#id_civil_status").trigger("change");
     $("#id_position_applied").trigger("change");
     $("#application-form input").trigger("keyup");
-    $("#change-picture").change(function(){
-      $("#form-change-picture").submit();
+    // $("#change-picture").change(function(){
+    //   $("#form-change-picture").submit();
+    // });
+    // $(".on-submit-class").change(function(){
+    //   id = $(this).attr('id');
+    //   $("#form-"+id).submit();
+    // });
+    // function handler(event) {
+    //     event.stopPropagation();
+    //     // now do your stuff        
+    // }
+    $('.event-propagation').on('click', function (e) {
+      e.stopPropagation();
+      id = $(this).attr("id");
+      $("#modal-"+id).modal("show");
     });
 }); 

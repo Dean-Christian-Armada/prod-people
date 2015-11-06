@@ -1,5 +1,6 @@
 # from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.template.defaultfilters import slugify
 from django.db import models
 
 from django_date_extensions.fields import ApproximateDateField
@@ -453,6 +454,13 @@ class TrainingCertificates(models.Model):
 
 	def get_departments(self):
 		return "\n, ".join([d.department for d in self.departments.all()])
+
+	def slug_abbrev(self):
+		try:
+			slug = self.trainings_certificates_abbreviation.replace(" ", "-")
+			return slug
+		except:
+			pass
 
 class Principal(models.Model):
 	principal = models.CharField(max_length=50, default=None)

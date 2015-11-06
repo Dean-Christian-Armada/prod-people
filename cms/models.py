@@ -47,6 +47,10 @@ class File(models.Model):
 	uploaded_date = models.DateField(auto_now_add=True, editable=True)
 	archive = models.BooleanField(default=False)
 
+	def download_link(self):
+		return "/media/%s" % self.name
+
+
 	def logo(self):
 		file_type = str(self.name).split('.')
 		file_type = file_type[1]
@@ -66,11 +70,11 @@ class File(models.Model):
 	def __unicode__(self):
 		return "%s/%s/%s" % (str(self.user.code).upper(), str(self.location).upper(), str(self.name))
 
-# class Label(models.Model):
-# 	name = models.CharField(max_length=50, default=None)
+class Label(models.Model):
+	name = models.CharField(max_length=50, default=None)
 
-# 	def __unicode__(self):
-# 		return self.name
+	def __unicode__(self):
+		return self.name
 
 class Fields(models.Model):
 	location = models.ForeignKey(SubFolder)
@@ -85,7 +89,6 @@ class Fields(models.Model):
 		id = "id-%s-%s" % (self.slug, location)
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		return label
-
 
 	def __unicode__(self):
 		location = str(self.location).replace("/", "-").lower()
@@ -103,6 +106,7 @@ class Fields(models.Model):
 			super(Fields, self).save(*args, **kwargs)
 		except:
 			pass
+
 
 class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)

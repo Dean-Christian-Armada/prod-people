@@ -163,7 +163,7 @@
           <div id="scanned-documents" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body"> 
               <div class="form-group">
-                {{ scanned_document_html|safe }}
+                {{ scanned_document_html }}
               </div>
             </div><!--End of Panel Body-->
           </div><!--End of Collapse-->
@@ -332,6 +332,9 @@
             </li>
             <li>
               <a href="#step3">Referral</a>
+            </li>
+            <li>
+              <a href="#step13">Scanned Documents</a>
             </li>
             <li>
               <a href="#step4">Educational Information</a>
@@ -670,6 +673,8 @@
         duration = Math.ceil(duration / (1000 * 3600 * 24));
         $(this).parent().next().next().children().val(duration);
       });
+
+      {{scanned_js}}
     });
   </script>
 {% endblock %}

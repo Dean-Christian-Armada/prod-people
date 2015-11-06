@@ -44,7 +44,7 @@ class File(models.Model):
 	location = models.ForeignKey(SubFolder)
 	name = models.FileField(upload_to=content_file_name)
 	uploaded_by = models.ForeignKey(UserProfile, related_name='uploaded_by', default=None)
-	uploaded_date = models.DateTimeField(auto_now_add=True, )
+	uploaded_date = models.DateField(auto_now_add=True, editable=True)
 	archive = models.BooleanField(default=False)
 
 	def logo(self):
@@ -66,36 +66,43 @@ class File(models.Model):
 	def __unicode__(self):
 		return "%s/%s/%s" % (str(self.user.code).upper(), str(self.location).upper(), str(self.name))
 
+# class Label(models.Model):
+# 	name = models.CharField(max_length=50, default=None)
+
+# 	def __unicode__(self):
+# 		return self.name
+
 class Fields(models.Model):
 	location = models.ForeignKey(SubFolder)
 	name = models.CharField(max_length=50, default=None)
 	type = models.CharField(max_length=10, default='text')
 	classes = models.CharField(max_length=75, default='form-control input-form')
 	order = models.SmallIntegerField(null=True, blank=True, default=None)
-
-	# def dean(self):
-	# 	return "dean"
-
-	# def field(self):
+	slug = models.SlugField(null=True, blank=True, unique=True,  default=None)
 
 	def label(self):
 		location = str(self.location).replace("/", "-").lower()
-		name = self.name.replace(" ", "-").lower()
-		id = "id-%s-%s" % (name, location)
+		id = "id-%s-%s" % (self.slug, location)
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		return label
 
 
 	def __unicode__(self):
 		location = str(self.location).replace("/", "-").lower()
-		name = self.name.replace(" ", "-").lower()
-		id = "id-%s-%s" % (name, location)
+		id = "id-%s-%s" % (self.slug, location)
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		if self.type == 'select':
-			field = "<select name='%s' id='%s' class='%s'></select>" % (name, id, self.classes)
+			field = "<select name='%s' id='%s' class='%s' required></select>" % (self.slug, id, self.classes)
 		else:
-			field = "<input type ='%s' name='%s' id='%s' class='%s'>" % (self.type, name, id, self.classes) 
+			field = "<input type ='%s' name='%s' id='%s' class='%s' required>" % (self.type, self.slug, id, self.classes) 
 		return "%s" % (field)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)
+		try:
+			super(Fields, self).save(*args, **kwargs)
+		except:
+			pass
 
 class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)

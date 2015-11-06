@@ -305,6 +305,7 @@ def profile(request, slug):
 		goc = GOC.objects.get(user=id)
 
 		# START Objects for scanning documents
+		from django.middleware.csrf import get_token
 		scanned_folders = Folder.objects.filter(~Q(name=''))
 
 		for folders in scanned_folders:
@@ -316,8 +317,8 @@ def profile(request, slug):
 				scanned_upload_button = ""
 				uploads = ""
 				if sub_folders.upload == True:
-					scanned_upload_button = '<button class="btn btn-primary event-propagation" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name().lower()
-					uploads = File.objects.filter(location=sub_folders)		
+					scanned_upload_button = '<button class="btn btn-primary event-propagation modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name().lower()
+					uploads = File.objects.filter(user=user_profile).filter(location=sub_folders)		
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
 				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button)
 				if uploads:
@@ -328,12 +329,19 @@ def profile(request, slug):
 						scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
 						scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
 						scanned_document_html += '<h5>%s</h5>' % upload.file_name()
+						file_infos = FileFieldValue.objects.filter(file=upload)
+						for file_info in file_infos:
+							scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
+						scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
+						scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
 						scanned_document_html += '</div>'
 						scanned_document_html += '</div>'
 					scanned_document_html += '</div>' # END class.form-group
 					scanned_document_html += '</div>' # END class.panel-collapse
 				scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name().lower()  # START MODAL UPLOAD
 				scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
+				scanned_document_html += '<form method="POST" enctype="multipart/form-data" id="scan-form">' # START scan-form
+				scanned_document_html += '<input type="hidden" name="csrfmiddlewaretoken" value="%s">' % get_token(request)
 				scanned_document_html += '<div class="modal-content">' # START modal-content
 				scanned_document_html += '<div class="modal-header">' # START modal-header
 				scanned_document_html += '<h4 class="modal-title" id="signatureLabel">UPLOAD %s <button type="button" class="close" data-dismiss="modal">&times;</button></h4>' % sub_folders.name
@@ -351,11 +359,23 @@ def profile(request, slug):
 						scanned_document_html += '</label>'
 						scanned_document_html += str(field)
 						scanned_document_html += '</div>' # END input-group
+					scanned_document_html += '<div class="input-group">' # START input-group
+					scanned_document_html += '<label class="input-group-addon input-label">'
+					scanned_document_html += 'File Upload: '
+					scanned_document_html += '</label>'
+					scanned_document_html += '<input type="file" name="scan-file" required>'
+					scanned_document_html += '<input type="hidden" name="folder-location" value="%s">' % sub_folders.name
+					scanned_document_html += '</div>' # END input-group
 				else:
 					scanned_document_html += '<h3>NO FIELDS HAS BEEN CONFIGURED YET ON THIS FOLDER</h3>'
 				scanned_document_html += '</div>' # END modal-body
+				if fields:
+					scanned_document_html += '<div class="modal-footer">' # START modal-footer
+					scanned_document_html += '<button class="btn btn-primary" name="scan-submit">SUBMIT</button>'
+					scanned_document_html += '</div>' # END modal-footer
 				scanned_document_html += '</div>' # END modal-header
 				scanned_document_html += '</div>' # END modal-content
+				scanned_document_html += '</form>' # END scan-form
 				scanned_document_html += '</div>' # END modal-dialog
 				scanned_document_html += '</div>' # END MODAL UPLOAD
 				scanned_document_html += '</div>' # END class.panel-body
@@ -375,11 +395,26 @@ def profile(request, slug):
 
 			scanned_document_html += '</div>' # END of Class PANEL-BODY
 			scanned_document_html += '</div>' # END of Class PANEL
+
+		if 'scan-submit' in request.POST and 'scan-file' in request.FILES:
+			try:
+				request.POST = dict(request.POST)
+				_file = request.FILES['scan-file']
+				location = request.POST['folder-location'][0]
+				location = SubFolder.objects.get(name=location)
+				_file = File.objects.create(user=user_profile, uploaded_by=current_user, location=location, name=_file)
+				request.POST.pop('csrfmiddlewaretoken')
+				request.POST.pop('scan-submit')
+				request.POST.pop('folder-location')
+				for x in request.POST:
+					value = request.POST[x][0]
+					field = Fields.objects.get(slug=x)
+					FileFieldValue.objects.create(file=_file, field=field, value=value)
+			except:
+				print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 		# END Objects for scanning documents
-		
-		# START Form Objects for scanning documents
-		
-		# END Form Objects for scanning documents
 
 		# the name of the mariner
 		applicant_name_form = ApplicantNameForm(instance=user_profile)
@@ -615,7 +650,6 @@ def profile(request, slug):
 			return HttpResponseRedirect('/application-profile/'+user_profile.slug)
 
 		if request.method == "POST":
-			print "DEAN"
 			print request.POST
 			print request.FILES
 
@@ -892,30 +926,6 @@ def profile(request, slug):
 				else:
 					print mariners_picture_form.errors
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-			# if 'scan' in request.FILES:
-			# 	if 'prc_folder' in request.POST:
-			# 		if license_prc_folder_form.is_valid():
-			# 			license_prc_folder_form.save()
-			# 		else:
-			# 			print license_prc_folder_form.errors
-			# 	if 'src_folder' in request.POST:
-			# 		if license_src_folder_form.is_valid():
-			# 			license_src_folder_form.save()
-			# 		else:
-			# 			print license_src_folder_form.errors
-			# 	if 'coc_folder' in request.POST:
-			# 		if license_coc_folder_form.is_valid():
-			# 			license_coc_folder_form.save()
-			# 		else:
-			# 			print license_coc_folder_form.errors
-			# 	if 'marina_folder' in request.POST:
-			# 		if license_marina_folder_form.is_valid():
-			# 			license_marina_folder_form.save()
-			# 		else:
-			# 			print license_marina_folder_form.errors
-			# 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
 
 			else:
 				return HttpResponse('SECTION STILL IN DEVELOPMENT')

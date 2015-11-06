@@ -671,19 +671,19 @@ $(function(){
     // }
     // Prevents the parent element to trigger an event
     // Used for disabling parent toggle-modal
+
+
     $('.event-propagation').on('click', function (e) {
       e.stopPropagation();
+      // id = $(this).attr("id");
+      // $("#modal-"+id).modal("show");
+    });
+
+    // A flexible jquery script that enables the open modal
+    // the id of the modal must be prefixed "modal-"
+    // Example <button class = 'modal-show-id-based' id='sample-id'> <div class="modal fade" id="modal-sample-id" tabindex="-1" role="dialog"></div>
+    $('.modal-show-id-based').on('click', function(){
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
     });
-
-    var enforceModalFocusFn = $.fn.modal.Constructor.prototype.enforceFocus;
-
-    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-
-    $confModal.on('hidden', function() {
-        $.fn.modal.Constructor.prototype.enforceFocus = enforceModalFocusFn;
-    });
-
-    $confModal.modal({ backdrop : false });
 }); 

@@ -1017,7 +1017,7 @@ input[type="email"]:read-only{
   z-index: 99999999;
 }
 
-body.modal-open .datepicker {
+body.modal-open .ui-datepicker {
     z-index: 1200 !important;
 }
 

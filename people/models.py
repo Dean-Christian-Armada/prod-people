@@ -41,9 +41,16 @@ class AbstractPersonalData(models.Model):
 	# EmailFields
 	email_address_1 = models.EmailField(null=True, default=None)
 	email_address_2 = models.EmailField(blank=True, null=True, default=None)
+
+	# Social Accounts
 	facebook_account = models.CharField(max_length=30, blank=True, null=True, default=None)
 	twitter_account = models.CharField(max_length=30, blank=True, null=True, default=None)
 	instagram_account = models.CharField(max_length=30, blank=True, null=True, default=None)
+	googleplus_account = models.CharField(max_length=30, blank=True, null=True, default=None)
+	linkedin_account = models.CharField(max_length=30, blank=True, null=True, default=None)
+	pinterest_account = models.CharField(max_length=30, blank=True, null=True, default=None)
+	reddit_account = models.CharField(max_length=30, blank=True, null=True, default=None)
+	tumblr_account = models.CharField(max_length=30, blank=True, null=True, default=None)
 
 	# DateFields
 	birth_date = models.DateField(default=None)

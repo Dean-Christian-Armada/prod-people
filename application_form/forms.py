@@ -84,7 +84,6 @@ class PermanentAddressForm(forms.ModelForm):
 		PermanentAddress.objects.create(**value)
 		return permanent_address
 
-
 class CurrentAddressForm(forms.ModelForm):
 	current_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
 	current_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))

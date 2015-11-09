@@ -686,4 +686,36 @@ $(function(){
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
     });
+
+    // $("body").on("click", ".scanned-document-editables", function(){
+    //   data_id = $(this).attr("data-id");
+    //   data_classes = $(this).attr("data-classes");
+    //   data_type = $(this).attr("data-type");
+    //   text = $(this).text();
+    //   $(".tooltip").remove();
+    //   if(data_type != 'select'){
+    //     $(this).parent().append("<input name='field-value-updates' data-classes='"+data_classes+"' class='scanned-document-editing "+data_classes+"' type='"+data_type+"' data-id='"+data_id+"' value='"+text+"'>");        
+    //   }else{
+
+    //   }
+    //   $(this).next().focus();
+    //   $(this).remove();
+    // });
+
+    // $("body").on("focusout", ".scanned-document-editing", function(){
+    //   val = $(this).val();
+    //   type = $(this).attr('type');
+    //   data_classes = $(this).attr('data-classes')
+    //   data_id = $(this).attr("data-id");
+    //   var _confirm = confirm("Proceed to Update?");
+    //   if( _confirm ==  true ){
+    //     $(this).parent().append("<u class='scanned-document-editables' data-toggle='tooltip' title='Click to Update' data-id='"+data_id+"' data-classes='"+data_classes+"' data-type='"+type+"'>"+val+"</u>");
+    //     $(this).remove();       
+    //     $.post(url, get_value, function(result){
+    //       $("#updated-modal").modal("show");
+    //     });
+    //   }else{
+
+    //   }
+    // });
 }); 

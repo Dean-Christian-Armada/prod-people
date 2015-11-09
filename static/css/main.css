@@ -12,6 +12,7 @@
     START Table Classes
     START Profile Container Styles
     START Removes the arrow on an input number
+    START Social Media Logos
 
   extra single element classes:
     .full-width
@@ -304,21 +305,49 @@ input.date {
   background-repeat: no-repeat;
   background-position: right
 }
+
+/* START Social Media Logos */
 input.facebook_logo {
-  background-image: url(/static/img/facebook_input_sign.png);
+  background-image: url(/static/img/social-media-icons/facebook_input_sign.png);
   background-repeat: no-repeat;
   background-position: right
 }
 input.twitter_logo {
-  background-image: url(/static/img/twitter_input_sign.png);
+  background-image: url(/static/img/social-media-icons/twitter_input_sign.png);
   background-repeat: no-repeat;
   background-position: right
 }
 input.instagram_logo {
-  background-image: url(/static/img/instagram_input_sign.png);
+  background-image: url(/static/img/social-media-icons/instagram_input_sign.png);
   background-repeat: no-repeat;
   background-position: right
 }
+input.linkedin_logo {
+  background-image: url(/static/img/social-media-icons/linkedin_input_sign.png);
+  background-repeat: no-repeat;
+  background-position: right
+}
+input.googleplus_logo {
+  background-image: url(/static/img/social-media-icons/googleplus_input_sign.png);
+  background-repeat: no-repeat;
+  background-position: right
+}
+input.pinterest_logo {
+  background-image: url(/static/img/social-media-icons/pinterest_input_sign.png);
+  background-repeat: no-repeat;
+  background-position: right
+}
+input.reddit_logo {
+  background-image: url(/static/img/social-media-icons/reddit_input_sign.png);
+  background-repeat: no-repeat;
+  background-position: right
+}
+input.tumblr_logo {
+  background-image: url(/static/img/social-media-icons/tumblr_input_sign.png);
+  background-repeat: no-repeat;
+  background-position: right
+}
+/* END Social Media Logos */
 
 select.ui-datepicker-year,
 select.ui-datepicker-month {

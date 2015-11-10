@@ -530,10 +530,15 @@ def profile(request, slug):
 				scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
 				scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
 				scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">VIEW / DOWNLOAD</a>' % upload.download_link()
+				if not condition:
+					scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">PUT TO ARCHIVE</label>' % (upload.id, upload.id, upload.id)
 				scanned_document_html += '<h5>%s</h5>' % upload.file_name()
 				file_infos = FileFieldValue.objects.filter(file=upload)
 				for file_info in file_infos:
-					scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
+					if condition:
+						scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
+					else:
+						scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
 				scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
 				scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
 				scanned_document_html += '</div>'

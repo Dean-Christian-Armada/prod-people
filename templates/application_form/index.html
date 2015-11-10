@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
 {% load static %}
+{% load get_data %}
 
 {% block content %}
   <body>
@@ -187,15 +188,12 @@
                 {{ personal_data.pagibig.errors }}
               </div>
             </div>
-            <div class="form-group" >
-              <div class="form-group bottom-zero">
-                <div class="col-md-12">
-                  <div class="col-md-12">
-                    <i><u>Permanent Address</u></i>
-                    <span class="search-zip pull-right" data-params="permanent">Search zip code</span>
-                  </div>
-                </div>
+            <div class="form-group bottom-zero">
+              <div class="col-md-12">
+                <i><u>Permanent Address</u></i>
               </div>
+            </div>
+            <div class="form-group permanent-address-section-class">
               <div class="col-md-6">
                 {{ permanent_address.permanent_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:permanent_unit" }}
                 {{ permanent_address.permanent_unit.errors }}
@@ -204,17 +202,28 @@
                 {{ permanent_address.permanent_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision"|attr:"id:permanent_street" }}
                 {{ permanent_address.permanent_street.errors }}
               </div>
-              <div class="col-md-4">
-                {{ permanent_address.permanent_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:permanent_barangay" }}
+              <div class="col-md-3">
+                {{ permanent_address.permanent_province|add_class:"form-control first-choice class_province"|attr:"data-toggle:tooltip"|attr:"data-address:permanent"}}
+                {{ permanent_address.permanent_province.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ permanent_address.permanent_city_municipality|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                {{ permanent_address.permanent_city_municipality.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ permanent_address.permanent_barangay|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
                 {{ permanent_address.permanent_barangay.errors }}
               </div>
-              <div class="col-md-4">
-                {{ permanent_address.permanent_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:permanent_municipality" }}
-                {{ permanent_address.permanent_municipality.errors }}
-              </div>
-              <div class="col-md-4">
-                {{ permanent_address.permanent_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP Code"|attr:"id:permanent_zip" }}
-                {{ permanent_address.permanent_zip.errors }}
+              <div class="col-md-3" data-zip-name="permanent_zip">
+                <div class="zip-container">
+                  <input type="text" id="permanent_zip" class="form-control" disabled="" value="{% if permanent_address.permanent_zip.value != None %}{{ permanent_address.permanent_zip.value|get_data:'Zip' }}{% endif %}">
+                  {{ permanent_address.permanent_zip|add_class:"hide" }}
+                </div>
+                {% if permanent_address.permanent_zip.errors %}
+                  <ul class="errorlist">
+                    <li>Please Choose your respective province, city or municipality and barangay</li>
+                  </ul>
+                {% endif %}
               </div>
             </div>
             <div class="form-group">
@@ -222,15 +231,12 @@
               <input type="checkbox" id="same_address_current" class="same_address" data-params="current"> <label for="same_address_current">Same as above</label>
               </div>
             </div>
-            <div class="form-group">
-              <div class="form-group bottom-zero">
-                <div class="col-md-12">
-                  <div class="col-md-12">
-                    <i><u>Current Address</u></i>
-                    <span class="search-zip pull-right" data-params="current">Search zip code</span>
-                  </div>
-                </div>
+            <div class="form-group bottom-zero">
+              <div class="col-md-12">
+                <i><u>Current Address</u></i>
               </div>
+            </div>
+            <div class="form-group">
               <div class="col-md-6">
                 {{ current_address.current_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House"|attr:"id:current_unit" }}
                 {{ current_address.current_unit.errors }}
@@ -239,17 +245,28 @@
                 {{ current_address.current_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision"|attr:"id:current_street" }}
                 {{ current_address.current_street.errors }}
               </div>
-              <div class="col-md-4">
-                {{ current_address.current_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay"|attr:"id:current_barangay" }}
+              <div class="col-md-3">
+                {{ current_address.current_province|add_class:"form-control first-choice class_province"|attr:"data-toggle:tooltip"|attr:"data-address:current"}}
+                {{ current_address.current_province.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ current_address.current_city_municipality|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                {{ current_address.current_city_municipality.errors }}
+              </div>
+              <div class="col-md-3">
+                {{ current_address.current_barangay|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
                 {{ current_address.current_barangay.errors }}
               </div>
-              <div class="col-md-4">
-                {{ current_address.current_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality"|attr:"id:current_municipality" }}
-                {{ current_address.current_municipality.errors }}
-              </div>
-              <div class="col-md-4">
-                {{ current_address.current_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:ZIP code"|attr:"id:current_zip" }}
-                {{ current_address.current_zip.errors }}
+              <div class="col-md-3" data-zip-name="current_zip">
+                <div class="zip-container">
+                  <input type="text" id="current_zip" class="form-control" disabled="" value="{% if current_address.current_zip.value != None %}{{ current_address.current_zip.value|get_data:'Zip' }}{% endif %}">
+                  {{ current_address.current_zip|add_class:"hide" }}
+                </div>
+                {% if current_address.current_zip.errors %}
+                  <ul class="errorlist">
+                    <li>Please Choose your respective province, city or municipality and barangay</li>
+                  </ul>
+                {% endif %}
               </div>
             </div>
             <div class="form-group">
@@ -259,36 +276,36 @@
               </div> 
               <div class="col-md-6">
                 <!-- <input type="text" data-toggle="tooltip" class="form-control date" name="date_married" placeholder="Date Married"> -->
-                {{ personaldata_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage" }}
+                {{ personaldata_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage"|attr:"disabled" }}
                 {{ personaldata_form.married_date.errors }}
               </div>
               <div class="col-md-6">
                 <!-- <input type="text" data-toggle="tooltip" class="form-control date" name="date_married" placeholder="Date Married"> -->
-                {{ spouse_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage" }}
+                {{ spouse_form.married_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Marriage"|attr:"disabled" }}
                 {{ spouse_form.married_date.errors }}
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-4">
-                {{ spouse_form.spouse_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Last Name" }}
+                {{ spouse_form.spouse_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Last Name"|attr:"disabled" }}
                 {{ spouse_form.spouse_last_name.errors }}
               </div>
               <div class="col-md-4">
-                {{ spouse_form.spouse_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's First Name" }}
+                {{ spouse_form.spouse_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's First Name"|attr:"disabled" }}
                 {{ spouse_form.spouse_first_name.errors }}
               </div>
               <div class="col-md-4">
-                {{ spouse_form.spouse_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Middle Name" }}
+                {{ spouse_form.spouse_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Maiden Middle Name"|attr:"disabled" }}
                 {{ spouse_form.spouse_middle_name.errors }}
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-6">
-                {{ spouse_form.birthdate|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's birthday" }}
+                {{ spouse_form.birthdate|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's birthday"|attr:"disabled" }}
                 {{ spouse_form.birthdate.errors }}
               </div>
               <div class="col-md-6">
-                {{ spouse_form.spouse_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No." }}
+                {{ spouse_form.spouse_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No."|attr:"disabled" }}
                 {{ spouse_form.spouse_contact.errors }}
               </div>
             </div>
@@ -405,11 +422,6 @@
                 <div class="form-group bottom-zero">
                   <div class="col-md-6">
                     <input type="checkbox" id="same_address_emergency_{{ forloop.counter0 }}" class="same_address" data-params="emergency" data-counter="{{ forloop.counter0 }}"> <label for="same_address_emergency_{{ forloop.counter0 }}">Same as Permanent Address</label>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="col-md-12">
-                      <span class="emergency-search-zip pull-right" data-params="{{ forloop.counter0 }}">Search zip code</span>
-                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -765,9 +777,13 @@
 {% block extra_scripts %}
   <script language="JavaScript">
   trainings_certificates_url = "{% url 'application_form_training_certificates' %}";
+  provinces_url = "{% url 'application_form_city_municipality' %}";
+  cities_url = "{% url 'application_form_auto_zip_code' %}";
+  ncr_barangay_url = "{% url 'application_form_ncr_barangay' %}";
   advertisements = '{{ application.advertisements|escapejs }}';
   internet = '{{ application.internet|escapejs }}';
   referrer = '{{ application.referred_by }}';
+  self_url = window.location;
     // Start Webcam Scripts
     // Placed here because it throws validation alerts on other pages if put in main.js
     Webcam.set({
@@ -805,18 +821,24 @@
 
     // End Webcam Scripts
     {% if not request.POST %}
-        $("#id_civil_status option:first-child").text("Civil Status");
-        $("#id_civil_status option:first-child").css("display", "inline");
-        setTimeout(function(){ $("#id_civil_status option:first-child").css("display", "none"); $("#id_civil_status").attr("style", "") }, 500);
-        $(".cause_of_discharge option:first-child").text("Cause of Discharge");
-        $(".cause_of_discharge option:first-child").css("display", "inline");
-        setTimeout(function(){ $(".cause_of_discharge option:first-child").css("display", "none"); $(".cause_of_discharge").attr("style", "") }, 500);
-        $("#id_position_applied option:first-child").text("Position Applied");
-        $("#id_position_applied option:first-child").css("display", "inline");
-        setTimeout(function(){ $("#id_position_applied option:first-child").css("display", "none"); $("#id_position_applied").attr("style", "") }, 500);
-        $("#id_alternative_position option:first-child").text("Alternative Position");
-        $("#id_alternative_position option:first-child").css("display", "inline");
-        setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
+        $("#id_civil_status option:first-child").text("CIVIL STATUS");
+        // $("#id_civil_status option:first-child").css("display", "inline");
+        // setTimeout(function(){ $("#id_civil_status option:first-child").css("display", "none"); $("#id_civil_status").attr("style", "") }, 500);
+        $(".cause_of_discharge option:first-child").text("CAUSE OF DISCHARGE");
+        // $(".cause_of_discharge option:first-child").css("display", "inline");
+        // setTimeout(function(){ $(".cause_of_discharge option:first-child").css("display", "none"); $(".cause_of_discharge").attr("style", "") }, 500);
+        $("#id_position_applied option:first-child").text("POSITION APPLIED");
+        // $("#id_position_applied option:first-child").css("display", "inline");
+        // setTimeout(function(){ $("#id_position_applied option:first-child").css("display", "none"); $("#id_position_applied").attr("style", "") }, 500);
+        $("#id_alternative_position option:first-child").text("ALTERNATIVE POSITION");
+        // $("#id_alternative_position option:first-child").css("display", "inline");
+        // setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
+
+        $(".class_province").each(function(){
+          $('option:first-child', this).text("PROVINCE");
+          // $('option:first-child', this).css("display", "inline");
+          // setTimeout(function(){ $('option:first-child', this).css("display", "none"); $('option:first-child', this).attr("style", "") }, 500);
+        });
 
         $("#webcam").modal('show');
         $("#welcome-message").modal('show');
@@ -825,23 +847,24 @@
         function referred_by_focus(){ setTimeout(function(){ $("#id_referred_by").focus(); }, 300); }; 
     {% else %}
         certificates_initial = '{{ request_training_certificates }}';
+        province_initial = '{{ request_provinces }}';
         civil_status = $("#id_civil_status option:selected").text();
         position_applied = $("#id_position_applied option:selected").text();
         alternative_position = $("#id_alternative_position option:selected").text();
         function referred_by_focus(){ }; 
         // cause_of_discharge = $(".cause_of_discharge option:selected").text();
         if(civil_status == "---------"){
-            $("#id_civil_status option:first-child").text("Civil Status");
+            $("#id_civil_status option:first-child").text("CIVIL STATUS");
             $("#id_civil_status option:first-child").css("display", "inline");
             setTimeout(function(){ $("#id_civil_status option:first-child").css("display", "none"); $("#id_civil_status").attr("style", "") }, 500);
         }
         if(position_applied == "---------"){
-            $("#id_position_applied option:first-child").text("Position Applied");
+            $("#id_position_applied option:first-child").text("POSITION APPLIED");
             $("#id_position_applied option:first-child").css("display", "inline");
             setTimeout(function(){ $("#id_position_applied option:first-child").css("display", "none"); $("#id_position_applied").attr("style", "") }, 500);
         }
         if(alternative_position == "---------"){
-            $("#id_alternative_position option:first-child").text("Alternative Position");
+            $("#id_alternative_position option:first-child").text("ALTERNATIVE POSITION");
             $("#id_alternative_position option:first-child").css("display", "inline");
             setTimeout(function(){ $("#id_alternative_position option:first-child").css("display", "none"); $("#id_alternative_position").attr("style", "") }, 500);
         }
@@ -850,10 +873,19 @@
           $("#id_essay").prop("required", "true");
         }
 
+        $(".class_province").each(function(){
+          text = $('option:selected', this).text();
+          if(text == "---------"){
+            $('option:first-child', this).text("PROVINCE");
+            // $('option:first-child', this).css("display", "inline");
+            // setTimeout(function(){ $('option:first-child', this).css("display", "none"); $('option:first-child', this).attr("style", "") }, 500);
+          }
+        });
+
         $('table.sea-services').find('.cause_of_discharge').each(function(){
-        $('option:first-child', this).text("Cause of Discharge");
+        $('option:first-child', this).text("CAUSE OF DISCHARGE");
         $('option:first-child', this).css("display", "inline");
-          if($('option:selected', this).text() != "Cause of Discharge"){
+          if($('option:selected', this).text() != "CAUSE OF DISCHARGE"){
             $(this).css("color", "#000");
           }
         });

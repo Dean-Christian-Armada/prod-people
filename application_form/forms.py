@@ -49,76 +49,90 @@ class ApplicantNameForm(forms.ModelForm):
 		return userprofile
 
 class PermanentAddressForm(forms.ModelForm):
-	permanent_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
-	permanent_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
-	permanent_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
-	
+	permanent_province = forms.ModelChoiceField(widget=forms.Select, queryset=Municipality.objects.filter(province_flag=True).order_by('municipality'), error_messages={'required': 'Please select a province'})
 	class Meta:
 		model = ApplicationFormPermanentAddress
-		fields = ('permanent_unit', 'permanent_street')
+		fields = ('permanent_unit', 'permanent_street', 'permanent_zip')
 
 	def save(self, commit=True):
-		permanent_zip = self.cleaned_data['permanent_zip']
-		permanent_barangay = self.cleaned_data['permanent_barangay']
-		permanent_municipality = self.cleaned_data['permanent_municipality']
-
 		permanent_address = super(PermanentAddressForm, self).save(commit=False)
-		municipality = Municipality.objects.get_or_create({'municipality':permanent_municipality}, municipality__iexact=permanent_municipality)
-		if municipality:
-			municipality = Municipality.objects.get(municipality__iexact=permanent_municipality)
-		barangay = Barangay.objects.get_or_create({'barangay':permanent_barangay}, barangay__iexact=permanent_barangay)
-		if barangay:
-			barangay = Barangay.objects.get(barangay__iexact=permanent_barangay)
-		try:
-			zip = Zip.objects.get_or_create(zip=permanent_zip, barangay=barangay, municipality=municipality)[0]	
-		except:
-			zip = Zip.objects.get(zip=permanent_zip)
-		permanent_address.permanent_zip = zip
 		permanent_address.save()
-		# Modify cleaned_data for var arguments on creating data on the Mariners Object
-		self.cleaned_data['permanent_zip'] = zip
-		# Remove data not on the Mariners Object fields
-		self.cleaned_data.pop("permanent_municipality")
-		self.cleaned_data.pop("permanent_barangay")
 		value = self.cleaned_data
 		PermanentAddress.objects.create(**value)
 		return permanent_address
 
+	def __init__(self, province_id, city_id, *args, **kwargs):
+		super(PermanentAddressForm, self).__init__(*args, **kwargs)
+		if city_id == '':
+			city_id = 0
+		if province_id == '':
+			province_id = 0
+		if city_id != 0:
+			try:
+				ncr_city = Municipality.objects.get(id=city_id)
+				query = Zip.objects.filter(municipality=city_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['permanent_barangay'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice", 'data-params':"NCR"}), queryset=Barangay.objects.filter(id__in=query))
+			except:
+				pass
+		else:
+			self.fields['permanent_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+		if province_id != 0:
+			province = Municipality.objects.get(id=province_id)
+			if province.municipality == "NCR":
+				self.fields['permanent_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-first-choice first-choice", 'data-params':"NCR"}), queryset=Municipality.objects.filter(province_flag=False).order_by('municipality'))
+			else:
+				query = Zip.objects.filter(municipality=province_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['permanent_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice first-choice", 'data-params':"province"}), queryset=Barangay.objects.filter(id__in=query))
+				self.fields['permanent_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"Barangay / Purok / Barrio" }), required=False)
+		else:
+			self.fields['permanent_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+			self.fields['permanent_city_municipality'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+
+
 class CurrentAddressForm(forms.ModelForm):
-	current_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
-	current_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
-	current_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
-	
+	current_province = forms.ModelChoiceField(widget=forms.Select, queryset=Municipality.objects.filter(province_flag=True).order_by('municipality'), error_messages={'required': 'Please select a province'})
 	class Meta:
 		model = ApplicationFormCurrentAddress
-		fields = ('current_unit', 'current_street')
+		fields = ('current_unit', 'current_street', 'current_zip')
 
 	def save(self, commit=True):
-		current_zip = self.cleaned_data['current_zip']
-		current_barangay = self.cleaned_data['current_barangay']
-		current_municipality = self.cleaned_data['current_municipality']
-
 		current_address = super(CurrentAddressForm, self).save(commit=False)
-		municipality = Municipality.objects.get_or_create({'municipality':current_municipality}, municipality__iexact=current_municipality)
-		if municipality:
-			municipality = Municipality.objects.get(municipality__iexact=current_municipality)
-		barangay = Barangay.objects.get_or_create({'barangay':current_barangay}, barangay__iexact=current_barangay)
-		if barangay:
-			barangay = Barangay.objects.get(barangay__iexact=current_barangay)
-		try:
-			zip = Zip.objects.get_or_create(zip=current_zip, barangay=barangay, municipality=municipality)[0]
-		except:
-			zip = Zip.objects.get(zip=current_zip)
-		current_address.current_zip = zip
 		current_address.save()
 		# Modify cleaned_data for var arguments on creating data on the Mariners Object
-		self.cleaned_data['current_zip'] = zip
-		# Remove data not on the Mariners Object fields
-		self.cleaned_data.pop("current_municipality")
-		self.cleaned_data.pop("current_barangay")
 		value = self.cleaned_data
 		CurrentAddress.objects.create(**value)
 		return current_address
+
+	def __init__(self, province_id, city_id, *args, **kwargs):
+		super(CurrentAddressForm, self).__init__(*args, **kwargs)
+		if city_id == '':
+			city_id = 0
+		if province_id == '':
+			province_id = 0
+		if city_id != 0:
+			try:
+				ncr_city = Municipality.objects.get(id=city_id)
+				query = Zip.objects.filter(municipality=city_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['current_barangay'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice", 'data-params':"NCR"}), queryset=Barangay.objects.filter(id__in=query))
+			except:
+				pass
+		else:
+			self.fields['current_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+		if province_id != 0:
+			province = Municipality.objects.get(id=province_id)
+			if province.municipality == "NCR":
+				self.fields['current_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-first-choice first-choice", 'data-params':"NCR"}), queryset=Municipality.objects.filter(province_flag=False).order_by('municipality'))
+			else:
+				query = Zip.objects.filter(municipality=province_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['current_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice first-choice", 'data-params':"province"}), queryset=Barangay.objects.filter(id__in=query))
+				self.fields['current_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"Barangay / Purok / Barrio" }), required=False)
+		else:
+			self.fields['current_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+			self.fields['current_city_municipality'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
 
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
@@ -174,7 +188,6 @@ class PersonalDataForm(forms.ModelForm):
 		self.cleaned_data['permanent_address'] = permanent_address
 		self.cleaned_data['current_address'] = current_address
 		self.cleaned_data['name'] = userprofile
-		# self.cleaned_data.pop("emergency_municipality")
 		self.cleaned_data.pop("age")
 		value = self.cleaned_data
 		PersonalData.objects.create(**value)
@@ -1101,3 +1114,25 @@ class ApplicationReceivedForm(forms.Form):
 		received_by = forms.ModelChoiceField(widget=forms.Select, queryset=UserProfile.objects.filter(userlevel=received_by))
 	except:
 		pass
+
+class ProvinceForm(forms.Form):
+	province = forms.ModelChoiceField(widget=forms.Select, queryset=Municipality.objects.filter(province_flag=True).order_by('municipality'), error_messages={'required': 'Please select a province'})
+
+class DynamicCityMunicipalityForm(forms.Form):
+	def __init__(self, province_id, *args, **kwargs):
+		super(DynamicCityMunicipalityForm, self).__init__(*args, **kwargs)
+		province = Municipality.objects.get(id=province_id)
+		if province.municipality == "NCR":
+			self.fields['city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"address-first-choice", 'data-params':"NCR"}), queryset=Municipality.objects.filter(province_flag=False).order_by('municipality'))
+		else:
+			query = Zip.objects.filter(municipality=province_id).order_by('zip')
+			query = [_query.barangay.id for _query in query ]
+			self.fields['city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"address-second-choice", 'data-params':"province"}), queryset=Barangay.objects.filter(id__in=query))
+
+class DynamicNCRBarangayForm(forms.Form):
+	def __init__(self, city_id, *args, **kwargs):
+		super(DynamicNCRBarangayForm, self).__init__(*args, **kwargs)
+		ncr_city = Municipality.objects.get(id=city_id)
+		query = Zip.objects.filter(municipality=city_id).order_by('zip')
+		query = [_query.barangay.id for _query in query ]
+		self.fields['barangay'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"address-second-choice", 'data-params':"NCR"}), queryset=Barangay.objects.filter(id__in=query))

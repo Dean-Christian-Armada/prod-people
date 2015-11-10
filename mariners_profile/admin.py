@@ -76,6 +76,7 @@ class MunicipalityResource(resources.ModelResource):
 
 class MunicipalityImport(ImportExportModelAdmin):
 	resource_class = MunicipalityResource
+	list_display = ('municipality', 'province_flag')
 
 class BarangayResource(resources.ModelResource):
 	class Meta:

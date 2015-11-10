@@ -274,16 +274,17 @@ class Region(models.Model):
 	def __unicode__(self):
 		return self.region
 
-# This is the model for city or province
+# This is now the model for "Province"
 class Municipality(models.Model):
 	region = models.ForeignKey(Region, default=null_default_foreign_key_value(Region, 'region', ''))
 	municipality = models.CharField(max_length=50, default=None)
+	province_flag = models.BooleanField(default=True)
 	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.municipality
+		return self.municipality.upper()
 
 # This is the model for barangay or municipality
 class Barangay(models.Model):
@@ -293,7 +294,7 @@ class Barangay(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.barangay
+		return self.barangay.upper()
 
 class Sources(models.Model):
 	source = models.CharField(max_length=50, default=None)

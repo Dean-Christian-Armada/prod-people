@@ -16,6 +16,7 @@ $(function(){
     var seaservice_counter = 9;
     var college_count = 0;
     var emergency_count = 0;
+    var disabled_input = '<input type="text" class="form-control" disabled="">';
 
     // full name in the bottom most of the code
     var full_name = function(){
@@ -41,24 +42,28 @@ $(function(){
                       $(this).attr("data-original-title", placeholder);
                     }
                   };
-
     // same address function
     var address = function(){
         permanent_unit = $("#permanent_unit").val();
         permanent_street = $("#permanent_street").val();
-        permanent_baranggay = $("#permanent_baranggay").val();
-        permanent_municipality = $("#permanent_municipality").val();
-        permanent_zip = $("#permanent_zip").val();
+        permanent_province = $("#id_permanent_province").val();
+        permanent_barangay = $("#id_permanent_barangay").val();
+        permanent_municipality = $("#id_permanent_city_municipality").val();
+        permanent_zip_disabled = $("#permanent_zip").val();
+        permanent_zip = $("#id_permanent_zip").val();
         current_unit = $("#current_unit").val();
         current_street = $("#current_street").val();
-        current_baranggay = $("#current_baranggay").val();
-        current_municipality = $("#current_municipality").val();
-        current_zip = $("#current_zip").val();
+        current_province = $("#id_current_province").val();
+        current_barangay = $("#id_current_barangay").val();
+        current_municipality = $("#id_current_city_municipality").val();
+        current_zip_disabled = $("#current_zip").val();
+        current_zip = $("#id_current_zip").val();
         if(permanent_street == current_street && 
             permanent_unit == current_unit && 
-            permanent_baranggay == current_baranggay &&
+            permanent_province == current_province && 
+            permanent_barangay == current_barangay &&
             permanent_municipality == current_municipality && 
-            permanent_zip == current_zip){
+            permanent_zip == current_zip ){
           $(".same_address").prop("checked", true);
         }else{
           $(".same_address").prop("checked", false);
@@ -138,40 +143,78 @@ $(function(){
         $('.specific').remove();
       }
     });
+
     $(".same_address").change(function(){
+      // x = $(this).parent().parent().next().html();
+      // alert(x);
       params = $(this).attr('data-params');
+      element_barangay_is_select = $("#id_permanent_barangay").is('select');
       // Attribute for the dynamic emergencies
       counter = "";
       if($(this).is(':checked')){
         unit = $("#permanent_unit").val();
         street = $("#permanent_street").val();
-        barangay = $("#permanent_barangay").val();
-        municipality = $("#permanent_municipality").val();
-        zip = $("#permanent_zip").val();
+        province = $("#id_permanent_province").val();
+        barangay = $("#id_permanent_barangay").val();
+        html_barangay = $("#id_permanent_barangay").parent().html();
+        municipality = $("#id_permanent_city_municipality").val();
+        html_municipality = $("#id_permanent_city_municipality").parent().html();
+        html_municipality = html_municipality.replace(/permanent_/g, params+"_");
+        zip_disabled = $("#permanent_zip").val();
+        zip = $("#id_permanent_zip").val();
       }else{
         unit = "";
         street = "";
+        province = "";
         barangay = "";
+        html_barangay = '<input class="form-control first-choice" data-toggle="tooltip" id="id_'+params+'_barangay" name="'+params+'_barangay" readonly="readonly" type="text" data-original-title="" title="">'
         municipality = "";
+        html_municipality = '<input class="form-control first-choice" data-toggle="tooltip" id="id_'+params+'_city_municipality" name="'+params+'_city_municipality" readonly="readonly" type="text" data-original-title="" title="">';
         zip = "";
+        zip_disabled = "";
       }
       if(params == "emergency"){
         counter = $(this).attr('data-counter');
         $("#id_form-"+counter+"-"+params+"_unit").val(unit);
         $("#id_form-"+counter+"-"+params+"_street").val(street);
-        $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
+        $("#id_form-"+counter+"-"+params+"_province").val(province);
+        if(province != ''){
+         $("#id_form-"+counter+"-"+params+"_province").css("color", "#000");
+        }else{
+          $("#id_form-"+counter+"-"+params+"_province").css("color", "#c4c1c7");
+        }
+        if(element_barangay_is_select){
+          html_barangay = html_barangay.replace(/permanent_/g, params+"_");
+          $("#id_form-"+counter+"-"+params+"_barangay").parent().html(html_barangay);
+          $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
+        }else{
+          $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
+        }
+        $("#id_form-"+counter+"-"+params+"_municipality").parent().html(html_municipality);
         $("#id_form-"+counter+"-"+params+"_municipality").val(municipality);
+        $("#"+params+"_zip_"+counter).val(zip_disabled);
         $("#id_form-"+counter+"-"+params+"_zip").val(zip);
       }else{
         $("#"+params+"_unit"+counter).val(unit);
         $("#"+params+"_street"+counter).val(street);
-        $("#"+params+"_barangay"+counter).val(barangay);
-        $("#"+params+"_municipality"+counter).val(municipality);
-        $("#"+params+"_zip"+counter).val(zip);
+        $("#id_"+params+"_province"+counter).val(province);
+        if(province != ''){
+         $("#id_"+params+"_province"+counter).css("color", "#000");
+        }else{
+          $("#id_"+params+"_province"+counter).css("color", "#c4c1c7");
+        }
+        if(element_barangay_is_select){
+          html_barangay = html_barangay.replace(/permanent_/g, params+"_");
+          $("#id_"+params+"_barangay"+counter).parent().html(html_barangay);
+          $("#id_"+params+"_barangay"+counter).val(barangay);
+        }else{
+          $("#id_"+params+"_barangay"+counter).val(barangay);
+        }
+        $("#id_"+params+"_city_municipality"+counter).parent().html(html_municipality);
+        $("#id_"+params+"_city_municipality"+counter).val(municipality);
+        $("#"+params+"_zip"+counter).val(zip_disabled);
+        $("#id_"+params+"_zip"+counter).val(zip);
       }
-      
-
-      
     });
     $("#id_civil_status").change(function(){
       val = $('option:selected', this).text();
@@ -196,7 +239,7 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", true);
         $("#id_birthdate").prop("disabled", true);
         $("#id_spouse_contact").prop("disabled", true);
-      }else if(val == 'Partner'){
+      }else if(val == 'Live-In Domestic Partner'){
         $("#id_married_date").val("");
         $("#id_married_date").attr("Placeholder", "");
         $("#id_spouse_last_name").attr("Placeholder", "Partner's Maiden Last Name");
@@ -229,6 +272,60 @@ $(function(){
       val = $(this).val();
       $.get(trainings_certificates_url, { id: val, request: certificates_initial }, function(data){
         $('.dynamic-training-certificates-section').html(data);
+      });
+    });
+
+    $("body").on("change", ".class_province", function(){
+      _this = $(this);
+      province_id = _this.val();
+      data_address = $(this).attr('data-address');
+      text = $('option:selected', this).text();
+      _barangay = '<input placeholder="Barangay / Purok / Barrio" style="" class="form-control" data-toggle="tooltip" id="id_'+data_address+'_barangay" name="'+data_address+'_barangay" type="text" data-original-title="" title="">'
+      $.get(provinces_url, { id: province_id }, function(result){
+        result = result.replace(/city_municipality/g,  data_address+"_city_municipality");
+        result = result.replace("select", "select data-address='"+data_address+"'")
+        _this.parent().next().html(result);
+        // alert(result);
+        _this.parent().next().find('select > option:first-child').text("CITY OR MUNICIPALITY");
+        _this.parent().next().next().html(disabled_input);
+        _this.parent().next().next().next().find('.zip-container').html(disabled_input);
+        if( text != "NCR" ){
+          _this.parent().next().next().html(_barangay)
+        }
+      });
+    });
+
+    $("body").on("change", ".address-first-choice", function(){
+      _this = $(this);
+      val = _this.val();
+      data_address = $(this).attr('data-address');
+      $.get(ncr_barangay_url, { id: val }, function(result){
+        result = result.replace(/barangay/g,  data_address+"_barangay");
+        result = result.replace("select", "select data-address='"+data_address+"'")
+        _this.parent().next().html(result);
+        _this.parent().next().find('select > option:first-child').text("BARANGAY");
+        _this.parent().next().next().find('.zip-container').html(disabled_input);
+      });
+    });
+
+    $("body").on("change", ".address-second-choice", function(){
+      _this = $(this);
+      val = _this.val();
+      data_address = $(this).attr('data-address');
+      first_choice = $(this).parent().prev().find('select').val();
+      second_choice = val;
+      data_params = $(this).attr('data-params');
+      if(data_params == "NCR"){
+        data_attr_zip_name = _this.parent().next().attr('data-zip-name')
+      }else{
+        data_attr_zip_name = _this.parent().next().next().attr('data-zip-name')
+      }
+      $.get(cities_url, { first_choice: first_choice, second_choice: second_choice, zip_name: data_attr_zip_name }, function(result){
+        if(data_params == "NCR"){
+          _this.parent().next().find('.zip-container').html(result);
+        }else{
+          _this.parent().next().next().find('.zip-container').html(result);
+        }
       });
     });
 
@@ -478,7 +575,7 @@ $(function(){
     $('[data-toggle="tooltip"]').tooltip({ html: true });
     $("input").keyup(tooltip).click(tooltip).focusout(tooltip);
     $("#id_last_name, #id_first_name, #id_middle_name").keyup(full_name).click(full_name).focusout(full_name);
-    $("#permanent_unit, #current_unit, #permanent_street, #permanent_baranggay, #permanent_municipality, #permanent_zip, #current_street, #current_baranggay, #current_municipality, #current_zip").keyup(address).change(address);
+    $("body").on("change keyup", "#permanent_unit, #permanent_street, #id_permanent_barangay, #id_permanent_province, #id_permanent_city_municipality, #permanent_zip, #id_permanent_zip, #current_unit, #current_street, #id_current_province, #id_current_barangay, #id_current_city_municipality, #current_zip, #id_current_zip", address)
     $(".essay").keyup(essay).click(essay).focusout(essay);
     // $("#application-form").on("keyup", "input[type='text']", function(){
     //   $(this).val($(this).val().toUpperCase());
@@ -552,7 +649,6 @@ $(function(){
     // End Sea Service Validation
 
     $("body").on("change", "select", function(){
-      val = $(this).val();
       $(this).css("color", "#000");
     });    
     
@@ -598,23 +694,7 @@ $(function(){
       address = address.replace(/ /g,"+");
       var myWindow = window.open("http://www.google.com.ph/#q="+address, "", "width=1000, height=700");
     });
-    
-    if($("#id_alternative_position").val() != "Alternative Position"){
-      $("#id_alternative_position").css("color", "#000");
-    }
-    if($("#id_position_applied").val() != "Position Applied"){
-      $("#id_position_applied").css("color", "#000");
-    }
-
-    // $("#id_alternative_position, #id_position_applied").change(function(){
-    //   x = $('option:selected', this).text();
-    //   if( x == 'DECK CADET' || x == 'ENGINE CADET' ){
-    //     $("#application-form-essay").show();
-    //     $(".li-essay").show();
-    //     // $("#id_essay").prop("required", "true");
-    //   }
-    // });
-
+  
     // Start Input Validations
     $("body").on("keydown", "input[type='number']", function(e){
       // Allow: backspace, delete, tab, escape, enter and .
@@ -655,22 +735,27 @@ $(function(){
       // return false;
     });
     $(".essay").trigger('click');
-    $("#id_civil_status").trigger("change");
-    $("#id_position_applied").trigger("change");
     $("#application-form input").trigger("keyup");
-    // $("#change-picture").change(function(){
-    //   $("#form-change-picture").submit();
+    // $('#application-form select').each(function(){
+    //   text = $('option:selected', this).text();
+    //   first_child = $('option:first-child', this).text();
+    //   if(text != first_child){
+    //     $(this).trigger("change");
+    //     // setTimeout(function(){ $(this).trigger("change"); }, 1000);
+    //     $(this).css("color", "#000");
+    //   };
     // });
-    // $(".on-submit-class").change(function(){
-    //   id = $(this).attr('id');
-    //   $("#form-"+id).submit();
-    // });
-    // function handler(event) {
-    //     event.stopPropagation();
-    //     // now do your stuff        
-    // }
-    // Prevents the parent element to trigger an event
-    // Used for disabling parent toggle-modal
+    $('#application-form select').each(function(){
+      text = $('option:selected', this).text();
+      first_child = $('option:first-child', this).text();
+      if(text != first_child){
+        $("#id_civil_status").trigger("change");
+        $("#id_position_applied").trigger("change");
+        // $(this).trigger("change");
+        // setTimeout(function(){ $(this).trigger("change"); }, 1000);
+        $(this).css("color", "#000");
+      };
+    });
 
 
     $('.event-propagation').on('click', function (e) {
@@ -686,36 +771,4 @@ $(function(){
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
     });
-
-    // $("body").on("click", ".scanned-document-editables", function(){
-    //   data_id = $(this).attr("data-id");
-    //   data_classes = $(this).attr("data-classes");
-    //   data_type = $(this).attr("data-type");
-    //   text = $(this).text();
-    //   $(".tooltip").remove();
-    //   if(data_type != 'select'){
-    //     $(this).parent().append("<input name='field-value-updates' data-classes='"+data_classes+"' class='scanned-document-editing "+data_classes+"' type='"+data_type+"' data-id='"+data_id+"' value='"+text+"'>");        
-    //   }else{
-
-    //   }
-    //   $(this).next().focus();
-    //   $(this).remove();
-    // });
-
-    // $("body").on("focusout", ".scanned-document-editing", function(){
-    //   val = $(this).val();
-    //   type = $(this).attr('type');
-    //   data_classes = $(this).attr('data-classes')
-    //   data_id = $(this).attr("data-id");
-    //   var _confirm = confirm("Proceed to Update?");
-    //   if( _confirm ==  true ){
-    //     $(this).parent().append("<u class='scanned-document-editables' data-toggle='tooltip' title='Click to Update' data-id='"+data_id+"' data-classes='"+data_classes+"' data-type='"+type+"'>"+val+"</u>");
-    //     $(this).remove();       
-    //     $.post(url, get_value, function(result){
-    //       $("#updated-modal").modal("show");
-    //     });
-    //   }else{
-
-    //   }
-    // });
 }); 

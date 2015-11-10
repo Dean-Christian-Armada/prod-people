@@ -29,9 +29,20 @@
       <script type="text/javascript" src="{% static 'js/pace.js' %}"></script>
       <script type="text/javascript">
         // Used in the application form
+        // For dynamic choices of trainings and certificates via departments
         certificates_initial = '';
+        // Used in the application form
+        // For the First Step of making Dynamic City or Municipality Choices
+        province_initial = '';
+        // Used in the application form
+        // For the Second Step of making Dynamic City or Municipality Choices on NCR
+        first_choice_initial = '';
+        // For the Second Step of making Dynamic City or Municipality Choices on Provinces and Barangays for NCRs
+        second_choice_initial = '';
         // For Dynamic Fields like college and emergency to indicate which field will start to be hidden
         eq = 0;
+        current_address_disabled = '';
+        permanent_address_disabled = '';
       </script>
     </head>
 

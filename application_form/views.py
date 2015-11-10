@@ -45,12 +45,14 @@ def form(request):
 	count_college_errors = 0
 	count_emergency_errors = 0
 	request_training_certificates = ''
-
+	request_provinces = ''
+	province_id = 0
+	city_id = 0
 
 	applicant_name = ApplicantNameForm()
 	personal_data = PersonalDataForm()
-	permanent_address = PermanentAddressForm()
-	current_address = CurrentAddressForm()
+	permanent_address = PermanentAddressForm(province_id, city_id)
+	current_address = CurrentAddressForm(province_id, city_id)
 	spouse = SpouseForm()
 	college = formset_factory(CollegeForm, extra=5, formset=FirstRequiredFormSet)
 	highschool = HighSchoolForm()
@@ -71,14 +73,16 @@ def form(request):
 	yellow_fever = YellowFeverForm()
 	flags = FlagForm()
 	trainings_certificates = TrainingCertificateForm()
+	province = ProvinceForm(request.POST or None)
 	sea_service = formset_factory(SeaServiceForm, extra=20)
 	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host, 'application_date': today})
 
 	if request.method == "POST":
 		print request.POST
+
 		applicant_name = ApplicantNameForm(request.POST)
-		permanent_address = PermanentAddressForm(request.POST)
-		current_address = CurrentAddressForm(request.POST)
+		permanent_address = PermanentAddressForm(request.POST['permanent_province'], request.POST['permanent_city_municipality'], request.POST)
+		current_address = CurrentAddressForm(request.POST['current_province'], request.POST['current_city_municipality'], request.POST)
 		personal_data = PersonalDataForm(request.POST)
 		spouse = SpouseForm(request.POST)
 		college = college(request.POST)
@@ -208,8 +212,11 @@ def form(request):
 	context_dict['trainings_certificates'] = trainings_certificates
 	context_dict['seaservice_form'] = sea_service
 	context_dict['application'] = application
+	context_dict['province'] = province
 	
+	# Filling up initials in the Dynamic Choices Forms
 	context_dict['request_training_certificates'] = request_training_certificates
+	context_dict['request_provinces'] = request_provinces
 
 	return render(request, template, context_dict)
 
@@ -250,10 +257,45 @@ def trainings_certificates(request):
 	else:
 		form = "Please Select the Applied Position First for the Certificates and Trainigns to show"
 
-	template = "application_form/training-certificates.html"
+	template = "application_form/dynamic-forms/training-certificates.html"
 	context_dict = { "form":form }
 	return render(request, template, context_dict)
 
+@login_required
+def city_municipality(request):
+	# print current_address['current_unit']
+	id = request.GET['id']
+	requests = request.GET.get('request', '')
+	# ast.literal_eval converts the whole unicode list structure into an actual list
+	if requests:
+		requests = ast.literal_eval(requests)
+	if id:
+		form = DynamicCityMunicipalityForm(id)
+
+	template = "application_form/dynamic-forms/zip_second_choices.html"
+	context_dict = { "form":form }
+	# return HttpResponse(form['current_city_municipality'])
+	return render(request, template, context_dict)
+
+@login_required
+def auto_zip_code(request):
+	# PROVINCES
+	first_choice = request.GET['first_choice']
+	# CITY / MUNICIPALITY for Non-NCRs and BARANGAY for NCRs 
+	second_choice = request.GET['second_choice']
+	name = request.GET['zip_name']
+	zip = Zip.objects.get(municipality=first_choice, barangay=second_choice)
+	html = " <input type='text' id='%s' class='form-control' value='%s' disabled> <select class='form-control hide' id='id_%s' name='%s' style='color:#000'><option value='%s'>%s</option></select>" % (name, zip, name, name, zip.id, zip)
+	return HttpResponse(html) 
+
+@login_required
+def ncr_barangay(request):
+	id = request.GET['id']
+	requests = request.GET.get('request', '')
+	form = DynamicNCRBarangayForm(id, initial={'city_municipality': requests})
+	template = "application_form/dynamic-forms/zip_first_choices.html"
+	context_dict = { "form":form }
+	return render(request, template, context_dict)
 
 # def fleet_application_form(request, principal, vessel_type):
 @login_required
@@ -473,10 +515,7 @@ def fleet_application_form(request, principal, id):
 
 		application_received_form = ApplicationReceivedForm()
 
-		print principal
 		_principal = Principal.objects.get(principal__iexact=principal)
-		print _principal
-		print "DEAN"
 
 		template = "principals-application-form/%s.html" % (principal)
 		title = "%s Forms" % (_principal.principal_code)

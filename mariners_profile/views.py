@@ -401,16 +401,16 @@ def profile(request, slug):
 		scanned_folders = Folder.objects.filter(~Q(name=''))
 
 		for folders in scanned_folders:
-			scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder__name=' '))
+			scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder__name=' ')).order_by('order')
 			scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong></p>' % (folders.slug_name().lower(), folders)
-			scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % str(folders).lower() # START of Class PANEL
+			scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % folders.slug_name() # START of Class PANEL
 			scanned_document_html += '<div class="panel-body padding-top-bottom-negator">'
 			for sub_folders in scanned_sub_folders: # START of Class PANEL-BODY
 				scanned_upload_button = ""
 				uploads = ""
 				archive_button = ""
 				if sub_folders.upload == True:
-					scanned_upload_button = '<button class="btn btn-primary event-propagation modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name().lower()
+					scanned_upload_button = '<button class="btn btn-primary event-propagation modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name()
 					uploads = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=False)
 				archives = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=True)
 				if archives:
@@ -418,7 +418,7 @@ def profile(request, slug):
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
 				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation archive-process-button hide">ARCHIVE SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
 				if uploads:
-					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name().lower() # START class.panel-collapse
+					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name() # START class.panel-collapse
 					scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 					scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 					for upload in uploads:
@@ -436,7 +436,7 @@ def profile(request, slug):
 						scanned_document_html += '</div>'
 						scanned_document_html += '</div>'
 					scanned_document_html += '</div>' # END class.panel-collapse
-				scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name().lower()  # START MODAL UPLOAD
+				scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name()  # START MODAL UPLOAD
 				scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
 				scanned_document_html += '<form method="POST" enctype="multipart/form-data" id="scan-form">' # START scan-form
 				scanned_document_html += '<input type="hidden" name="csrfmiddlewaretoken" value="%s">' % get_token(request)
@@ -479,13 +479,53 @@ def profile(request, slug):
 				scanned_document_html += '</div>' # END class.panel-body
 
 				# START EXTRA SUB FOLDERS SECTION
-				_scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder=sub_folders))
+				_scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder=sub_folders)).order_by('order')
 				if _scanned_sub_folders:
-					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % (sub_folders.slug_name().lower()) # START panel on _scanned_sub_folders variable
+					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % (sub_folders.slug_name()) # START panel on _scanned_sub_folders variable
 					for _sub_folders in _scanned_sub_folders:
 						scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START panel-body on _scanned_sub_folders variable
-						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary">UPLOAD</button></p>' % (_sub_folders.slug_name().lower(), str(_sub_folders.name))
+						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary modal-show-id-based" id="%s-upload">UPLOAD</button></p>' % (_sub_folders.slug_name(), str(_sub_folders.name), _sub_folders.slug_name())
 						scanned_document_html += '</div>' # END panel-body on _scanned_sub_folders variable
+						scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % _sub_folders.slug_name()  # START MODAL UPLOAD
+						scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
+						scanned_document_html += '<form method="POST" enctype="multipart/form-data" id="scan-form">' # START scan-form
+						scanned_document_html += '<input type="hidden" name="csrfmiddlewaretoken" value="%s">' % get_token(request)
+						scanned_document_html += '<div class="modal-content">' # START modal-content
+						scanned_document_html += '<div class="modal-header">' # START modal-header
+						scanned_document_html += '<h4 class="modal-title" id="signatureLabel">UPLOAD %s <button type="button" class="close" data-dismiss="modal">&times;</button></h4>' % _sub_folders.name
+						scanned_document_html += '<div class="modal-body text-center">' # START modal-body
+						fields = Fields.objects.filter(location=_sub_folders)
+						if fields:
+							for field in fields:
+								location = str(field.location).replace("/", "-").lower()
+								name = field.name.replace(" ", "-").lower()
+								input_id = "id-%s-%s" % (name, location)
+								label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (input_id, field.name)
+								scanned_document_html += '<div class="input-group">' # START input-group
+								scanned_document_html += '<label for="%s" class="input-group-addon input-label">' % input_id
+								scanned_document_html += '%s' % field.name
+								scanned_document_html += '</label>'
+								scanned_document_html += str(field)
+								scanned_document_html += '</div>' # END input-group
+							scanned_document_html += '<div class="input-group">' # START input-group
+							scanned_document_html += '<label class="input-group-addon input-label">'
+							scanned_document_html += 'File Upload: '
+							scanned_document_html += '</label>'
+							scanned_document_html += '<input type="file" name="scan-file" required>'
+							scanned_document_html += '<input type="hidden" name="folder-location" value="%s">' % _sub_folders.name
+							scanned_document_html += '</div>' # END input-group
+						else:
+							scanned_document_html += '<h3>NO FIELDS HAS BEEN CONFIGURED YET ON THIS FOLDER</h3>'
+						scanned_document_html += '</div>' # END modal-body
+						if fields:
+							scanned_document_html += '<div class="modal-footer">' # START modal-footer
+							scanned_document_html += '<button class="btn btn-primary" name="scan-submit">SUBMIT</button>'
+							scanned_document_html += '</div>' # END modal-footer
+						scanned_document_html += '</div>' # END modal-header
+						scanned_document_html += '</div>' # END modal-content
+						scanned_document_html += '</form>' # END scan-form
+						scanned_document_html += '</div>' # END modal-dialog
+						scanned_document_html += '</div>' # END MODAL UPLOAD
 					scanned_document_html += '</div>' # END panel on _scanned_sub_folders variable
 				# END EXTRA SUB FOLDERS SECTION
 
@@ -525,6 +565,8 @@ def profile(request, slug):
 			uploads = File.objects.filter(user=user_profile).filter(location=request.GET['location']).filter(archive=condition)
 			scanned_document_html = '<div class="form-group">' # START class.form-group
 			scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
+			if not condition:
+				scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 			for upload in uploads:
 				scanned_document_html += '<div class="col-md-3 text-center">'
 				scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()

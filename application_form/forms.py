@@ -19,6 +19,7 @@ import os, sys, shutil, autocomplete_light
 # All data input processes are located here
 # def clean processes the insert data on the mariners profile
 
+count = 0
 
 # Renders manually made for horizontal selections
 class HorizontalRadioRenderer(forms.RadioSelect.renderer):
@@ -57,10 +58,14 @@ class PermanentAddressForm(forms.ModelForm):
 	def save(self, commit=True):
 		permanent_address = super(PermanentAddressForm, self).save(commit=False)
 		permanent_address.save()
+		self.cleaned_data.pop("permanent_barangay")
+		self.cleaned_data.pop("permanent_city_municipality")
+		self.cleaned_data.pop("permanent_province")
 		value = self.cleaned_data
 		PermanentAddress.objects.create(**value)
 		return permanent_address
 
+	# The initialization allows the dynamic request POST values retrieve on unsuccessful validity
 	def __init__(self, province_id, city_id, *args, **kwargs):
 		super(PermanentAddressForm, self).__init__(*args, **kwargs)
 		if city_id == '':
@@ -101,10 +106,14 @@ class CurrentAddressForm(forms.ModelForm):
 		current_address = super(CurrentAddressForm, self).save(commit=False)
 		current_address.save()
 		# Modify cleaned_data for var arguments on creating data on the Mariners Object
+		self.cleaned_data.pop("current_barangay")
+		self.cleaned_data.pop("current_city_municipality")
+		self.cleaned_data.pop("current_province")
 		value = self.cleaned_data
 		CurrentAddress.objects.create(**value)
 		return current_address
 
+	# The initialization allows the dynamic request POST values retrieve on unsuccessful validity
 	def __init__(self, province_id, city_id, *args, **kwargs):
 		super(CurrentAddressForm, self).__init__(*args, **kwargs)
 		if city_id == '':
@@ -266,53 +275,76 @@ class HighSchoolForm(forms.ModelForm):
 		HighSchool.objects.create(**value)
 
 class EmergencyContactForm(forms.ModelForm):
-	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'))
-	emergency_zip = forms.IntegerField(widget=forms.NumberInput(attrs={'min':0}))
-	emergency_municipality = forms.CharField(widget=autocomplete_light.TextWidget('MunicipalityAutocomplete'))
-	emergency_barangay = forms.CharField(widget=autocomplete_light.TextWidget('BarangayAutocomplete'))
+	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'))	
 	emergency_contact = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"})
 	class Meta:
 		model = ApplicationFormEmergencyContact
 		fields = '__all__'
-		exclude = ('user', 'emergency_zip', 'relationship')
+		exclude = ('user', 'relationship')
 
 	def save(self, commit=True):
 		# Try is used to proceed if second formset onwards is left blank
 		try:
-			emergency_zip = self.cleaned_data['emergency_zip']
-			emergency_barangay = self.cleaned_data['emergency_barangay']
-			emergency_municipality = self.cleaned_data['emergency_municipality']
 			relationship = self.cleaned_data['relationship']
 			emergency_contact = super(EmergencyContactForm, self).save(commit=False)
 			userprofile = UserProfile.objects.latest('id')
-			municipality = Municipality.objects.get_or_create({'municipality':emergency_municipality}, municipality__iexact=emergency_municipality)
-			if municipality:
-				municipality = Municipality.objects.get(municipality__iexact=emergency_municipality)
-			barangay = Barangay.objects.get_or_create({'barangay':emergency_barangay}, barangay__iexact=emergency_barangay)
-			if barangay:
-				barangay = Barangay.objects.get(barangay__iexact=emergency_barangay)
 			relationships = Relationship.objects.get_or_create({'relationship':relationship}, relationship__iexact=relationship)
 			if relationships:
 				relationships = Relationship.objects.get(relationship__iexact=relationship)
-			try:
-				zip = Zip.objects.get_or_create(zip=emergency_zip, barangay=barangay, municipality=municipality)[0]
-			except:
-				zip = Zip.objects.get(zip=emergency_zip)
 			emergency_contact.user = userprofile
-			emergency_contact.emergency_zip = zip
 			emergency_contact.relationship = relationships
 			emergency_contact.save()
 			# Modify cleaned_data for var arguments on creating data on the Mariners Object
 			self.cleaned_data['user'] = userprofile
-			self.cleaned_data['emergency_zip'] = zip
 			self.cleaned_data['relationship'] = relationships
 			# Remove data not on the Mariners Object fields
-			self.cleaned_data.pop("emergency_municipality")
+			self.cleaned_data.pop("emergency_city_municipality")
 			self.cleaned_data.pop("emergency_barangay")
+			self.cleaned_data.pop("emergency_province")
 			value = self.cleaned_data
 			EmergencyContact.objects.create(**value)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+
+	# The initialization allows the dynamic request POST values retrieve on unsuccessful validity
+	def __init__(self, province_id, city_id, *args, **kwargs):
+		super(EmergencyContactForm, self).__init__(*args, **kwargs)
+		self.fields['emergency_province'] = forms.ModelChoiceField(widget=forms.Select(attrs={'data-address': '%s-emergency' % kwargs['prefix']}), queryset=Municipality.objects.filter(province_flag=True).order_by('municipality'), error_messages={'required': 'Please select a province'}) 
+		try:
+			prefix = kwargs['prefix']
+			y = prefix+"-emergency_city_municipality"
+			z = prefix+"-emergency_province"
+			city_id = kwargs['data'][y]
+			province_id = kwargs['data'][z]
+		except:
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		if city_id == '':
+			city_id = 0
+		if province_id == '':
+			province_id = 0
+		if city_id != 0:
+			try:
+				ncr_city = Municipality.objects.get(id=city_id)
+				query = Zip.objects.filter(municipality=city_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['emergency_barangay'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice", 'data-params':"NCR"}), queryset=Barangay.objects.filter(id__in=query))
+			except:
+				pass
+		else:
+			self.fields['emergency_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+		if province_id != 0:
+			province = Municipality.objects.get(id=province_id)
+			if province.municipality == "NCR":
+				self.fields['emergency_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-first-choice first-choice", 'data-params':"NCR"}), queryset=Municipality.objects.filter(province_flag=False).order_by('municipality'))
+			else:
+				query = Zip.objects.filter(municipality=province_id).order_by('zip')
+				query = [_query.barangay.id for _query in query ]
+				self.fields['emergency_city_municipality'] = forms.ModelChoiceField(widget=forms.Select(attrs={'class':"form-control address-second-choice first-choice", 'data-params':"province"}), queryset=Barangay.objects.filter(id__in=query))
+				self.fields['emergency_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'placeholder':"Barangay / Purok / Barrio" }), required=False)
+		else:
+			self.fields['emergency_barangay'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+			self.fields['emergency_city_municipality'] = forms.CharField(widget=forms.TextInput(attrs={'readonly':"readonly"}))
+
 
 class VisaApplicationForm(forms.ModelForm):
 	CHOICES = (

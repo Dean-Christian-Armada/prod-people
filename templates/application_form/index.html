@@ -215,10 +215,8 @@
                 {{ permanent_address.permanent_barangay.errors }}
               </div>
               <div class="col-md-3" data-zip-name="permanent_zip">
-                <div class="zip-container">
-                  <input type="text" id="permanent_zip" class="form-control" disabled="" value="{% if permanent_address.permanent_zip.value != None %}{{ permanent_address.permanent_zip.value|get_data:'Zip' }}{% endif %}">
-                  {{ permanent_address.permanent_zip|add_class:"hide" }}
-                </div>
+                <input type="text" id="permanent_zip" class="form-control" disabled="" value="{% if permanent_address.permanent_zip.value != None %}{{ permanent_address.permanent_zip.value|get_data:'Zip' }}{% endif %}">
+                {{ permanent_address.permanent_zip|add_class:"hide" }}
                 {% if permanent_address.permanent_zip.errors %}
                   <ul class="errorlist">
                     <li>Please Choose your respective province, city or municipality and barangay</li>
@@ -258,10 +256,8 @@
                 {{ current_address.current_barangay.errors }}
               </div>
               <div class="col-md-3" data-zip-name="current_zip">
-                <div class="zip-container">
-                  <input type="text" id="current_zip" class="form-control" disabled="" value="{% if current_address.current_zip.value != None %}{{ current_address.current_zip.value|get_data:'Zip' }}{% endif %}">
-                  {{ current_address.current_zip|add_class:"hide" }}
-                </div>
+                <input type="text" id="current_zip" class="form-control" disabled="" value="{% if current_address.current_zip.value != None %}{{ current_address.current_zip.value|get_data:'Zip' }}{% endif %}">
+                {{ current_address.current_zip|add_class:"hide" }}
                 {% if current_address.current_zip.errors %}
                   <ul class="errorlist">
                     <li>Please Choose your respective province, city or municipality and barangay</li>
@@ -429,21 +425,30 @@
                     {{ emergencycontact_form.emergency_unit|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Unit / Lot / House" }}
                     {{ emergencycontact_form.emergency_unit.errors }}
                   </div>
-                   <div class="col-md-6">
+                  <div class="col-md-6">
                     {{ emergencycontact_form.emergency_street|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Street / Subdivision" }}
                     {{ emergencycontact_form.emergency_street.errors }}
+                  </div><!-- form-0-emergency_zip -->
+                  <div class="col-md-3">
+                    {{ emergencycontact_form.emergency_province|add_class:"form-control first-choice class_province"|attr:"data-toggle:tooltip"|attr:"data-address:emergency" }}
+                    {{ emergencycontact_form.emergency_province.errors }}
                   </div>
-                  <div class="col-md-4">
-                    {{ emergencycontact_form.emergency_barangay|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Barangay" }}
+                  <div class="col-md-3">
+                    {{ emergencycontact_form.emergency_city_municipality|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                    {{ emergencycontact_form.emergency_city_municipality.errors }}
+                  </div>
+                  <div class="col-md-3">
+                    {{ emergencycontact_form.emergency_barangay|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
                     {{ emergencycontact_form.emergency_barangay.errors }}
                   </div>
-                  <div class="col-md-4">
-                    {{ emergencycontact_form.emergency_municipality|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Municipality" }}
-                    {{ emergencycontact_form.emergency_municipality.errors }}
-                  </div>
-                  <div class="col-md-4">
-                    {{ emergencycontact_form.emergency_zip|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Zip Code" }}
-                    {{ emergencycontact_form.emergency_zip.errors }}
+                  <div class="col-md-3" data-zip-name="form-{{forloop.counter0}}-emergency_zip">
+                    <input type="text" id="form-{{forloop.counter0}}-emergency_zip" class="form-control" disabled="" value="{% if emergencycontact_form.emergency_zip.value != None %}{{ emergencycontact_form.emergency_zip.value|get_data:'Zip' }}{% endif %}">
+                    {{ emergencycontact_form.emergency_zip|add_class:"hide" }}
+                    {% if emergencycontact_form.emergency_zip.errors %}
+                      <ul class="errorlist">
+                        <li>Please Choose your respective province, city or municipality and barangay</li>
+                      </ul>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -595,7 +600,11 @@
             <p>Please check the box if you possess any of the specified certificates</p>
             <p>{{ trainings_certificates.trainings_certificates.errors }}</p>
             <div class="form-group dynamic-training-certificates-section">  
-              
+              <div class="col-md-12">
+                <ul class="errorlist">
+                  <li><h4 style="rgb(175, 17, 28)"><b><a href="#top">Please Select the Position to be Applied for the Certificates and Trainings to show</a></b></h4></li>
+                </ul>
+              </div>
             </div>
 
             <h3 id='step-11'>Essay</h3>

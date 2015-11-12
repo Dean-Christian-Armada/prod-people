@@ -11,6 +11,7 @@ from django.conf import settings
 from django.core import serializers
 
 from easy_pdf.rendering import render_to_pdf_response
+from functools import partial, wraps
 
 from . forms import *
 from . templatetags.pdf_image import get64
@@ -56,7 +57,8 @@ def form(request):
 	spouse = SpouseForm()
 	college = formset_factory(CollegeForm, extra=5, formset=FirstRequiredFormSet)
 	highschool = HighSchoolForm()
-	emergency_contact = formset_factory(EmergencyContactForm, extra=5, formset=FirstRequiredFormSet)
+	# emergency_contact = formset_factory(EmergencyContactForm, extra=5, formset=FirstRequiredFormSet)
+	emergency_contact = formset_factory(wraps(EmergencyContactForm)(partial(EmergencyContactForm, province_id, city_id)), extra=5, formset=FirstRequiredFormSet)
 	visa_application = VisaApplicationForm()
 	detained = DetainedForm()
 	disciplinary_action = DisciplinaryActionForm()
@@ -78,7 +80,7 @@ def form(request):
 	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host, 'application_date': today})
 
 	if request.method == "POST":
-		print request.POST
+		# print request.POST
 
 		applicant_name = ApplicantNameForm(request.POST)
 		permanent_address = PermanentAddressForm(request.POST['permanent_province'], request.POST['permanent_city_municipality'], request.POST)
@@ -121,7 +123,6 @@ def form(request):
 			highschool.save()
 			for emergency_contact_form in emergency_contact:
 				emergency_contact_form.save()
-			# emergency_contact.save()
 			visa_application.save()
 			detained.save()
 			disciplinary_action.save()

@@ -445,7 +445,7 @@ class EmergencyContactForm(forms.ModelForm):
 			emergency.zip = zip
 			emergency.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class EvaluationForm(forms.ModelForm):
 	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)

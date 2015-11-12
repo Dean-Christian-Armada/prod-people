@@ -78,6 +78,8 @@ class AbstractPersonalData(models.Model):
 			self.landline_1 = None
 		if self.mobile_2 == '':
 			self.mobile_2 = None
+		if self.mobile_3 == '':
+			self.mobile_3 = None
 
 		super(AbstractPersonalData, self).save(*args, **kwargs)
 

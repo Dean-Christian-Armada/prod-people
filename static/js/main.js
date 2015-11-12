@@ -159,7 +159,6 @@ $(function(){
         html_barangay = $("#id_permanent_barangay").parent().html();
         municipality = $("#id_permanent_city_municipality").val();
         html_municipality = $("#id_permanent_city_municipality").parent().html();
-        html_municipality = html_municipality.replace(/permanent_/g, params+"_");
         zip_disabled = $("#permanent_zip").val();
         zip = $("#id_permanent_zip").val();
       }else{
@@ -175,6 +174,8 @@ $(function(){
       }
       if(params == "emergency"){
         counter = $(this).attr('data-counter');
+        html_municipality = html_municipality.replace(/permanent_/g, "form-"+counter+"-"+params+"_");
+        html_barangay = html_barangay.replace(/permanent_/g, "form-"+counter+"-"+params+"_");
         $("#id_form-"+counter+"-"+params+"_unit").val(unit);
         $("#id_form-"+counter+"-"+params+"_street").val(street);
         $("#id_form-"+counter+"-"+params+"_province").val(province);
@@ -184,17 +185,17 @@ $(function(){
           $("#id_form-"+counter+"-"+params+"_province").css("color", "#c4c1c7");
         }
         if(element_barangay_is_select){
-          html_barangay = html_barangay.replace(/permanent_/g, params+"_");
           $("#id_form-"+counter+"-"+params+"_barangay").parent().html(html_barangay);
           $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
         }else{
           $("#id_form-"+counter+"-"+params+"_barangay").val(barangay);
         }
-        $("#id_form-"+counter+"-"+params+"_municipality").parent().html(html_municipality);
-        $("#id_form-"+counter+"-"+params+"_municipality").val(municipality);
-        $("#"+params+"_zip_"+counter).val(zip_disabled);
+        $("#id_form-"+counter+"-"+params+"_city_municipality").parent().html(html_municipality);
+        $("#id_form-"+counter+"-"+params+"_city_municipality").val(municipality);
+        $("#form-"+counter+"-"+params+"_zip").val(zip_disabled);
         $("#id_form-"+counter+"-"+params+"_zip").val(zip);
       }else{
+        html_municipality = html_municipality.replace(/permanent_/g, params+"_");
         $("#"+params+"_unit"+counter).val(unit);
         $("#"+params+"_street"+counter).val(street);
         $("#id_"+params+"_province"+counter).val(province);
@@ -205,10 +206,10 @@ $(function(){
         }
         if(element_barangay_is_select){
           html_barangay = html_barangay.replace(/permanent_/g, params+"_");
-          $("#id_"+params+"_barangay"+counter).parent().html(html_barangay);
-          $("#id_"+params+"_barangay"+counter).val(barangay);
+          $("#id_"+params+"_barangay").parent().html(html_barangay);
+          $("#id_"+params+"_barangay").val(barangay);
         }else{
-          $("#id_"+params+"_barangay"+counter).val(barangay);
+          $("#id_"+params+"_barangay").val(barangay);
         }
         $("#id_"+params+"_city_municipality"+counter).parent().html(html_municipality);
         $("#id_"+params+"_city_municipality"+counter).val(municipality);
@@ -304,7 +305,7 @@ $(function(){
         result = result.replace("select", "select data-address='"+data_address+"'")
         _this.parent().next().html(result);
         _this.parent().next().find('select > option:first-child').text("BARANGAY");
-        _this.parent().next().next().find('.zip-container').html(disabled_input);
+        _this.parent().next().next().html(disabled_input);
       });
     });
 
@@ -322,9 +323,9 @@ $(function(){
       }
       $.get(cities_url, { first_choice: first_choice, second_choice: second_choice, zip_name: data_attr_zip_name }, function(result){
         if(data_params == "NCR"){
-          _this.parent().next().find('.zip-container').html(result);
+          _this.parent().next().html(result);
         }else{
-          _this.parent().next().next().find('.zip-container').html(result);
+          _this.parent().next().next().html(result);
         }
       });
     });
@@ -373,7 +374,6 @@ $(function(){
       }
     });
   // END College Dynamic Fields Scripts
-
   // START Emergency Contact Dynamic Fields Scripts
     $(".emergency-contacts:not(:eq("+eq+"))").hide();
     // Makes sure the form group shows if fields are not null upon post request
@@ -382,8 +382,8 @@ $(function(){
         val = $(this).val();
         if(val != ''){
           $(this).parent().parent().parent().show();
-        } 
-      })
+        }
+      });
       if($(this).is(":visible")){
         emergency_count++;
       }

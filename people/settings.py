@@ -52,6 +52,8 @@ INSTALLED_APPS = (
     'mariners_profile',
     'application_profile',
     'cms',
+    'notifications',
+    'company_staffs',
 )
 
 MIDDLEWARE_CLASSES = (

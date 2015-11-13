@@ -323,14 +323,27 @@ def profile(request, slug):
 		scanned_js += '}'
 		scanned_js += '$(this).parent().parent().siblings($(".delete-id-list")).val(value_list);'
 		scanned_js += 'if(check_count > 0){'
-		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-process-button").removeClass("hide");'
+		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-delete-process-button").removeClass("hide");'
 		scanned_js += '}else{'
-		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-process-button").addClass("hide");'
+		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-delete-process-button").addClass("hide");'
 		scanned_js += '}'
 		scanned_js += '});' # END of checkboxchange event
-		scanned_js += '$(".archive-process-button").click(function(){' # START of put to archive process button event
+		scanned_js += '$(".scanned-document-modal-show-id-based").on("click", function(){' # START of scanned-document-modal-show-id-based
+		scanned_js += 'id = $(this).attr("id");'
+		scanned_js += 'if($(this).attr("data-file-id")){'
+		scanned_js += 'data_file_id=$(this).attr("data-file-id");'
+		# scanned_js += 'alert("armada");'
+		# scanned_js += 'alert("#form-"+id);'
+		scanned_js += '$("#form-"+id).append("<input class=\'hide\' name=\'archive-file-id\' value="+data_file_id+">");'
+		scanned_js += '}'
+		scanned_js += '$("#modal-"+id).modal("show");'
+		scanned_js += '});' # END of scanned-document-modal-show-id-based
+		scanned_js += '$(".archive-delete-process-button").click(function(){' # START of put to archive process button event
 		scanned_js += 'delete_id_list = $(this).parent().next().find(".delete-id-list").val();'
 		scanned_js += 'var json_archive_ids = {csrfmiddlewaretoken: "%s"};' % get_token(request)
+		scanned_js += 'if($(this).attr("data-process")){'
+		scanned_js += 'json_archive_ids["process"] = $(this).attr("data-process");'
+		scanned_js += '};'
 		scanned_js += 'json_archive_ids["delete_id_list"] = delete_id_list;'
 		# scanned_js += 'console.log(json_archive_ids);'
 		scanned_js += 'var this_object = $(this);'
@@ -342,7 +355,7 @@ def profile(request, slug):
 		scanned_js += '});' # END of json_archive_ids AJAX POST call
 		scanned_js += '});' # END of put to archive process button event
 		scanned_js += '$(".archive-show-button").click(function(){' # START of put to archive show button event
-		scanned_js += '$(this).siblings(".archive-process-button").addClass("hide");'
+		scanned_js += '$(this).siblings(".archive-delete-process-button").addClass("hide");'
 		scanned_js += 'archive_location = $(this).attr("data-location");'
 		scanned_js += 'archive_condition = $(this).attr("data-params");'
 		scanned_js += 'get_params = {};'
@@ -358,8 +371,12 @@ def profile(request, slug):
 		scanned_js += '$(this).addClass("hide");'
 		scanned_js += 'if(archive_condition == "True"){'
 		scanned_js += '$(this).next().removeClass("hide");'
+		scanned_js += '$(this).siblings(".archive-delete-process-button").text("DELETE SELECTED FILES");'
+		scanned_js += '$(this).siblings(".archive-delete-process-button").attr("data-process", "delete");'
 		scanned_js += '}else{'
 		scanned_js += '$(this).prev().removeClass("hide");'
+		scanned_js += '$(this).siblings(".archive-delete-process-button").text("ARCHIVE SELECTED FILES");'
+		scanned_js += '$(this).siblings(".archive-delete-process-button").removeAttr("data-process");'
 		scanned_js += '};'
 		scanned_js += '});' # END of put to archive show button event
 		scanned_js += '$("body").on("click", ".scanned-document-editables", function(){' # START scanned-document-editables click event 
@@ -395,8 +412,11 @@ def profile(request, slug):
 		scanned_js += '});'
 		scanned_js += '}else{'
 		scanned_js += '};'
-		scanned_js += '}, 300);';
-		scanned_js += '});' # END scanned-document-editing focustout event 
+		scanned_js += '}, 300);'
+		scanned_js += '});' # END scanned-document-editing focustout event
+		scanned_js += '$(".scanned-document-hide-event").on("hidden.bs.modal", function(){' # START scanned-document-hide-event
+		# scanned_js += 'alert("dean");'
+		scanned_js += '});' # END scanned-document-hide-event
 		
 		scanned_folders = Folder.objects.filter(~Q(name=''))
 
@@ -410,13 +430,14 @@ def profile(request, slug):
 				uploads = ""
 				archive_button = ""
 				if sub_folders.upload == True:
-					scanned_upload_button = '<button class="btn btn-primary event-propagation modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name()
+					scanned_upload_button = '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name()
 					uploads = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=False)
 				archives = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=True)
 				if archives:
 					archive_button = '<button class="btn btn-warning event-propagation archive-show-button" data-location="%s" data-params="True">ARCHIVES</button> <button class="btn btn-success event-propagation archive-show-button hide" data-location="%s" data-params="False">UNARCHIVED</button>' % (sub_folders.id, sub_folders.id )
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
-				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation archive-process-button hide">ARCHIVE SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
+				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation archive-delete-process-button hide">ARCHIVE SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
+				# scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation delete-process-button hide" data-process="delete">DELETED SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
 				if uploads:
 					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name() # START class.panel-collapse
 					scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
@@ -424,10 +445,11 @@ def profile(request, slug):
 					for upload in uploads:
 						scanned_document_html += '<div class="col-md-3 text-center">'
 						scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
-						scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
+						scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'	
 						scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">VIEW / DOWNLOAD</a>' % upload.download_link()
+						scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive form-control input-group" id="%s-upload" data-file-id="%s">UPLOAD ARCHIVE</button>' % (sub_folders.slug_name(), upload.id)
 						scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">PUT TO ARCHIVE</label>' % (upload.id, upload.id, upload.id)
-						scanned_document_html += '<h5>%s</h5>' % upload.file_name()
+						scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
 						file_infos = FileFieldValue.objects.filter(file=upload)
 						for file_info in file_infos:
 							scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
@@ -436,9 +458,9 @@ def profile(request, slug):
 						scanned_document_html += '</div>'
 						scanned_document_html += '</div>'
 					scanned_document_html += '</div>' # END class.panel-collapse
-				scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name()  # START MODAL UPLOAD
+				scanned_document_html += '<div class="modal fade modal-size-500 scanned-document-hide-event" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name()  # START MODAL UPLOAD
 				scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
-				scanned_document_html += '<form method="POST" enctype="multipart/form-data" id="scan-form">' # START scan-form
+				scanned_document_html += '<form method="POST" enctype="multipart/form-data" class="scan-form" id="form-%s-upload">' % sub_folders.slug_name() # START scan-form
 				scanned_document_html += '<input type="hidden" name="csrfmiddlewaretoken" value="%s">' % get_token(request)
 				scanned_document_html += '<div class="modal-content">' # START modal-content
 				scanned_document_html += '<div class="modal-header">' # START modal-header
@@ -484,11 +506,11 @@ def profile(request, slug):
 					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % (sub_folders.slug_name()) # START panel on _scanned_sub_folders variable
 					for _sub_folders in _scanned_sub_folders:
 						scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START panel-body on _scanned_sub_folders variable
-						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary modal-show-id-based" id="%s-upload">UPLOAD</button></p>' % (_sub_folders.slug_name(), str(_sub_folders.name), _sub_folders.slug_name())
+						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary scanned-document-modal-show-id-based" id="%s-upload">UPLOAD</button></p>' % (_sub_folders.slug_name(), str(_sub_folders.name), _sub_folders.slug_name())
 						scanned_document_html += '</div>' # END panel-body on _scanned_sub_folders variable
-						scanned_document_html += '<div class="modal fade modal-size-500" id="modal-%s-upload" tabindex="-1" role="dialog">' % _sub_folders.slug_name()  # START MODAL UPLOAD
+						scanned_document_html += '<div class="modal fade modal-size-500 scanned-document-hide-event" id="modal-%s-upload" tabindex="-1" role="dialog">' % _sub_folders.slug_name()  # START MODAL UPLOAD
 						scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
-						scanned_document_html += '<form method="POST" enctype="multipart/form-data" id="scan-form">' # START scan-form
+						scanned_document_html += '<form method="POST" enctype="multipart/form-data" class="scan-form" id="form-%s-upload">' % sub_folders.slug_name() # START scan-form
 						scanned_document_html += '<input type="hidden" name="csrfmiddlewaretoken" value="%s">' % get_token(request)
 						scanned_document_html += '<div class="modal-content">' # START modal-content
 						scanned_document_html += '<div class="modal-header">' # START modal-header
@@ -542,11 +564,19 @@ def profile(request, slug):
 		# Script conditional on adding scanned document
 		if 'scan-submit' in request.POST and 'scan-file' in request.FILES:
 			try:
+				# dict is used to enable the for loop x
 				request.POST = dict(request.POST)
+				print request.POST
 				_file = request.FILES['scan-file']
 				location = request.POST['folder-location'][0]
 				location = SubFolder.objects.get(name=location)
 				_file = File.objects.create(user=user_profile, uploaded_by=current_user, location=location, name=_file)
+				if 'archive-file-id' in request.POST:
+					archive_file_id = request.POST['archive-file-id'][0]
+					archive_file = File.objects.get(id=archive_file_id)
+					archive_file.archive = True
+					archive_file.save()
+					request.POST.pop('archive-file-id')
 				request.POST.pop('csrfmiddlewaretoken')
 				request.POST.pop('scan-submit')
 				request.POST.pop('folder-location')
@@ -574,7 +604,9 @@ def profile(request, slug):
 				scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">VIEW / DOWNLOAD</a>' % upload.download_link()
 				if not condition:
 					scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">PUT TO ARCHIVE</label>' % (upload.id, upload.id, upload.id)
-				scanned_document_html += '<h5>%s</h5>' % upload.file_name()
+				else:
+					scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">DELETE</label>' % (upload.id, upload.id, upload.id)
+				scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
 				file_infos = FileFieldValue.objects.filter(file=upload)
 				for file_info in file_infos:
 					if condition:
@@ -593,10 +625,15 @@ def profile(request, slug):
 			delete_id_list = delete_id_list.split(',')
 			query = File.objects.filter(id__in=delete_id_list)
 			location = query[0].location
+			condition = False
 			for x in query:
-				x.archive = True
-				x.save()
-			uploads = File.objects.filter(user=user_profile).filter(location=location).filter(archive=False)
+				if 'process' in request.POST:
+					x.delete()
+					condition = True
+				else:
+					x.archive = True
+					x.save()
+			uploads = File.objects.filter(user=user_profile).filter(location=location).filter(archive=condition)
 			scanned_document_html = '<div class="form-group">' # START class.form-group
 			scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 			for upload in uploads:
@@ -605,7 +642,7 @@ def profile(request, slug):
 				scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
 				scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">VIEW / DOWNLOAD</a>' % upload.download_link()
 				scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">PUT TO ARCHIVE</label>' % (upload.id, upload.id, upload.id)
-				scanned_document_html += '<h5>%s</h5>' % upload.file_name()
+				scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
 				file_infos = FileFieldValue.objects.filter(file=upload)
 				for file_info in file_infos:
 					scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)

@@ -30,6 +30,8 @@
     .background-inherit
     .cursor-pointer
     .display-table
+    .break-word
+    .background-msmi-blue
 */
 
 body {
@@ -524,6 +526,11 @@ ul.account-landing-dropdown-menu{
 
 .background-msmi-blue{
   background-color: #2e76b8 !important;
+  color: #fff;
+}
+
+.background-msmi-green{
+  background-color: #02be9b !important;
 }
 
 img.margin-top-landing{
@@ -1033,6 +1040,10 @@ input[type="email"]:read-only{
   display: table !important;
 }
 
+.break-word{
+  word-wrap: break-word;
+}
+
 .mariner-profile-updated-padding{
   padding: 5px;
 }
@@ -1048,6 +1059,10 @@ input[type="email"]:read-only{
 
 body.modal-open .ui-datepicker {
     z-index: 1200 !important;
+}
+
+.notification-padding{
+  padding: 10px; border: 1px solid #82ca9c;
 }
 
 /* single-line sidebar application-form css */

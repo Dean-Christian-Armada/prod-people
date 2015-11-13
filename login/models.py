@@ -61,7 +61,7 @@ class UserProfile(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return "%s %s %s" % (self.first_name, self.middle_name, self.last_name)
+		return "%s %s %s" % (self.first_name.upper(), self.middle_name.upper(), self.last_name.upper())
 
 	def save(self, *args, **kwargs):
 		self.slug = slugify(self.first_name+" "+self.middle_name+" "+self.last_name)

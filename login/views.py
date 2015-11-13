@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from jsignature.utils import draw_signature
 
+from notifications.models import NotificationHistory
 
 from . models import *
 
@@ -14,6 +15,7 @@ def home(request):
 	user = request.user
 	userprofile = ''
 	template = "home.html"
+	context_dict = {"title": "MANSHIP People"}
 	if user.is_authenticated():
 		user = User.objects.get(username=user)
 		try:
@@ -28,16 +30,18 @@ def home(request):
 		elif userlevel == 'application-form':
 			# return HttpResponse("HELLO This is the applicant level!<a href='/logout/'>Log Out</a>")
 			return HttpResponseRedirect('/application-form/')
-		elif userlevel == 'crewing':
+		else:
 			# return HttpResponse("HELLO This is the crew level!<a href='/logout/'>Log Out</a>")
 			# return HttpResponseRedirect('/mariners-profile/')
 			template = "login-landing/crewing_profiles.html"
-		else:
-			print userlevel
-			print type(userlevel)
-			return HttpResponse("DEFAULT<a href='/logout/'>Log Out</a>")
-	context_dict = {}
-	context_dict = {"title": "MANSHIP People"}
+			notifications = NotificationHistory.objects.filter(received=userprofile, boolean=False)
+			# if not notifications:
+			# 	notifications = NotificationHistory.objects.filter(received=user, flag=True)
+			context_dict['notifications'] = notifications
+		# else:
+		# 	print userlevel
+		# 	print type(userlevel)
+		# 	return HttpResponse("DEFAULT<a href='/logout/'>Log Out</a>")
 	context_dict['user_profile'] = userprofile
 	return render(request, template, context_dict)
 

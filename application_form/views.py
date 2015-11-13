@@ -285,7 +285,11 @@ def auto_zip_code(request):
 	# CITY / MUNICIPALITY for Non-NCRs and BARANGAY for NCRs 
 	second_choice = request.GET['second_choice']
 	name = request.GET['zip_name']
+	print first_choice
+	print second_choice
 	zip = Zip.objects.get(municipality=first_choice, barangay=second_choice)
+	print zip
+	print zip.id
 	html = " <input type='text' id='%s' class='form-control' value='%s' disabled> <select class='form-control hide' id='id_%s' name='%s' style='color:#000'><option value='%s'>%s</option></select>" % (name, zip, name, name, zip.id, zip)
 	return HttpResponse(html) 
 

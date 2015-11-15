@@ -26,19 +26,19 @@
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">Last Name:</label>
-              {{ emergency_contact_forms.emergency_last_name|add_class:"form-control input-form" }}
+              {{ emergency_contact_forms.emergency_last_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">First Name:</label>
-              {{ emergency_contact_forms.emergency_first_name|add_class:"form-control input-form" }}
+              {{ emergency_contact_forms.emergency_first_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">Middle Name:</label>
-              {{ emergency_contact_forms.emergency_middle_name|add_class:"form-control input-form" }}
+              {{ emergency_contact_forms.emergency_middle_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
         </div><!--End of Row-->                        
@@ -47,14 +47,14 @@
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Relationship:</label>
-              {{emergency_contact_forms.relationship|add_class:"form-control input-form"}}
+              {{emergency_contact_forms.relationship|add_class:"form-control input-form required"}}
             </div><!--End of Input Group-->
           </div><!--End of Col 3-->
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Contact Nos.:</label>
               {% if emergency_contact_forms.emergency_contact.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
-              {{emergency_contact_forms.emergency_contact|add_class:"form-control input-form"}}
+              {{emergency_contact_forms.emergency_contact|add_class:"form-control input-form required"}}
             </div><!--End of Col 3-->
           </div><!--End of Input Group-->
         </div><!--End of Row-->

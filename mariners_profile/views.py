@@ -682,7 +682,7 @@ def profile(request, slug):
 		dependents = Dependents.objects.filter(user=id)
 		if len(dependents) < 1:
 			dependents_num_extra = 1
-			dependents_num_label = "No dependets yet"
+			dependents_num_label = "No dependents yet"
 		else:
 			dependents_num_extra = 0
 			dependents_num_label = len(dependents)
@@ -696,8 +696,14 @@ def profile(request, slug):
 		trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents, queryset=TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificates__national_certificate=False))
 		national_trainings_certificate_form = TrainingCertificateFormSet(request.POST or None, instance=trainings_certificate_documents, queryset=TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificates__national_certificate=True))
 
-
-		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=0, can_delete=False, form=SeaServiceForm )
+		sea_service = SeaService.objects.filter(user=id)
+		if len(sea_service) < 1:
+			sea_service_num_extra = 1
+			sea_service_num_label = "No sea services yet"
+		else:
+			sea_service_num_extra = 0
+			sea_service_num_label = len(sea_service)
+		SeaServiceFormSet = inlineformset_factory(UserProfile, SeaService, extra=sea_service_num_extra, can_delete=False, form=SeaServiceForm )
 		sea_service_form = SeaServiceFormSet(request.POST or None, instance=user_profile, queryset=SeaService.objects.filter().order_by('-date_left'))
 
 		try:
@@ -715,7 +721,7 @@ def profile(request, slug):
 				num_extra = 2
 			elif len(land_employment) == 2:
 				num_extra = 0
-			LandEmploymentFormSet = inlineformset_factory(UserProfile, LandEmployment, fk_name='user', extra=1, can_delete=True, form=LandEmploymentForm )
+			LandEmploymentFormSet = inlineformset_factory(UserProfile, LandEmployment, fk_name='user', extra=num_extra, can_delete=True, form=LandEmploymentForm )
 			land_employment_form = LandEmploymentFormSet(request.POST or None, instance=user_profile )
 
 		except:
@@ -868,6 +874,7 @@ def profile(request, slug):
 
 		context_dict['title'] = "Mariner's Profile - "+str(personal_data).upper()
 		context_dict['dependents_num_label'] = dependents_num_label
+		context_dict['sea_service_num_label'] = sea_service_num_label
 
 		context_dict['personal_data'] = personal_data
 

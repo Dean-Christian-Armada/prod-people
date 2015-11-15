@@ -45,24 +45,24 @@
           {{ sea_service_forms.id }}
           <tr>
             <td><button class="btn btn-danger">DELETE</button></td>
-            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
-            <td>{{ sea_service_forms.vessel_type|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.flag|add_class:"input-form" }}</td>
+            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget required" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
+            <td>{{ sea_service_forms.vessel_type|add_class:"input-form required" }}</td>
+            <td>{{ sea_service_forms.flag|add_class:"input-form required" }}</td>
             <td>{{ sea_service_forms.grt|add_class:"input-form" }}</td>
             <td>{{ sea_service_forms.dwt|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.year_built|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.engine_type|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.propulsion|add_class:"input-form" }}</td>
+            <td>{{ sea_service_forms.year_built|add_class:"input-form required" }}</td>
+            <td>{{ sea_service_forms.engine_type|add_class:"input-form required" }}</td>
+            <td>{{ sea_service_forms.propulsion|add_class:"input-form required" }}</td>
             <td>{{ sea_service_forms.hp|add_class:"input-form" }}</td>
             <td>{{ sea_service_forms.kw|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.manning_agency|add_class:"input-form" }}</td>
-            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipPrincipalAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-principal" name="seaservice_set-{{ forloop.counter0 }}-principal" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.principal.value|get_data:'Principal' }}"></td>
+            <td>{{ sea_service_forms.manning_agency|add_class:"input-form required" }}</td>
+            <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget required" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipPrincipalAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-principal" name="seaservice_set-{{ forloop.counter0 }}-principal" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.principal.value|get_data:'Principal' }}"></td>
             <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TradeAreaAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-trade_area" name="seaservice_set-{{ forloop.counter0 }}-trade_area" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.trade_area.value|get_data:'TradeArea' }}"></td>
-            <td>{{ sea_service_forms.date_joined|add_class:"input-form date date-joined" }}</td>
-            <td>{{ sea_service_forms.date_left|add_class:"input-form date date-left" }}</td>
+            <td>{{ sea_service_forms.date_joined|add_class:"input-form date date-joined required" }}</td>
+            <td>{{ sea_service_forms.date_left|add_class:"input-form date date-left required" }}</td>
             <td><input type="text" class="duration input-form" disabled=""></td>
-            <td>{{ sea_service_forms.rank|add_class:"input-form" }}</td>
-            <td>{{ sea_service_forms.cause_of_discharge|add_class:"input-form" }}</td>
+            <td>{{ sea_service_forms.rank|add_class:"input-form required" }}</td>
+            <td>{{ sea_service_forms.cause_of_discharge|add_class:"input-form required" }}</td>
           </tr>
         {% endfor %}
       </tbody>

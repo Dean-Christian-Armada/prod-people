@@ -771,4 +771,5 @@ $(function(){
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
     });
+
 }); 

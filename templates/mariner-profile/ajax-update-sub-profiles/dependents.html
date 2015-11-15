@@ -25,33 +25,33 @@
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">Last Name:</label>
-              {{ dependents_forms.dependent_last_name|add_class:"form-control input-form" }}
+              {{ dependents_forms.dependent_last_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">First Name:</label>
-              {{ dependents_forms.dependent_first_name|add_class:"form-control input-form" }}
+              {{ dependents_forms.dependent_first_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
           <div class="col-md-4">
             <div class="input-group">
               <label class="input-group-addon input-label">Middle Name:</label>
-              {{ dependents_forms.dependent_middle_name|add_class:"form-control input-form" }}
+              {{ dependents_forms.dependent_middle_name|add_class:"form-control input-form required" }}
             </div><!--End of Input Group-->
           </div><!--End of Col 4-->
 
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Relationship:</label>
-              {{dependents_forms.dependent_relationship|add_class:"form-control input-form"}}
+              {{dependents_forms.dependent_relationship|add_class:"form-control input-form required"}}
             </div><!--End of Input Group-->
           </div><!--End of Col 3-->
           <div class="col-md-6">
             <div class="input-group">
               <label class="input-group-addon input-label">Contact Nos.:</label>
               {% if dependents_forms.dependent_contact.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
-              {{dependents_forms.dependent_contact|add_class:"form-control input-form"}}
+              {{dependents_forms.dependent_contact|add_class:"form-control input-form required"}}
             </div><!--End of Col 3-->
           </div><!--End of Input Group-->
 

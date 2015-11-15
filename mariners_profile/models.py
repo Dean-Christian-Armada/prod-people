@@ -158,7 +158,7 @@ class Colleges(models.Model):
 	# full_name = models.CharField(max_length=100, default=None)
 
 	def __unicode__(self):
-		return self.college_name
+		return self.college_name.upper()
 
 class Degree(models.Model):
 	degree = models.CharField(max_length=100, default=None)
@@ -248,7 +248,7 @@ class EngineType(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.engine_type
+		return self.engine_type.upper()
 
 class ManningAgency(models.Model):
 	manning_agency = models.CharField(max_length=50, default=None)
@@ -257,7 +257,7 @@ class ManningAgency(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.manning_agency
+		return self.manning_agency.upper()
 
 class CauseOfDischarge(models.Model):
 	cause_of_discharge = models.CharField(max_length=50, default=None)

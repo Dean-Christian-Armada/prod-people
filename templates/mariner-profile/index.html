@@ -200,11 +200,11 @@
                          
                         {#params#}
                         {% if mariners_profile.has_previous %}
-                          <li><a href="{{params}}&page={{mariners_profile.previous_page_number}}">{{mariners_profile.previous_page_number}}</a></li>
+                          <li><a href="{{ param_connector }}page={{mariners_profile.previous_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.previous_page_number}}</a></li>
                         {% endif %}
-                        <li class="active"><a href="{{params}}&page={{mariners_profile.number}}">{{mariners_profile.number}}</a></li>
+                        <li class="active"><a>{{mariners_profile.number}}</a></li>
                         {% if mariners_profile.has_next %}
-                          <li><a href="{{params}}&page={{mariners_profile.next_page_number}}">{{mariners_profile.next_page_number}}</a></li>
+                          <li><a href="{{ param_connector }}page={{mariners_profile.next_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.next_page_number}}</a></li>
                         {% endif %}
                       </ul>
                     </nav>

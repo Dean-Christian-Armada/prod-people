@@ -20,7 +20,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 
-from login.views import home, validation, user_logout
+from login.views import welcome, home, validation, user_logout
 # from application_form.views import form
 
 
@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     
+    url(r'^welcome/$', welcome, name='welcome'),
     url(r'^$', home, name='home'),
     url(r'^validate/$', validation, name='validate'),
     url(r'^logout/$', user_logout, name='logout'),

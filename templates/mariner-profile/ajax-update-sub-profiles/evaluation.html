@@ -24,7 +24,7 @@
   </div>
   {{ evaluation_form.evaluated_by|add_class:"hide" }}
   {{ evaluation_form.user|add_class:"hide" }}
-  {{ evaluation_form.evaluation|add_class:"form-control input-form" }}
+  {{ evaluation_form.evaluation|add_class:"form-control input-form required" }}
   {% if evaluations %}
     <a data-toggle="collapse" data-parent="#accordion" href="#evaluation-history" aria-expanded="false"><p><strong>Remarks History</strong></p></a>
     <div class ="panel-collapse collapse" aria-expanded="false" id="evaluation-history">

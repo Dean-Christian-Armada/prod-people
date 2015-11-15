@@ -826,6 +826,10 @@ body.crewing-profile .right-sidebar{
 {
   border-color: 1px solid #2e76b8
 }
+
+.panel-collapse ul.errorlist{
+  margin-left: 20px;
+}
 /* END Custom Panel */
 
 

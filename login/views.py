@@ -11,6 +11,13 @@ from notifications.models import NotificationHistory
 
 from . models import *
 
+import os
+
+def welcome(request):
+	userprofile = UserProfile.objects.get(user=request.user)
+	os.system('say "Hi %s Welcome to People"' % userprofile.nick_name)
+	return HttpResponse("")
+
 def home(request):
 	user = request.user
 	userprofile = ''
@@ -38,6 +45,7 @@ def home(request):
 			# if not notifications:
 			# 	notifications = NotificationHistory.objects.filter(received=user, flag=True)
 			context_dict['notifications'] = notifications
+			# os.system('say "Hi %s Welcome to People"' % userprofile.nick_name)
 		# else:
 		# 	print userlevel
 		# 	print type(userlevel)

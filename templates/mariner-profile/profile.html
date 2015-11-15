@@ -2,6 +2,7 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load get_data %}
+{# load scanned_documents #}
 {% block content %}
 
 <!-- 
@@ -88,7 +89,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong><button class="btn btn-primary update-mariner">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -100,36 +101,36 @@
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong>PERSONAL DATA</strong></div>
           <div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
             <div class="panel-body">
-              <p><strong>Personal Info</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="personal-info">UPDATE</button></p>
+              <p><strong>Personal Info</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="personal-info">UPDATE</button></p>
               <!-- <div class="form-group in">   -->
                 {% include "mariner-profile/ajax-update-sub-profiles/personal-info.html" %}
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#permanent-address" aria-expanded="false"><strong>Permanent Address</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#permanent-address" aria-expanded="false"><strong>Permanent Address</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">UPDATE</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="permanent-address">
                   {% include "mariner-profile/ajax-update-sub-profiles/permanent-address.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#current-address" aria-expanded="false"><strong>Current Address</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="current-address">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#current-address" aria-expanded="false"><strong>Current Address</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="current-address event-propagation">UPDATE</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="current-address">
                   {% include "mariner-profile/ajax-update-sub-profiles/current-address.html" %}
                 </div>
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false"> {% if personal_data.civil_status.civil_status == 'Partner' %} Partner {% else %} Spouse {% endif %} </strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="spouse">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false"> {% if personal_data.civil_status.civil_status == 'Partner' %} Partner {% else %} Spouse {% endif %} </strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="spouse">UPDATE</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="spouse">
                   {% include "mariner-profile/ajax-update-sub-profiles/spouse.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#father" aria-expanded="false"><strong>Father</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="father">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#father" aria-expanded="false"><strong>Father</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="father">UPDATE</button></p>
                 <div id="father" class="panel-collapse collapse" aria-expanded="false"> 
                   {% include "mariner-profile/ajax-update-sub-profiles/father.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#mother" aria-expanded="false"><strong>Mother</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="mother">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#mother" aria-expanded="false"><strong>Mother</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="mother">UPDATE</button></p>
                 <div id="mother" class="panel-collapse collapse" aria-expanded="false">   
                   {% include "mariner-profile/ajax-update-sub-profiles/mother.html" %}
                 </div>
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#dependents" aria-expanded="false" ><strong>Dependents ({{dependents_num_label}})</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="dependents">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#dependents" aria-expanded="false" ><strong>Dependents ({{dependents_num_label}})</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="dependents">UPDATE</button></p>
                 <div id="dependents" class="panel-collapse collapse" aria-expanded="false">
                   {% include "mariner-profile/ajax-update-sub-profiles/dependents.html" %}
                 </div>
@@ -141,7 +142,7 @@
         <!--Seaferer Seagoing History
         ============================-->            
         <div id="step2" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY ({{sea_service_num_label}})</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
           <div id="detail2" class="panel-collapse collapse in" aria-expanded="false"> 
             {% include "mariner-profile/ajax-update-sub-profiles/sea-service.html" %}
           </div><!--End of Collapse-->
@@ -163,6 +164,7 @@
           <div id="scanned-documents" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body"> 
               <div class="form-group">
+                {# scanned_documents_html #}
                 {{ scanned_document_html }}
               </div>
             </div><!--End of Panel Body-->
@@ -173,7 +175,7 @@
         <!--Educational Information
         ====================================-->
         <div id="step4" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>EDUCATIONAL INFORMATION</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>EDUCATIONAL INFORMATION</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
           <div id="detail4" class="panel-collapse collapse" aria-expanded="false">  
             {% include "mariner-profile/ajax-update-sub-profiles/educational-information.html" %}           
           </div><!--End of Collapse-->
@@ -182,7 +184,7 @@
         <!--Land Employment
         ==================================-->                
         <div id="step5" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong>LAND EMPLOYMENT DETAILS (if any)</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong>LAND EMPLOYMENT DETAILS (if any)</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail5" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/land-employment.html" %}       
           </div><!--End of Collapse-->
@@ -191,7 +193,7 @@
         <!--Beneficiary Details
         ================================= -->
         <div  id="step6" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong>BENEFICIARY DETAILS (In case of Death/Disability)</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong>BENEFICIARY DETAILS (In case of Death/Disability)</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail6" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/beneficiary.html" %}       
           </div><!--End of Collapse-->
@@ -200,7 +202,7 @@
         <!--Allotment Details
         ===================================-->            
         <div id="step7" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false"><strong>ALLOTMENT DETAILS</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false"><strong>ALLOTMENT DETAILS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail7" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/allotment.html" %}       
           </div><!--End of Collapse-->
@@ -212,17 +214,17 @@
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
           <div id="detail8" class="panel-collapse collapse" aria-expanded="false">
             <div class="panel-body">
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">UPDATE</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="licenses">               
                 {% include "mariner-profile/ajax-update-sub-profiles/licenses.html" %}             
               </div>                                        
     
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="National">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="National">UPDATE</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="national-certificates">   
                 {% include "mariner-profile/ajax-update-sub-profiles/national-certificates.html" %}       
               </div> 
     
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">UPDATE</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="coc-visas">   
                 {% include "mariner-profile/ajax-update-sub-profiles/coc_visas.html" %}       
               </div><!--End of Panel Body-->
@@ -233,7 +235,7 @@
         <!--Flag Document
         =================================-->            
         <div id="step9" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong>FLAG DOCUMENTS</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong>FLAG DOCUMENTS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/flags.html" %}       
           </div><!--End of Collapse-->
@@ -242,7 +244,7 @@
         <!--Emergency Details
         ==============================-->
         <div id="step10" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>EMERGENCY DETAILS</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>EMERGENCY DETAILS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
           <div id="detail10" class="panel-collapse collapse" aria-expanded="false">             
             {% include "mariner-profile/ajax-update-sub-profiles/emergency.html" %}
           </div><!--End of Collapse-->
@@ -251,7 +253,7 @@
         <!--National Certificates and Travel Documents
         ================================================-->                                    
         <div  id="step11" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong>TRAINING CERTIFICATES</strong><button class="btn btn-primary update-mariner"    data-params="Certificates">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong>TRAINING CERTIFICATES</strong><button class="btn btn-primary update-mariner event-propagation"    data-params="Certificates">UPDATE</button></div>
           <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
             {% include "mariner-profile/ajax-update-sub-profiles/certificates.html" %}       
           </div><!--End of Collapse-->
@@ -260,7 +262,7 @@
         <!--Evaluation
         =================================-->
         <div id="step12" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong>REMARKS</strong><button class="btn btn-primary update-mariner">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong>REMARKS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
             {% include "mariner-profile/ajax-update-sub-profiles/evaluation.html" %}       
           </div><!--End of Collapse-->
@@ -443,7 +445,7 @@
         $("#modal-mariner-history-status-comment").modal('show');
       });
 
-      $("body").on("click", ".update-mariner", function(){
+      $(".update-mariner").on("click", function(){
         child = $(this);
         parent = $(this).parent();
         parent_html = $(this).parent().html();
@@ -459,36 +461,63 @@
         // var parent_html = $(this).parent().html();
         var parent_next = $(this).parent().next();
         // var parent_next_html = $(this).parent().next().html();
+        var required_num = 0;
         var json_name_val = {csrfmiddlewaretoken: csrfmiddlewaretoken};
         if($(this).attr('data-params')){
           param = $(this).attr('data-params');
           json_name_val['param'] = param;
         }
-        if(parent_next.hasClass('in')){
-          parent_next.find('input, select, textarea').each(function(){
-            if($(this).attr('type') == 'radio'){
-              if($(this).is(':checked')){
-                name = $(this).attr('name');
-                value = $(this).val();
+        
+        // if(parent_next.hasClass('in')){
+          parent_next.find('input.required, select.required, textarea.required').each(function(){
+            val = $(this).val();
+            if(val == '' || val == 0){
+              required_num++;
+              if($(this).parent().is('td')){
+                $(this).parent().append("<ul class='errorlist'><li>This field is required</li></ul>");
               }else{
-                $(this).removeAttr('name');
+                $(this).parent().parent().append("<ul class='errorlist'><li>This field is required</li></ul>");
               }
             }
-            name = $(this).attr('name');
-            value = $(this).val();
-            json_name_val[name] = value;
           });
-        }
-        console.log(json_name_val);
 
-        if(parent.next().hasClass('in')){
-          child.parent().next().html('<div class="text-center"><img src = "'+img+'"></div>');  
-          child.parent().html('<div class="update-mariner background-inherit"><img src = "'+mini_img+'"></div>');
-          $.post(url, json_name_val, function(result){
-            parent.html(parent_html); 
-            parent_next.html(result);
-          });
-        } 
+          // parent_next.find('input.required-table, select.required-table, textarea.required-table').each(function(){
+          //   val = $(this).val();
+          //   if(val == '' || val == 0){
+          //     required_num++;
+          //     label = $(this).prev().text();
+          //     $(this).parent().parent().append("<ul class='errorlist'><li>This field is required</li></ul>");
+          //   }
+          // });
+
+          if(required_num == 0){
+            parent_next.find('input, select, textarea').each(function(){
+              if($(this).attr('type') == 'radio'){
+                if($(this).is(':checked')){
+                  name = $(this).attr('name');
+                  value = $(this).val();
+                }else{
+                  $(this).removeAttr('name');
+                }
+              }
+              name = $(this).attr('name');
+              value = $(this).val();
+              json_name_val[name] = value;
+            });
+          }
+        // }
+        // console.log(json_name_val);
+
+        // if(parent.next().hasClass('in')){
+          if(required_num == 0){
+            child.parent().next().html('<div class="text-center"><img src = "'+img+'"></div>');  
+            // child.parent().html('<div class="update-mariner background-inherit"><img src = "'+mini_img+'"></div>');
+            $.post(url, json_name_val, function(result){
+              parent.html(parent_html); 
+              parent_next.html(result);
+            });
+          }
+        // } 
       });
 
       $(".add-more-fields-3").click(function(){
@@ -671,10 +700,14 @@
         // alert(date_left);
         duration = Math.abs(date_left.getTime() - date_joined.getTime());
         duration = Math.ceil(duration / (1000 * 3600 * 24));
+        if(isNaN(duration)){
+          duration = '';
+        }
         $(this).parent().next().next().children().val(duration);
       });
 
-      {{scanned_js}}
+      {# scanned_js #}
+      {{ scanned_js }}
     });
   </script>
 {% endblock %}

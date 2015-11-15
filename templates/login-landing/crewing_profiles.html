@@ -78,3 +78,13 @@
     </div>
   </div>
 {% endblock %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+  $(function(){
+    $.get('/welcome/', {}, function(result){
+      
+    });
+  });
+</script>
+{% endblock %}

@@ -24,19 +24,19 @@
         <div class="col-md-4">
           <div class="input-group">
             <label class="input-group-addon input-label">Last name:</label>
-            {{ beneficiary_forms.beneficiary_last_name|add_class:"form-control input-form" }}
+            {{ beneficiary_forms.beneficiary_last_name|add_class:"form-control input-form required" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 4-->
         <div class="col-md-4">
           <div class="input-group">
             <label class="input-group-addon input-label">First name:</label>
-            {{ beneficiary_forms.beneficiary_first_name|add_class:"form-control input-form" }}
+            {{ beneficiary_forms.beneficiary_first_name|add_class:"form-control input-form required" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 4-->
         <div class="col-md-4">
           <div class="input-group">
             <label class="input-group-addon input-label">Middle Name:</label>
-            {{ beneficiary_forms.beneficiary_middle_name|add_class:"form-control input-form" }}
+            {{ beneficiary_forms.beneficiary_middle_name|add_class:"form-control input-form required" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 4-->
       </div><!--End of Row-->
@@ -45,14 +45,14 @@
         <div class="col-md-6">
           <div class="input-group">
             <label class="input-group-addon input-label">Relationship:</label>
-            {{ beneficiary_forms.beneficiary_relationship|add_class:"form-control input-form" }}
+            {{ beneficiary_forms.beneficiary_relationship|add_class:"form-control input-form required" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 6-->
         <div class="col-md-6">
           <div class="input-group">
             <label class="input-group-addon input-label">Contact Nos.:</label>
             {% if beneficiary_forms.beneficiary_number.value|slugify|length_is:"10" %} <h3 class="input-group-addon area-code-addon">(+63)</h3> {% endif %}
-            {{ beneficiary_forms.beneficiary_number|add_class:"form-control input-form" }}
+            {{ beneficiary_forms.beneficiary_number|add_class:"form-control input-form required" }}
           </div><!--End of Input Group-->
         </div><!--End of Col 6-->
       </div><!--End of Row-->

@@ -5,7 +5,14 @@ from login.models import UserProfile
 
 # Create your models here.
 
+class BaseURL(models.Model):
+	base_url = models.CharField(max_length=50, default=None)
+
+	def __unicode__(self):
+		return self.base_url
+
 class NotificationStatus(models.Model):
+	base_url = models.ForeignKey(BaseURL, default=None)
 	status = models.CharField(max_length=100, default=None)
 	label = models.TextField(default=None)
 
@@ -15,6 +22,7 @@ class NotificationStatus(models.Model):
 # Creates the Notification Email
 class EmailNotification(models.Model):
 	notification_status = models.ForeignKey(NotificationStatus)
+	greetings = models.TextField()
 	message = models.TextField()
 
 class Notification(models.Model):

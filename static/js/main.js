@@ -758,8 +758,16 @@ $(function(){
     });
 
 
+    // Please take note that this does not work on an onclick parent body(or any elements) event
     $('.event-propagation').on('click', function (e) {
       e.stopPropagation();
+      // id = $(this).attr("id");
+      // $("#modal-"+id).modal("show");
+    });
+
+    // Please take note that this does not work on an onclick parent body(or any elements) event
+    $('.event-prevent-default').on('click', function (e) {
+      e.preventDefault();
       // id = $(this).attr("id");
       // $("#modal-"+id).modal("show");
     });

@@ -22,7 +22,7 @@
           <li><a href="#" class="navbar-link account-landing-picture-identifier">{% if user_profile.nick_name %}{{user_profile.nick_name}}{% else %}{{ request.user }}{% endif %}</a></li>
          
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle background-msmi-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="margin-top-landing" src="{{MEDIA_URL}}{{user_profile.picture}}" height="50px" width="50px"><span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle background-msmi-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="margin-top-landing" src="{% if user_profile.picture %}{{MEDIA_URL}}{{user_profile.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" height="50px" width="50px"><span class="caret"></span></a>
             <ul class="dropdown-menu account-landing-dropdown-menu">
               <li><a href="">Change password</a></li>
               <li><a href="" target="_blank">Manage Accounts</a></li>
@@ -56,34 +56,82 @@
           </div>
         </div>
       </div>
+      {% if notifications_all_count %}
+        <div class="row">
+          <div class="col-lg-12 background-msmi-blue margin-top-bottom-buffer">
+            <h4>NOTIFICATIONS &nbsp;&nbsp;&nbsp;<span id="unread-messages" class="cursor-pointer"><i>(<u id="unread-count">{{notifications_count}}</u>) unread</i></span> &nbsp;&nbsp; <span id="read-messages" class="cursor-pointer"><i>(<u id="read-count">{{notifications_read_count}}</u>) read</i></span> <a href="{% url 'login_notifications_all' slug=user_profile.slug %}" class="pull-right color-white" target="_blank">See All</a> </h4>
+            <div class="notifications-section">
+              {% if notifications %}
+                {% for notification in notifications %}
+                  <a href="{{ notification.notification.status.base_url }}{{ notification.notification.user.slug }}/" target="_blank"  data-notification-id="{{notification.id}}" class="unread"><div class="background-msmi-green notification-padding row"> {{ notification.notification.status }} <b>({{ notification.notification.user }}) at {{ notification.notification.date_time_created }}</b> <button type="button" class="close notification-close event-prevent-default" data-notification-id="{{notification.id}}">&times;</button></div></a>
+                {% endfor %}
+              {% else %}
+                <div class="background-msmi-green notification-padding row"> <h5>THERE ARE CURRENTLY NO NEW NOTIFICATIONS</h5></div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </div>
 
   <!------FOOTER---------->
   <div class="container-fluid account-landing-footer text-center">
     Copyright © {% now "Y" %} Manila Shipmanagement &amp; Manning, Inc. All rights reserved.
-    <div class="container margin-top-bottom-buffer background-msmi-blue text-left">
-      <h4>NOTIFICATIONS <i>()Read</i>  <i>()Unread</i></h4>
-      {% if notifications %}
-        {% for notification in notifications %}
-          <div class="background-msmi-green notification-padding row"> {{ notification.notification.status }} <b>({{ notification.notification.user }}) at {{ notification.notification.date_time_created }}</b> <button type="button" class="close notification-close" >&times;</button></div>
-        {% endfor %}
-      {% else %}
-        <div class="background-msmi-green notification-padding row"> <h5>THERE ARE CURRENTLY NO NEW NOTIFICATIONS</h5></div>
-      {% endif %}
-     <!--  <div class="background-msmi-green notification-padding row"> <h5>THERE ARE NO NEW NOTIFICATIONS</h5></div>
-      <div class="background-msmi-green notification-padding row"> Notification 1 <button type="button" class="close notification-close" >&times;</button></div>
-      <div class="background-msmi-green notification-padding row"> Notification 2 <button type="button" class="close notification-close" >&times;</button></div>
-      <div class="background-msmi-green notification-padding row"> Notification 3 <button type="button" class="close notification-close" >&times;</button></div> -->
-    </div>
+    <!-- <div class="margin-top-bottom-buffer background-msmi-blue text-left"> -->
+      
+    <!-- </div> -->
   </div>
 {% endblock %}
 
 {% block extra_scripts %}
 <script type="text/javascript">
   $(function(){
-    $.get('/welcome/', {}, function(result){
+    login_read_notification_url = "{% url 'login_read_notifications' %}";
+    login_read_unread_messages_url = "{% url 'login_notifications' %}";
+    login_delete_messages_url = "{% url 'login_delete_notifications' %}";
+    
+    // $.get('/welcome/', {}, function(result){
       
+    // });
+    
+    $('.notifications-section').on('click', '.notification-close', function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      var _confirm = confirm("Warning! Proceeding will completely delete the notification. Proceed?");
+      if( _confirm ==  true ){
+        $(this).parent().remove();
+        notification_id = $(this).attr("data-notification-id");
+        $.get(login_delete_messages_url, { id: notification_id }, function(data){
+          data = data.split(',');
+          unread_count = data[0];
+          read_count = data[1];
+          $("#unread-count").text(unread_count);
+          $("#read-count").text(read_count);
+        });
+      }
+    });
+    $('.notifications-section').on('click', 'a.unread', function(){
+      notification_id = $(this).attr("data-notification-id");
+      $.get(login_read_notification_url, { id: notification_id }, function(data){
+        data = data.split(',');
+        unread_count = data[0];
+        read_count = data[1];
+        $("#unread-count").text(unread_count);
+        $("#read-count").text(read_count);
+      });
+    });
+    $("#read-messages, #unread-messages").click(function(){
+      div_id = $(this).attr('id');
+      user_id = "{{request.user.id}}";
+      if(div_id == 'read-messages'){
+        bool_messages = 1;
+      }else{
+        bool_messages = 0;
+      }
+      $.get(login_read_unread_messages_url, {bool: bool_messages, user_id: user_id}, function(data){
+        $('.notifications-section').html(data);
+      });
     });
   });
 </script>

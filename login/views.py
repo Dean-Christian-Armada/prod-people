@@ -41,10 +41,15 @@ def home(request):
 			# return HttpResponse("HELLO This is the crew level!<a href='/logout/'>Log Out</a>")
 			# return HttpResponseRedirect('/mariners-profile/')
 			template = "login-landing/crewing_profiles.html"
-			notifications = NotificationHistory.objects.filter(received=userprofile, boolean=False)
-			# if not notifications:
+			notifications = NotificationHistory.objects.filter(received=userprofile, boolean=False).order_by('-notification__date_time_created')[:5]
+			notifications_all = NotificationHistory.objects.filter(received=userprofile)
+			notifications_read = NotificationHistory.objects.filter(received=userprofile, boolean=True)
+
 			# 	notifications = NotificationHistory.objects.filter(received=user, flag=True)
 			context_dict['notifications'] = notifications
+			context_dict['notifications_count'] = notifications.count()
+			context_dict['notifications_all_count'] = notifications_all.count()
+			context_dict['notifications_read_count'] = notifications_read.count()
 			# os.system('say "Hi %s Welcome to People"' % userprofile.nick_name)
 		# else:
 		# 	print userlevel

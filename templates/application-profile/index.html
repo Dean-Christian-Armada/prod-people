@@ -24,7 +24,7 @@
               <a href="#" class="margin-top-negator account-landing-picture-identifier"><!-- Username -->{% if user.nick_name %} {{ user.nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a>
             </li>
   					<li class="dropdown">
-              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{MEDIA_URL}}{{user.picture}}" width="50" height="50"> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user_profile.picture %}{{MEDIA_URL}}{{user_profile.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
         		  <ul class="dropdown-menu navmenu ">
   							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
   							<li><a href="#">Setting</a></li>

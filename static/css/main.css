@@ -32,6 +32,8 @@
     .display-table
     .break-word
     .background-msmi-blue
+    .background-msmi-green
+    .color-white
 */
 
 body {
@@ -1046,6 +1048,15 @@ input[type="email"]:read-only{
 
 .break-word{
   word-wrap: break-word;
+}
+
+.color-white{
+  color: white;
+}
+
+a.color-white:hover{
+  font-weight: 700;
+  color: #fff;
 }
 
 .mariner-profile-updated-padding{

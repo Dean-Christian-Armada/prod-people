@@ -1,0 +1,13 @@
+{% if notifications %}
+	{% for notification in notifications %}
+		<a href="{{ notification.notification.status.base_url }}{{ notification.notification.user.slug }}/" target="_blank"  data-notification-id="{{notification.id}}" {% if not notification.boolean %}class="unread"{% endif %}><div class="background-msmi-green notification-padding row"> {{ notification.notification.status }} <b>({{ notification.notification.user }}) at {{ notification.notification.date_time_created }}</b> <button type="button" class="close notification-close event-prevent-default" data-notification-id="{{notification.id}}">&times;</button></div></a>
+	{% endfor %}
+{% else %}
+	  <div class="background-msmi-green notification-padding row">
+	  	{% if bool == '0' %}
+	  		<h5>THERE ARE CURRENTLY NO NEW NOTIFICATIONS</h5>
+	  	{% else %}
+	  		<h5>THERE ARE CURRENTLY NO READ NOTIFICATIONS</h5>
+	  	{% endif %}
+	  </div>
+{% endif %}

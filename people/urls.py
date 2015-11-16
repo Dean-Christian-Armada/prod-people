@@ -38,10 +38,12 @@ urlpatterns = [
     url(r'^validate/$', validation, name='validate'),
     url(r'^logout/$', user_logout, name='logout'),
 
+    # Django apps URLS
     # url(r'^application-form/$', form, name='application_form'),
     url(r'^application-form/', include('application_form.urls')),
     url(r'^mariners-profile/', include('mariners_profile.urls')),
     url(r'^application-profile/', include('application_profile.urls')),
+    url(r'^notifications/', include('notifications.urls')),
 
     # Django autocomplete
     url(r'^autocomplete/', include('autocomplete_light.urls')),

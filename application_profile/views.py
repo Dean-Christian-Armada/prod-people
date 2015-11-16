@@ -1,10 +1,16 @@
+try:
+    from people.asynchronous_mail import send_mail
+except:
+    from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.formsets import formset_factory
+from django.template.loader import render_to_string
+from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.db.models import Q
+from django.conf import settings
 
 from easy_pdf.rendering import render_to_pdf_response
 
@@ -14,6 +20,8 @@ from mariners_profile.forms import *
 from application_form.models import *
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 from application_form.templatetags.pdf_image import get64
+
+from notifications.models import *
 
 from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
 
@@ -358,6 +366,28 @@ def profile(request, slug):
 				if _mariner_status_comment:
 					_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
 				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
+				notification_status = NotificationStatus.objects.get(status='Mariner Passed')
+				notification = Notification.objects.create(status=notification_status, user=user_profile)
+				notification = Notification.objects.get(status=notification_status, user=user_profile)
+				user_notification_receivers = UserNotificationReceivers.objects.get(status=notification.status)
+				receivers = user_notification_receivers.receiver.all()
+				
+				# START EMAIL FUNCTION
+				email_notification = EmailNotification.objects.get(notification_status=notification_status)
+				email_data = {}
+				email_data['email_title'] = email_notification.notification_status.status
+				email_data['email_greetings'] = email_notification.greetings
+				email_data['email_body'] = email_notification.message
+				# email_data serves as a dictionary with key value pairs to be used to store data fetched from the database
+				# msg_plain = render_to_string('email-templates/notifications.txt', email_data)
+				# msg_html = render_to_string('email-templates/notifications.html', email_data)
+				msg_plain = render_to_string('email-templates/mariner-passed.txt', email_data)
+				msg_html = render_to_string('email-templates/mariner-passed.html', email_data)
+				send_mail('A mariner has passed', msg_plain, settings.EMAIL_HOST_USER, ['adgc.manship@gmail.com'], fail_silently=False, html_message=msg_html)
+				# END EMAIL FUNCTION
+
+				for x in receivers:
+					NotificationHistory.objects.create(notification=notification, received=x)
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

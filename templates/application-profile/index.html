@@ -24,7 +24,7 @@
               <a href="#" class="margin-top-negator account-landing-picture-identifier"><!-- Username -->{% if user.nick_name %} {{ user.nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a>
             </li>
   					<li class="dropdown">
-              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user_profile.picture %}{{MEDIA_URL}}{{user_profile.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user.picture %}{{MEDIA_URL}}{{user.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
         		  <ul class="dropdown-menu navmenu ">
   							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
   							<li><a href="#">Setting</a></li>
@@ -213,9 +213,9 @@
                   </thead>
                   <tbody>
                     {% if mariners_profile %}
-                      {% for mariners_profile, personal_data, us_visa, schengen_visa in zipped_data %}
+                      {% for mariners_profile, personal_data, us_visa, schengen_visa, num in zipped_data %}
                         <tr onclick="window.open('{% url 'application_profile' slug=mariners_profile.user.slug %}', '_blank')">
-                          <td>{{ forloop.revcounter }}</td>  
+                          <td>{{ num }}</td>  
                           <td>{{ mariners_profile|upper }}</td>
                           <td>{{ mariners_profile.position|upper }}</td>
                           <td>{{ personal_data.age }}</td>
@@ -231,7 +231,7 @@
                       {% endfor %}
                     {% else %}
                       <tr>
-                        <td colspan="7" align="center"><strong>There are no mariners left in the pool at the moment.</strong></td>
+                        <td colspan="12" align="center"><strong>There are no mariners left in the pool at the moment.</strong></td>
                       </tr>
                     {% endif %}
                   </tbody>

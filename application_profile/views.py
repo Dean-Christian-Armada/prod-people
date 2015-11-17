@@ -7,6 +7,7 @@ from django.forms.models import modelformset_factory, inlineformset_factory
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.formsets import formset_factory
 from django.template.loader import render_to_string
+from django.template import Context, Template
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -184,6 +185,19 @@ def index(request):
 		mariners_profile = paginator.page(1)
 	except EmptyPage:
 		mariners_profile = paginator.page(paginator.num_pages)
+
+	try:
+		next_next_page = mariners_profile.next_page_number()+1
+		next_next_page_try = paginator.page(next_next_page)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		next_next_page = ''
+	try:
+		previous_previous_page = mariners_profile.previous_page_number()-1
+		previous_previous_page_try = paginator.page(previous_previous_page)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		previous_previous_page = ''
 	# END Script to paginate the query and retrieve all the parameters to the URL
 
 	# Zipped is used for the table data
@@ -218,6 +232,8 @@ def index(request):
 	context_dict['param_connector'] = param_connector
 
 	context_dict['per_page_list'] = per_page_list
+	context_dict['next_next_page'] = next_next_page
+	context_dict['previous_previous_page'] = previous_previous_page
 	
 
 	return render(request, template, context_dict)
@@ -368,26 +384,57 @@ def profile(request, slug):
 				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
 				notification_status = NotificationStatus.objects.get(status='Mariner Passed')
 				notification = Notification.objects.create(status=notification_status, user=user_profile)
-				notification = Notification.objects.get(status=notification_status, user=user_profile)
+				notification = Notification.objects.filter(status=notification_status, user=user_profile)[0]
 				user_notification_receivers = UserNotificationReceivers.objects.get(status=notification.status)
 				receivers = user_notification_receivers.receiver.all()
 				
-				# START EMAIL FUNCTION
+				# START SEND EMAIL SCRIPT
 				email_notification = EmailNotification.objects.get(notification_status=notification_status)
+				mariners_count = MarinersProfile.objects.filter(status=1).count()
+				rank_sea_service_duration = []
+				rank_sea_service = sea_service.filter(rank=mariners_profile.position)
+				for rank_sea_services in rank_sea_service:
+					duration = rank_sea_services.date_left - rank_sea_services.date_joined
+					rank_sea_service_duration.append(duration.days)
+				rank_sea_service_duration = sum(rank_sea_service_duration)
+				rank_sea_duration = rank_sea_service_duration / 365
+				rank_sea_duration_days_remainder = rank_sea_service_duration % 365
+				if rank_sea_duration:
+					if rank_sea_duration_days_remainder:
+						rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
+					else:
+						rank_sea_duration_days_remainder = ""
+					rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
+				else:
+					rank_sea_service_duration = "%s days" % rank_sea_service_duration
+
+				status_template = Template(email_notification.notification_status.label)
+				status = Context({})
+				status = status_template.render(status)
+				greetings_template = Template(email_notification.greetings)
+				greetings = Context({'count': mariners_count, 'name': user_profile })
+				greetings = greetings_template.render(greetings)
+				message_template = Template(email_notification.message)
+				message = Context({'code':user_profile.code, 'mobile':personal_data.prefix_mobile_1(), 'landline':personal_data.landline_1, 'rank_duration':rank_sea_service_duration, 'position':mariners_profile.position, 'application_source':application_form.application_source, 'us_visa':us_visa.determine_us_visa(), 'schengen_visa':schengen_visa.determine_schengen_visa(), 'vessel_type':personal_data.preferred_vessel_type, 'age':personal_data.age()})
+				message = message_template.render(message)
+
 				email_data = {}
-				email_data['email_title'] = email_notification.notification_status.status
-				email_data['email_greetings'] = email_notification.greetings
-				email_data['email_body'] = email_notification.message
+				email_data['email_title'] = status
+				email_data['email_greetings'] = greetings
+				email_data['email_body'] = message
 				# email_data serves as a dictionary with key value pairs to be used to store data fetched from the database
-				# msg_plain = render_to_string('email-templates/notifications.txt', email_data)
-				# msg_html = render_to_string('email-templates/notifications.html', email_data)
-				msg_plain = render_to_string('email-templates/mariner-passed.txt', email_data)
-				msg_html = render_to_string('email-templates/mariner-passed.html', email_data)
-				send_mail('A mariner has passed', msg_plain, settings.EMAIL_HOST_USER, ['adgc.manship@gmail.com'], fail_silently=False, html_message=msg_html)
-				# END EMAIL FUNCTION
+				msg_html = render_to_string('email-templates/notifications.html', email_data)
+
+				email_receievers = ['adgc@manship.com']
+
+				
+				# END SEND EMAIL SCRIPT
 
 				for x in receivers:
 					NotificationHistory.objects.create(notification=notification, received=x)
+					email_receievers.append(x.user.email)
+				# SEND EMAIL SYNTAX
+				send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

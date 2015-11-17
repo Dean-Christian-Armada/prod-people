@@ -361,6 +361,14 @@ class AbstractUSVisa(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.us_visa)
+
+	def determine_us_visa(self):
+		if self.us_visa == True:
+			determine = "Yes"
+		else:
+			determine = "None"
+		return determine
+
 	
 class AbstractSchengenVisa(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
@@ -373,6 +381,13 @@ class AbstractSchengenVisa(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.schengen_visa)
+
+	def determine_schengen_visa(self):
+		if self.schengen_visa == True:
+			determine = "Yes"
+		else:
+			determine = "None"
+		return determine
 	
 class AbstractYellowFever(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

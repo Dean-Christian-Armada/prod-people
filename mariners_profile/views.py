@@ -137,7 +137,7 @@ def index(request):
 
 	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
-	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
+	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-date_hired')
 
 	# Change in age filtering synatx because age is now a custom model method
 	# if 'age' in request.GET:
@@ -202,6 +202,20 @@ def index(request):
 		mariners_profile = paginator.page(1)
 	except EmptyPage:
 		mariners_profile = paginator.page(paginator.num_pages)
+
+	try:
+		next_next_page = mariners_profile.next_page_number()+1
+		next_next_page_try = paginator.page(next_next_page)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		next_next_page = ''
+	try:
+		previous_previous_page = mariners_profile.previous_page_number()-1
+		previous_previous_page_try = paginator.page(previous_previous_page)
+	except:
+		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		previous_previous_page = ''
+
 	# END Script to paginate the query and retrieve all the parameters to the URL
 
 	# Zipped is used for the table data
@@ -221,6 +235,7 @@ def index(request):
 		context_dict['rank'] = sorted(rank)
 		# context_dict['barangay'] = sorted(barangay)
 		context_dict['municipality'] = sorted(municipality)
+		
 	except:
 		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
@@ -241,6 +256,8 @@ def index(request):
 	context_dict['param_connector'] = param_connector
 
 	context_dict['per_page_list'] = per_page_list
+	context_dict['next_next_page'] = next_next_page
+	context_dict['previous_previous_page'] = previous_previous_page
 	
 
 	return render(request, template, context_dict)
@@ -474,7 +491,7 @@ def profile(request, slug):
 						input_id = "id-%s-%s" % (name, location)
 						label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (input_id, field.name)
 						scanned_document_html += '<div class="input-group">' # START input-group
-						scanned_document_html += '<label for="%s" class="input-group-addon input-label">' % input_id
+						scanned_document_html += '%s<label for="%s" class="input-group-addon input-label">' % (field.id, input_id)
 						scanned_document_html += '%s' % field.name
 						scanned_document_html += '</label>'
 						scanned_document_html += str(field)
@@ -524,7 +541,7 @@ def profile(request, slug):
 								input_id = "id-%s-%s" % (name, location)
 								label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (input_id, field.name)
 								scanned_document_html += '<div class="input-group">' # START input-group
-								scanned_document_html += '<label for="%s" class="input-group-addon input-label">' % input_id
+								scanned_document_html += '%s, %s<label for="%s" class="input-group-addon input-label">' % (field.id, field.order, input_id)
 								scanned_document_html += '%s' % field.name
 								scanned_document_html += '</label>'
 								scanned_document_html += str(field)

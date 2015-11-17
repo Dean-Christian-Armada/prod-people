@@ -107,7 +107,10 @@ class AppSource(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 
 	def __unicode__(self):
-		return "%s - %s" % (self.source, self.specific)
+		x = str(self.source)
+		if str(self.specific):
+			x += "- %s" % self.specific
+		return x
 
 class Essay(models.Model):
 	essay = models.TextField(null=True, blank=True, default=None)

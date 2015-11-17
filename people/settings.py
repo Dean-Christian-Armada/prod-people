@@ -44,6 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'jsignature',
     'widget_tweaks',
+    'ckeditor',
+    'swampdragon',
     'login',
     'import_export',
     'easy_pdf',
@@ -147,3 +149,10 @@ DEFAULT_FROM_EMAIL = 'deanarmada@gmail.com'
 DEFAULT_TO_EMAIL = 'deanarmada@gmail.com'
 
 LOGIN_URL = '/?error=Please login First'
+
+# SwampDragon settings
+try:
+    SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
+    DRAGON_URL = 'http://localhost:9999/'
+except:
+    pass

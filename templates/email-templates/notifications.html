@@ -3,61 +3,12 @@
 		<table border="1px solid #ccc">
 			<tbody>
 				<tr>
-					<td style="background:#00b58c;color:#2e76b8;font-size:32px;width:700px;text-align:center;height:70px;border:1px solid #ccc;"><img align="middle" src="https://people-manship.rhcloud.com/static/img/mascot-mariners-profile.png" height="100px" width="100px">{{ email_title }}</td>
+					<td style="background:#00b58c;color:#2e76b8;font-size:32px;width:700px;text-align:center;height:70px;border:1px solid #ccc;"><img align="middle" src="https://people-manship.rhcloud.com/static/img/mascot-mariners-profile.png" height="100px" width="100px" alt="mariner-mascot">{{ email_title|upper }}</td>
 				</tr>
 				<tr>
 					<td style="padding:30px; border:1px solid #ccc;text-align:left;color:#2e76b8"> 
-						<h2>Mariner #1000</h2>
-						<h1>Please Welcome Dean Christian Armada</h1>
-						<table style="padding-top:20px;color:#2e76b8">
-							<tbody>
-								<tr>
-									<td style = "text-align:left"><b>Code</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">adgc</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Contact Number</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">799-25-01</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Rank Duration</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">5 years</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Age</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">23</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Position Applied</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">Master</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Application Source</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">Seafarer Center</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>US Visa</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">None</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Schengen Visa</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">None</td>
-								</tr>
-								<tr>
-									<td style = "text-align:left"><b>Vessel Type</b></td>
-									<td style="padding-left:5px">:</td>
-									<td style="padding-left:15px; text-align:left">Bulk</td>
-								</tr>
-							</tbody>
-						</table>
+						{{ email_greetings }}
+						{{ email_body }}
 					</td>
 				</tr>
 			</tbody>

@@ -24,7 +24,7 @@
               <a href="#" class="margin-top-negator account-landing-picture-identifier"><!-- Username -->{% if user.nick_name %} {{ user.nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user_profile.picture %}{{MEDIA_URL}}{{user_profile.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user.picture %}{{MEDIA_URL}}{{user.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
               <ul class="dropdown-menu navmenu ">
                 <li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
                 <li><a href="#">Setting</a></li>
@@ -199,12 +199,18 @@
                       <ul class="pagination margin-top-negator">
                          
                         {#params#}
+                        {% if previous_previous_page %}
+                          <li><a href="{{ param_connector }}page={{previous_previous_page}}{% if params != '?' %}{{params}}{% endif %}">{{ previous_previous_page }}</a></li>
+                        {% endif %}
                         {% if mariners_profile.has_previous %}
                           <li><a href="{{ param_connector }}page={{mariners_profile.previous_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.previous_page_number}}</a></li>
                         {% endif %}
                         <li class="active"><a>{{mariners_profile.number}}</a></li>
                         {% if mariners_profile.has_next %}
                           <li><a href="{{ param_connector }}page={{mariners_profile.next_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.next_page_number}}</a></li>
+                        {% endif %}
+                        {% if next_next_page %}
+                          <li><a href="{{ param_connector }}page={{next_next_page}}{% if params != '?' %}{{params}}{% endif %}">{{ next_next_page }}</a></li>
                         {% endif %}
                       </ul>
                     </nav>
@@ -266,12 +272,18 @@
                       <ul class="pagination margin-top-negator">
                          
                         {#params#}
+                        {% if previous_previous_page %}
+                          <li><a href="{{ param_connector }}page={{previous_previous_page}}{% if params != '?' %}{{params}}{% endif %}">{{ previous_previous_page }}</a></li>
+                        {% endif %}
                         {% if mariners_profile.has_previous %}
                           <li><a href="{{ param_connector }}page={{mariners_profile.previous_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.previous_page_number}}</a></li>
                         {% endif %}
                         <li class="active"><a>{{mariners_profile.number}}</a></li>
                         {% if mariners_profile.has_next %}
                           <li><a href="{{ param_connector }}page={{mariners_profile.next_page_number}}{% if params != '?' %}{{params}}{% endif %}">{{mariners_profile.next_page_number}}</a></li>
+                        {% endif %}
+                        {% if next_next_page %}
+                          <li><a href="{{ param_connector }}page={{next_next_page}}{% if params != '?' %}{{params}}{% endif %}">{{ next_next_page }}</a></li>
                         {% endif %}
            <!--               -->
                         <!-- <li class="previous">

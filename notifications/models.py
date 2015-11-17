@@ -3,6 +3,8 @@ from django.db import models
 
 from login.models import UserProfile
 
+from ckeditor.fields import RichTextField
+
 # Create your models here.
 
 class BaseURL(models.Model):
@@ -22,8 +24,11 @@ class NotificationStatus(models.Model):
 # Creates the Notification Email
 class EmailNotification(models.Model):
 	notification_status = models.ForeignKey(NotificationStatus)
-	greetings = models.TextField()
-	message = models.TextField()
+	greetings = RichTextField()
+	message = RichTextField()
+
+	def __unicode__(self):
+		return self.notification_status.label
 
 class Notification(models.Model):
 	user = models.ForeignKey(UserProfile)

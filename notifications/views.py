@@ -21,6 +21,8 @@ def login_notifications_all(request, slug):
 	notifications = NotificationHistory.objects.filter(received=user_profile).order_by('-notification__date_time_created')
 	template = 'notifications/login_all.html'
 	context_dict = { 'notifications': notifications }
+	context_dict['user_profile'] = user_profile
+	context_dict['title'] = "All Notifications"
 	return render(request, template, context_dict)
 
 def login_read_notifications(request):

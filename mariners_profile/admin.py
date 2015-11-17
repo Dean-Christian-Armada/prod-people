@@ -98,7 +98,7 @@ class ZipImport(ImportExportModelAdmin):
 	resource_class = ZipResource
 	list_per_page = 2010
 	list_display = ['zip', 'barangay', 'municipality']
-	ordering = ('zip', )
+	ordering = ('-id', )
 
 class ReferrerAdmin(admin.ModelAdmin):
 	list_per_page = 4000

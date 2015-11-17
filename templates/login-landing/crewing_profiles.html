@@ -60,7 +60,7 @@
         <div class="row">
           <div class="col-lg-12 background-msmi-blue margin-top-bottom-buffer">
             <h4>NOTIFICATIONS &nbsp;&nbsp;&nbsp;<span id="unread-messages" class="cursor-pointer"><i>(<u id="unread-count">{{notifications_count}}</u>) unread</i></span> &nbsp;&nbsp; <span id="read-messages" class="cursor-pointer"><i>(<u id="read-count">{{notifications_read_count}}</u>) read</i></span> <a href="{% url 'login_notifications_all' slug=user_profile.slug %}" class="pull-right color-white" target="_blank">See All</a> </h4>
-            <div class="notifications-section">
+            <div class="notifications-section" id="notifications-section">
               {% if notifications %}
                 {% for notification in notifications %}
                   <a href="{{ notification.notification.status.base_url }}{{ notification.notification.user.slug }}/" target="_blank"  data-notification-id="{{notification.id}}" class="unread"><div class="background-msmi-green notification-padding row"> {{ notification.notification.status }} <b>({{ notification.notification.user }}) at {{ notification.notification.date_time_created }}</b> <button type="button" class="close notification-close event-prevent-default" data-notification-id="{{notification.id}}">&times;</button></div></a>
@@ -85,6 +85,12 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<!-- <script type="text/javascript" src="{% static 'swampdragon/js/vendor/sockjs-0.3.4.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'swampdragon/js/legacy/swampdragon.js' %}"></script>
+<script type="text/javascript" src="{% static 'swampdragon/js/dist/datamapper.js' %}"></script>
+<script type="text/javascript" src="{% static 'swampdragon/js/legacy/swampdragon-vanilla.js' %}"></script>
+<script type="text/javascript" src="http://localhost:9999/settings.js"></script>
+<script type="text/javascript" src="{% static 'js/notifications.js' %}"></script> -->
 <script type="text/javascript">
   $(function(){
     login_read_notification_url = "{% url 'login_read_notifications' %}";

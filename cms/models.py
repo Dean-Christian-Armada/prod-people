@@ -32,13 +32,19 @@ class SubFolder(models.Model):
 	name = models.CharField(max_length=100, null=True, blank=True, default=None)
 	order = models.SmallIntegerField(null=True, blank=True, default=None)
 	upload = models.BooleanField(default=True)
+	slug = models.SlugField(null=True, blank=True, default=None)
 
 	def slug_name(self):
 		return slugify(str(self.folder)+' '+str(self.extra_sub_folder)+' '+self.name)
 
 
 	def __unicode__(self):
-		return "%s / %s" % (str(self.folder), self.name)
+		# return "%s / %s" % (str(self.folder), self.name)
+		return "%s" % (self.slug)
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(str(self.folder)+' '+str(self.extra_sub_folder)+' '+self.name)
+		super(SubFolder, self).save(*args, **kwargs)
 
 class File(models.Model):
 	user = models.ForeignKey(UserProfile)
@@ -98,11 +104,12 @@ class Fields(models.Model):
 	def __unicode__(self):
 		location = str(self.location).replace("/", "-").lower()
 		id = "id-%s-%s" % (self.slug, location)
+		input_name = "%s-%s" % (self.slug, location)
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		if self.type == 'select':
-			field = "<select name='%s' id='%s' class='%s' required></select>" % (self.slug, id, self.classes)
+			field = "<select name='%s' id='%s' class='%s' required></select>" % (input_name, id, self.classes)
 		else:
-			field = "<input type ='%s' name='%s' id='%s' class='%s' required>" % (self.type, self.slug, id, self.classes) 
+			field = "<input type ='%s' name='%s' id='%s' class='%s' required>" % (self.type, input_name, id, self.classes) 
 		return "%s" % (field)
 
 	def save(self, *args, **kwargs):

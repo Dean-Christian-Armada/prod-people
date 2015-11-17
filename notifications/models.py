@@ -2,8 +2,10 @@ from django.db.models.fields.related import ManyToManyField
 from django.db import models
 
 from login.models import UserProfile
+# from .serializers import NotificationSerializer
 
 from ckeditor.fields import RichTextField
+# from swampdragon.models import SelfPublishModel
 
 # Create your models here.
 
@@ -56,6 +58,15 @@ class NotificationHistory(models.Model):
 
 	def __unicode__(self):
 		return "%s - %s / %s" % (self.received, self.notification, self.boolean)
+
+# class NotificationHistory(SelfPublishModel, models.Model):
+# 	serializer_class = NotificationSerializer
+# 	received = models.ForeignKey(UserProfile, blank=True, null=True)
+# 	notification = models.ForeignKey(Notification, blank=True, null=True)
+# 	boolean = models.BooleanField(default=False)
+
+# 	def __unicode__(self):
+# 		return "%s - %s / %s" % (self.received, self.notification, self.boolean)
 
 	# The save algorithm for the NotificationHistory
 	# def save(self, *args, **kwargs):

@@ -304,7 +304,7 @@ $(function(){
         result = result.replace(/barangay/g,  data_address+"_barangay");
         result = result.replace("select", "select data-address='"+data_address+"'")
         _this.parent().next().html(result);
-        _this.parent().next().find('select > option:first-child').text("BARANGAY");
+        _this.parent().next().find('select > option:first-child').text("BARANGAY OR PLACE");
         _this.parent().next().next().html(disabled_input);
       });
     });

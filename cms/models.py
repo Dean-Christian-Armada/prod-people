@@ -95,6 +95,9 @@ class Fields(models.Model):
 	order = models.SmallIntegerField(null=True, blank=True, default=None)
 	slug = models.SlugField(null=True, blank=True, default=None)
 
+	class Meta:
+		ordering = ['order']
+
 	def label(self):
 		location = str(self.location).replace("/", "-").lower()
 		id = "id-%s-%s" % (self.slug, location)

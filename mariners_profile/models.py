@@ -277,7 +277,7 @@ class Region(models.Model):
 # This is now the model for "Province"
 class Municipality(models.Model):
 	region = models.ForeignKey(Region, default=null_default_foreign_key_value(Region, 'region', ''))
-	municipality = models.CharField(max_length=50, default=None)
+	municipality = models.CharField(max_length=50, unique=True, default=None)
 	province_flag = models.BooleanField(default=True)
 	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -288,7 +288,7 @@ class Municipality(models.Model):
 
 # This is the model for barangay or municipality
 class Barangay(models.Model):
-	barangay = models.CharField(max_length=50, default=None)
+	barangay = models.CharField(max_length=50, unique=True, default=None)
 	company_standard = models.NullBooleanField(default=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )

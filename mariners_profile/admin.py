@@ -56,9 +56,9 @@ class RankResource(resources.ModelResource):
 
 class RankImport(ImportExportModelAdmin):
 	resource_class = RankResource
-	list_filter = ('hiring', 'department')
-	list_display = ('rank', 'hiring', 'order', 'department')
-	ordering = ('order', )
+	# list_filter = ('hiring', 'department')
+	# list_display = ('rank', 'hiring', 'order', 'department')
+	# ordering = ('order', )
 
 class RegionResource(resources.ModelResource):
 	class Meta:

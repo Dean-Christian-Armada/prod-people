@@ -28,7 +28,7 @@
 		<tr>
 			<td valign="top">
 				<h4 style="color:#009bd9">APPLICATION FORM (TO BE FILLED BY THE SEAMAN)</h4>
-				Date of Application: <b><u>{{ application_form.application_date }}</u></b><br />
+				Date of Application: <b><u>{{ today }}</u></b><br />
 				Position Applied For: <b><u>{{ mariners_profile.position }}</u></b><br />
 				Date of Availability: <b><u>{{ personal_data.availability_date }}</u></b>
 			</td>
@@ -135,14 +135,14 @@
 					</tr>
 					<tr>
 						<td colspan="2">Passport</td>
-						<td style="text-align: center">{{ passport.passport }}</td>
+						<td style="text-align: center">{{ passport.passport|upper }}</td>
 						<td style="text-align: center">{{ passport.none_date_issued }}</td>
 						<td style="text-align: center">{{ passport.none_expiry }}</td>
 						<td style="text-align: center">{{ passport.passport_place_issued|upper }}</td>
 					</tr>
 					<tr>
 						<td colspan="2">Seaman's Book</td>
-						<td style="text-align: center">{{ sbook.sbook }}</td>
+						<td style="text-align: center">{{ sbook.sbook|upper }}</td>
 						<td style="text-align: center">{{ sbook.none_date_issued }}</td>
 						<td style="text-align: center">{{ sbook.none_date_expiry }}</td>
 						<td style="text-align: center">{{ sbook.sbook_place_issued|upper }}</td>
@@ -196,15 +196,15 @@
 					<tr>
 						<td colspan="2">National Endorsement</td>
 						<td style="text-align: center">{{ license.license_grade|upper }}</td>
-						<td style="text-align: center">{{ license.license }}</td>
-						<td style="text-align: center">{{ license.license_date_issued }}</td>
-						<td style="text-align: center">{{ license.license_expiry }}</td>
+						<td style="text-align: center">{{ license.license|upper }}</td>
+						<td style="text-align: center">{{ license.license_none_date_issued }}</td>
+						<td style="text-align: center">{{ license.license_none_expiry }}</td>
 						<td style="text-align: center">{{ license.license_place_issued|upper }}</td>
 					</tr>
 					<tr>
 						<td colspan="2">Certificate of Competency</td>
 						<td style="text-align: center">{{ coc.coc_grade|upper }}</td>
-						<td style="text-align: center">{{ coc.coc }}</td>
+						<td style="text-align: center">{{ coc.coc|upper }}</td>
 						<td style="text-align: center">{{ coc.coc_date_issued }}</td>
 						<td style="text-align: center">{{ coc.coc_expiry }}</td>
 						<td style="text-align: center">{{ coc.coc_place_issued|upper }}</td>
@@ -570,7 +570,7 @@
 		                    <td style="text-align:center">{{ sea_services.rank }}</td>
 		                    <td style="text-align:center">{{ sea_services.date_joined }}</td>
 		                    <td style="text-align:center">{{ sea_services.date_left }}</td>
-		                    <td style="text-align:center">{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}</td>
+		                    <td style="text-align:center">{% if sea_services.cause_of_discharge.cause_of_discharge_abbreviation %}{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}{% else %}{{ sea_services.cause_of_discharge|upper }}{% endif %}</td>
 		                </tr>
 		            {% endfor %}
 		            {% else %}

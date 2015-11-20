@@ -107,7 +107,7 @@ class Fields(models.Model):
 	def __unicode__(self):
 		location = str(self.location).replace("/", "-").lower()
 		id = "id-%s-%s" % (self.slug, location)
-		input_name = "%s-%s" % (self.slug, location)
+		input_name = "%s" % (self.slug)
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		if self.type == 'select':
 			field = "<select name='%s' id='%s' class='%s' required></select>" % (input_name, id, self.classes)
@@ -116,7 +116,7 @@ class Fields(models.Model):
 		return "%s" % (field)
 
 	def save(self, *args, **kwargs):
-		self.slug = slugify(str(self.location)+' '+self.name)
+		self.slug = slugify(str(self.location)+' '+str(self.location.extra_sub_folder)+' '+self.name)
 		super(Fields, self).save(*args, **kwargs)
 
 
@@ -124,6 +124,9 @@ class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)
 	field = models.ForeignKey(Fields)
 	value = models.CharField(max_length=50, default=None)
+
+	class Meta:
+		ordering = ['field']
 
 	def __unicode__(self):
 		return self.value

@@ -849,6 +849,9 @@ def pdf_fleet_application_form(request, principal, id):
 		uncheck = domain+"/static/img/uncheck.jpg"
 		logo = domain+"/static/img/pdf-logos/%s.png" % principal
 
+		today = date.today()
+		today = today.strftime("%b. %d, %Y")
+
 		user_profile = UserProfile.objects.get(id=id)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
 		application_form = ApplicationForm.objects.get(user=user_profile)
@@ -1159,6 +1162,7 @@ def pdf_fleet_application_form(request, principal, id):
 		title = ("%s application form" % (principal)).upper()
 		context_dict = {"domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo}
 		context_dict['title'] = title
+		context_dict['today'] = today
 
 		context_dict['user_profile'] = user_profile
 		context_dict['mariners_profile'] = mariners_profile
@@ -1183,6 +1187,7 @@ def pdf_fleet_application_form(request, principal, id):
 		context_dict['college'] = college
 		context_dict['emergency_contact'] = emergency_contact
 		context_dict['dependents'] = dependents
+		context_dict['dependents_count'] = dependents.count()
 		context_dict['land_employment'] = land_employment
 		context_dict['beneficiary'] = beneficiary
 		context_dict['allotee'] = allotee

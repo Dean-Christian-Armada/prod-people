@@ -96,7 +96,7 @@ class CurrentAddressForm(forms.ModelForm):
 
 class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField(required=False)
-	dialect = forms.CharField(widget=autocomplete_light.TextWidget('DialectAutocomplete'), required=False)
+	dialect = forms.CharField(widget=autocomplete_light.TextWidget('DialectAutocomplete', attrs={'placeholder': ''}), required=False)
 	mobile_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
 	mobile_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
 	# regex fild for landline numbers

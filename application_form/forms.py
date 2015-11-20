@@ -42,7 +42,7 @@ class ApplicantNameForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		userprofile = super(ApplicantNameForm, self).save(commit=False)
-		user = User.objects.get(username__iexact='applicant')
+		user = User.objects.get(username__iexact='applicants')
 		userlevel = Userlevel.objects.get(userlevel__iexact='applicant')
 		userprofile.user = user
 		userprofile.userlevel = userlevel
@@ -737,7 +737,7 @@ class TrainingCertificateForm(forms.ModelForm):
 class SeaServiceForm(forms.ModelForm):
 	vessel_name = forms.CharField()
 	vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('VesselTypeAutocomplete'))
-	flag = forms.CharField(widget=autocomplete_light.TextWidget('FlagsAutocomplete'))
+	flag = forms.CharField(widget=autocomplete_light.TextWidget('ManshipFlagsAutocomplete'))
 	engine_type = forms.CharField(widget=autocomplete_light.TextWidget('EngineTypeAutocomplete'))
 	manning_agency = forms.CharField(widget=autocomplete_light.TextWidget('ManningAgencyAutocomplete'))
 	# Do not make principal autocomplete

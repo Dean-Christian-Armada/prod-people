@@ -293,6 +293,9 @@ class Barangay(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
+	class Meta:
+		ordering = ['barangay']
+
 	def __unicode__(self):
 		return self.barangay.upper()
 
@@ -336,6 +339,9 @@ class English(models.Model):
 
 class Dialect(models.Model):
 	dialect = models.CharField(max_length=50, default=None, null=True, blank=True)
+
+	class Meta:
+		ordering = ['dialect']
 
 	def __unicode__(self):
 		return self.dialect
@@ -890,12 +896,19 @@ class MarinerStatusHistory(models.Model):
 	def days(self):
 		since = self.since
 		until = self.until
+		# print since
+		# print type(since)
 		if not self.until:
 			until = datetime.date.today()
+		# print until
+		# print type(until)
 		try:
 			days = until - since
-			days = str(days).split(' ')
-			days = days[0]
+			if days:
+				days = str(days).split(' ')
+				days = days[0]
+			else:
+				days = ''
 		except:
 			days = ''
 		# not yet working
@@ -967,6 +980,7 @@ class Dependents(models.Model):
 	dependent_contact = models.BigIntegerField(null=True, blank=True, default=None)
 	dependent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	dependent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
+	dependent_birth_date = models.DateField(default=None, null=True, blank=True)
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.dependent_first_name, self.dependent_middle_name, self.dependent_last_name)

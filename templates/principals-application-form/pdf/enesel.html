@@ -33,7 +33,6 @@
 	<tr>
 		<td colspan="3" style="text-align:center; font-size:21px; border: 1px solid black; margin-top: 15px;">
 			<h4>SEAGOING PERSONNEL APPLICATION AND INTERVIEW RECORD</h4>
-			
 		</td> 
 	</tr>
 	</table>
@@ -56,61 +55,59 @@
 			<td style="padding: 0px;">
 				<table border="1">
 					<tr>
-						<td>Surname:</td>
-						<td>First Name:</td>
-						<td>Middle Name:</td>
+						<td>Surname: <b><u>{{ user_profile.last_name|upper }}</u></b></td>
+						<td>First Name: <b><u>{{ user_profile.first_name|upper }}</u></b></td>
+						<td>Middle Name: <b><u>{{ user_profile.middle_name|upper }}</u></b></td>
 					</tr>
 					<tr>
 						<td colspan="3" style="color: #000; background: #00CC99;"><h4>FATHER'S NAME:</h4></td>
 					</tr>
 					<tr>
-						<td>Surname:</td>
-						<td>First Name:</td>
-						<td>Middle Name:</td>
+						<td>Surname: <b><u>{{ personal_data.father_last_name|upper }}</u></b></td>
+						<td>First Name: <b><u>{{ personal_data.father_first_name|upper }}</u></b></td>
+						<td>Middle Name: <b><u>{{ personal_data.father_middle_name|upper }}</u></b></td>
 					</tr>
 					<tr>
 						<td colspan="3" style="color: #000; background: #00CC99;"><h4>MOTHER'S NAME:</h4></td>
 					</tr>
 					<tr>
-						<td>Surname:</td>
-						<td>First Name:</td>
-						<td>Middle Name:</td>
+						<td>Surname: <b><u>{{ personal_data.mother_last_name|upper }}</u></b></td>
+						<td>First Name: <b><u>{{ personal_data.mother_first_name|upper }}</u></b></td>
+						<td>Middle Name: <b><u>{{ personal_data.mother_middle_name|upper }}</u></b></td>
 					</tr>
 					<tr>
-						<td>Date of Birth:</td>
-						<td>Place of Birth:</td>
-						<td>Over 18 years of age: Yes No</td>
+						<td>Date of Birth: <b><u>{{ personal_data.birth_date }}</u></b></td>
+						<td>Place of Birth: <b><u>{{ personal_data.birth_place|upper }}</u></b></td>
+						<td style="padding-top:0px;">Over 18 years of age: <img src="{{ ressource.image.url|get64:check }}">Yes <img src="{{ ressource.image.url|get64:uncheck }}">No</td>
 					</tr>
 					<tr>
-						<td colspan="2">Marital status: Single Married </td>
-						<td>Nationality:</td>
+						<td colspan="2" style="padding-top:0px">Marital status: {% if personaldata.civil_status|upper != "MARRIED" %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}Single {% if personaldata.civil_status|upper == "MARRIED" %}<img src="{{ ressource.image.url|get64:check }}">{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}Married </td>
+						<td>Nationality: <b><u>{{ personal_data.nationality|upper }}</u></b></td>
 					</tr>
 					<tr>
-						<td colspan="3">Home Address:</td>
+						<td colspan="3">Home Address: {% if personal_data.current_address %}<b><u>{{ personal_data.current_address.current_unit|upper }}, {{ personal_data.current_address.current_street|upper }}, {{ personal_data.current_address.current_zip.barangay|upper }}, {{ personal_data.current_address.current_zip.municipality|upper }}</u></b>{% endif %}</td>
 					</tr>
 					<tr>
-						<td>Tel No.:</td>
-						<td>Tel No.:</td>
-						<td>E-mail:</td>
+						<td>Tel No.: <b><u>{{ personal_data.none_landline_1 }}</u></b> </td>
+						<td>Mobile No.: <b><u>{{ personal_data.prefix_mobile_1 }}</u></b> </td>
+						<td>E-mail: <b><u>{{ personal_data.email_address_1 }}</u></b> </td>
 					</tr>
 					<tr>
 						<td colspan="3" style="color: #000; background: #00CC99;"><h4>NEXT OF KIN:</h4></td>
 					</tr>
 					<tr>
-						<td>Surname:</td>
-						<td>First Name:</td>
-						<td>Middle Name:</td>
+						<td colspan="3">Name: <b><u>{{ emergency_contact|upper }}</u></b> </td>
 					</tr>
 					<tr>
-						<td colspan="3">Home Address:</td>
+						<td colspan="3">Home Address: {% if emergency_contact %}<b><u>{{ emergency_contact.emergency_unit|upper }}, {{ emergency_contact.emergency_street|upper }}, {{ emergency_contact.emergency_zip.barangay|upper }}, {{ emergency_contact.emergency_zip.municipality|upper }}</u></b>{% endif %}</td>
 					</tr>
 					<tr>
-						<td>Tel No.:</td>
-						<td colspan="2">Dependants (number):</td>
+						<td colspan="2">Tel No.: <b><u>{{ emergency_contact.prefix_emergency_contact }}</u></b></td>
+						<td>Dependants (number): <b><u>{{ dependents_count }}</u></b> </td>
 					</tr>
 					<tr>
-						<td>VAT No.:</td>
-						<td colspan="2">VAT Register Authority:</td>
+						<td colspan="2">VAT No.:</td>
+						<td>VAT Register Authority:</td>
 					</tr>
 				</table>
 			</td>
@@ -121,22 +118,22 @@
 				<th>DOCUMENTS</th>
 				<th>NUMBER</th>
 				<th>ISSUING</th>
-				<th>ISSUE DATE</th>
+				<th>ISSUED DATE</th>
 				<th>EXPIRY DATE</th>
 			</tr>
 			<tr>
 				<td>Passport</td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
+				<td style="text-align: center">{{ passport.passport|upper }}</td>
+				<td style="text-align: center">{{ passport.passport_place_issued|upper }}</td>
+				<td style="text-align: center">{{ passport.none_date_issued }}</td>
+				<td style="text-align: center">{{ passport.none_expiry }}</td>
 			</tr>
 			<tr>
 				<td>National Seaman's Book</td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
+				<td style="text-align: center">{{ sbook.sbook|upper }}</td>
+				<td style="text-align: center">{{ sbook.sbook_place_issued|upper }}</td>
+				<td style="text-align: center">{{ sbook.none_date_issued }}</td>
+				<td style="text-align: center">{{ sbook.none_date_expiry }}</td>
 			</tr>
 			<tr>
 				<td>Other Seaman's Book</td>
@@ -154,10 +151,10 @@
 			</tr>
 			<tr>
 				<td>Yellow Fever Vaccination</td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
+				<td style="text-align: center">{{ yellow_fever.yellow_fever }}</td>
+				<td style="text-align: center">{{ yellow_fever.yellow_place_issued|upper }}</td>
+				<td style="text-align: center">{{ yellow_fever.none_date_issued }}</td>
+				<td style="text-align: center">{{ yellow_fever.none_expiry }}</td>
 			</tr>
 		</table>
 	</table>
@@ -178,11 +175,11 @@
 			</tr>
 			<tr>
 				<td colspan="2">National Endorsement</td>
+				<td style="text-align:center; padding-top:0px;"><img src="{{ ressource.image.url|get64:check }}"></td>
 				<td style="text-align:center"></td>
 				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
+				<td style="text-align:center">{{ license.license_none_date_issued }}</td>
+				<td style="text-align:center">{{ license.license_none_expiry }}</td>
 			</tr>
 			<tr>
 				<td colspan="2">Other Endorsement</td>
@@ -217,7 +214,7 @@
 				<td style="text-align:center"></td>
 			</tr>
 			<tr>
-				<td colspan="2">ECDIS-(type specific)</td>
+				<td colspan="2">ECDIS-JRC</td>
 				<td style="text-align:center"></td>
 				<td style="text-align:center"></td>
 				<td style="text-align:center"></td>
@@ -332,7 +329,8 @@
 		<br>
 		<table border="1">
 			<tr>
-				<td colspan="1">Native language:</td>
+				<td colspan="1">Native language: </td>
+				<td colspan="4"><b><u>{{ personal_data.dialect }}</u></b></td>
 			</tr>
 			<tr>
 				<td>English:</td>
@@ -371,26 +369,20 @@
 				<th>SERVICE PERIOD</th>
 				<th>SIGN OFF REASON</th>
 			</tr>
-			<tr>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-			</tr>
-			<tr>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-				<td style="text-align:center"></td>
-			</tr>
+			{% if sea_service %}
+				{% for sea_services in sea_service %}
+					<tr>
+			        	<td style="text-align:center">{{ sea_services.vessel_name|upper }}</td>
+			            <td style="text-align:center">{{ sea_services.vessel_type }}</td>
+			            <td style="text-align:center">{{ sea_services.engine_type }}</td>
+			            <td style="text-align:center">{{ sea_services.grt }}</td>
+			            <td style="text-align:center">{{ sea_services.principal|upper }}</td>
+			            <td style="text-align:center">{{ sea_services.rank }}</td>
+			            <td style="text-align:center">{{ sea_services.duration }} days</td>
+			            <td style="text-align:center">{% if sea_services.cause_of_discharge.cause_of_discharge_abbreviation %}{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}{% else %}{{ sea_services.cause_of_discharge|upper }}{% endif %}</td>
+			        </tr>
+	        	{% endfor %}
+	        {% endif %}
 	</table>
 	<table border="1">
 		<tr>
@@ -401,18 +393,42 @@
 				<tr>
 					<td>(Resume your career and describe your experience at sea, type of ships, engines, voyage): </td>
 				</tr>
+				{% if application_form.essay %}
 				<tr>
-					<td>&nbsp;</td>
+					<td><u>{{ application_form.essay }}</u></u></b></td>
 				</tr>
+				{% else %}
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				<tr>
+					<td> &nbsp; </td>
+				</tr>
+				{% endif %}
 			</table>
 			
 		</tr>
 		<br>
 		<table border="1"> 
 		<tr>
-			<td>Applicant's Name:</td>
-			<td>Signature:</td>
-			<td>Date:</td>
+			<td>Applicant's Name: <b><u>{{ user_profile.first_name|upper }} {{ user_profile.middle_name|upper }} {{ user_profile.last_name|upper }}</u></b></td>
+			<td>Signature: {% if signature %} <img src="{{ ressource.image.url|get64:signature }}"> {% endif %}</td>
+			<td>Date: <b><u>{{ today }}</u></b></td>
 		</tr>
 		</table>
 	</table>	

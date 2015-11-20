@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<body class="crewing-profile">
+
+  <div id="wrapper">
+    <div id="header">
+      <div class="container form-container">
+        <p class="pull-left"><img src="{% static 'img/application-form-logos/jumbo.png' %}" width="150" height="150"></p>
+        <h1 class="margin-top"><strong>Jumbo Maritime</strong></h1>
+        <h4>Forms</h4>
+      </div><!---End of Container-->
+    </div><!--End of Header-->
+      
+     
+      
+    <div id="page-wrapper">
+      <div class="container-fluid">
+        <div class="col-md-8 col-md-offset-1">
+          <div class="panel-msmi panel-msmi-blue">          
+            <div class="panel-body">
+              <div class="form-group">  
+                <div class="row">
+                  <div class="col-md-4 col-laptop-5">
+                    <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+                  </div><!--End of Col 4-->
+                  <div class="col-md-4 col-laptop-5">
+                    <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+                  </div><!--End of Col 4-->     
+                </div><!--End of Row-->             
+              </div><!--End of Form Group-->
+            </div><!--End of Panel Body-->
+          </div><!--End of Panel Primary-->
+        </div>
+
+        <div class="col-md-3">
+          <div class="sidebar">
+            <div class="text-center form-group">
+              <img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}" >
+            </div>
+            <div class="input-group">
+              <input type="text" readonly class="form-control input-form" value="{{ user_profile.code }}">
+            </div>
+            <div class="input-group">
+              <input type="text" readonly class="form-control input-form" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" >
+            </div>
+            <div class="input-group">
+              <input type="text" readonly class="form-control input-form" value="{{ mariners_profile.position }}" >
+            </div>
+          </div><!--End of Sidebar-->
+        </div><!--End of Col-3-->
+      </div><!--End of Container-->
+    </div><!--End of Page Wrapper-->
+  </div><!--End of Wrapper-->
+{% endblock %}

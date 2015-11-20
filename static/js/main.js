@@ -240,7 +240,7 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", true);
         $("#id_birthdate").prop("disabled", true);
         $("#id_spouse_contact").prop("disabled", true);
-      }else if(val == 'Live-In Domestic Partner'){
+      }else if(val == 'Domestic Partner'){
         $("#id_married_date").val("");
         $("#id_married_date").attr("Placeholder", "");
         $("#id_spouse_last_name").attr("Placeholder", "Partner's Maiden Last Name");
@@ -281,7 +281,7 @@ $(function(){
       province_id = _this.val();
       data_address = $(this).attr('data-address');
       text = $('option:selected', this).text();
-      _barangay = '<input placeholder="Barangay / Purok / Barrio" style="" class="form-control" data-toggle="tooltip" id="id_'+data_address+'_barangay" name="'+data_address+'_barangay" type="text" data-original-title="" title="">'
+      _barangay = '<input placeholder="Barangay / Purok / Barrio" style="" class="form-control text-transform-none" data-toggle="tooltip" id="id_'+data_address+'_barangay" name="'+data_address+'_barangay" type="text" data-original-title="" title="">'
       $.get(provinces_url, { id: province_id }, function(result){
         result = result.replace(/city_municipality/g,  data_address+"_city_municipality");
         result = result.replace("select", "select data-address='"+data_address+"'")

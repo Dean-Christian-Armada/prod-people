@@ -163,6 +163,10 @@ class PersonalDataForm(forms.ModelForm):
 	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
 	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
+	# Father Fields custom validation
+	father_last_name = forms.CharField(error_messages={'required': 'Click here if unknown'})
+	father_first_name = forms.CharField(error_messages={'required': 'Click here if unknown'})
+	father_middle_name = forms.CharField(error_messages={'required': 'Click here if unknown'})
  
 	class Meta:
 		model = ApplicationFormPersonalData
@@ -203,11 +207,58 @@ class PersonalDataForm(forms.ModelForm):
 		return personal_data
 
 class SpouseForm(forms.ModelForm):
+	CHOICES = (
+			('1', 'Yes'),
+			('0', 'No'),
+		)
 	spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
+	spouse_working = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
+	civil_status = forms.IntegerField()
 	class Meta:
 		model = ApplicationFormSpouse
 		fields = '__all__'
 		exclude = ('user', )
+
+	def clean(self):
+		print self.cleaned_data
+		try:
+			self.cleaned_data['civil_status']
+		except:
+			self.cleaned_data['civil_status'] = 0
+		if self.cleaned_data['civil_status'] == 2:
+			msg = "This field is required"
+			try:
+				spouse_last_name = selfdata['spouse_last_name']
+				spouse_first_name = selfdata['spouse_first_name']
+				spouse_middle_name = selfdata['spouse_middle_name']
+				spouse_contact = selfdata['spouse_contact']
+				spouse_working = selfdata['spouse_working']
+				birthdate = selfdata['birthdate']
+				married_date = selfdata['married_date']
+			except:
+				spouse_last_name = self.cleaned_data['spouse_last_name']
+				spouse_first_name = self.cleaned_data['spouse_first_name']
+				spouse_middle_name = self.cleaned_data['spouse_middle_name']
+				spouse_contact = self.cleaned_data['spouse_contact']
+				spouse_working = self.cleaned_data['spouse_working']
+				birthdate = self.cleaned_data['birthdate']
+				married_date = self.cleaned_data['married_date']
+			if not spouse_last_name:	
+				self.add_error('spouse_last_name', msg)
+			if not spouse_first_name:	
+				self.add_error('spouse_first_name', msg)
+			if not spouse_middle_name:	
+				self.add_error('spouse_middle_name', msg)
+			if not spouse_contact:	
+				self.add_error('spouse_contact', msg)
+			if spouse_working is None:	
+				self.add_error('spouse_working', msg)
+			if birthdate is None:	
+				self.add_error('birthdate', msg)
+			if married_date is None:	
+				self.add_error('married_date', msg)
+		else:
+			pass
 
 	def save(self, commit=True):
 		spouse = super(SpouseForm, self).save(commit=False)
@@ -215,6 +266,7 @@ class SpouseForm(forms.ModelForm):
 		spouse.user = userprofile
 		spouse.save()
 		self.cleaned_data['user'] = userprofile
+		self.cleaned_data.pop("civil_status")
 		value = self.cleaned_data
 		Spouse.objects.create(**value)
 
@@ -706,6 +758,7 @@ class DynamicTrainingCertificateForm(forms.Form):
 			if national_certificate == False:
 				queryset = queryset.filter(national_certificate=False)
 			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=queryset.order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
+			self.fields['department'] = forms.CharField(widget=forms.HiddenInput(attrs={'disabled':'disabled'}), initial=rank.department.department)
 		except:
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
@@ -832,29 +885,6 @@ class ApplicationForm(autocomplete_light.ModelForm):
 	class Meta:
 		model = ApplicationForm
 		fields = ('application_date', 'alternative_position', 'position_applied')
-
-	def clean(self):
-
-		try:
-			position_applied = self.cleaned_data['position_applied']
-			alternative_position = self.cleaned_data['alternative_position']
-		except:
-			pass
-		try:
-			# Script to let cadets only take the essay
-			# position_applied = Rank.objects.get(rank=position_applied)
-			# alternative_position = Rank.objects.get(rank=alternative_position)
-			# if "Cadet".lower() in position_applied.rank.lower() or "Cadet".lower() in alternative_position.rank.lower():
-			msg = "The Essay must be at least 50 words"
-			try:
-				essay = selfdata['essay']
-			except:
-				essay = self.cleaned_data['essay']
-			words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
-			if len(words) < 50:
-				self.add_error('essay', msg)
-		except:
-			pass
 
 		# script to make sure that the referrer's are filled up if selected
 		try:

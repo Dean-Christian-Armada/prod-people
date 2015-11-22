@@ -301,26 +301,29 @@
               </div>
             </div>
             <div class="form-group">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 {{ spouse_form.birthdate|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's birthday"|attr:"disabled" }}
                 {{ spouse_form.birthdate.errors }}
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 {{ spouse_form.spouse_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No."|attr:"disabled" }}
                 {{ spouse_form.spouse_contact.errors }}
+              </div>
+              <div class="col-md-4 spouse_working">
+                
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-4">
-                {{ personal_data.father_last_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Last Name" }}
+                {{ personal_data.father_last_name|add_class:"form-control n-a-validator"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Last Name" }}
                 {{ personal_data.father_last_name.errors }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.father_first_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's First Name" }}
+                {{ personal_data.father_first_name|add_class:"form-control n-a-validator"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's First Name" }}
                 {{ personal_data.father_first_name.errors }}
               </div>
               <div class="col-md-4">
-                {{ personal_data.father_middle_name|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Middle Name" }}
+                {{ personal_data.father_middle_name|add_class:"form-control n-a-validator"|attr:"data-toggle:tooltip"|attr:"placeholder:Father's Middle Name" }}
                 {{ personal_data.father_middle_name.errors }}
               </div>
             </div>
@@ -560,7 +563,7 @@
             </div>
             <div class="form-group">
               <div class="col-md-6">
-                US Visa(C1/D)
+                US Visa(C1/D): 
                 {{ usvisa_form.us_visa }}
                 {{ usvisa_form.us_visa.errors }}
               </div>
@@ -571,7 +574,7 @@
             </div>
             <div class="form-group">
               <div class="col-md-6">
-                Schengen Visa(Type C)
+                Schengen Visa(Type C): 
                 {{ schengenvisa_form.schengen_visa }}
                 {{ schengenvisa_form.schengen_visa.errors }}
               </div>
@@ -797,6 +800,9 @@
   advertisements = '{{ application.advertisements|escapejs }}';
   internet = '{{ application.internet|escapejs }}';
   referrer = '{{ application.referred_by }}';
+  spouse_working_form = 'Is Wife working? {{ spouse_form.spouse_working|escapejs }} {{ spouse_form.spouse_working.errors|escapejs }}';
+
+  // alert(spouse_working_form);
   self_url = window.location;
     // Start Webcam Scripts
     // Placed here because it throws validation alerts on other pages if put in main.js
@@ -908,6 +914,7 @@
             // alert('dean');
           setTimeout(function(){ $(".jsign-wrapper input[value='Reset']").click(); }, 1000);
         });
+        $(".spouse_working").removeClass("hide");
     {% endif %}
   </script>
 {% endblock %}

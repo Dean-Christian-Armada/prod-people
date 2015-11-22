@@ -59,6 +59,7 @@ class UserProfile(models.Model):
 	slug = models.SlugField(null=True, blank=True, unique=True,  default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+	departmental_email = models.EmailField(blank=True, null=True, default=None)
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.first_name.upper(), self.middle_name.upper(), self.last_name.upper())

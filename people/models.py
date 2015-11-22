@@ -9,6 +9,7 @@ from login.models import UserProfile
 from django_date_extensions.fields import ApproximateDateField	
 
 from datetime import date
+# from dateutil import relativedelta as rdelta
 
 class AbstractPersonalData(models.Model):
 	name = models.ForeignKey(UserProfile, default=None)
@@ -135,6 +136,7 @@ class AbstractSpouseData(models.Model):
 	married_date = models.DateField(null=True, blank=True, default=None)
 	birthdate = models.DateField(null=True, blank=True, default=None)
 	spouse_contact = models.BigIntegerField(null=True, blank=True, default=None)
+	spouse_working = models.NullBooleanField(default=None)
 
 	class Meta:
 		abstract = True

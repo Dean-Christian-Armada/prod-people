@@ -156,3 +156,5 @@ LOGIN_URL = '/?error=Please login First'
 #     DRAGON_URL = 'http://localhost:9999/'
 # except:
 #     pass
+
+# DATE_INPUT_FORMATS = ("%Y/%m/%d")

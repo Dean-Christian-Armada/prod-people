@@ -161,7 +161,6 @@ class CollegeForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		# Script to solve the blank fields
-		print self.cleaned_data
 		college = super(CollegeForm, self).save(commit=False)
 		college
 		try:
@@ -209,9 +208,7 @@ class PrimarySchoolForm(forms.ModelForm):
 		exclude = ('primaryschool', )
 
 	def save(self, commit=True):
-		print "test "
 		try:
-			print "exact"
 			primaryschool_name = self.cleaned_data['primaryschool']
 			primaryschool = super(PrimarySchoolForm, self).save(commit=False)
 			primaryschools = PrimarySchools.objects.get_or_create({'primaryschool_name':primaryschool_name}, primaryschool_name__iexact=primaryschool_name)
@@ -386,10 +383,7 @@ class AlloteeForm(forms.ModelForm):
 		try:
 			# relationship = self.cleaned_data['allotee_relationship']
 			# bank = self.cleaned_data['bank']
-			print "czcvbvgsdfg"
 			allotee_zip = str(self.cleaned_data['allotee_zip'])
-			print allotee_zip
-			print "SSSSSSSS"
 			allotee = super(AlloteeForm, self).save(commit=False)
 
 			# allotee.allotee_relationship = relationship
@@ -397,7 +391,6 @@ class AlloteeForm(forms.ModelForm):
 			allotee.zip = zip
 			allotee.save()
 		except:
-			print "DASDASDA"
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
 
 class EmergencyContactForm(forms.ModelForm):

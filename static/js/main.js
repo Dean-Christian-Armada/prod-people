@@ -243,9 +243,9 @@ $(function(){
       }else if(val == 'Domestic Partner'){
         $("#id_married_date").val("");
         $("#id_married_date").attr("Placeholder", "");
-        $("#id_spouse_last_name").attr("Placeholder", "Partner's Maiden Last Name");
+        $("#id_spouse_last_name").attr("Placeholder", "Partner's Last Name");
         $("#id_spouse_first_name").attr("Placeholder", "Partner's First Name");
-        $("#id_spouse_middle_name").attr("Placeholder", "Partner's Maiden Middle Name");
+        $("#id_spouse_middle_name").attr("Placeholder", "Partner's Middle Name");
         $("#id_birthdate").attr("Placeholder", "Partner's birthday");
         $("#id_spouse_contact").attr("Placeholder", "Partner's Contact No.");
         $("#id_married_date").prop("disabled", true);
@@ -267,6 +267,7 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", false);
         $("#id_birthdate").prop("disabled", false);
         $("#id_spouse_contact").prop("disabled", false);
+        $(".spouse_working").html(spouse_working_form);
       }
     });
     $("#id_position_applied").change(function(){
@@ -289,7 +290,7 @@ $(function(){
         // alert(result);
         _this.parent().next().find('select > option:first-child').text("CITY OR MUNICIPALITY");
         _this.parent().next().next().html(disabled_input);
-        _this.parent().next().next().next().find('.zip-container').html(disabled_input);
+        _this.parent().next().next().next().html(disabled_input);
         if( text != "NCR" ){
           _this.parent().next().next().html(_barangay)
         }
@@ -456,7 +457,8 @@ $(function(){
     });
 
     $("body").on("focus", ".date", function(){
-      $(this).datepicker({ 
+      $(this).datepicker({
+        dateFormat: 'yy/mm/dd',
         changeYear: true, 
         changeMonth: true, 
         yearRange: "1950:+50", 
@@ -582,15 +584,29 @@ $(function(){
     // });
     // Used for sea-services validation
     // Users can not exit the sea-service unless valid
+    
+
     $(".sea-services").on("keyup", "input", function(){
-      $(this).parent().siblings().children().prop("required", "true");
+      department = $("#id_department").val();
+      if(department == "DECK"){
+        $(this).parent().siblings().children(":not(.hp, .kw)").prop("required", "true");
+      }else{
+        $(this).parent().siblings().children().prop("required", "true");
+      }
     }).on("change", "select", function(){
-      $(this).parent().siblings().children().prop("required", "true");
+      if(department == "DECK"){
+        $(this).parent().siblings().children(":not(.hp, .kw)").prop("required", "true");
+      }else{
+        $(this).parent().siblings().children().prop("required", "true");
+      }
     });
 
     // Start Sea Service Validation
     $("#proceed-sea-service").click(function(){
-      count = 0
+      count = 0;
+      
+      
+
       $('.sea-services').find('input').each(function(){
         x = $(this);
         if($(this).prop('required') && $(this).next('ul').length != 1 && $(this).val().length < 1){
@@ -778,6 +794,15 @@ $(function(){
     $('.modal-show-id-based').on('click', function(){
       id = $(this).attr("id");
       $("#modal-"+id).modal("show");
+    });
+
+    // A script that autoamically adds N/A on an input if clicked
+    // Used in father fields on application form
+    $("ul.errorlist li").click(function(){
+      x = $(this).parent().prev();
+      if(x.hasClass("n-a-validator")){
+        x.val("N/A");
+      }
     });
 
 }); 

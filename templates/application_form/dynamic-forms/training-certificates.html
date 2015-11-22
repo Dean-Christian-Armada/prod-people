@@ -6,6 +6,7 @@
 		</ul>
 	</div>
 {% else %}
+	{{ form.department }}
 	{% for certs in form.trainings_certificates %}
 		<div class="col-md-6">
 		  {{ certs }}

@@ -371,13 +371,14 @@
       <!--Seaferer Seagoing History
       ============================-->            
       <div id="step2" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY</strong></a></div>                  
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY ({{sea_service_num_label}})</strong></a></div>                  
         <div id="detail2" class="collapse in" aria-expanded="false"> 
           <div class="panel-body"> 
             <div class="table-responsive">
               <table class="table table-hover sea-tb main-table">
                 <thead class="thead">
                   <tr>
+                    <th>#</th>
                     <th>Vessel Name</th>
                     <th>Vessel Type</th>
                     <th>Flag</th>
@@ -391,7 +392,7 @@
                     <th>Principal/ ShipOwner</th>
                     <th>Date Joined</th>
                     <th>Date Left</th>
-                    <th>Days</th>
+                    <th>Month / Days</th>
                     <th>Rank</th>
                     <th>Cause of Discharge</th>
                    </tr>
@@ -399,6 +400,7 @@
                 <tbody>
                   {% for sea_services in sea_service %}
                     <tr>
+                      <td class="text-center">{{ forloop.revcounter }}</td>
                       <td>{{ sea_services.vessel_name|upper }}</td>
                       <td>{{ sea_services.vessel_type|upper }}</td>
                       <td>{{ sea_services.flag|upper }}</td>
@@ -412,7 +414,7 @@
                       <td>{{ sea_services.principal|upper }}</td>
                       <td>{{ sea_services.date_joined }}</td>
                       <td>{{ sea_services.date_left }}</td>
-                      <td>{{ sea_services.duration }}</td>
+                      <td>{{ sea_services.duration_months_days }}</td>
                       <td>{{ sea_services.rank|upper }}</td>
                       <td>{{ sea_services.cause_of_discharge|upper }}</td>
                     </tr>

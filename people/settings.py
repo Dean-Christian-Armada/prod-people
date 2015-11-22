@@ -157,4 +157,6 @@ LOGIN_URL = '/?error=Please login First'
 # except:
 #     pass
 
-# DATE_INPUT_FORMATS = ("%Y/%m/%d")
+FORMAT_MODULE_PATH = [ 'formats', ]
+
+# DATE_INPUT_FORMATS = ["%Y/%m/%d", ]

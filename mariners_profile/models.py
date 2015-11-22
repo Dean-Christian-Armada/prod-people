@@ -1,6 +1,7 @@
 # from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.template.defaultfilters import slugify
+from django.db.models import Q
 from django.db import models
 
 from django_date_extensions.fields import ApproximateDateField
@@ -9,6 +10,7 @@ from login.models import UserProfile, default_user_user_level
 from people.models import *
 
 import datetime, os
+from dateutil import relativedelta as rdelta
 
 # START Default Methods
 # These Methods are used for Foreign Keys filling up creating default value
@@ -838,7 +840,7 @@ class SeaService(AbstractSeaService):
 	
 	def bhp(self):
 		bhp = float(self.kw) * 0.746
-		return bhp	
+		return bhp
 
 # This is a temporary model object for the referrer's pool
 class ReferrersPool(models.Model):
@@ -870,6 +872,61 @@ class MarinersProfile(models.Model):
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
+
+	def rank_sea_service_duration(self):
+		sea_service = SeaService.objects.filter(user=self.user.id)
+		rank_sea_service = sea_service.filter(rank=self.position)
+		x = rdelta.relativedelta(years=+0, months=+0, days=+0)
+		for rank_sea_services in rank_sea_service:
+			x += rdelta.relativedelta(rank_sea_services.date_left, rank_sea_services.date_joined)
+			# duration = rank_sea_services.date_left - rank_sea_services.date_joined
+			# rank_sea_service_duration.append(duration.days)
+		year = x.years
+		month = x.months
+		day = x.days
+		if day >= 30:
+			month = (day / 30) + month
+			day = day % 30
+		if month >= 12:
+			year = (month / 12) + year
+			month = month % 12
+		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
+
+	def sea_service_duration(self):
+		sea_service = SeaService.objects.filter(user=self.user.id)
+		x = rdelta.relativedelta(years=+0, months=+0, days=+0)
+		for sea_services in sea_service:
+			x += rdelta.relativedelta(sea_services.date_left, sea_services.date_joined)
+		year = x.years
+		month = x.months
+		day = x.days
+		if day >= 30:
+			month = (day / 30) + month
+			day = day % 30
+		if month >= 12:
+			year = (month / 12) + year
+			month = month % 12
+		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
+
+	def dry_vessel_type_duration(self):
+		sea_service = SeaService.objects.filter(user=self.user.id)
+		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
+		dry_vessel_types_duration = []
+		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)
+		x = rdelta.relativedelta(years=+0, months=+0, days=+0)
+		for dry_vessel_type_sea_services in dry_vessel_type_sea_service:
+			x += rdelta.relativedelta(dry_vessel_type_sea_services.date_left, dry_vessel_type_sea_services.date_joined)
+		year = x.years
+		month = x.months
+		day = x.days
+		if day >= 30:
+			month = (day / 30) + month
+			day = day % 30
+		if month >= 12:
+			year = (month / 12) + year
+			month = month % 12
+		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
+
 
 class MarinerStatusComment(models.Model):
 	mariner_status_comment = models.TextField(default=None, null=True, blank=True)
@@ -1028,6 +1085,7 @@ class Beneficiary(models.Model):
 	beneficiary_last_name = models.CharField(max_length=50, null=True, default=None)
 	beneficiary_relationship = models.ForeignKey(Relationship, default=None)
 	beneficiary_number = models.BigIntegerField(null=True, blank=True, default=None)
+	beneficiary_birth_date = models.DateField(default=None, null=True, blank=True)
 
 	def __unicode__(self):
 		beneficiary = "%s %s %s" % (self.beneficiary_first_name, self.beneficiary_middle_name, self.beneficiary_last_name)

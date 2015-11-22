@@ -9,7 +9,7 @@ from login.models import UserProfile
 from django_date_extensions.fields import ApproximateDateField	
 
 from datetime import date
-# from dateutil import relativedelta as rdelta
+from dateutil import relativedelta as rdelta
 
 class AbstractPersonalData(models.Model):
 	name = models.ForeignKey(UserProfile, default=None)
@@ -472,6 +472,23 @@ class AbstractSeaService(models.Model):
 		duration = date_left - date_joined
 		months = duration.days / 30
 		return months
+
+	def duration_months_days(self):
+		date_joined = self.date_joined
+		date_left = self.date_left
+		duration = rdelta.relativedelta(date_left, date_joined)
+		months = duration.months
+		if duration.years:
+			months = months + (duration.years*12)
+		return "%s month/s and %s day/s" % (months, duration.days)
+
+	def duration_years_months_days(self):
+		date_joined = self.date_joined
+		date_left = self.date_left
+		duration = rdelta.relativedelta(date_left, date_joined)
+		months = duration.months
+		years = duration.years
+		return "%s year/s %s month/s and %s day/s" % (years, months, duration.days)
 
 	def none_dwt(self):
 		if not self.dwt:

@@ -702,11 +702,14 @@
         // alert(date_joined);
         date_left = $(this).parent().next().children().val();
         date_left = new Date(date_left);
-        // alert(date_left);
         duration = Math.abs(date_left.getTime() - date_joined.getTime());
         duration = Math.ceil(duration / (1000 * 3600 * 24));
         if(isNaN(duration)){
           duration = '';
+        }else{
+          months = Math.floor( duration/30 )+" month/s & ";
+          days = duration % 30+ " day/s ";
+          duration = months+days;
         }
         $(this).parent().next().next().children().val(duration);
       });

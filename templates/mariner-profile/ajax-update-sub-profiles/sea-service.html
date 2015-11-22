@@ -34,7 +34,7 @@
           <th>Trade Area</th>
           <th>Date Joined</th>
           <th>Date Left</th>
-          <th>Days</th>
+          <th>Month / Days</th>
           <th>Rank</th>
           <th>Cause of Discharge</th>
          </tr>
@@ -44,7 +44,7 @@
           {{ sea_service_forms.sea_service_documents }}
           {{ sea_service_forms.id }}
           <tr>
-            <td><button class="btn btn-danger">DELETE</button></td>
+            <td class="text-center"><!-- <button class="btn btn-danger">DELETE</button> -->{{ forloop.revcounter }}</td>
             <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget required" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
             <td>{{ sea_service_forms.vessel_type|add_class:"input-form required" }}</td>
             <td>{{ sea_service_forms.flag|add_class:"input-form required" }}</td>
@@ -60,7 +60,7 @@
             <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/TradeAreaAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-trade_area" name="seaservice_set-{{ forloop.counter0 }}-trade_area" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.trade_area.value|get_data:'TradeArea' }}"></td>
             <td>{{ sea_service_forms.date_joined|add_class:"input-form date date-joined required" }}</td>
             <td>{{ sea_service_forms.date_left|add_class:"input-form date date-left required" }}</td>
-            <td><input type="text" class="duration input-form" disabled=""></td>
+            <td><input type="text" class="duration input-form" disabled="" value=""></td>
             <td>{{ sea_service_forms.rank|add_class:"input-form required" }}</td>
             <td>{{ sea_service_forms.cause_of_discharge|add_class:"input-form required" }}</td>
           </tr>

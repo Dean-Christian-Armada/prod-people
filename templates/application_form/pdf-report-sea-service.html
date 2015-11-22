@@ -29,7 +29,7 @@
 			<th>Princiapl / Shipowner</th>
 			<th>Date Joined</th>
 			<th>Date Left</th>
-			<th>Days</th>
+			<th>Month / Days</th>
 			<th>Rank</th>
 			<th>Cause of Discharge</th>
 		</tr>
@@ -49,7 +49,7 @@
 				<td>{{ seaservice.principal|upper }}</td>
 				<td>{{ seaservice.date_joined }}</td>
 				<td>{{ seaservice.date_left }}</td>
-				<td>{{ seaservice.duration }}</td>
+				<td>{{ seaservice.duration_months_days }}</td>
 				<td>{{ seaservice.rank|upper }}</td>
 				<td>{{ seaservice.cause_of_discharge|upper }}</td>
 			</tr>

@@ -768,12 +768,16 @@ def profile(request, slug):
 
 		try:
 			beneficiary = Beneficiary.objects.filter(user=id)
-			if len(beneficiary) == 1:
+			if len(beneficiary) < 1:
 				num_extra = 1
-			elif len(beneficiary) < 1:
-				num_extra = 2
-			elif len(beneficiary) == 2:
+			else:
 				num_extra = 0
+			# if len(beneficiary) == 1:
+			# 	num_extra = 1
+			# elif len(beneficiary) < 1:
+			# 	num_extra = 2
+			# elif len(beneficiary) == 2:
+			# 	num_extra = 0
 			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=num_extra, can_delete=True, form=BeneficiaryForm )
 			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
@@ -1171,7 +1175,6 @@ def profile(request, slug):
 				return render(request, template, context_dict)
 
 			if 'dependents_set-0-dependent_relationship' in request.POST or 'dependents_set-0-dependent_zip' in request.POST or 'dependents_set-0-dependent_last_name' in request.POST or 'dependents_set-0-dependent_first_name' in request.POST or 'dependents_set-0-dependent_middle_name' in request.POST or 'dependents_set-0-user' in request.POST:
-				print "DEANSSSSSSSSSs"
 				if dependents_form.is_valid():
 					for dependents in dependents_form:
 						dependents.save()

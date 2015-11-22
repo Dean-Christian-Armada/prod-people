@@ -12,15 +12,18 @@
     </div>  
   </div>
 {% endif %}
-<div class="panel-body">
-{{ beneficiary_form.management_form }}
+
+<div class="total-forms">{{ beneficiary_form.management_form }}</div>
+<span><button style="margin-top: 20px;" class="btn btn-warning add-mariner add-more-fields-2">ADD</button></span>
 {% for beneficiary_forms in beneficiary_form %}
+
+<div class="panel-body">
   {{ beneficiary_forms.id }}
   {{ beneficiary_forms.user }}                      
   <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false"><p><strong>{% if beneficiary_forms.beneficiary_first_name.value %}{{ beneficiary_forms.beneficiary_first_name.value|upper }}{% endif %}  {% if beneficiary_forms.beneficiary_middle_name.value %} {{ beneficiary_forms.beneficiary_middle_name.value|upper }} {% endif %} {% if beneficiary_forms.beneficiary_last_name.value %} {{ beneficiary_forms.beneficiary_last_name.value|upper }} {% endif %}</strong></p></a> 
   <div class="panel-body">
     <div id="benefit{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
-      <div class="row">
+      <div class="row adding-row">
         <div class="col-md-4">
           <div class="input-group">
             <label class="input-group-addon input-label">Last name:</label>
@@ -58,5 +61,5 @@
       </div><!--End of Row-->
     </div><!--End of Collapse-->
   </div>
-{% endfor %}
 </div><!--End of Panel Body-->
+{% endfor %}

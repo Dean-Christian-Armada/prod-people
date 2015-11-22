@@ -242,6 +242,10 @@ def index(request):
 @login_required()
 def profile(request, slug):
 	if slug:
+		domain_url = request.scheme
+		domain_url += "://"
+		domain_url += request.META['HTTP_HOST']
+
 		user_profile = UserProfile.objects.get(slug=slug)
 		id = user_profile.id
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)
@@ -309,6 +313,7 @@ def profile(request, slug):
 		schengen_visa = ApplicationFormSchengenVisa.objects.get(user=id)
 		yellow_fever = ApplicationFormYellowFever.objects.get(user=id)
 		sea_service = ApplicationFormSeaService.objects.filter(user=id).order_by('-date_left')
+		sea_service_num_label = len(sea_service)
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
@@ -391,6 +396,8 @@ def profile(request, slug):
 				# START SEND EMAIL SCRIPT
 				email_notification = EmailNotification.objects.get(notification_status=notification_status)
 				mariners_count = MarinersProfile.objects.filter(status=1).count()
+
+				# START rank_sea_service_duration will soon be removed here | created a custom method on MarinersProfile object
 				rank_sea_service_duration = []
 				rank_sea_service = sea_service.filter(rank=mariners_profile.position)
 				for rank_sea_services in rank_sea_service:
@@ -407,15 +414,16 @@ def profile(request, slug):
 					rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
 				else:
 					rank_sea_service_duration = "%s days" % rank_sea_service_duration
+				# END rank_sea_service_duration will soon be removed here | created a custom method on MarinersProfile object
 
 				status_template = Template(email_notification.notification_status.label)
 				status = Context({})
 				status = status_template.render(status)
 				greetings_template = Template(email_notification.greetings)
-				greetings = Context({'count': mariners_count, 'name': user_profile })
+				greetings = Context({'count': mariners_count, 'name': user_profile, 'link': "%s%s%s" % (domain_url, email_notification.notification_status.base_url.base_url, user_profile.slug) })
 				greetings = greetings_template.render(greetings)
 				message_template = Template(email_notification.message)
-				message = Context({'code':user_profile.code, 'mobile':personal_data.prefix_mobile_1(), 'landline':personal_data.landline_1, 'rank_duration':rank_sea_service_duration, 'position':mariners_profile.position, 'application_source':application_form.application_source, 'us_visa':us_visa.determine_us_visa(), 'schengen_visa':schengen_visa.determine_schengen_visa(), 'vessel_type':personal_data.preferred_vessel_type, 'age':personal_data.age()})
+				message = Context({'code':user_profile.code, 'mobile':personal_data.prefix_mobile_1(), 'landline':personal_data.landline_1, 'rank_duration':mariners_profile.rank_sea_service_duration(), 'position':mariners_profile.position, 'application_source':application_form.application_source, 'us_visa':us_visa.determine_us_visa(), 'schengen_visa':schengen_visa.determine_schengen_visa(), 'vessel_type':personal_data.preferred_vessel_type, 'age':personal_data.age()})
 				message = message_template.render(message)
 
 				email_data = {}
@@ -430,9 +438,10 @@ def profile(request, slug):
 				
 				# END SEND EMAIL SCRIPT
 
-				for x in receivers:
-					NotificationHistory.objects.create(notification=notification, received=x)
-					email_receievers.append(x.user.email)
+				# for x in receivers:
+				# 	NotificationHistory.objects.create(notification=notification, received=x)
+				# 	email_receievers.append(x.departmental_email)
+					# email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
 				send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
@@ -478,6 +487,7 @@ def profile(request, slug):
 
 		context_dict['title'] = "Applicant's Profile - "+str(personal_data).upper()
 		context_dict['sea_service'] = sea_service
+		context_dict['sea_service_num_label'] = sea_service_num_label
 		context_dict['application_form'] = application_form
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['department'] = department.department

@@ -378,7 +378,7 @@
 			            <td style="text-align:center">{{ sea_services.grt }}</td>
 			            <td style="text-align:center">{{ sea_services.principal|upper }}</td>
 			            <td style="text-align:center">{{ sea_services.rank }}</td>
-			            <td style="text-align:center">{{ sea_services.duration }} days</td>
+			            <td style="text-align:center">{{ sea_services.duration_months_days }}</td>
 			            <td style="text-align:center">{% if sea_services.cause_of_discharge.cause_of_discharge_abbreviation %}{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}{% else %}{{ sea_services.cause_of_discharge|upper }}{% endif %}</td>
 			        </tr>
 	        	{% endfor %}

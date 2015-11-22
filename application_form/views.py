@@ -42,7 +42,7 @@ def form(request):
 	scheme = request.scheme
 	http_host = request.META['HTTP_HOST']
 	today = date.today()
-	today = today.strftime("%m/%d/%y")
+	today = today.strftime("%Y/%m/%d")
 	count_college_errors = 0
 	count_emergency_errors = 0
 	request_training_certificates = ''
@@ -906,6 +906,7 @@ def pdf_fleet_application_form(request, principal, id):
 
 		# Script to get the duration of the current rank via year with conditional of days if less than
 		# Used for Ionic application form
+		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
 		rank_sea_service_duration = []
 		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
 		for rank_sea_services in rank_sea_service:
@@ -923,6 +924,7 @@ def pdf_fleet_application_form(request, principal, id):
 		else:
 			rank_sea_service_duration = "%s days" % rank_sea_service_duration
 
+		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
 		sea_service_duration = []
 		for sea_services in sea_service:
 			duration = sea_services.date_left - sea_services.date_joined
@@ -940,6 +942,7 @@ def pdf_fleet_application_form(request, principal, id):
 			sea_service_duration = "%s days" % sea_service_duration
 
 		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
+		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
 		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
 		dry_vessel_types_duration = []
 		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)

@@ -172,6 +172,7 @@ class PersonalDataForm(forms.ModelForm):
 		model = ApplicationFormPersonalData
 		fields = '__all__'
 		exclude = ('name', 'birth_place', 'preferred_vessel_type', 'permanent_address', 'current_address')
+		localized_fields = ('birth_date' ,)
 
 	def save(self, commit=True):
 		birthplace = self.cleaned_data['birth_place']
@@ -917,7 +918,10 @@ class ApplicationForm(autocomplete_light.ModelForm):
 			try:
 				referred_by = ReferrersPool.objects.get(name__iexact=referred_by)
 			except:
-				self.cleaned_data['source'] = Sources.objects.get(source__iexact='Friends or Relatives')
+				if referred_by.upper() == "KALAW" or referred_by.upper() == "LUNETA":
+					self.cleaned_data['source'] = Sources.objects.get(source__iexact='Seafarer Center')
+				else:
+					self.cleaned_data['source'] = Sources.objects.get(source__iexact='Friends or Relatives')
 			self.cleaned_data['specific'] = referred_by
 			self.cleaned_data.pop("referred_by")
 		else:

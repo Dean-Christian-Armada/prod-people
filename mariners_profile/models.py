@@ -1102,7 +1102,9 @@ class Allotee(models.Model):
 	allotee_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotee_zip = models.ForeignKey('mariners_profile.Zip', blank=True, default=None)
 	bank = models.ForeignKey(Bank, blank=True, default=None)
+	branch = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotment_account_number = models.BigIntegerField(null=True, blank=True, default=None)
+	amount = models.PositiveIntegerField(null=True, blank=True, default=None)
 
 	def __unicode__(self):
 		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)

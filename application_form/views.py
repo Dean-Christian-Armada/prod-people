@@ -450,10 +450,12 @@ def fleet_application_form(request, principal, id):
 		arpa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ARPA')
 		hazmat = TrainingCertificates.objects.get(trainings_certificates_abbreviation='HAZMAT')
 		bms = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BMS')
-		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS / ERM')
+		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS/ERM')
 		ecdis_jrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS JRC')
 		acni = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ACNI')
 		sso = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSO')
+		soc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SOC')
+		ssa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSA/SDSD')
 		ism = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ISM')
 
 		try:
@@ -512,6 +514,14 @@ def fleet_application_form(request, principal, id):
 			sso_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=sso))
 		except:
 			sso_documents = ""
+		try:
+			soc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=soc))
+		except:
+			soc_documents = ""
+		try:
+			ssa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ssa))
+		except:
+			ssa_documents = ""
 		try:
 			ism_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ism))
 		except:
@@ -587,6 +597,8 @@ def fleet_application_form(request, principal, id):
 		context_dict['ecdis_jrc_documents'] = ecdis_jrc_documents
 		context_dict['acni_documents'] = acni_documents
 		context_dict['sso_documents'] = sso_documents
+		context_dict['soc_documents'] = soc_documents
+		context_dict['ssa_documents'] = ssa_documents
 		context_dict['ism_documents'] = ism_documents
 		# END ATHENIAN TRAINING CERTIFICATES
 
@@ -1025,7 +1037,7 @@ def pdf_fleet_application_form(request, principal, id):
 		arpa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ARPA')
 		hazmat = TrainingCertificates.objects.get(trainings_certificates_abbreviation='HAZMAT')
 		bms = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BMS')
-		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS / ERM')
+		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS/ERM')
 		ecdis_jrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS JRC')
 		ecdis_furuno = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS Furuno')
 		ecdis = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS')
@@ -1042,6 +1054,8 @@ def pdf_fleet_application_form(request, principal, id):
 		rsc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='RSC')
 		scs_nc_i = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SCSNC I')
 		scs_nc_ii = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SCSNC II')
+		ssa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSA/SDSD')
+		ra = TrainingCertificates.objects.get(trainings_certificates_abbreviation='RA')
 
 
 		try:
@@ -1157,6 +1171,14 @@ def pdf_fleet_application_form(request, principal, id):
 			scs_nc_ii_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=scs_nc_ii))
 		except:
 			scs_nc_ii_documents = ""
+		try:
+			ssa_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ssa))
+		except:
+			ssa_documents = ""
+		try:
+			ra_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ra))
+		except:
+			ra_documents = ""
 		# END ATHENIAN TRAINING CERTIFICATES
 
 		application_received_form = ApplicationReceivedForm()
@@ -1242,6 +1264,8 @@ def pdf_fleet_application_form(request, principal, id):
 		context_dict['rsc_documents'] = rsc_documents
 		context_dict['scs_nc_i_documents'] = scs_nc_i_documents
 		context_dict['scs_nc_ii_documents'] = scs_nc_ii_documents
+		context_dict['ssa_documents'] = ssa_documents
+		context_dict['ra_documents'] = ra_documents
 		
 		# END ATHENIAN TRAINING CERTIFICATES
 		# START INDIVIDUAL FLAGS

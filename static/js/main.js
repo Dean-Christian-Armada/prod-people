@@ -115,6 +115,32 @@ $(function(){
         ul4.prev("td").children("ul").remove(); ul4.next("td").children("input").removeAttr('required');
       }
     }
+
+    var usd_peso_converter = function(event){
+      if(event.type == 'keyup'){
+        var usd_amount = $(this).val();
+        var x = $(this).parent().parent().next().find('input.usd-peso-converter');
+      }else{
+        var usd_amount = $(this).parent().parent().prev().find('input.usd-amount').val();
+        var x = $(this);
+      }
+      $.ajax({
+        url: 'https://currency-api.appspot.com/api/USD/PHP.jsonp',
+        dataType: "jsonp",
+        data: { },
+        success: function(response) {
+          if (response.success) {
+            // alert('1 USD is worth ' + parseFloat(response.rate).toFixed(2) + ' PHP');
+            conversion = parseFloat(response.rate).toFixed(2);
+            converted = usd_amount * conversion;
+            if(!converted){
+              converted = "";
+            }
+            x.val(converted);
+          }
+        }
+      });
+    }
     // End Variables
 
     $("input[name='source']").click(function(e){
@@ -458,7 +484,7 @@ $(function(){
 
     $("body").on("focus", ".date", function(){
       $(this).datepicker({
-        dateFormat: 'yy/mm/dd',
+        dateFormat: 'yy-mm-dd',
         changeYear: true, 
         changeMonth: true, 
         yearRange: "1950:+50", 
@@ -487,6 +513,7 @@ $(function(){
               var age = ''
             }
             $(".age").val(age);
+            $(this).parent().parent().next().find('age').val(age);
           }
           if($(this).hasClass('date-joined') || $(this).hasClass('date-left')){
             val = $(this).val();
@@ -805,4 +832,22 @@ $(function(){
       }
     });
 
+    // Used for identifying age in forms on load
+    // Used in Mariners Profile - Beneficiary
+    $("input.age-identifier").each(function(){
+      var birth_date_val = $(this).parent().parent().prev().find('input.date').val();
+      var birthday = new Date(birth_date_val);
+      var today = new Date();
+      var age = ((today - birthday) / (31557600000));
+      var age = Math.floor( age );
+      if(isNaN(age)){
+        age = "";
+      }
+      $(this).val(age);
+    });
+
+    // Used for converting US Dollars to Philippine Peso
+    // Used in Mariners Profile - Allotment
+    $("input.usd-peso-converter").each(usd_peso_converter);
+    $("input.usd-amount").keyup(usd_peso_converter);
 }); 

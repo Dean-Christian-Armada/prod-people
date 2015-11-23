@@ -100,8 +100,26 @@
         </div><!--End of Col 6-->
         <div class="col-md-6">
           <div class="input-group">
+            <label class="input-group-addon input-label">Branch:</label>
+            {{ allotee_forms.branch|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 6-->
+        <div class="col-md-4">
+          <div class="input-group">
             <label class="input-group-addon input-label">Account No.:</label>
             {{ allotee_forms.allotment_account_number|add_class:"form-control input-form" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 6-->
+        <div class="col-md-4">
+          <div class="input-group">
+            <label class="input-group-addon input-label">Dollar Amount:</label>
+            {{ allotee_forms.amount|add_class:"form-control input-form usd-amount" }}
+          </div><!--End of Input Group-->
+        </div><!--End of Col 6-->
+        <div class="col-md-4">
+          <div class="input-group">
+            <label class="input-group-addon input-label">Peso Conversion:</label>
+            <input type="text" class="form-control input-form usd-peso-converter" disabled="">
           </div><!--End of Input Group-->
         </div><!--End of Col 6-->
       </div><!--End of Row-->

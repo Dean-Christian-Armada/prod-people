@@ -326,7 +326,7 @@ class LandEmploymentForm(forms.ModelForm):
 
 class BeneficiaryForm(forms.ModelForm):
 	class Meta:
-		model = Reference
+		model = Beneficiary
 		fields = '__all__'
 
 	# def clean(self):

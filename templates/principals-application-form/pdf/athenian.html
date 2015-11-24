@@ -1,0 +1,496 @@
+{% load static %}
+{% load pdf_image %}
+
+{% static "img/small_logo.png" as small_logo %}
+{# ressource.image.url|get64:domain|add:small_logo #}
+<!-- {{ domain }}/media/{{ appdetails.picture }} -->
+{# ressource.image.url|get64:signature #}
+{# ressource.image.url|get64:check #}
+{# ressource.image.url|get64:uncheck #}
+{# ressource.image.url|get64:small_logo #}
+{# ressource.image.url|get64:picture #}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PDF Example</title>
+	<style type="text/css">
+		body{ font-size:12px; }
+		th, td{ padding:5px; padding-bottom:0px; }
+		/*tr, td{ border:0; }*/
+	</style>
+</head>
+<body>
+	<table border="1px">
+		<tr>
+			<td valign="top">
+				<table>
+					<tr>
+						<td> <img src="{{ ressource.image.url|get64:logo }}" width="50px" height="50px"> ATHENIAN SEA CARRIERS LTD</td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+					</tr>
+					<tr>
+						<td>
+							<span style="font-size: 16px;"><b>APPLICATION FORM</b></span> <br />
+							<span style="font-size:8px;">(TO BE FIELD IN BY THE SEAMAN)</span>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td width="30%">{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% else %}<img height="200" width="200" style="float:left" src="{{ ressource.image.url|get64:picture_container }}">{% endif %}</td>
+			<td style="padding: 0px;">
+				<table border="1px">
+					<tr>
+						<td colspan="3"> &nbsp; </td>
+					</tr>
+					<tr>
+						<td align="center">ADS/2/06</td>
+						<td align="center">Form: PR6/01</td>
+						<td align="center" style="padding: 0px;">
+							<table border="1px">
+								<tr>
+									<td>Rev: 00 - 01/06/2013</td>
+								</tr>
+								<tr>
+									<td>Edition: 03</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center"> Issued/Approved by: CEO </td>
+					</tr>
+					<tr>
+						<td colspan="3" align="center"> <br /> <br /> <br /> </td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>RANK: <b><u>{{ mariners_profile.position }}</u></b></td>
+			<td></td>
+			<td>DATE OF AVAILABILITY: <b><u>{{ personal_data.availability_date }}</u></b></td>
+		</tr>
+		<tr>
+			<td colspan="3" style="background: #ccc">PERSONAL DETAILS</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>Surname: <b><u>{{ user_profile.last_name|upper }}</u></b></td>
+						<td>Date of Birth / Age *: {{ personal_data.birth_date }} / {{ personal_data.age }}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>First Name: <b><u>{{ user_profile.first_name|upper }}</u></b></td>
+						<td>Place of Birth: <b><u>{{ personal_data.birth_place|upper }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>Father's Name: <b><u>{{ personal_data.father_first_name|upper }} {{ personal_data.father_middle_name|upper }} {{ personal_data.father_last_name|upper }}</u></b></td>
+						<td>Passport Nr: <b><u>{{ passport.passport|upper }}</u></b></td>
+						<td>Expires: <b><u>{{ passport.none_expiry }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>Mother's Name: <b><u>{{ personal_data.mother_first_name|upper }} {{ personal_data.mother_middle_name|upper }} {{ personal_data.mother_last_name|upper }}</u></b></td>
+						<td>SB Nr: <b><u>{{ sbook.sbook|upper }}</u></b></td>
+						<td>Issued on: <b><u>{{ sbook.none_date_issued }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>Children name/ D.O.B.: </td>
+						<td>(1) </td>
+						<td>(2) </td>
+						<td>(3) </td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="background: #ccc">CONTACT DETAILS</td>
+		</tr>
+		<tr>
+			<td colspan="3">Home Address Street(street-zip-code): {% if personal_data.current_address %}<b><u>{{ personal_data.current_address.current_unit|upper }}, {{ personal_data.current_address.current_street|upper }}, {{ personal_data.current_address.current_zip.barangay|upper }}, {{ personal_data.current_address.current_zip.municipality|upper }}</u></b>{% endif %}</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<table>
+					<tr>
+						<td>Telephone: <b><u>{{ personal_data.none_landline_1 }}</u></b></td>
+						<td>Mobile Phone: <b><u>{{ personal_data.prefix_mobile_1 }}</u></b></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="background: #ccc">CERTIFICATION / QUALIFICATIONS</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="padding:0px;">
+				<table border="1px" >
+					<td>Certificate of Competency(COC)</td>
+					<td style="padding:0px;">
+						<table border="1px">
+							<tr>
+								<td align="center" style="font-size:8px;">Grade of Officer Certificate</td>
+							</tr>
+							<tr>
+								<td align="center" style="font-size:8px;">&nbsp; {{ coc.coc_grade|upper }} </td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;">
+						<table border="1px">
+							<tr>
+								<td align="center" style="font-size:8px;">Certificate No.</td>
+							</tr>
+							<tr>
+								<td align="center" style="font-size:8px;">{{ coc.coc|upper }} </td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;">
+						<table border="1px">
+							<tr>
+								<td align="center" style="font-size:8px;">Date Issued</td>
+							</tr>
+							<tr>
+								<td align="center" style="font-size:8px;"> {{ coc.coc_date_issued }} </td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;">
+						<table border="1px">
+							<tr>
+								<td align="center" style="font-size:8px;">Date Expires</td>
+							</tr>
+							<tr>
+								<td align="center" style="font-size:8px;"> {{ coc.coc_expiry }} </td>
+							</tr>
+						</table>
+					</td>
+					<td style="padding:0px;">
+						<table border="1px">
+							<tr>
+								<td align="center" style="font-size:8px;">Country of issue</td>
+							</tr>
+							<tr>
+								<td align="center" style="font-size:8px;"> PHILIPPINES </td>
+							</tr>
+						</table>
+					</td>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="padding:0px;">
+				<table border="1px">
+					<tr>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding:0px;"> &nbsp;{% if btot_documents %}{% if btot_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Oil Tanker Safety - Basic (V/I-1)</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Expiration Date: <b><u>{{ btot_documents.none_expiry }}</u></b></td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px;"> &nbsp;{% if hazmat_documents %}{% if hazmat_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}Hazardous Materials Certificate (HAZMAT)</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding:0px;"> &nbsp;{% if atot_documents %}{% if atot_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Oil Tanker Safety - Advanced (V/I-2)</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Expiration Date: <b><u>{{ atot_documents.none_expiry }}</u></b> </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding:0px;"> &nbsp;{% if brm_documents %}{% if brm_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Bridge Maneuvering Simulator (BMS)</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Issue Date: <b><u>{{ brm_documents.none_issued }}</u></b> </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 0px;">  &nbsp;{% if bt_documents %}{% if bt_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Basic Safety Training(VI/1-1 to 1-4)</td>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding: 0px;">  &nbsp;{% if ers_erm_documents %}{% if ers_erm_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Engine Simulator</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Issue Date: <b><u>{{ ers_erm_documents.none_issued }}</u></b></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 0px;"> &nbsp;{% if psrb_documents %}{% if psrb_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Proficiency in Survival & Rescue Boat(VI/2-1)</td>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding: 0px;"> &nbsp;{% if ers_erm_documents %}{% if ers_erm_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Engine Resource Management(ERM)</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Issue Date: <b><u>{{ ers_erm_documents.none_issued }}</u></b> </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if aff_documents %}{% if aff_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Advanced Fire Fighting(VI/3)</td>
+						<td style="padding: 3px; padding-left: 0px;">ECDIS</td>
+					</tr>
+					<tr>
+						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if mefa_documents %}{% if mefa_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Medical First Aid(VI/4-1)</td>
+						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if ra_documents %}{% if ra_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Risk Assessment / Incident Investigation</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding: 0px;"> &nbsp;{% if meca_documents %}{% if meca_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Medical Care</td>
+									<td style="font-size: 8px; padding: 5px;" width="55%">Expiration Date: <b><u>{{ meca_documents.none_expiry }}</u></b> </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding: 0px;"> &nbsp;{% if sso_documents %}{% if sso_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Ship Security Officer</td>
+									<td style="font-size: 8px; padding:5px;" width="55%">Issue Date: <b><u>{{ sso_documents.none_expiry }}</u></b></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px"> &nbsp;{% if arpa_documents %}{% if arpa_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Automatic Radar Plotting Aids(ARPA)</td>
+						<td style="padding:0px">
+							<table border="1px">
+								<tr>
+									<td style="padding:0px"> &nbsp;{% if ism_documents %}{% if ism_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ISM / ISO 9001 - 14001</td>
+									<td style="font-size: 8px; padding:5px;" width="55%"> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"> &nbsp; </td>
+		</tr>
+		<tr>
+			<td colspan="3" style="background: #ccc">LIST OF SEA SERVICES (Please start from last sign on)</td>
+		</tr>
+		<tr>
+			<td style="padding:0px;" colspan="3">
+				<table border="1px" style="font-size: 8px;">
+					<tr>
+						<td align="center">Propulsion (Steam or Motor)</td>
+						<td align="center">Vessle Name</td>
+						<td align="center">Vesel Type</td>
+						<td align="center">Owner</td>
+						<td align="center">DWT</td>
+						<td align="center">Engine Type</td>
+						<td align="center">Rank</td>
+						<td align="center">Sign on Date</td>
+						<td align="center">Sign off Date</td>
+						<td align="center">Sign off Reason</td>
+						<td align="center">Service Months</td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+						<td> &nbsp; </td>
+					</tr>
+				</table>					
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="padding:0px;">
+				<table>
+					<tr>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>TOTAL SEA SERVICE(yrs)</td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>LANGUAGES</td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>SEA SERVICE IN RANK (yrs)</td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td> &nbsp; </td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>SEA SERVICE IN CRUDE OIL CARRIERS(yrs)</td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>REFERENCES</td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td> &nbsp; </td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td> ____________________</td>
+									<td> _________________________ </td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td> &nbsp; </td>
+									<td> &nbsp; </td>
+								</tr>
+							</table>
+						</td>
+						<td style="padding:0px">
+							<table>
+								<tr>
+									<td>(Date of Application)</td>
+									<td>(APPLICANT SIGNATURE)</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="background: #ccc">PLEASE DO NOT WRITE BELOW THIS LINE (for Company use only)</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="padding:0px;">
+				<table>
+					<tr>
+						<td>Comments by Interviewer: </td>
+						<td style="border-bottom: 1px solid black;" colspan="2"> &nbsp; </td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+						<td style="border-bottom: 1px solid black;" colspan="2"> &nbsp; </td>
+					</tr>
+					<tr>
+						<td> &nbsp; </td>
+					</tr>
+					<tr>
+						<td valign="top" width="40%"> Reviewed by: </td>
+						<td width="70%">
+							<table>
+								<tr>
+									<td style="border-bottom: 1px solid black;">CEO<span style="font-size: 8px;">(for Master & C/E)</span> </td>
+								</tr>
+								<tr>
+									<td style="border-bottom: 1px solid black;">FST & Operations Mgr<span style="font-size: 8px;">(for Deck Officers)</span> </td>
+								</tr>
+								<tr>
+									<td style="border-bottom: 1px solid black;">Technical Director<span style="font-size: 8px;">(for Engine Officers)</span> </td>
+								</tr>
+								<tr>
+									<td style="border-bottom: 1px solid black;">Crew Mgr<span style="font-size: 8px;">(for Ratings)</span> </td>
+								</tr>
+								<tr>
+									<td align="right" style="font-size: 10px;"> (signature) (date) </td>
+								</tr>
+							</table>
+						</td>
+						<td valign="top" style="background: #ccc" width="40%">
+							<table>
+								<tr>
+									<td style="font-size: 8px;">
+										<b><u>Age Verification according ADS/2/6 4.1</u></b> <br />
+										It is hereby verified that above <br />
+										seafarer is not under the age of
+										18 years old.
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>

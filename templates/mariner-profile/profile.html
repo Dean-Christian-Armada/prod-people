@@ -94,7 +94,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> &nbsp; &nbsp; <button class="btn btn-primary background-msmi-green event-propagation mariner-status-notification">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -383,6 +383,25 @@
   </div><!--End of Page Wrapper-->
 </div><!--End of Wrapper-->
 
+  
+  <div class="modal fade modal-size-600" id="modal-mariner-status-notification" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel">MARINER STATUS CHANGE <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body mariner-status-notification modal-body-padding">
+          <h3>A notification will be sent to Captain Albert.</h3>
+          <h3>A notification will be sent to crewing.</h3>
+           <label for="scanned-principal-acknowledgement" type="file" class="btn background-msmi-blue btn-primary">Attach Scanned Document</label> 
+           <input type="file" id="scanned-principal-acknowledgement" class="hide">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Click to Send Notification</button>
+        </div>
+      </div>
+    </div> 
+  </div>
 
   <div class="modal fade" id="modal-mariner-history-status-comment" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

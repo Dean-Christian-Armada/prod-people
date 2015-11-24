@@ -24,10 +24,10 @@
               <div class="form-group">  
                 <div class="row">
                   <div class="col-md-4 col-laptop-5">
-                    <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" onclick="alert('Not yet available at the moment')" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+                    <a href="{% url 'pdf_fleet_application_form'  principal='athenian' id=user_profile.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
                   </div><!--End of Col 4-->
                   <div class="col-md-4 col-laptop-5">
-                    <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" onclick="alert('Not yet available at the moment')" class="btn btn-msmi form-control"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+                    <a href="{% url 'pdf_fleet_application_form'  principal='athenian' id=user_profile.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
                   </div><!--End of Col 4-->     
                 </div><!--End of Row-->             
               </div><!--End of Form Group-->

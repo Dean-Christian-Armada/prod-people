@@ -159,7 +159,17 @@
           <div class="panel panel-msmi-blue"></div>
           <!-- <form method="GET"> -->
           <div class="panel panel-msmi-green">
-            <div class="panel-heading panel-body"><strong>Crew</strong>
+            <div class="panel-heading panel-body">
+              <strong>Crew</strong>
+              <span class="dropdown pull-right">
+                <button type="button" class="btn btn-msmi-blue mariner-notifications" data-toggle="dropdown">Notifications</button>
+                <span class="notification-counter">3</span>
+                <ul class="dropdown-menu padding-all-negator margin-all-negator background-msmi-green">
+                  <li><a class="border-bottom-top-1-white" href="#"><img src="/media/photos/mariners-profile/erlb.20150710_V9BXMLJ.pix" height="50px" width="50px"> erlb - SCANNED DOCUMENTS -> TRAVEL DOCUMENTS -> PASSPORT will expire in 6 months.</a></li>
+                  <li><a class="border-bottom-top-1-white" href="#"><img src="/media/photos/mariners-profile/erlb.20150710_V9BXMLJ.pix" height="50px" width="50px"> erlb - SCANNED DOCUMENTS -> CONTRACTS -> POEA will expire in 2 weeks </a></li>
+                  <li><a class="border-bottom-top-1-white" href="#"><img src="/media/photos/mariners-profile/erlb.20150710_V9BXMLJ.pix" height="50px" width="50px"> erlb - SCANNED DOCUMENTS -> CONTRACTS -> ITF will expire in 1 week</a></li>
+                </ul>
+              </span>
             </div>
             <!-- </form> -->
  
@@ -233,7 +243,6 @@
                       <!-- <th>Barangay</th> -->
                       <th>Municipality</th>
                       <th>Zip</th>
-                      <th>Notifications</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -253,7 +262,6 @@
                          <!--  <td>{{ personal_data.current_address.current_zip.barangay|upper }}</td> -->
                           <td>{{ personal_data.current_address.current_zip.municipality|upper }}</td>
                           <td>{{ personal_data.current_address.current_zip }}</td>
-                          <td></td>
                         </tr>
                       {% endfor %}
                     {% else %}

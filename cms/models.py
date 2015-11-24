@@ -33,6 +33,10 @@ class SubFolder(models.Model):
 	order = models.SmallIntegerField(null=True, blank=True, default=None)
 	upload = models.BooleanField(default=True)
 	slug = models.SlugField(null=True, blank=True, default=None)
+	# These three notifiers are generally optionals
+	low_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
+	medium_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
+	high_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 
 	def slug_name(self):
 		return slugify(str(self.folder)+' '+str(self.extra_sub_folder)+' '+self.name)

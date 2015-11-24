@@ -850,4 +850,23 @@ $(function(){
     // Used in Mariners Profile - Allotment
     $("input.usd-peso-converter").each(usd_peso_converter);
     $("input.usd-amount").keyup(usd_peso_converter);
+
+    // $(".mariner-notifications").click(function(){
+
+    // });
+  
+    $("#travel-documents-passport-upload").parent().addClass("low-notif-borders");
+    $("#contracts-poea-upload").parent().addClass("med-notif-borders");
+    $("#contracts-itf-upload").parent().addClass("high-notif-borders");
+
+    $(".mariner-status-notification").click(function(){
+      $("#modal-mariner-status-notification").modal("show");
+    });
+
+    $("#scanned-principal-acknowledgement").change(function(){
+      x = $(this).val();
+      y = x.split('\\');
+      z = y.length;
+      $(this).after("<span>"+y[z-1]+"</span>");
+    });
 }); 

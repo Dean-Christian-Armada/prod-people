@@ -443,7 +443,7 @@ def fleet_application_form(request, principal, id):
 		btoc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BTOC')
 		atot = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ATOT')
 		bt = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BT')
-		psrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRC')
+		psrb = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRB')
 		aff = TrainingCertificates.objects.get(trainings_certificates_abbreviation='AFF')
 		mefa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MEFA')
 		meca = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MECA')
@@ -471,9 +471,9 @@ def fleet_application_form(request, principal, id):
 		except:
 			bt_documents = ""
 		try:
-			psrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrc))
+			psrb_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrb))
 		except:
-			psrc_documents = ""
+			psrb_documents = ""
 		try:
 			aff_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=aff))
 		except:
@@ -586,7 +586,7 @@ def fleet_application_form(request, principal, id):
 		context_dict['btoc_documents'] = btoc_documents
 		context_dict['atot_documents'] = atot_documents
 		context_dict['bt_documents'] = bt_documents
-		context_dict['psrc_documents'] = psrc_documents
+		context_dict['psrb_documents'] = psrb_documents
 		context_dict['aff_documents'] = aff_documents
 		context_dict['mefa_documents'] = mefa_documents
 		context_dict['meca_documents'] = meca_documents
@@ -1029,7 +1029,7 @@ def pdf_fleet_application_form(request, principal, id):
 		btoc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BTOC')
 		atot = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ATOT')
 		bt = TrainingCertificates.objects.get(trainings_certificates_abbreviation='BT')
-		psrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRC')
+		psrb = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PSRB')
 		pfrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='PFRC')
 		aff = TrainingCertificates.objects.get(trainings_certificates_abbreviation='AFF')
 		mefa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='MEFA')
@@ -1076,9 +1076,9 @@ def pdf_fleet_application_form(request, principal, id):
 		except:
 			bt_documents = ""
 		try:
-			psrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrc))
+			psrb_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=psrb))
 		except:
-			psrc_documents = ""
+			psrb_documents = ""
 		try:
 			pfrc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=pfrc))
 		except:
@@ -1255,7 +1255,7 @@ def pdf_fleet_application_form(request, principal, id):
 		context_dict['btoc_documents'] = btoc_documents
 		context_dict['atot_documents'] = atot_documents
 		context_dict['bt_documents'] = bt_documents
-		context_dict['psrc_documents'] = psrc_documents
+		context_dict['psrb_documents'] = psrb_documents
 		context_dict['pfrc_documents'] = pfrc_documents
 		context_dict['aff_documents'] = aff_documents
 		context_dict['mefa_documents'] = mefa_documents

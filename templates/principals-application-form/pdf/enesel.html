@@ -222,10 +222,10 @@
 			</tr>
 			<tr>
 				<td colspan="2">Tanker Safety (operational-V/1.1)</td>
-				<td style="text-align:center; padding-top:0px;">{% if meca_documents %}{% if meca_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td><td style="text-align:center; padding-top:0px;">{% if not meca_documents %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}{% if not meca_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% endif %}</td>
-				<td style="text-align:center">{{ meca_documents.trainings_certificates.training_issuing_authority}}</td>
-				<td style="text-align:center">{{ meca_documents.none_issued }}</td>
-				<td style="text-align:center">{{ meca_documents.none_expiry }}</td>
+				<td style="text-align:center; padding-top:0px;">{% if btot_documents %}{% if btot_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}</td><td style="text-align:center; padding-top:0px;">{% if not btot_documents %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}{% if not btot_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% endif %}</td>
+				<td style="text-align:center">{{ btot_documents.trainings_certificates.training_issuing_authority}}</td>
+				<td style="text-align:center">{{ btot_documents.none_issued }}</td>
+				<td style="text-align:center">{{ btot_documents.none_expiry }}</td>
 			</tr>
 			<tr>
 				<td colspan="2">Tanker Safety (management-V/1.2) </td>

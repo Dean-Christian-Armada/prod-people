@@ -288,7 +288,8 @@ def profile(request, slug):
 		# START, variables used to prepopulate inlineformset for training and certificates
 		rank = Rank.objects.get(id=mariners_profile.position.id)
 		
-		trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
+		# trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter(company_standard=1)
+		trainings_certificate_standard = TrainingCertificates.objects.filter(departments=rank.department).filter()
 		trainings_certificate_standard_num = len(trainings_certificate_standard)
 		trainings_certificate_num = len(TrainingCertificateDocumentsDetailed.objects.filter(trainings_certificate_documents=trainings_certificate_documents))
 		if(trainings_certificate_standard_num != trainings_certificate_num):

@@ -1056,10 +1056,14 @@ def pdf_fleet_application_form(request, principal, id):
 		scs_nc_ii = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SCSNC II')
 		ssa = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSA/SDSD')
 		ra = TrainingCertificates.objects.get(trainings_certificates_abbreviation='RA')
+		chs = TrainingCertificates.objects.get(trainings_certificates_abbreviation='CHS')
+		ap = TrainingCertificates.objects.get(trainings_certificates_abbreviation='AP')
+		_in = TrainingCertificates.objects.get(trainings_certificates_abbreviation='IN')
 
 
 		try:
-			print trainings_certificate_document
+			print "------------"
+			print trainings_certificate_document.id
 			btoc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=btoc))
 		except:
 			btoc_documents = ""
@@ -1179,6 +1183,18 @@ def pdf_fleet_application_form(request, principal, id):
 			ra_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ra))
 		except:
 			ra_documents = ""
+		try:
+			chs_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=chs))
+		except:
+			chs_documents = ""
+		try:
+			ap_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ap))
+		except:
+			ap_documents = ""
+		try:
+			in_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=_in))
+		except:
+			in_documents = ""
 		# END ATHENIAN TRAINING CERTIFICATES
 
 		application_received_form = ApplicationReceivedForm()
@@ -1266,6 +1282,9 @@ def pdf_fleet_application_form(request, principal, id):
 		context_dict['scs_nc_ii_documents'] = scs_nc_ii_documents
 		context_dict['ssa_documents'] = ssa_documents
 		context_dict['ra_documents'] = ra_documents
+		context_dict['chs_documents'] = chs_documents
+		context_dict['ap_documents'] = ap_documents
+		context_dict['in_documents'] = in_documents
 		
 		# END ATHENIAN TRAINING CERTIFICATES
 		# START INDIVIDUAL FLAGS

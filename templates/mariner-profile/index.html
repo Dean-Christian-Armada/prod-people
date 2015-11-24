@@ -159,7 +159,7 @@
           <div class="panel panel-msmi-blue"></div>
           <!-- <form method="GET"> -->
           <div class="panel panel-msmi-green">
-            <div class="panel-heading panel-body"><strong>Crew Applicants</strong>
+            <div class="panel-heading panel-body"><strong>Crew</strong>
             </div>
             <!-- </form> -->
  
@@ -193,8 +193,7 @@
               <div class="row">
                 <div class="form-inline">
                   <div class="col-md-12">   
-                    <!-- <p><strong>Showing 1 of 57 of 57 entries</strong></p> -->
-                    <span class="pull-left"><strong>Showing {{mariners_profile.number}} of {{mariners_profile.paginator.num_pages}} entries</strong></span>
+                    <span class="pull-left"><strong>Showing {{mariners_profile.number}} of {{mariners_profile.paginator.num_pages}} entries  </strong></span>
                     <nav class="pull-right">
                       <ul class="pagination margin-top-negator">
                          
@@ -231,9 +230,10 @@
                       <th>Landline No.</th>
                       <th>US Visa Expiry</th>
                       <th>Schengen Visa Expiry</th>
-                      <th>Barangay</th>
+                      <!-- <th>Barangay</th> -->
                       <th>Municipality</th>
                       <th>Zip</th>
+                      <th>Notifications</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -250,9 +250,10 @@
                           <td>{{ personal_data.none_landline_1 }}</td>
                           <td>{% if us_visa.us_visa_expiry == None %}NO VISA{% else %}{{ us_visa.us_visa_expiry }}{% endif %}</td>
                           <td>{% if schengen_visa.schengen_visa_expiry == None %}NO VISA{% else %}{{ schengen_visa.schengen_visa_expiry }}{% endif %}</td>
-                          <td>{{ personal_data.current_address.current_zip.barangay|upper }}</td>
+                         <!--  <td>{{ personal_data.current_address.current_zip.barangay|upper }}</td> -->
                           <td>{{ personal_data.current_address.current_zip.municipality|upper }}</td>
                           <td>{{ personal_data.current_address.current_zip }}</td>
+                          <td></td>
                         </tr>
                       {% endfor %}
                     {% else %}

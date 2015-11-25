@@ -1141,10 +1141,3 @@ def content_file_name(instance, filename):
     # if not os.path.exists(upload_dir):
     #     os.makedirs(upload_dir)
     return os.path.join(upload_dir, filename)
-# class ScannedDocuments(models.Model):
-# 	user = models.ForeignKey(UserProfile, default=None)
-# 	folder_path = models.ForeignKey(DynamicPathFolders, default=None)
-# 	scan = models.ImageField(upload_to=content_file_name, blank=True)
-# 	uploaded_by = models.ForeignKey(UserProfile, related_name='uploaded_by', default=default_user_user_level())
-# 	uploaded_date = models.DateTimeField(auto_now_add=True, )
-# 	archive = models.BooleanField(default=False)

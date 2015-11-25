@@ -927,6 +927,25 @@ class MarinersProfile(models.Model):
 			month = month % 12
 		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
 
+	def oil_vessel_type_duration(self):
+		sea_service = SeaService.objects.filter(user=self.user.id)
+		oil_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Oil') | Q(vessel_type__iexact='Oil Tanker') | Q(vessel_type__iexact='Crude Oil Carrier') | Q(vessel_type__iexact='Oil Carrier') | Q(vessel_type__iexact='Crude Oil'))
+		oil_vessel_types_duration = []
+		oil_vessel_type_sea_service = sea_service.filter(vessel_type__in=oil_vessel_types)
+		x = rdelta.relativedelta(years=+0, months=+0, days=+0)
+		for oil_vessel_type_sea_services in oil_vessel_type_sea_service:
+			x += rdelta.relativedelta(oil_vessel_type_sea_services.date_left, oil_vessel_type_sea_services.date_joined)
+		year = x.years
+		month = x.months
+		day = x.days
+		if day >= 30:
+			month = (day / 30) + month
+			day = day % 30
+		if month >= 12:
+			year = (month / 12) + year
+			month = month % 12
+		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
+
 
 class MarinerStatusComment(models.Model):
 	mariner_status_comment = models.TextField(default=None, null=True, blank=True)

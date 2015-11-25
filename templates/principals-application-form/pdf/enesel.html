@@ -64,7 +64,7 @@
 							<table border="1">
 								<tr>
 									<td height="100">Available from: </td>
-									<td><b><u>{{ personal_data.availability_date }}</u></b></td>
+									<td><b><u>{{ personal_data.availability_month_year }}</u></b></td>
 								</tr>
 								<tr>
 									<td>Surname: </td>
@@ -187,6 +187,9 @@
 				<td style="text-align: center">{{ yellow_fever.yellow_place_issued|upper }}</td>
 				<td style="text-align: center">{{ yellow_fever.none_date_issued }}</td>
 				<td style="text-align: center">{{ yellow_fever.none_expiry }}</td>
+			</tr>
+			<tr>
+				<td colspan="5"> &nbsp; </td>
 			</tr>
 		</table>
 	</table>
@@ -392,6 +395,20 @@
 			            <td style="text-align:center">{% if sea_services.cause_of_discharge.cause_of_discharge_abbreviation %}{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}{% else %}{{ sea_services.cause_of_discharge|upper }}{% endif %}</td>
 			        </tr>
 	        	{% endfor %}
+	        {% else %}
+	        	{% for x in enesel_sea_service_blank_count %}
+	            	<tr>
+	                	<td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                    <td style="text-align:center"> &nbsp; </td>
+	                </tr>
+                {% endfor %}
 	        {% endif %}
 	</table>
 	<table border="1">

@@ -30,7 +30,7 @@
 				<h4 style="color:#009bd9">APPLICATION FORM (TO BE FILLED BY THE SEAMAN)</h4>
 				Date of Application: <b><u>{{ today }}</u></b><br />
 				Position Applied For: <b><u>{{ mariners_profile.position }}</u></b><br />
-				Date of Availability: <b><u>{{ personal_data.availability_date }}</u></b>
+				Date of Availability: <b><u>{{ personal_data.availability_month_year }}</u></b>
 			</td>
 			<td style="text-align:right">
 				{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% else %}<img height="200" width="200" style="float:left" src="{{ ressource.image.url|get64:picture_container }}">{% endif %}
@@ -581,116 +581,19 @@
 		                </tr>
 		            {% endfor %}
 		            {% else %}
-		            	<tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
-		                <tr>
-		                	<td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                    <td style="text-align:center"> &nbsp; </td>
-		                </tr>
+		            	{% for x in sea_service_blank_count %}
+			            	<tr>
+			                	<td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                </tr>
+		                {% endfor %}
 		            {% endif %}
 		            <tr>
 		            	<td colspan="5" style="text-align: center">Total Sea Service in Rank(years):</td>

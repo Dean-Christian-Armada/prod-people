@@ -56,11 +56,14 @@ class AbstractPersonalData(models.Model):
 	# DateFields
 	birth_date = models.DateField(default=None)
 
-	# ThirdParty Fields
 	availability_date = models.CharField(max_length=15, default=None)
 	
 	class Meta:
 		abstract = True
+
+	def availability_month_year(self):
+		x = self.availability_date
+		return x[:-3]
 
 	def __unicode__(self):
 		return "%s %s %s" % (self.name.first_name, self.name.middle_name, self.name.last_name)

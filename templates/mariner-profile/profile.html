@@ -94,7 +94,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> &nbsp; &nbsp; <button class="btn btn-primary background-msmi-green event-propagation mariner-status-notification">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -298,7 +298,7 @@
               {{mariners_picture_form.picture_last_modified}}
             </div>
             {% if mariners_profile.picture_last_modified %}
-              <p>Last Picture Change: <br />{{mariners_profile.picture_last_modified}}</p>
+              <p style="font-size: 12px;">Last Picture Change: {{mariners_profile.picture_last_modified}}</p>
             {% endif %}
             {% if picture_age_indicator >= 730 and picture_age_indicator != '' %}
               <strong>PICTURE already over two years</strong>
@@ -469,7 +469,11 @@
         $("#modal-mariner-history-status-comment").modal('show');
       });
 
-      $(".update-mariner").on("click", function(){
+      $(".update-mariner").click(function(){
+        if($(this).hasClass('mariner-status-notification')){
+          $("#modal-mariner-status-notification").modal("show");
+          return;
+        }
         child = $(this);
         parent = $(this).parent();
         parent_html = $(this).parent().html();
@@ -486,6 +490,7 @@
         var parent_next = $(this).parent().next();
         // var parent_next_html = $(this).parent().next().html();
         var required_num = 0;
+
         var json_name_val = {csrfmiddlewaretoken: csrfmiddlewaretoken};
         if($(this).attr('data-params')){
           param = $(this).attr('data-params');
@@ -537,9 +542,13 @@
             child.parent().next().html('<div class="text-center"><img src = "'+img+'"></div>');  
             // child.parent().html('<div class="update-mariner background-inherit"><img src = "'+mini_img+'"></div>');
             $.post(url, json_name_val, function(result){
-              parent.html(parent_html); 
               parent_next.html(result);
             });
+          }
+
+          if($(this).hasClass('update-mariner-status')){
+            $(this).removeClass('update-mariner');
+            $(this).addClass('mariner-status-notification');
           }
         // } 
       });

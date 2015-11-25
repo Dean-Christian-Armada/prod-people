@@ -600,7 +600,7 @@ def fleet_application_form(request, principal, id):
 		context_dict['soc_documents'] = soc_documents
 		context_dict['ssa_documents'] = ssa_documents
 		context_dict['ism_documents'] = ism_documents
-		# END ATHENIAN TRAINING CERTIFICATES
+		# END ATHENIAN TRAINING CERTIFICATE
 
 		return render(request, template, context_dict)
 		# return HttpResponse(template)
@@ -1040,6 +1040,7 @@ def pdf_fleet_application_form(request, principal, id):
 		ers_erm = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ERS/ERM')
 		ecdis_jrc = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS JRC')
 		ecdis_furuno = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS Furuno')
+		ecdis_generic = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS Generic')
 		ecdis = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ECDIS')
 		acni = TrainingCertificates.objects.get(trainings_certificates_abbreviation='ACNI')
 		sso = TrainingCertificates.objects.get(trainings_certificates_abbreviation='SSO')
@@ -1120,9 +1121,9 @@ def pdf_fleet_application_form(request, principal, id):
 		except:
 			ecdis_furuno_documents = ""
 		try:
-			ecdis_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ecdis))
+			ecdis_generic_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=ecdis_generic))
 		except:
-			ecdis_documents = ""
+			ecdis_generic_documents = ""
 		try:
 			acni_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=acni))
 		except:
@@ -1266,7 +1267,7 @@ def pdf_fleet_application_form(request, principal, id):
 		context_dict['ers_erm_documents'] = ers_erm_documents
 		context_dict['ecdis_jrc_documents'] = ecdis_jrc_documents
 		context_dict['ecdis_furuno_documents'] = ecdis_furuno_documents
-		context_dict['ecdis_documents'] = ecdis_documents
+		context_dict['ecdis_generic_documents'] = ecdis_generic_documents
 		context_dict['acni_documents'] = acni_documents
 		context_dict['sso_documents'] = sso_documents
 		context_dict['ism_documents'] = ism_documents
@@ -1313,4 +1314,7 @@ def blank_pdf_fleet_application_form(request, principal, id):
 	context_dict['check'] = ""
 	context_dict['uncheck'] = uncheck
 	context_dict['signature'] = ""
+
+	context_dict['sea_service_blank_count'] = range(0, 10)
+	context_dict['enesel_sea_service_blank_count'] = range(0, 13)
 	return render_to_pdf_response(request, template, context_dict)

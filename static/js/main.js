@@ -859,9 +859,6 @@ $(function(){
     $("#contracts-poea-upload").parent().addClass("med-notif-borders");
     $("#contracts-itf-upload").parent().addClass("high-notif-borders");
 
-    $(".mariner-status-notification").click(function(){
-      $("#modal-mariner-status-notification").modal("show");
-    });
 
     $("#scanned-principal-acknowledgement").change(function(){
       x = $(this).val();
@@ -869,4 +866,18 @@ $(function(){
       z = y.length;
       $(this).after("<span>"+y[z-1]+"</span>");
     });
+
+    // Soon to be removed, just temporarily
+    mariner_status_principal = $("#id_mariner_principal option:selected");
+    if( mariner_status_principal.val() == ''){
+      $(".update-mariner-status").addClass("update-mariner");
+    }else{
+      $(".update-mariner-status").addClass("mariner-status-notification");
+    }
+
+    $(".mariner-status-notification").click(function(){
+      $("#modal-mariner-status-notification").modal("show");
+    });
+
+
 }); 

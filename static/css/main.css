@@ -659,6 +659,10 @@ body.crewing-profile .panel p{
   background-color: #02be9b; margin-left: 20px;
 }
 
+.mariner-status-notification{
+  margin-left: 20px;
+}
+
 .add-mariner{
   margin-left: 20px;
 }

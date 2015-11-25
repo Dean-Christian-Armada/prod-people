@@ -45,7 +45,7 @@
 					</tr>
 				</table>
 			</td>
-			<td width="30%">{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% else %}<img height="200" width="200" style="float:left" src="{{ ressource.image.url|get64:picture_container }}">{% endif %}</td>
+			<td width="30%">{% if picture %}<img style="float:left" src="{{ ressource.image.url|get64:picture }}">{% endif %}</td>
 			<td style="padding: 0px;">
 				<table border="1px">
 					<tr>
@@ -77,7 +77,7 @@
 		<tr>
 			<td>RANK: <b><u>{{ mariners_profile.position }}</u></b></td>
 			<td></td>
-			<td>DATE OF AVAILABILITY: <b><u>{{ personal_data.availability_date }}</u></b></td>
+			<td>DATE OF AVAILABILITY: <b><u>{{ personal_data.availability_month_year }}</u></b></td>
 		</tr>
 		<tr>
 			<td colspan="3" style="background: #ccc">PERSONAL DETAILS</td>
@@ -87,7 +87,7 @@
 				<table>
 					<tr>
 						<td>Surname: <b><u>{{ user_profile.last_name|upper }}</u></b></td>
-						<td>Date of Birth / Age *: {{ personal_data.birth_date }} / {{ personal_data.age }}</td>
+						<td>Date of Birth / Age *: <b><u>{{ personal_data.birth_date }} / {{ personal_data.age }}</u></b></td>
 					</tr>
 				</table>
 			</td>
@@ -106,7 +106,7 @@
 			<td colspan="3">
 				<table>
 					<tr>
-						<td>Father's Name: <b><u>{{ personal_data.father_first_name|upper }} {{ personal_data.father_middle_name|upper }} {{ personal_data.father_last_name|upper }}</u></b></td>
+						<td width="70%">Father's Name: <b><u>{{ personal_data.father_first_name|upper }} {{ personal_data.father_middle_name|upper }} {{ personal_data.father_last_name|upper }}</u></b></td>
 						<td>Passport Nr: <b><u>{{ passport.passport|upper }}</u></b></td>
 						<td>Expires: <b><u>{{ passport.none_expiry }}</u></b></td>
 					</tr>
@@ -117,7 +117,7 @@
 			<td colspan="3">
 				<table>
 					<tr>
-						<td>Mother's Name: <b><u>{{ personal_data.mother_first_name|upper }} {{ personal_data.mother_middle_name|upper }} {{ personal_data.mother_last_name|upper }}</u></b></td>
+						<td width="70%">Mother's Name: <b><u>{{ personal_data.mother_first_name|upper }} {{ personal_data.mother_middle_name|upper }} {{ personal_data.mother_last_name|upper }}</u></b></td>
 						<td>SB Nr: <b><u>{{ sbook.sbook|upper }}</u></b></td>
 						<td>Issued on: <b><u>{{ sbook.none_date_issued }}</u></b></td>
 					</tr>
@@ -175,7 +175,7 @@
 								<td align="center" style="font-size:8px;">Certificate No.</td>
 							</tr>
 							<tr>
-								<td align="center" style="font-size:8px;">{{ coc.coc|upper }} </td>
+								<td align="center" style="font-size:8px;"> &nbsp; {{ coc.coc|upper }} </td>
 							</tr>
 						</table>
 					</td>
@@ -185,7 +185,7 @@
 								<td align="center" style="font-size:8px;">Date Issued</td>
 							</tr>
 							<tr>
-								<td align="center" style="font-size:8px;"> {{ coc.coc_date_issued }} </td>
+								<td align="center" style="font-size:8px;"> &nbsp; {{ coc.none_date_issued }} </td>
 							</tr>
 						</table>
 					</td>
@@ -195,7 +195,7 @@
 								<td align="center" style="font-size:8px;">Date Expires</td>
 							</tr>
 							<tr>
-								<td align="center" style="font-size:8px;"> {{ coc.coc_expiry }} </td>
+								<td align="center" style="font-size:8px;"> &nbsp; {{ coc.coc_expiry }} </td>
 							</tr>
 						</table>
 					</td>
@@ -268,7 +268,7 @@
 					</tr>
 					<tr>
 						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if aff_documents %}{% if aff_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Advanced Fire Fighting(VI/3)</td>
-						<td style="padding: 3px; padding-left: 0px;">ECDIS</td>
+						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if ecdis_generic_documents %}{% if ecdis_generic_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} ECDIS</td>
 					</tr>
 					<tr>
 						<td style="padding: 3px; padding-left: 0px;"> &nbsp;{% if mefa_documents %}{% if mefa_documents.none_number %}{% if check %}<img src="{{ ressource.image.url|get64:check }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %}{% else %}<img src="{{ ressource.image.url|get64:uncheck }}">{% endif %} Medical First Aid(VI/4-1)</td>
@@ -307,9 +307,6 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3"> &nbsp; </td>
-		</tr>
-		<tr>
 			<td colspan="3" style="background: #ccc">LIST OF SEA SERVICES (Please start from last sign on)</td>
 		</tr>
 		<tr>
@@ -328,19 +325,37 @@
 						<td align="center">Sign off Reason</td>
 						<td align="center">Service Months</td>
 					</tr>
-					<tr>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-						<td> &nbsp; </td>
-					</tr>
+					{% if sea_service %}
+					{% for sea_services in sea_service %}
+		            	<tr>
+		            		<td style="text-align:center">{{ sea_services.propulstion|upper }}</td>
+		                	<td style="text-align:center">{{ sea_services.vessel_name|upper }}</td>
+		                    <td style="text-align:center">{{ sea_services.vessel_type }}</td>
+		                    <td style="text-align:center">{{ sea_services.principal|upper }}</td>
+		                    <td style="text-align:center">{{ sea_services.dwt }}</td>
+		                    <td style="text-align:center">{{ sea_services.engine_type }}</td>
+		                    <td style="text-align:center">{{ sea_services.rank }}</td>
+		                    <td style="text-align:center">{{ sea_services.date_joined }}</td>
+		                    <td style="text-align:center">{{ sea_services.date_left }}</td>
+		                    <td style="text-align:center">{% if sea_services.cause_of_discharge.cause_of_discharge_abbreviation %}{{ sea_services.cause_of_discharge.cause_of_discharge_abbreviation|upper }}{% else %}{{ sea_services.cause_of_discharge|upper }}{% endif %}</td>
+		                    <td style="text-align:center">{{ sea_services.duration_months_days }}</td>
+		                </tr>
+		            {% endfor %}
+		            {% else %}
+		            	{% for x in sea_service_blank_count %}
+			            	<tr>
+			                	<td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                    <td style="text-align:center"> &nbsp; </td>
+			                </tr>
+		                {% endfor %}
+		            {% endif %}
 				</table>					
 			</td>
 		</tr>
@@ -352,11 +367,11 @@
 							<table>
 								<tr>
 									<td>TOTAL SEA SERVICE(yrs)</td>
-									<td> &nbsp; </td>
+									<td> <b><u>{{ mariners_profile.sea_service_duration }}</u></b> </td>
 								</tr>
 							</table>
 						</td>
-						<td style="padding:0px">
+						<td style="padding:0px" width="70%">
 							<table>
 								<tr>
 									<td>LANGUAGES</td>
@@ -370,7 +385,7 @@
 							<table>
 								<tr>
 									<td>SEA SERVICE IN RANK (yrs)</td>
-									<td> &nbsp; </td>
+									<td> <b><u>{{ mariners_profile.rank_sea_service_duration }}</u></b> </td>
 								</tr>
 							</table>
 						</td>
@@ -388,6 +403,7 @@
 							<table>
 								<tr>
 									<td>SEA SERVICE IN CRUDE OIL CARRIERS(yrs)</td>
+									<td> <b><u>{{ mariners_profile.oil_vessel_type_duration }}</u></b> </td>
 								</tr>
 							</table>
 						</td>
@@ -412,8 +428,8 @@
 						<td style="padding:0px">
 							<table>
 								<tr>
-									<td> ____________________</td>
-									<td> _________________________ </td>
+									<td style="border-bottom: 2px solid black"> {{ today }}</td>
+									<td style="border-bottom: 2px solid black"> {% if signature %} <img src="{{ ressource.image.url|get64:signature }}"> {% endif %} </td>
 								</tr>
 							</table>
 						</td>

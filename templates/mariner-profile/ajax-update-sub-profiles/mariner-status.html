@@ -18,19 +18,19 @@
     <div class="col-md-3 col-laptop-6">
       <div class="input-group">
         <label class="input-group-addon input-label">Principal:</label>
-        {{ mariner_status_form.mariner_principal|add_class:"form-control input-form" }}
+        {{ mariner_status_form.mariner_principal|add_class:"form-control input-form required" }}
       </div>
     </div>
     <div class="col-md-4 col-laptop-6">
       <div class="input-group">
         <label class="input-group-addon input-label">Status:</label>
-        {{ mariner_status_form.mariner_status|add_class:"form-control input-form" }}
+        {{ mariner_status_form.mariner_status|add_class:"form-control input-form required" }}
       </div>
     </div>
     <div class="col-md-3 col-laptop-6">
       <div class="input-group">
         <label class="input-group-addon input-label">Since:</label>
-        {{ mariner_status_form.since|add_class:"form-control input-form date" }}
+        {{ mariner_status_form.since|add_class:"form-control input-form date required" }}
       </div>
       <div class="input-group">
         <label class="input-group-addon input-label">Until:</label>

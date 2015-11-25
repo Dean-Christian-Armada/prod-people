@@ -449,8 +449,8 @@ class AbstractSeaService(models.Model):
 	# duration = models.PositiveSmallIntegerField(default=None, blank=True)
 
 	# Decimal Fields
-	hp = models.DecimalField(decimal_places=1, max_digits=10, default=None, blank=True)
-	kw = models.DecimalField(decimal_places=1, max_digits=10, default=None, blank=True)
+	hp = models.DecimalField(decimal_places=1, max_digits=10, default=None, null=True, blank=True)
+	kw = models.DecimalField(decimal_places=1, max_digits=10, default=None, null=True, blank=True)
 
 	# Date Fields
 	date_joined = models.DateField(default=None)

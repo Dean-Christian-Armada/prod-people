@@ -42,7 +42,7 @@ def form(request):
 	scheme = request.scheme
 	http_host = request.META['HTTP_HOST']
 	today = date.today()
-	today = today.strftime("%Y/%m/%d")
+	today = today.strftime("%Y-%m-%d")
 	count_college_errors = 0
 	count_emergency_errors = 0
 	request_training_certificates = ''
@@ -862,7 +862,7 @@ def pdf_fleet_application_form(request, principal, id):
 		logo = domain+"/static/img/pdf-logos/%s.png" % principal
 
 		today = date.today()
-		today = today.strftime("%b. %d, %Y")
+		today = today.strftime("%Y-%m-%d")
 
 		user_profile = UserProfile.objects.get(id=id)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)

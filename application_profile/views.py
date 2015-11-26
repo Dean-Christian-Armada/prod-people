@@ -438,10 +438,10 @@ def profile(request, slug):
 				
 				# END SEND EMAIL SCRIPT
 
-				# for x in receivers:
-				# 	NotificationHistory.objects.create(notification=notification, received=x)
-				# 	email_receievers.append(x.departmental_email)
-					# email_receievers.append(x.user.email)
+				for x in receivers:
+					NotificationHistory.objects.create(notification=notification, received=x)
+					email_receievers.append(x.departmental_email)
+					email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
 				send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)

@@ -474,9 +474,10 @@ select.first-choice option:first-child{
   display: none
 }
 
-ul.errorlist{ padding-left: 15px !important; font-weight: 700; color:rgb(175, 17, 28); }
-ul.errorlist li{ list-style-type: asterisks; }
+ul.errorlist{ padding-left: 15px !important; font-weight: 700; color:rgb(175, 17, 28); list-style: none }
+ul.errorlist li:before{ content: "* " }
 .errorlist-group ul.errorlist li{ list-style-type: disc; }
+.errorlist-group ul.errorlist li:before{ content: "" }
 ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underline !important; }
 
 .hidden{ display: none; }

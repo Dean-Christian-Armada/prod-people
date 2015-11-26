@@ -946,7 +946,7 @@ class MarinersProfile(models.Model):
 			month = month % 12
 		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
 
-
+# START MARINER STATUS HISTORY PROCESS AND VALIDATIONS
 class MarinerStatusComment(models.Model):
 	mariner_status_comment = models.TextField(default=None, null=True, blank=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
@@ -995,6 +995,19 @@ class MarinerStatusHistory(models.Model):
 		if comment == '':
 			comment = "THERE ARE NO COMMENTS"
 		return comment
+
+class MarinerStatusHistoryAuthority(models.Model):
+	user = models.ForeignKey(UserProfile)
+
+class MarinerStatusHistoryPermissionFile(models.Model):
+	history = models.ForeignKey(MarinerStatusHistory)
+	acknowledgement_file = models.FileField(upload_to="mariner-status-history-change-principal-files")
+
+class MarinerStatusHistoryPermission(models.Model):
+	mariner_history_with_file = models.ForeignKey(MarinerStatusHistoryPermissionFile)
+	user = models.ForeignKey(MarinerStatusHistoryAuthority)
+	flag = models.BooleanField(default=False)
+# END MARINER STATUS HISTORY PROCESS AND VALIDATIONS
 
 class NonConformingSeafarerReason(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

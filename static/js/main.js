@@ -266,6 +266,7 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", true);
         $("#id_birthdate").prop("disabled", true);
         $("#id_spouse_contact").prop("disabled", true);
+        $(".spouse_working").html("");
       }else if(val == 'Domestic Partner'){
         $("#id_married_date").val("");
         $("#id_married_date").attr("Placeholder", "");
@@ -280,6 +281,7 @@ $(function(){
         $("#id_spouse_middle_name").prop("disabled", false);
         $("#id_birthdate").prop("disabled", false);
         $("#id_spouse_contact").prop("disabled", false);
+        $(".spouse_working").html("");
       }else{
         $("#id_married_date").attr("Placeholder", "Date of Marriage");
         $("#id_spouse_last_name").attr("Placeholder", "Spouse's Maiden Last Name");
@@ -855,9 +857,9 @@ $(function(){
 
     // });
   
-    $("#travel-documents-passport-upload").parent().addClass("low-notif-borders");
-    $("#contracts-poea-upload").parent().addClass("med-notif-borders");
-    $("#contracts-itf-upload").parent().addClass("high-notif-borders");
+    // $("#travel-documents-passport-upload").parent().addClass("low-notif-borders");
+    // $("#contracts-poea-upload").parent().addClass("medium-notif-borders");
+    // $("#contracts-itf-upload").parent().addClass("high-notif-borders");
 
 
     $("#scanned-principal-acknowledgement").change(function(){

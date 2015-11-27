@@ -495,7 +495,7 @@ ul.errorlist li a{ color: rgb(175, 17, 28) !important; text-decoration: underlin
 #webcam, #loading, #modal-mariner-history-status-comment, #welcome-message{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px; }
 .modal-size-500{ width: 500px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px; }
 .modal-size-600{ width: 600px; height: 500px; margin-left: auto; margin-right: auto; margin-top: 60px; }
-.modal-size-acknowledgement{ width: 700px; height: 700px; margin-left: auto; margin-right: auto; margin-top: 60px; }
+.modal-size-acknowledgement{ width: 700px; margin-left: auto; margin-right: auto; margin-top: 60px; }
 #loading{ margin-top: 100px; }
 
 .application-success{ padding-top: 100px; font-weight: 700; color: #2e76b8; text-align: center }
@@ -1124,15 +1124,18 @@ body.modal-open .ui-datepicker {
 }
 
 .low-notif-borders{
-  box-shadow: 0px 0px 0px 5px #FFA500 inset, 0 0 100px #FFA500;
+  /*box-shadow: 0px 0px 0px 5px #FFA500 inset, 0 0 100px #FFA500;*/
+  background:#FFA500; border-radius:15px; padding:2px 4px; margin-left:3px; margin-right: 3px; text-align: center; color: #fff;
 }
 
-.med-notif-borders{
-  box-shadow: 0px 0px 0px 5px #FF4500 inset, 0 0 100px #FF4500;
+.medium-notif-borders{
+  /*box-shadow: 0px 0px 0px 5px #FF4500 inset, 0 0 100px #FF4500;*/
+  background:#FF4500; border-radius:15px; padding:2px 4px; margin-left:3px; margin-right: 3px; text-align: center; color: #fff;
 }
 
 .high-notif-borders{
-  box-shadow: 0px 0px 0px 5px #8B0000 inset, 0 0 100px #8B0000;
+  /*box-shadow: 0px 0px 0px 5px #8B0000 inset, 0 0 100px #8B0000;*/
+  background:#8B0000; border-radius:15px; padding:2px 4px; margin-left:3px; margin-right: 3px; text-align: center; color: #fff;
 }
 
 .modal-body-padding{

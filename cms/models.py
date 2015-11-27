@@ -190,64 +190,70 @@ class Fields(models.Model):
 
 	def notifs(self):
 		list_return = []
-		notifier_count = 0
-		# x = Fields.objects.filter(name__icontains="expir")
-		# y = FileFieldValue.objects.filter(field=x)
-		# z = File.objects.filter(id__in=y.values('file')).filter(archive=0)
-		a = File.objects.get(id=46)
-		low_notifier = a.location.low_notifier
-		medium_notifier = a.location.medium_notifier
-		high_notifier = a.location.high_notifier
-		try:
-			_low_notifier = int(re.search(r'\d+', low_notifier).group())
-			if 'month' in low_notifier:
-				_low_notifier = 30 * _low_notifier
-			elif 'week' in low_notifier:
-				_low_notifier = 7 * _low_notifier
-			elif 'year' in low_notifier:
-				_low_notifier = 365 * _low_notifier
-		except:
-			_low_notifier = low_notifier
-		try:
-			_high_notifier = int(re.search(r'\d+', high_notifier).group())
-			if 'month' in high_notifier:
-				_high_notifier = 30 * _high_notifier
-			elif 'week' in high_notifier:
-				_high_notifier = 7 * _high_notifier
-			elif 'year' in high_notifier:
-				_high_notifier = 365 * _high_notifier
-		except:
-			_high_notifier = high_notifier
-		try:
-			_medium_notifier = int(re.search(r'\d+', medium_notifier).group())
-			if 'month' in medium_notifier:
-				_medium_notifier = 30 * _medium_notifier
-			elif 'week' in medium_notifier:
-				_medium_notifier = 7 * _medium_notifier
-			elif 'year' in medium_notifier:
-				_medium_notifier = 365 * _medium_notifier
-		except:
-			_medium_notifier = medium_notifier
-		_list_notifier = [_high_notifier, _medium_notifier, _low_notifier]
-		list_notifier = [high_notifier, medium_notifier, low_notifier]
-		b = FileFieldValue.objects.filter(file=a).get(field__name__icontains="Expir")
-		expiry_date = b.value
-		_expiry_date = expiry_date.split('-')
-		_expiry_date = map(int, _expiry_date)
-		_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
-		_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
-		if _day < today:
-			location = a.location.slug.replace('-', '->').upper()
-			user = a.user.code
-			_return = "%s - %s will expire in %s at %s high" % (user, location, list_notifier[notifier_count], _day)
-		else:
-			while(_day > today):
-				_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
-				location = a.location.slug.replace('-', '->').upper()
-				user = a.user.code
-				_return = "%s - %s will expire in %s at %s low" % (user, location, list_notifier[notifier_count], _day)
-				notifier_count += 1
-		return _return
+		
+		x = Fields.objects.filter(name__icontains="expir")
+		y = FileFieldValue.objects.filter(field=x)
+		z = File.objects.filter(id__in=y.values('file')).filter(archive=0)
+		# a = File.objects.get(id=46)
+		for s in z:
+			notifier_count = 0
+			low_notifier = s.location.low_notifier
+			medium_notifier = s.location.medium_notifier
+			high_notifier = s.location.high_notifier
+			try:
+				_low_notifier = int(re.search(r'\d+', low_notifier).group())
+				if 'month' in low_notifier:
+					_low_notifier = 30 * _low_notifier
+				elif 'week' in low_notifier:
+					_low_notifier = 7 * _low_notifier
+				elif 'year' in low_notifier:
+					_low_notifier = 365 * _low_notifier
+			except:
+				_low_notifier = low_notifier
+			try:
+				_high_notifier = int(re.search(r'\d+', high_notifier).group())
+				if 'month' in high_notifier:
+					_high_notifier = 30 * _high_notifier
+				elif 'week' in high_notifier:
+					_high_notifier = 7 * _high_notifier
+				elif 'year' in high_notifier:
+					_high_notifier = 365 * _high_notifier
+			except:
+				_high_notifier = high_notifier
+			try:
+				_medium_notifier = int(re.search(r'\d+', medium_notifier).group())
+				if 'month' in medium_notifier:
+					_medium_notifier = 30 * _medium_notifier
+				elif 'week' in medium_notifier:
+					_medium_notifier = 7 * _medium_notifier
+				elif 'year' in medium_notifier:
+					_medium_notifier = 365 * _medium_notifier
+			except:
+				_medium_notifier = medium_notifier
+			_list_notifier = [_high_notifier, _medium_notifier, _low_notifier]
+			list_notifier = [high_notifier, medium_notifier, low_notifier]
+			b = FileFieldValue.objects.filter(file=s).get(field__name__icontains="Expir")
+			expiry_date = b.value
+			_expiry_date = expiry_date.split('-')
+			_expiry_date = map(int, _expiry_date)
+			_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
+			_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
+			if _day < today:
+				location = s.location.slug.replace('-', '->').upper()
+				user = s.user.code
+				list_return.append("%s - %s will expire in %s at %s high" % (user, location, list_notifier[notifier_count], _day))
+			else:
+				while(_day > today):
+					print notifier_count
+					_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
+					location = s.location.slug.replace('-', '->').upper()
+					user = s.user.code
+					list_return.append("%s - %s will expire in %s at %s low" % (user, location, list_notifier[notifier_count], _day))
+					notifier_count += 1
+		return list_return
+		# 2015-10-14 - low
+		# 2016-02-11 - high
+		# 2015-11-13 - medium
 
 class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)

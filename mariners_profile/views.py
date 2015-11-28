@@ -49,6 +49,8 @@ def index(request):
 	param_connector = "?"
 	count = 0
 
+	notif_count, notifs = Fields.objects.filter()[0].notifs()
+
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=1)
@@ -258,6 +260,9 @@ def index(request):
 	context_dict['per_page_list'] = per_page_list
 	context_dict['next_next_page'] = next_next_page
 	context_dict['previous_previous_page'] = previous_previous_page
+
+	context_dict['notif_count'] = notif_count
+	context_dict['notifs'] = notifs
 	
 
 	return render(request, template, context_dict)

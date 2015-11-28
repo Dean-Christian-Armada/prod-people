@@ -13,6 +13,7 @@
     START Profile Container Styles
     START Removes the arrow on an input number
     START Social Media Logos
+    NOTIFICATION DROPDOWN
 
   extra single element classes:
     .full-width
@@ -1150,6 +1151,11 @@ body.modal-open .ui-datepicker {
 
 .background-msmi-green{
   background-color: #02be9b !important;
+}
+
+.notification-dropdown{
+  height: 250px;
+  overflow-y: scroll; 
 }
 
 /* single-line sidebar application-form css */

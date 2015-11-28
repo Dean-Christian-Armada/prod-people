@@ -5,7 +5,7 @@ from django.template.defaultfilters import slugify
 from datetime import date, timedelta
 
 from login.models import UserProfile
-from mariners_profile.models import null_default_foreign_key_value
+from mariners_profile.models import null_default_foreign_key_value, MarinersProfile
 
 import os, re, sys, datetime
 
@@ -55,7 +55,7 @@ class SubFolder(models.Model):
 
 	# Dynamic and accurate notifier script via level and date
 	def converted_notifier(self, notifier, user):
-		_return = ''
+		_return = 0
 		_list = [ self.low_notifier, self.medium_notifier, self.high_notifier ]
 		if notifier == "high":
 			notifier = self.high_notifier
@@ -190,12 +190,14 @@ class Fields(models.Model):
 
 	def notifs(self):
 		list_return = []
-		
+		_notifier_count = 0
 		x = Fields.objects.filter(name__icontains="expir")
 		y = FileFieldValue.objects.filter(field=x)
 		z = File.objects.filter(id__in=y.values('file')).filter(archive=0)
 		# a = File.objects.get(id=46)
 		for s in z:
+			name = unicode(s.name).split('/')
+			name = name[len(name)-1]
 			notifier_count = 0
 			low_notifier = s.location.low_notifier
 			medium_notifier = s.location.medium_notifier
@@ -208,8 +210,14 @@ class Fields(models.Model):
 					_low_notifier = 7 * _low_notifier
 				elif 'year' in low_notifier:
 					_low_notifier = 365 * _low_notifier
+				try:
+					low_notifier = int(low_notifier)
+					low_notifier = "%d days" % low_notifier
+				except:
+					pass
 			except:
-				_low_notifier = low_notifier
+				_low_notifier = 0
+				low_notifier = "%d days" % low_notifier
 			try:
 				_high_notifier = int(re.search(r'\d+', high_notifier).group())
 				if 'month' in high_notifier:
@@ -218,8 +226,14 @@ class Fields(models.Model):
 					_high_notifier = 7 * _high_notifier
 				elif 'year' in high_notifier:
 					_high_notifier = 365 * _high_notifier
+				try:
+					high_notifier = int(high_notifier)
+					high_notifier = "%d days" % high_notifier
+				except:
+					pass
 			except:
-				_high_notifier = high_notifier
+				_high_notifier = 0
+				high_notifier = "%d days" % high_notifier
 			try:
 				_medium_notifier = int(re.search(r'\d+', medium_notifier).group())
 				if 'month' in medium_notifier:
@@ -228,29 +242,49 @@ class Fields(models.Model):
 					_medium_notifier = 7 * _medium_notifier
 				elif 'year' in medium_notifier:
 					_medium_notifier = 365 * _medium_notifier
+				try:
+					medium_notifier = int(medium_notifier)
+					medium_notifier = "%d days" % medium_notifier
+				except:
+					pass
 			except:
-				_medium_notifier = medium_notifier
+				_medium_notifier = 0
+				medium_notifier = "%d days" % medium_notifier
 			_list_notifier = [_high_notifier, _medium_notifier, _low_notifier]
 			list_notifier = [high_notifier, medium_notifier, low_notifier]
+			list_indicator_notifier = ["high notifier", "medium notifier", "low notifier"]
 			b = FileFieldValue.objects.filter(file=s).get(field__name__icontains="Expir")
 			expiry_date = b.value
 			_expiry_date = expiry_date.split('-')
 			_expiry_date = map(int, _expiry_date)
 			_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
 			_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
+			location = s.location.slug.replace('-', '->').upper()
+			user = s.user
+			# print user.id
+			# print "file %s" % s.id
+			picture = MarinersProfile.objects.get(user=user.id).picture
+			# picture = ""
 			if _day < today:
-				location = s.location.slug.replace('-', '->').upper()
-				user = s.user.code
-				list_return.append("%s - %s will expire in %s at %s high" % (user, location, list_notifier[notifier_count], _day))
+				_notifier_count += 1
+				
+				if int(re.search(r'\d+', list_notifier[notifier_count]).group()) == 0:
+					list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'>Please set the %s of %s-%s </a>" % (user.slug, picture, list_indicator_notifier[notifier_count], user.code, location))
+				else:
+					list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _day))
 			else:
 				while(_day > today):
-					print notifier_count
-					_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
-					location = s.location.slug.replace('-', '->').upper()
-					user = s.user.code
-					list_return.append("%s - %s will expire in %s at %s low" % (user, location, list_notifier[notifier_count], _day))
+					_notifier_count += 1
+					try:
+						_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
+						if int(re.search(r'\d+', list_notifier[notifier_count]).group()) == 0:
+							list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'>Please set the %s of %s-%s </a>" % (user.slug, picture, list_indicator_notifier[notifier_count], user.code, location))
+						else:
+							list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _day))
+					except:
+						break
 					notifier_count += 1
-		return list_return
+		return (_notifier_count, list_return)
 		# 2015-10-14 - low
 		# 2016-02-11 - high
 		# 2015-11-13 - medium

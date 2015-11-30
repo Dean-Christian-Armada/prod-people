@@ -94,7 +94,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -397,7 +397,8 @@
            <input type="file" id="scanned-principal-acknowledgement" class="hide">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Click to Send Notification</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" id="id-send-principal-acknowldegements" data-dismiss="modal">Click to Send Notifications</button>
         </div>
       </div>
     </div> 
@@ -442,10 +443,17 @@
 {% block extra_scripts %}
   <script type="text/javascript">
     $(function(){
-      // $( document ).ajaxError(function( event, jqxhr, settings, thrownError ) {
-      //     //alert('Error encountered while communicating with the server. (' + thrownError + ')');
-      //     document.write(jqxhr.responseText);
-      // });
+      current_principal = $("#id_mariner_principal option:selected").text();
+      $('#id_mariner_principal option:first-child').text("MANSHIP");
+
+      $("body").on("change", "#id_mariner_principal", function(){
+        text = $('option:selected', this).text();
+        if (text == current_principal){
+          $(".update-mariner-status").prop("disabled", true);
+        } else{
+          $(".update-mariner-status").prop("disabled", false);
+        }
+      });
 
       {% if picture_age_indicator >= 730 %}
         $("#modal-picture-age-indicator").modal("show");
@@ -459,10 +467,11 @@
           $("#"+href).children().click();
         }
       });
-      $(".mariner-principal-status").change(function(){
-        x = $('option:selected', this).text();
-        $(this).parent().parent().parent().after("<div class='col-md-12'><label for='non-conforming-seafarer-reason' class='input-label'>Non-Conforming Seafarer Reason</label><textarea id='non-conforming-seafarer-reason' class='form-control'>dasda</textarea></div>");
-      });
+      // Currently not in use
+      // $(".mariner-principal-status").change(function(){
+      //   x = $('option:selected', this).text();
+      //   $(this).parent().parent().parent().after("<div class='col-md-12'><label for='non-conforming-seafarer-reason' class='input-label'>Non-Conforming Seafarer Reason</label><textarea id='non-conforming-seafarer-reason' class='form-control'>dasda</textarea></div>");
+      // });
       $("body").on("click", ".mariner-history-status-comments", function(){ 
         comment = $(this).attr('data-comments'); 
         $(".mariner-history-status-comment").text(comment);

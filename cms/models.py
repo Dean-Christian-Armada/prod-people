@@ -80,7 +80,7 @@ class SubFolder(models.Model):
 		except:
 			_low_notifier = notifier
 		x = SubFolder.objects.get(id=self.id)
-		y = File.objects.filter(location=x).filter(user=user).filter(archive=0)
+		y = File.objects.filter(location=x).filter(user=user).filter(archive=False)
 		z = Fields.objects.filter(location=x).filter(name__icontains="expir")
 		a = FileFieldValue.objects.filter(field=z).filter(file=y)
 
@@ -285,9 +285,6 @@ class Fields(models.Model):
 						break
 					notifier_count += 1
 		return (_notifier_count, list_return)
-		# 2015-10-14 - low
-		# 2016-02-11 - high
-		# 2015-11-13 - medium
 
 class FileFieldValue(models.Model):
 	file = models.ForeignKey(File)

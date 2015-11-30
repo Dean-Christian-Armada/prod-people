@@ -76,4 +76,3 @@ class NotificationHistory(models.Model):
 	# 	for x in receivers:
 	# 		NotificationHistory.objects.create(notification=notification, received=x)
 	# 	super(NotificationHistory, self).save(*args, **kwargs)
-

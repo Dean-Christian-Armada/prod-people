@@ -90,11 +90,26 @@
           <h4 class="modal-title" id="signatureLabel">MARINER STATUS CHANGE <button type="button" class="close" data-dismiss="modal">&times;</button></h4>
         </div>
         <div class="modal-body mariner-status-notification">
-          <h4>A notification was sent with the following attachment.</h4>
-          <a href="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484" target="_blank"><img src="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484"></a>
+          <h4 class="notifications-count-status"><span class="notification-count">3</span> notifications with attachment.</h4>
+          <div class="text-center">
+            <div class="mariner-status-notification-container">
+              <a href="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484" target="_blank"><img src="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484"></a>
+              <button type="button" class="btn btn-default btn-warning form-control mariner-status-notification-approve-button">Click to Approve</button>
+            </div>
+
+            <div class="mariner-status-notification-container">
+              <a href="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484" target="_blank"><img src="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484"></a>
+              <button type="button" class="btn btn-default btn-warning form-control mariner-status-notification-approve-button">Click to Approve</button>
+            </div>
+
+            <div class="mariner-status-notification-container">
+              <a href="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484" target="_blank"><img src="http://image.slidesharecdn.com/finalcopyoftrednprinciinterview-150130152210-conversion-gate01/95/assignment-on-interview-of-a-principal-of-a-teacher-education-institute-2-638.jpg?cb=1422631484"></a>
+              <button type="button" class="btn btn-default btn-warning form-control mariner-status-notification-approve-button">Click to Approve</button>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Click to Approve</button>
+          <button class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div> 
@@ -160,6 +175,21 @@
     if (x == 'baea'){
       $("#modal-mariner-principal-transfer-acknowledgement").modal("show");
     }
+    // $(".mariner-status-notification-approve-button").click(function(){
+    //   alert('dean');
+    // });
+    $("body").on("click", ".mariner-status-notification-approve-button", function(){
+      approvals_count = 0;
+      $(this).parent().remove();
+      $(".mariner-status-notification-container").each(function(){
+        approvals_count++;
+      });
+      if(!approvals_count){
+        $(".notifications-count-status").text("There are no pending notification status at the moment");
+      }else{
+        $(".notification-count").text(approvals_count);
+      }
+    });
   });
 </script>
 {% endblock %}

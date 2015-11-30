@@ -972,12 +972,8 @@ class MarinerStatusHistory(models.Model):
 	def days(self):
 		since = self.since
 		until = self.until
-		# print since
-		# print type(since)
 		if not self.until:
 			until = datetime.date.today()
-		# print until
-		# print type(until)
 		try:
 			days = until - since
 			if days:
@@ -987,7 +983,6 @@ class MarinerStatusHistory(models.Model):
 				days = ''
 		except:
 			days = ''
-		# not yet working
 		return days
 
 	def str_mariner_status_comment(self):
@@ -999,14 +994,23 @@ class MarinerStatusHistory(models.Model):
 class MarinerStatusHistoryAuthority(models.Model):
 	user = models.ForeignKey(UserProfile)
 
+	def __unicode__(self):
+		return str(self.user)
+
 class MarinerStatusHistoryPermissionFile(models.Model):
 	history = models.ForeignKey(MarinerStatusHistory)
 	acknowledgement_file = models.FileField(upload_to="mariner-status-history-change-principal-files")
+
+	def __unicode__(self):
+		return "%s - %s" % (self.history, self.acknowledgement_file)
 
 class MarinerStatusHistoryPermission(models.Model):
 	mariner_history_with_file = models.ForeignKey(MarinerStatusHistoryPermissionFile)
 	user = models.ForeignKey(MarinerStatusHistoryAuthority)
 	flag = models.BooleanField(default=False)
+
+	def __unicode__(self):
+		return "%s - %s - %s" % (self.mariner_history_with_file, self.user, self.flag)
 # END MARINER STATUS HISTORY PROCESS AND VALIDATIONS
 
 class NonConformingSeafarerReason(models.Model):

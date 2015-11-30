@@ -881,5 +881,7 @@ $(function(){
       $("#modal-mariner-status-notification").modal("show");
     });
 
-
+    $("#id-send-principal-acknowldegements").click(function(){
+      alert('dean');
+    });
 }); 

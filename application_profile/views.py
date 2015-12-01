@@ -51,7 +51,7 @@ def xyz(request, method):
 
 @login_required()
 def index(request):
-	crew_on_table = 2
+	crew_on_table = 10
 	per_page_list = [2, 1, 3, 4]
 	param_connector = "?"
 	count = 0

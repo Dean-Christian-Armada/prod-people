@@ -166,6 +166,9 @@
                 <span class="notification-counter"> {{ notif_count }} </span>
                 <ul class="dropdown-menu padding-all-negator margin-all-negator background-msmi-green notification-dropdown">
                 <!-- notifs method is located in cms models -->
+                  {% for unset_notif in unset_notifs %}
+                    <li>{{ unset_notif|safe }}</li>
+                  {% endfor %}
                   {% for notif in notifs %}
                     <li>{{ notif|safe }}</li>
                   {% endfor %}

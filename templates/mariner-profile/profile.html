@@ -57,32 +57,32 @@
           <div class="sidebar sidebar-no-border text-center form-sidebar"> 
             <label class="input-label">Forms</label>
             <div class="col-md-12">
-              <a href="{% url 'manship_form' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="manship-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-msmi.png' %}" title="Manship" data-toggle="tooltip" data-placement="right" >
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
-              <a href="{% url 'fleet_application_form'  principal='psv' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="hsm-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-hsm.png' %}" title="Hellespont Ship Management GmbH & Co. KG" data-toggle="tooltip"data-placement="right" >
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
-              <a href="{% url 'fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="isi-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-ionic.png' %}" title="Ionic Shippping (Mgt) Inc." data-toggle="tooltip" data-placement="right">
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
-              <a href="{% url 'fleet_application_form'  principal='enesel' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="nsl-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-enesel.png' %}" title="Enesel S.A." data-toggle="tooltip" data-placement="right">
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
-              <a href="{% url 'fleet_application_form'  principal='athenian' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="athe-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-athenian.png' %}" title="Athenian Sea Carriers Ltd." data-toggle="tooltip" data-placement="right">
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
-              <a href="{% url 'fleet_application_form'  principal='jumbo' id=user_profile.id %}" target="_blank" class="img-responsive">
+              <a id="jumbo-form-modal" class="img-responsive cursor-pointer">
                 <img src="{% static 'img/btn-jumbo.png' %}" title="Jumbo Maritime" data-toggle="tooltip" data-placement="right">
               </a>
             </div><!--End of Column-->
@@ -94,7 +94,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong>MARINER STATUS</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong><!-- MARINER STATUS -->Mariner's Status</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -103,7 +103,7 @@
         <!--Personal Data
         ==========================================-->
         <div id="step1" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong>PERSONAL DATA</strong></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Personal Information</strong></div>
           <div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
             <div class="panel-body">
               <p><strong>Personal Info</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="personal-info">UPDATE</button></p>
@@ -156,7 +156,7 @@
         <!--Reference
         ============================-->            
         <div id="step3" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"   aria-expanded="false"><strong>REFERRAL</strong></div>                  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"   aria-expanded="false"><strong><!-- REFERRAL -->Referrals</strong></div>                  
             <div id="detail3" class="panel-collapse collapse" aria-expanded="false"> 
               <div class="panel-body"> 
                 <b>THIS PERSON HAS NOT MADE ANY REFERRALS YET AT THE MOMENT</b>
@@ -165,7 +165,7 @@
         </div><!--End of Panel Primary-->
 
         <div id="step13" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#scanned-documents"   aria-expanded="false"><strong>SCANNED DOCUMENTS</strong></div>                  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#scanned-documents"   aria-expanded="false"><strong><!-- SCANNED DOCUMENTS -->Documents</strong></div>                  
           <div id="scanned-documents" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body"> 
               <div class="form-group">
@@ -189,7 +189,7 @@
         <!--Land Employment
         ==================================-->                
         <div id="step5" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong>LAND EMPLOYMENT DETAILS (if any)</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong><!-- LAND EMPLOYMENT DETAILS (if any) -->Land Employment</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail5" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/land-employment.html" %}       
           </div><!--End of Collapse-->
@@ -198,7 +198,7 @@
         <!--Beneficiary Details
         ================================= -->
         <div  id="step6" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong>BENEFICIARY DETAILS (In case of Death/Disability)</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong><!-- BENEFICIARY DETAILS (In case of Death/Disability) -->Beneficiaries</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="detail6" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/beneficiary.html" %}       
           </div><!--End of Collapse-->
@@ -267,7 +267,7 @@
         <!--Evaluation
         =================================-->
         <div id="step12" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong>REMARKS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong><!-- REMARKS -->General Remarks</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
           <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
             {% include "mariner-profile/ajax-update-sub-profiles/evaluation.html" %}       
           </div><!--End of Collapse-->
@@ -275,14 +275,14 @@
 
         <!--Signature
         =================================-->
-        <div id="step13" class="panel panel-blue">
+       <!--  <div id="step13" class="panel panel-blue">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false"><strong>SIGNATURE</strong></div>
           <div id="signature" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body">
               <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}" width="100%">
-              </div><!--End of Panel Body-->
-          </div><!--End of Collapse-->
-        </div><!--End of Panel Primary-->     
+              </div>End of Panel Body
+          </div>End of Collapse
+        </div>End of Panel Primary     -->
       </div><!--End of Col-9-->          
     <!--End of Sidebar Fixed-->
       
@@ -370,9 +370,9 @@
             <li>
               <a href="#step12">Evaluation</a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#step13">Signature</a>
-            </li>
+            </li> -->
             <li>
               <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
             </li>
@@ -412,6 +412,158 @@
         </div>
         <div class="modal-body mariner-history-status-comment text-center">
 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-manship-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Manship Forms</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+          
+            <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+          
+            <a href="{% url 'pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Sea Service Application Form</strong></a>
+          
+            <a href="{% url 'blank_pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Sea Service Application Form</strong></a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-hsm-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Hellespont Ship Management GmbH & Co. KG Forms</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+          
+            <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+          
+            <a href="{% url 'pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Sea Service Application Form</strong></a>
+          
+            <a href="{% url 'blank_pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Sea Service Application Form</strong></a>
+            <a href="#" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print" onclick="alert('Not 
+            yet available at the moment')"></span><strong> PSV Application Form</strong></a>
+            <a href="#" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print" onclick="alert('Not 
+            yet available at the moment')"></span><strong> Blank PSV Application Form</strong></a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-isi-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Ionic Shipping (Mgt) Inc.</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+            <a href="{% url 'blank_pdf_fleet_application_form'  principal='ionic' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a> 
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-nsl-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Enesel S.A.</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_fleet_application_form'  principal='enesel' id=user_profile.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+            <a href="{% url 'blank_pdf_fleet_application_form'  principal='enesel' id=user_profile.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-athe-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Athenian Sea Carriers Ltd.</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_fleet_application_form'  principal='athenian' id=user_profile.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+            <a href="{% url 'blank_pdf_fleet_application_form'  principal='athenian' id=user_profile.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="modal fade modal-size-600" id="modal-jumbo-application-form" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
+        </div>
+        <div class="modal-body principal-application-form text-left">
+          <div class="panel-blue">
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Athenian Sea Carriers Ltd.</strong>
+            </div>
+          </div>
+          <div class="panel-body">
+            <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
+            <a href="{% url 'blank_pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Application Form</strong></a>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -753,6 +905,25 @@
 
       {# scanned_js #}
       {{ scanned_js }}
+    });
+
+    $("#manship-form-modal").click(function(){
+      $("#modal-manship-application-form").modal("show");
+    });
+    $("#hsm-form-modal").click(function(){
+      $("#modal-hsm-application-form").modal("show");
+    });
+    $("#isi-form-modal").click(function(){
+      $("#modal-isi-application-form").modal("show");
+    });
+    $("#nsl-form-modal").click(function(){
+      $("#modal-nsl-application-form").modal("show");
+    });
+    $("#athe-form-modal").click(function(){
+      $("#modal-athe-application-form").modal("show");
+    });
+    $("#jumbo-form-modal").click(function(){
+      $("#modal-jumbo-application-form").modal("show");
     });
   </script>
 {% endblock %}

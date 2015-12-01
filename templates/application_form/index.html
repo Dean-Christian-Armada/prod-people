@@ -38,14 +38,18 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <div class="col-md-6">
-                      {{ application.position_applied|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                    <div class="col-md-11">
+                      <div class="input-group">
+                      <span class="input-group-addon">Position Applied:</span> {{ application.position_applied|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                      </div>
                       {{ application.position_applied.errors }}
                     </div>
                   </div>
                   <div class="form-group">
-                    <div class="col-md-6">
-                      {{ application.alternative_position|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                    <div class="col-md-11">
+                      <div class="input-group">
+                      <span class="input-group-addon">Alternative Position:</span> {{ application.alternative_position|add_class:"form-control first-choice"|attr:"data-toggle:tooltip" }}
+                      </div>
                       {{ application.alternative_position.errors }}
                     </div>
                   </div>
@@ -80,30 +84,30 @@
                 </h4>
               </div>
               <div class="col-md-3">
-                {{ personal_data.facebook_account|add_class:"form-control facebook_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook Account" }}
+                {{ personal_data.facebook_account|add_class:"form-control facebook_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Facebook" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.instagram_account|add_class:"form-control instagram_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram Account" }}
+                {{ personal_data.instagram_account|add_class:"form-control instagram_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Instagram" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.twitter_account|add_class:"form-control twitter_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter Account" }}
+                {{ personal_data.twitter_account|add_class:"form-control twitter_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Twitter" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.linkedin_account|add_class:"form-control linkedin_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:LinkedIn Account" }}
+                {{ personal_data.linkedin_account|add_class:"form-control linkedin_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:LinkedIn" }}
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-3">
-                {{ personal_data.googleplus_account|add_class:"form-control googleplus_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Google+ Account" }}
+                {{ personal_data.googleplus_account|add_class:"form-control googleplus_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Google+" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.pinterest_account|add_class:"form-control pinterest_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Pinterest Account" }}
+                {{ personal_data.pinterest_account|add_class:"form-control pinterest_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Pinterest" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.reddit_account|add_class:"form-control reddit_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Reddit Account" }}
+                {{ personal_data.reddit_account|add_class:"form-control reddit_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Reddit" }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.tumblr_account|add_class:"form-control tumblr_logo"|attr:"data-toggle:tooltip"|attr:"placeholder:Tumblr Account" }}
+                {{ personal_data.tumblr_account|add_class:"form-control tumblr_logo text-transform-none"|attr:"data-toggle:tooltip"|attr:"placeholder:Tumblr" }}
               </div>
             </div>
 
@@ -133,25 +137,30 @@
             </div>
             <div class="form-group">
               <div class="col-md-4">
-                <b>+63</b> {{ personal_data.mobile_1|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 1" }}
+                <b>+63</b> {{ personal_data.mobile_1|add_class:"form-control inline mobile-area-code 10-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 1" }}
+                <ul class="errorlist without-content"><li>Please input right mobile format. Example: 9171234567</li></ul>
                 {{ personal_data.mobile_1.errors }}
               </div>
               <div class="col-md-4">
-                <b>+63</b> {{ personal_data.mobile_2|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 2" }}
+                <b>+63</b> {{ personal_data.mobile_2|add_class:"form-control inline mobile-area-code 10-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 2" }}
+                <ul class="errorlist without-content"><li>Please input right mobile format. Example: 9171234567</li></ul>
                 {{ personal_data.mobile_2.errors }}
               </div>
               <div class="col-md-4">
-                <b>+63</b> {{ personal_data.mobile_3|add_class:"form-control inline mobile-area-code"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 3" }}
+                <b>+63</b> {{ personal_data.mobile_3|add_class:"form-control inline mobile-area-code 10-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Mobile No. 3" }}
+                <ul class="errorlist without-content"><li>Please input right mobile format. Example: 9171234567</li></ul>
                 {{ personal_data.mobile_3.errors }}
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-3">
-                {{ personal_data.landline_1|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 1" }}
+                {{ personal_data.landline_1|add_class:"form-control 7-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 1" }}
+                <ul class="errorlist without-content"><li>Please input proper 7 digit telephone number format</li></ul>
                 {{ personal_data.landline_1.errors }}
               </div>
               <div class="col-md-3">
-                {{ personal_data.landline_2|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 2" }}
+                {{ personal_data.landline_2|add_class:"form-control 7-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Landline No. 2" }}
+                <ul class="errorlist without-content"><li>Please input proper 7 digit telephone number format</li></ul>
                 {{ personal_data.landline_2.errors }}
               </div>
               <div class="col-md-3">
@@ -175,21 +184,25 @@
             </div>
             <div class="form-group">
               <div class="col-md-6">
-                {{ personal_data.sss|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:S.S.S. No." }}
+                {{ personal_data.sss|add_class:"form-control 10-only"|attr:"data-toggle:tooltip"|attr:"placeholder:S.S.S. No." }}
+                <ul class="errorlist without-content"><li>Please input proper 10 digit format of sss</li></ul>
                 {{ personal_data.sss.errors }}
               </div>
               <div class="col-md-6">
-                {{ personal_data.philhealth|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Philhealth No." }}
+                {{ personal_data.philhealth|add_class:"form-control 12-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Philhealth No." }}
+                <ul class="errorlist without-content"><li>Please input proper 12 digit format of philhealth</li></ul>
                 {{ personal_data.philhealth.errors }}
               </div>
             </div>
             <div class="form-group">
               <div class="col-md-6">
-                {{ personal_data.tin|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:T.I.N." }}
+                {{ personal_data.tin|add_class:"form-control 12-only"|attr:"data-toggle:tooltip"|attr:"placeholder:T.I.N." }}
+                <ul class="errorlist without-content"><li>Please input proper 12 digit format of tin</li></ul>
                 {{ personal_data.tin.errors }}
               </div>
               <div class="col-md-6">
-                {{ personal_data.pagibig|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Pagibig No." }}
+                {{ personal_data.pagibig|add_class:"form-control 12-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Pagibig No." }}
+                <ul class="errorlist without-content"><li>Please input proper 12 digit format of pagibig</li></ul>
                 {{ personal_data.pagibig.errors }}
               </div>
             </div>
@@ -306,7 +319,8 @@
                 {{ spouse_form.birthdate.errors }}
               </div>
               <div class="col-md-4">
-                {{ spouse_form.spouse_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No."|attr:"disabled" }}
+                {{ spouse_form.spouse_contact|add_class:"form-control 11-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Spouse's Contact No."|attr:"disabled" }}
+                <ul class="errorlist without-content"><li>Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed</li></ul>
                 {{ spouse_form.spouse_contact.errors }}
               </div>
               <div class="col-md-4 spouse_working">
@@ -364,13 +378,13 @@
                 </div>
                 <div class="col-md-2">
                   
-                  {{ college_form.collegeyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                  {{ college_form.collegeyear_from|add_class:"form-control 4-only"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
                   {{ college_form.collegeyear_from.errors }}
                   {{ college_form.collegeyear_from.non_form_errors }}
                 </div>
                 <div class="col-md-2">
                   
-                  {{ college_form.collegeyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                  {{ college_form.collegeyear_to|add_class:"form-control 4-only"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
                   {{ college_form.collegeyear_to.errors }}
                   {{ college_form.collegeyear_to.non_form_errors }}
                 </div>
@@ -387,11 +401,11 @@
                 {{ highschool_form.highschool.errors }}
               </div>
               <div class="col-md-2">
-                {{ highschool_form.schoolyear_from|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
+                {{ highschool_form.schoolyear_from|add_class:"form-control 4-only"|attr:"data-toggle:tooltip"|attr:"placeholder:From" }}
                 {{ highschool_form.schoolyear_from.errors }}
               </div>
               <div class="col-md-2">
-                {{ highschool_form.schoolyear_to|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
+                {{ highschool_form.schoolyear_to|add_class:"form-control 4-only"|attr:"data-toggle:tooltip"|attr:"placeholder:To" }}
                 {{ highschool_form.schoolyear_to.errors }}
               </div>
             </div>
@@ -415,7 +429,8 @@
                 </div>
                 <div class="form-group">
                   <div class="col-md-6">
-                    {{ emergencycontact_form.emergency_contact|add_class:"form-control"|attr:"data-toggle:tooltip"|attr:"placeholder:Contact No." }}
+                    {{ emergencycontact_form.emergency_contact|add_class:"form-control 11-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Contact No." }}
+                    <ul class="errorlist without-content"><li>Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed</li></ul>
                     {{ emergencycontact_form.emergency_contact.errors }}
                   </div>
                   <div class="col-md-6">

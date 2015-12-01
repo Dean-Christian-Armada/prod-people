@@ -147,20 +147,20 @@ class PersonalDataForm(forms.ModelForm):
 	birth_place = forms.CharField()
 	preferred_vessel_type = forms.CharField(widget=autocomplete_light.TextWidget('PreferredVesselTypeAutocomplete'))
 	# regex field for mobile numbersNumberInput 
-	mobile_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"})
-	mobile_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
-	mobile_3 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input right mobile format. Example: 9171234567"}, required=False)
+	mobile_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please follow proper format above"})
+	mobile_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
+	mobile_3 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{10})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	# regex fild for landline numbers
-	landline_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
-	landline_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please input proper 7 digit telephone number format"}, required=False)
+	landline_1 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
+	landline_2 = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{7})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	# regex fild for sss
-	sss = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please input proper 10 digit format of sss"})
+	sss = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), regex=r'^([0-9]{10})$', error_messages={'invalid': "Please follow proper format above"})
 	# regex field for philhealth
-	philhealth = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of philhealth"}, required=False)
+	philhealth = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	# regex fild for tin
-	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of tin"}, required=False)
+	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	# regex fild for pagibig
-	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please input proper 12 digit format of pagibig"}, required=False)
+	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
 	# Father Fields custom validation
@@ -212,7 +212,7 @@ class SpouseForm(forms.ModelForm):
 			('1', 'Yes'),
 			('0', 'No'),
 		)
-	spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"}, required=False)
+	spouse_contact = forms.RegexField(regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	spouse_working = forms.NullBooleanField(widget=forms.RadioSelect(choices=CHOICES, renderer=HorizontalRadioRenderer))
 	civil_status = forms.IntegerField()
 	class Meta:
@@ -275,6 +275,8 @@ class CollegeForm(forms.ModelForm):
 	# college = forms.CharField()
 	college = forms.CharField(widget=autocomplete_light.TextWidget('CollegeAutocomplete'))
 	degree = forms.CharField(widget=autocomplete_light.TextWidget('DegreeAutocomplete'))
+	collegeyear_from = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{4})$', error_messages={'invalid': "Please input 4 digit year"})
+	collegeyear_to = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{4})$', error_messages={'invalid': "Please input 4 digit year"})
 	class Meta:
 		model = ApplicationFormCollege
 		fields = '__all__'
@@ -307,6 +309,8 @@ class CollegeForm(forms.ModelForm):
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
+	schoolyear_from = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{4})$', error_messages={'invalid': "Please input 4 digit year"})
+	schoolyear_to = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{4})$', error_messages={'invalid': "Please input 4 digit year"})
 	class Meta:
 		model = ApplicationFormHighSchool
 		fields = '__all__'
@@ -329,7 +333,7 @@ class HighSchoolForm(forms.ModelForm):
 
 class EmergencyContactForm(forms.ModelForm):
 	relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'))	
-	emergency_contact = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Telephone(xx-xxx-xx) and Mobile Numbers(09xx-xxxx-xxx) are only allowed"})
+	emergency_contact = forms.RegexField(widget=forms.NumberInput(), regex=r'^([0-9]{7}|[0-9]{11})$', error_messages={'invalid': "Please follow proper format above"})
 	class Meta:
 		model = ApplicationFormEmergencyContact
 		fields = '__all__'

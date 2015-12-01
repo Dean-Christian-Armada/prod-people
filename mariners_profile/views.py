@@ -44,12 +44,12 @@ def xyz(request, method):
 # Create your views here.
 @login_required()
 def index(request):
-	crew_on_table = 2
+	crew_on_table = 10
 	per_page_list = [2, 1, 3, 4]
 	param_connector = "?"
 	count = 0
 
-	notif_count, notifs = Fields.objects.filter()[0].notifs()
+	notif_count, notifs, unset_notifs = Fields.objects.filter()[0].notifs()
 
 	user = UserProfile.objects.get(user=request.user)
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
@@ -263,6 +263,7 @@ def index(request):
 
 	context_dict['notif_count'] = notif_count
 	context_dict['notifs'] = notifs
+	context_dict['unset_notifs'] = unset_notifs
 	
 
 	return render(request, template, context_dict)

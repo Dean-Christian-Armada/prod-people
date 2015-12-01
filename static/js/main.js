@@ -884,4 +884,75 @@ $(function(){
     $("#id-send-principal-acknowldegements").click(function(){
       alert('dean');
     });
+
+    $("body").on("keydown focusout focus", ".12-only", function(e){
+      key_code = e.keyCode;
+      x = $(this).val().length;
+      if(x == 11){
+        $(this).next("ul.without-content").hide();
+      }
+      if(x == 12 && key_code != 8){
+        e.preventDefault();
+        // $(this).next(".without-content").hide();
+      }
+      if(key_code == 8){
+        $(this).next("ul.without-content").show();
+      }
+    });
+
+    $("body").on("keydown focusout focus", ".11-only", function(e){
+      key_code = e.keyCode;
+      x = $(this).val().length;
+      if(x == 10){
+        $(this).next("ul.without-content").hide();
+      }
+      if(x == 11 && key_code != 8){
+        e.preventDefault();
+      }
+      if(key_code == 8){
+        $(this).next("ul.without-content").show();
+      }
+    });
+
+    $("body").on("keydown focusout focus", ".10-only", function(e){
+      key_code = e.keyCode;
+      x = $(this).val().length;
+      if(x == 9){
+        $(this).next("ul.without-content").hide();
+      }
+      if(x == 10 && key_code != 8){
+        e.preventDefault();
+      }
+      if(key_code == 8){
+        $(this).next("ul.without-content").show();
+      }
+    });
+
+    $("body").on("keydown focusout focus", ".7-only", function(e){
+      key_code = e.keyCode;
+      x = $(this).val().length;
+      if(x == 6){
+        $(this).next("ul.without-content").hide();
+      }
+      if(x == 7 && key_code != 8){
+        e.preventDefault();
+      }
+      if(key_code == 8){
+        $(this).next("ul.without-content").show();
+      }
+    });
+
+    $("body").on("keydown focusout focus", ".4-only", function(e){
+      key_code = e.keyCode;
+      x = $(this).val().length;
+      if(x == 3){
+        $(this).next("ul.without-content").hide();
+      }
+      if(x == 4 && key_code != 8){
+        e.preventDefault();
+      }
+      if(key_code == 8){
+        $(this).next("ul.without-content").show();
+      }
+    });
 }); 

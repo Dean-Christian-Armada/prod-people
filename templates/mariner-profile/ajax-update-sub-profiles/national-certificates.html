@@ -27,13 +27,15 @@
       <div class="col-md-4">
         <div class="input-group">
           <label class="input-group-addon input-label">Date Issued:</label>
-          {{ national_trainings_certificate_forms.issued|add_class:"form-control input-form date" }}
+          {{ national_trainings_certificate_forms.issued|add_class:"form-control input-form date"|attr:"id:" }}
+          <!-- <input class="form-control input-form date" id="id_nationaltrainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-issued" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-issued" type="text"> -->
         </div><!--End of Input Group-->
       </div><!--End of Col 3-->
       <div class="col-md-4">
         <div class="input-group">
           <label class="input-group-addon input-label">Date Expiry:</label>
-          {{ national_trainings_certificate_forms.expiry|add_class:"form-control input-form date" }}
+          {{ national_trainings_certificate_forms.expiry|add_class:"form-control input-form date"|attr:"id:" }}
+          <!-- <input class="form-control input-form date" id="id_nationaltrainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-expiry" name="trainingcertificatedocumentsdetailed_set-{{ forloop.counter0 }}-expiry" type="text"> -->
         </div><!--End of Input Group-->
       </div><!--End of Col 3-->
     </div><!--End of Row-->  

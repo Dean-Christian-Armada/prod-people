@@ -5,6 +5,7 @@ from import_export import resources, widgets, fields
 
 # from .models import Flags, TrainingCertificates, Colleges, Degree, HighSchools, Barangay, Municipality, Relationship, Sources, Specifics, Reasons, Rank, BirthPlace, VesselType, CivilStatus, VesselName, EngineType, ManningAgency, Principal, CauseOfDischarge, Status, Zip
 
+# from people.models import MainStatus
 from .models import *
 
 # Register your models here.
@@ -159,7 +160,8 @@ admin.site.register(TrainingCertificates, TrainingCertficatesAdmin)
 admin.site.register(TrainingCertificateDocuments)
 admin.site.register(TrainingCertificateDocumentsDetailed)
 admin.site.register(ReferrersPool, ReferrersPoolImport)
-# admin.site.register(Status)
+admin.site.register(Status)
+# admin.site.register(MainStatus)
 admin.site.register(MarinersProfile)
 admin.site.register(Departments)
 admin.site.register(Reference)

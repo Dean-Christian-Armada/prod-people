@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'cms',
     'notifications',
     'company_staffs',
+    'people',
 )
 
 MIDDLEWARE_CLASSES = (

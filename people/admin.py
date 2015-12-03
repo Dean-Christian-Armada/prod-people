@@ -1,5 +1,5 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# from mariners_profile.models import *
+from .models import *
 
-# admin.site.register(Status)
+admin.site.register(MainSatus)

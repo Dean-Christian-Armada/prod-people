@@ -503,5 +503,7 @@ class AbstractSeaService(models.Model):
 			self.grt = ''
 		return self.grt
 
-# class MainSatus(UserProfile):
-# 	pass
+# Temporary Proxies
+class MainSatus(UserProfile):
+	class Meta:
+		proxy=True

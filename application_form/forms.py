@@ -1175,7 +1175,7 @@ class GOCForm(forms.ModelForm):
 		GOC.objects.create(**value)
 
 class StatusForm(forms.Form):
-	status = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalRadioRenderer), queryset=Status.objects.filter(action=True), required=False)
+	status = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalRadioRenderer, attrs={'class':'hide event-propagation'}), queryset=Status.objects.filter(action=True), required=False)
 
 # Used for Ionic Application Form template
 class ApplicationReceivedForm(forms.Form):

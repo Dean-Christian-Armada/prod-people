@@ -871,7 +871,7 @@ $(function(){
 
     // Soon to be removed, just temporarily
     mariner_status_principal = $("#id_mariner_principal option:selected");
-    if( mariner_status_principal.val() == ''){
+    if( mariner_status_principal.val() == '' || mariner_status_principal.text().toUpperCase() == 'MANSHIP' ){
       $(".update-mariner-status").addClass("update-mariner");
     }else{
       $(".update-mariner-status").addClass("mariner-status-notification");

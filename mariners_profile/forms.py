@@ -818,9 +818,9 @@ class MarinerStatusForm(forms.ModelForm):
 			# _mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
 		# mariner_status_form.mariner_status_comment = _mariner_status_comment
 		# self.cleaned_data['mariner_status_comment'] = _mariner_status_comment
-		# value = self.cleaned_data
-		# MarinerStatusHistory.objects.get_or_create(**value)
-		mariner_status_form.save()
+		value = self.cleaned_data
+		MarinerStatusHistory.objects.get_or_create(**value)
+		# mariner_status_form.save()
 
 class ScannedDocumentsForm(forms.ModelForm):
 	pass

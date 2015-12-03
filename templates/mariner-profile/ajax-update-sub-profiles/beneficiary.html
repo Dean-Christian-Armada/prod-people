@@ -13,11 +13,13 @@
   </div>
 {% endif %}
 
-<div class="total-forms">{{ beneficiary_form.management_form }}</div>
-<span><button style="margin-top: 20px;" class="btn btn-warning add-mariner add-more-fields-2">ADD</button></span>
-{% for beneficiary_forms in beneficiary_form %}
+<!-- <div class="total-forms">{{ beneficiary_form.management_form }}</div> -->
+<!-- <span><button style="margin-top: 20px;" class="btn btn-warning add-mariner add-more-fields-2">ADD</button></span> -->
+
 
 <div class="panel-body">
+<!-- <div class="total-forms">{{ beneficiary_form.management_form }}</div> -->
+{% for beneficiary_forms in beneficiary_form %}
   {{ beneficiary_forms.id }}
   {{ beneficiary_forms.user }}                      
   <!-- <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false"><p><strong>{% if beneficiary_forms.beneficiary_first_name.value %}{{ beneficiary_forms.beneficiary_first_name.value|upper }}{% endif %}  {% if beneficiary_forms.beneficiary_middle_name.value %} {{ beneficiary_forms.beneficiary_middle_name.value|upper }} {% endif %} {% if beneficiary_forms.beneficiary_last_name.value %} {{ beneficiary_forms.beneficiary_last_name.value|upper }} {% endif %}</strong></p></a> -->
@@ -68,11 +70,11 @@
         <div class="col-md-3">
           <div class="input-group">
             <label class="input-group-addon input-label">Age:</label>
-            <input type="text" class="form-control input-form age-identifier age" disabled="">
+            <input type="text" id="id_beneficiary_set-{{forloop.counter0}}-beneficiary_age" name="beneficiary_set-{{forloop.counter0}}-beneficiary_age" class="form-control input-form age-identifier age" disabled="">
           </div><!--End of Input Group-->
         </div><!--End of Col 4-->
       </div><!--End of Row-->
     </div><!--End of Collapse-->
   </div>
-</div><!--End of Panel Body-->
 {% endfor %}
+</div><!--End of Panel Body-->

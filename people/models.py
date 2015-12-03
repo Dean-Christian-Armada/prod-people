@@ -502,3 +502,6 @@ class AbstractSeaService(models.Model):
 		if not self.grt:
 			self.grt = ''
 		return self.grt
+
+# class MainSatus(UserProfile):
+# 	pass

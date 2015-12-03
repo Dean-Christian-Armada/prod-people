@@ -26,9 +26,11 @@ from notifications.models import *
 
 from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
 
+from datetime import datetime as now
+
 import sys, urllib, cStringIO, base64
 
-
+now = now.now()
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -361,9 +363,11 @@ def profile(request, slug):
 			_status = request.GET['status']
 			_status = Status.objects.get(id=_status)
 			application_form.status = _status
+			mariners_profile.status_last_modified = now
+			mariners_profile.save()
 			application_form.save()
 
-			if str(application_form.status) == 'Passed':
+			if str(application_form.status).upper() == 'PASSED' or str(application_form.status).upper() == 'PASS':
 				#  START, Script to update the code
 				first_name = user_profile.first_name[0].lower()
 				middle_name = user_profile.middle_name[0].lower()
@@ -446,6 +450,7 @@ def profile(request, slug):
 					email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
 				# send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
+				print "dean"
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

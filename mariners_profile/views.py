@@ -1021,7 +1021,14 @@ def profile(request, slug):
 					mariner_status_form.save()
 				else:
 					print mariner_status_form.errors
+				mariner_status = request.POST['mariner_status']
+				x = MarinerStatus.objects.get(id=mariner_status)
 				context_dict['ajax_submit_flag'] = 1
+				if x.mariner_status.upper() == "ONBOARD":
+					context_dict['visibility_parameter'] = ""
+				else:
+					context_dict['visibility_parameter'] = "hide"
+				
 				template = "mariner-profile/ajax-update-sub-profiles/mariner-status.html"
 				return render(request, template, context_dict)
 

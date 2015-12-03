@@ -7,7 +7,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -18,7 +18,8 @@
 {% for allotee_forms in allotee_form %}
   {{ allotee_forms.id }}
   {{ allotee_forms.user }}
-  <a data-toggle="collapse" data-parent="#accordion" href="#Allotee{{forloop.counter}}" aria-expanded="false"><p><strong>{% if allotee_forms.allotee_first_name.value %}{{ allotee_forms.allotee_first_name.value|upper }}{% endif %}  {% if allotee_forms.allotee_middle_name.value %} {{ allotee_forms.allotee_middle_name.value|upper }} {% endif %} {% if allotee_forms.allotee_last_name.value %} {{ allotee_forms.allotee_last_name.value|upper }} {% endif %}</strong></p></a> 
+  <!-- <a data-toggle="collapse" data-parent="#accordion" href="#Allotee{{forloop.counter}}" aria-expanded="false"><p><strong>{% if allotee_forms.allotee_first_name.value %}{{ allotee_forms.allotee_first_name.value|upper }}{% endif %}  {% if allotee_forms.allotee_middle_name.value %} {{ allotee_forms.allotee_middle_name.value|upper }} {% endif %} {% if allotee_forms.allotee_last_name.value %} {{ allotee_forms.allotee_last_name.value|upper }} {% endif %}</strong></p></a>  -->
+  <a data-toggle="collapse" data-parent="#accordion" href="#Allotee{{forloop.counter}}" aria-expanded="false"><p><strong>Allotee # {{ forloop.counter }}</strong></p></a> 
   <div id="Allotee{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
     <div class="panel-body"> 
       <div class="row">    

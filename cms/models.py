@@ -28,7 +28,7 @@ class Folder(models.Model):
 		return slugify(self.name)
 
 	def __unicode__(self):
-		return self.name
+		return self.name.capitalize()
 
 class SubFolder(models.Model):
 	folder = models.ForeignKey(Folder, default=null_default_foreign_key_value(Folder, 'name', ''))
@@ -45,6 +45,10 @@ class SubFolder(models.Model):
 	def __unicode__(self):
 		# return "%s / %s" % (str(self.folder), self.name)
 		return "%s" % (self.slug)
+
+	# Made for the Scorpio / HSM presentation
+	def capitalize_name(self):
+		return self.name.capitalize()
 
 	# Desired custom methods clashes from wanted output because of self ForeignKey
 	def slug_name(self):

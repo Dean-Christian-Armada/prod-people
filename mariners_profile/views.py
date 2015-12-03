@@ -278,6 +278,7 @@ def profile(request, slug):
 		personal_data = PersonalData.objects.get(name=id)
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
 		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+		visibility_parameter = "hide"
 
 		# START, variables used to prepopulate inlineformset for flags
 		flags_standard = Flags.objects.filter(company_standard=1)
@@ -454,18 +455,18 @@ def profile(request, slug):
 				uploads = ""
 				archive_button = ""
 				if sub_folders.upload == True:
-					scanned_upload_button = '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name()
+					scanned_upload_button = '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based document-button-margin" id="%s-upload">UPLOAD</button>' % sub_folders.slug_name()
 					uploads = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=False)
 				archives = File.objects.filter(user=user_profile).filter(location=sub_folders).filter(archive=True)
 				if archives:
-					archive_button = '<button class="btn btn-warning event-propagation archive-show-button" data-location="%s" data-params="True">ARCHIVES</button> <button class="btn btn-success event-propagation archive-show-button hide" data-location="%s" data-params="False">UNARCHIVED</button>' % (sub_folders.id, sub_folders.id )
+					archive_button = '<button class="btn btn-warning event-propagation archive-show-button document-button-margin" data-location="%s" data-params="True">ARCHIVES</button> <button class="btn btn-success event-propagation archive-show-button hide document-button-margin" data-location="%s" data-params="False">UNARCHIVED</button>' % (sub_folders.id, sub_folders.id )
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
-				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation archive-delete-process-button hide">ARCHIVE SELECTED FILES</button> <span class="pull-right high-notif-borders">%s</span></strong> <span class="pull-right medium-notif-borders">%s</span> <span class="pull-right low-notif-borders">%s</span> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button, sub_folders.converted_notifier('high', user_profile), sub_folders.converted_notifier('medium', user_profile), sub_folders.converted_notifier('low', user_profile))
+				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> <button class="btn btn-danger event-propagation archive-delete-process-button hide document-button-margin">ARCHIVE SELECTED FILES</button> %s &nbsp; %s &nbsp; <span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, archive_button, scanned_upload_button, sub_folders.converted_notifier('high', user_profile), sub_folders.converted_notifier('medium', user_profile), sub_folders.converted_notifier('low', user_profile))
 				# scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation delete-process-button hide" data-process="delete">DELETED SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
 				if uploads:
 					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name() # START class.panel-collapse
 					scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
-					scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
+					# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 					for upload in uploads:
 						scanned_document_html += '<div class="col-md-3 text-center">'
 						scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
@@ -535,7 +536,7 @@ def profile(request, slug):
 						if uploads:
 							scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % _sub_folders.slug_name() # START class.panel-collapse
 							scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
-							scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
+							# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 							for upload in uploads:
 								scanned_document_html += '<div class="col-md-3 text-center">'
 								scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
@@ -641,7 +642,8 @@ def profile(request, slug):
 			scanned_document_html = '<div class="form-group">' # START class.form-group
 			scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 			if not condition:
-				scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
+				pass
+				# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 			for upload in uploads:
 				scanned_document_html += '<div class="col-md-3 text-center">'
 				scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
@@ -727,7 +729,7 @@ def profile(request, slug):
 		dependents = Dependents.objects.filter(user=id)
 		if len(dependents) < 1:
 			dependents_num_extra = 1
-			dependents_num_label = "No dependents yet"
+			dependents_num_label = 0
 		else:
 			dependents_num_extra = 0
 			dependents_num_label = len(dependents)
@@ -744,7 +746,7 @@ def profile(request, slug):
 		sea_service = SeaService.objects.filter(user=id)
 		if len(sea_service) < 1:
 			sea_service_num_extra = 1
-			sea_service_num_label = "No sea services yet"
+			sea_service_num_label = 0
 		else:
 			sea_service_num_extra = 0
 			sea_service_num_label = len(sea_service)
@@ -842,12 +844,13 @@ def profile(request, slug):
 			current_evaluation = ''
 			evaluations = ''
 			evaluation_form = EvaluationForm(request.POST or None, initial={'user': personal_data.name, 'evaluated_by': current_user} )
-		
 		try:
 			history = MarinerStatusHistory.objects.filter(user=id).order_by('-id')
 			current_history = history[0]
 			histories = history[1:]
-			mariner_status_form = MarinerStatusForm(request.POST or None, instance=current_history, initial={'mariner_status_comment':current_history.mariner_status_comment.mariner_status_comment, 'updated_by': current_user})
+			mariner_status_form = MarinerStatusForm(request.POST or None, instance=current_history, initial={'updated_by': current_user})
+			if current_history.mariner_status.mariner_status.upper() == "ONBOARD":
+				visibility_parameter = ""
 		except:
 			history = ''
 			current_history = ''
@@ -916,6 +919,7 @@ def profile(request, slug):
 		context_dict['picture_age_indicator'] = picture_age_indicator
 		context_dict['current_history'] = current_history
 		context_dict['histories'] = histories
+		context_dict['visibility_parameter'] = visibility_parameter
 		context_dict['current_evaluation'] = current_evaluation
 		context_dict['evaluations'] = evaluations
 		context_dict['spouse'] = spouse

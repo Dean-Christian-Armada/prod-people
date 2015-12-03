@@ -684,6 +684,14 @@ body.crewing-profile .right-sidebar{
   padding-left: 0px;
 }
 
+body.crewing-profile p.panel-arrangement .btn{
+  float: right;
+}
+
+body.crewing-profile p.panel-arrangement strong{
+  line-height: 35px;
+}
+
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .col-laptop-6{
     width: 50% !important;
@@ -1165,6 +1173,18 @@ ul.without-content li:before{
 
 ul.without-content{
   list-style: initial !important;
+}
+
+.panel-body p .btn{
+  float: right;
+}
+
+.panel-body p strong{
+  line-height: 35px;
+}
+
+.document-button-margin{
+  margin-left: 5px;
 }
 
 /* single-line sidebar application-form css */

@@ -18,7 +18,7 @@ class ApplicantsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
    		('last_name'), 
    		)
 	autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ApplicantsAutocomplete)
+autocomplete_light.register(ApplicantsAutocomplete, attrs={'placeholder': '',})
 
 class MarinersAutocomplete(autocomplete_light.AutocompleteModelTemplate):
   mariners_profile = MarinersProfile.objects.filter(status=1).values('user')
@@ -32,4 +32,4 @@ class MarinersAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       ('code'), 
    		)
   autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(MarinersAutocomplete)
+autocomplete_light.register(MarinersAutocomplete, attrs={'placeholder': '',})

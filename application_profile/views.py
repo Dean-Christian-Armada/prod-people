@@ -317,6 +317,7 @@ def profile(request, slug):
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
+		status_listed = Status.objects.filter(listed=True) 
 
 		# Queries out the list of flags
 		try:
@@ -382,11 +383,12 @@ def profile(request, slug):
 				mariners_profile.status = 1
 				mariners_profile.date_hired = today
 				mariners_profile.save()
-				mariner_status_comment = "New Mariner in the Pool"
-				_mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
-				if _mariner_status_comment:
-					_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
-				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
+				# mariner_status_comment = "New Mariner in the Pool"
+				# _mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
+				# if _mariner_status_comment:
+				# 	_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
+				# mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today, mariner_status_comment=_mariner_status_comment)
+				mariners_history = MarinerStatusHistory.objects.get_or_create(user=user_profile, since=today)
 				notification_status = NotificationStatus.objects.get(status='Mariner Passed')
 				notification = Notification.objects.create(status=notification_status, user=user_profile)
 				notification = Notification.objects.filter(status=notification_status, user=user_profile)[0]
@@ -443,7 +445,7 @@ def profile(request, slug):
 					email_receievers.append(x.departmental_email)
 					email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
-				send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
+				# send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -495,6 +497,7 @@ def profile(request, slug):
 		context_dict['flags'] = flags
 		context_dict['trainings_certificates'] = trainings_certificates
 		context_dict['status'] = status
+		context_dict['status_listed'] = status_listed
 
 		context_dict['count_words'] = count_words
 

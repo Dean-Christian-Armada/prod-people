@@ -6,7 +6,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -20,7 +20,8 @@
    
       {{ emergency_contact_forms.id }}
       {{ emergency_contact_forms.user }}              
-      <p><strong>{% if emergency_contact_forms.emergency_first_name.value %}{{ emergency_contact_forms.emergency_first_name.value|upper }}{% endif %}  {% if emergency_contact_forms.emergency_middle_name.value %} {{ emergency_contact_forms.emergency_middle_name.value|upper }} {% endif %} {% if emergency_contact_forms.emergency_last_name.value %} {{ emergency_contact_forms.emergency_last_name.value|upper }} {% endif %}  {% if emergency_contact_forms.relationship.value %}(<i>{{ emergency_contact_forms.relationship.value|get_data:'Relationship'|upper }}</i>){% endif %}</strong></p>
+      <!-- <p><strong>{% if emergency_contact_forms.emergency_first_name.value %}{{ emergency_contact_forms.emergency_first_name.value|upper }}{% endif %}  {% if emergency_contact_forms.emergency_middle_name.value %} {{ emergency_contact_forms.emergency_middle_name.value|upper }} {% endif %} {% if emergency_contact_forms.emergency_last_name.value %} {{ emergency_contact_forms.emergency_last_name.value|upper }} {% endif %}  {% if emergency_contact_forms.relationship.value %}(<i>{{ emergency_contact_forms.relationship.value|get_data:'Relationship'|upper }}</i>){% endif %}</strong></p> -->
+      <p><strong>Emergency Contact # {{ forloop.counter }}</strong></p>
       <div class="panel-body">
         <div class="row">
           <div class="col-md-4">

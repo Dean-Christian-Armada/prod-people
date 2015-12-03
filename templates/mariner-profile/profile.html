@@ -35,7 +35,8 @@
     TRAINING CERTIFICATES
     REMARKS
       - Remarks History
-    SIGNATURE
+    # SIGNATURE
+    PROFILE Save HISTORY
 -->
 
 <body class="crewing-profile">
@@ -58,7 +59,7 @@
             <label class="input-label">Forms</label>
             <div class="col-md-12">
               <a id="manship-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-msmi.png' %}" title="Manship" data-toggle="tooltip" data-placement="right" >
+                <img src="{% static 'img/btn-msmi.png' %}" title="MANSHIP" data-toggle="tooltip" data-placement="right" >
               </a>
             </div><!--End of Column-->
             <div class="col-md-12">
@@ -94,7 +95,7 @@
       <!--Application Status
       =================================-->
         <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong><!-- MARINER STATUS -->Mariner's Status</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">UPDATE</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation">RETURN TO APPLICATION PROFILE</a></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong><!-- MARINER STATUS -->Mariner's Status</strong> <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">Save</button> <a onclick="href_override('?status');" class="btn btn-danger event-propagation hide">RETURN TO APPLICATION PROFILE</a></div>
           <div id="mariner-status" class="panel-collapse collapse in" aria-expanded="true">
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -106,36 +107,36 @@
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Personal Information</strong></div>
           <div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
             <div class="panel-body">
-              <p><strong>Personal Info</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="personal-info">UPDATE</button></p>
+              <p><strong><!-- Personal Info -->Biodata</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="personal-info">Save</button></p>
               <!-- <div class="form-group in">   -->
                 {% include "mariner-profile/ajax-update-sub-profiles/personal-info.html" %}
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#permanent-address" aria-expanded="false"><strong>Permanent Address</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#permanent-address" aria-expanded="false"><strong>Permanent Address</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="permanent-address">
                   {% include "mariner-profile/ajax-update-sub-profiles/permanent-address.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#current-address" aria-expanded="false"><strong>Current Address</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="current-address event-propagation">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#current-address" aria-expanded="false"><strong>Current Address</strong><button class="btn btn-primary update-mariner background-msmi-blue" data-params="current-address event-propagation">Save</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="current-address">
                   {% include "mariner-profile/ajax-update-sub-profiles/current-address.html" %}
                 </div>
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false"> {% if personal_data.civil_status.civil_status == 'Partner' %} Partner {% else %} Spouse {% endif %} </strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="spouse">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#spouse" aria-expanded="false"> {% if personal_data.civil_status.civil_status == 'Partner' %} Partner {% else %} <strong>Spouse</strong> {% endif %} </strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="spouse">Save</button></p>
                 <div class ="panel-collapse collapse" aria-expanded="false" id="spouse">
                   {% include "mariner-profile/ajax-update-sub-profiles/spouse.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#father" aria-expanded="false"><strong>Father</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="father">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#father" aria-expanded="false"><strong>Father</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="father">Save</button></p>
                 <div id="father" class="panel-collapse collapse" aria-expanded="false"> 
                   {% include "mariner-profile/ajax-update-sub-profiles/father.html" %}
                 </div>
                 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#mother" aria-expanded="false"><strong>Mother</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="mother">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#mother" aria-expanded="false"><strong>Mother</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="mother">Save</button></p>
                 <div id="mother" class="panel-collapse collapse" aria-expanded="false">   
                   {% include "mariner-profile/ajax-update-sub-profiles/mother.html" %}
                 </div>
 
-                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#dependents" aria-expanded="false" ><strong>Dependents ({{dependents_num_label}})</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="dependents">UPDATE</button></p>
+                <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#dependents" aria-expanded="false" ><strong>Dependents ({{dependents_num_label}})</strong><button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="dependents">Save</button></p>
                 <div id="dependents" class="panel-collapse collapse" aria-expanded="false">
                   {% include "mariner-profile/ajax-update-sub-profiles/dependents.html" %}
                 </div>
@@ -147,7 +148,7 @@
         <!--Seaferer Seagoing History
         ============================-->            
         <div id="step2" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY ({{sea_service_num_label}})</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>Seafarer's Seagoing History ({{sea_service_num_label}})</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>  
           <div id="detail2" class="panel-collapse collapse in" aria-expanded="false"> 
             {% include "mariner-profile/ajax-update-sub-profiles/sea-service.html" %}
           </div><!--End of Collapse-->
@@ -159,7 +160,8 @@
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"   aria-expanded="false"><strong><!-- REFERRAL -->Referrals</strong></div>                  
             <div id="detail3" class="panel-collapse collapse" aria-expanded="false"> 
               <div class="panel-body"> 
-                <b>THIS PERSON HAS NOT MADE ANY REFERRALS YET AT THE MOMENT</b>
+                <!-- <b>THIS PERSON HAS NOT MADE ANY REFERRALS YET AT THE MOMENT</b> -->
+                <b>None</b>
               </div><!--End of Panel Body-->
             </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->
@@ -180,7 +182,7 @@
         <!--Educational Information
         ====================================-->
         <div id="step4" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>EDUCATIONAL INFORMATION</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>Educational Information</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>  
           <div id="detail4" class="panel-collapse collapse" aria-expanded="false">  
             {% include "mariner-profile/ajax-update-sub-profiles/educational-information.html" %}           
           </div><!--End of Collapse-->
@@ -189,7 +191,7 @@
         <!--Land Employment
         ==================================-->                
         <div id="step5" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong><!-- LAND EMPLOYMENT DETAILS (if any) -->Land Employment</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong><!-- LAND EMPLOYMENT DETAILS (if any) -->Land Employment</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>
           <div id="detail5" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/land-employment.html" %}       
           </div><!--End of Collapse-->
@@ -198,7 +200,7 @@
         <!--Beneficiary Details
         ================================= -->
         <div  id="step6" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong><!-- BENEFICIARY DETAILS (In case of Death/Disability) -->Beneficiaries</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong><!-- BENEFICIARY DETAILS (In case of Death/Disability) -->Beneficiaries</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>
           <div id="detail6" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/beneficiary.html" %}       
           </div><!--End of Collapse-->
@@ -207,7 +209,7 @@
         <!--Allotment Details
         ===================================-->            
         <div id="step7" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false"><strong>ALLOTMENT DETAILS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false"><strong>Allotment Details</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>
           <div id="detail7" class="panel-collapse collapse" aria-expanded="false">               
             {% include "mariner-profile/ajax-update-sub-profiles/allotment.html" %}       
           </div><!--End of Collapse-->
@@ -215,41 +217,41 @@
                     
         <!--Licenses National Certificate
         =========================================-->   
-        <div id="step8" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
+        <!-- <div id="step8" class="panel panel-blue">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong>Licenses and National Certificates</strong></div>  
           <div id="detail8" class="panel-collapse collapse" aria-expanded="false">
             <div class="panel-body">
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#licenses" aria-expanded="false"><strong>Licenses</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">Save</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="licenses">               
-                {% include "mariner-profile/ajax-update-sub-profiles/licenses.html" %}             
+                {# include "mariner-profile/ajax-update-sub-profiles/licenses.html" #}             
               </div>                                        
     
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="National">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#national-certificates" aria-expanded="false"><strong>National Certificates</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="National">Save</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="national-certificates">   
-                {% include "mariner-profile/ajax-update-sub-profiles/national-certificates.html" %}       
+                {# include "mariner-profile/ajax-update-sub-profiles/national-certificates.html" #}       
               </div> 
     
-              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">UPDATE</button></p>
+              <p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#coc-visas" aria-expanded="false"><strong>COC and Visas</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation">Save</button></p>
               <div class ="panel-collapse collapse" aria-expanded="false" id="coc-visas">   
-                {% include "mariner-profile/ajax-update-sub-profiles/coc_visas.html" %}       
-              </div><!--End of Panel Body-->
-            </div>
-          </div><!--End of Collapse-->
-        </div><!--End of Panel Primary-->
+                {# include "mariner-profile/ajax-update-sub-profiles/coc_visas.html" #}       
+              </div> --><!--End of Panel Body-->
+            <!-- </div> -->
+          <!-- </div> --><!--End of Collapse-->
+        <!-- </div> --><!--End of Panel Primary-->
                 
         <!--Flag Document
         =================================-->            
-        <div id="step9" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong>FLAG DOCUMENTS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
+        <!-- <div id="step9" class="panel panel-blue">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong>Flag Documents</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>
           <div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
-            {% include "mariner-profile/ajax-update-sub-profiles/flags.html" %}       
-          </div><!--End of Collapse-->
-        </div><!--End of Panel Primary-->
+            {# include "mariner-profile/ajax-update-sub-profiles/flags.html" #}   -->     
+          <!-- </div> --><!--End of Collapse-->
+        <!-- </div> --><!--End of Panel Primary-->
         
         <!--Emergency Details
         ==============================-->
         <div id="step10" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>EMERGENCY DETAILS</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>Emergency Details</strong><button class="btn btn-primary update-mariner event-propagation">Save</button></div>  
           <div id="detail10" class="panel-collapse collapse" aria-expanded="false">             
             {% include "mariner-profile/ajax-update-sub-profiles/emergency.html" %}
           </div><!--End of Collapse-->
@@ -257,32 +259,82 @@
 
         <!--National Certificates and Travel Documents
         ================================================-->                                    
-        <div  id="step11" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong>TRAINING CERTIFICATES</strong><button class="btn btn-primary update-mariner event-propagation"    data-params="Certificates">UPDATE</button></div>
+        <!-- <div  id="step11" class="panel panel-blue">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong>Training Certificates</strong><button class="btn btn-primary update-mariner event-propagation"    data-params="Certificates">Save</button></div>
           <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
-            {% include "mariner-profile/ajax-update-sub-profiles/certificates.html" %}       
-          </div><!--End of Collapse-->
-        </div><!--End of Panel Primary--> 
+            {# include "mariner-profile/ajax-update-sub-profiles/certificates.html" #} -->       
+          <!-- </div> --><!--End of Collapse-->
+        <!-- </div> --><!--End of Panel Primary--> 
                 
         <!--Evaluation
         =================================-->
         <div id="step12" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong><!-- REMARKS -->General Remarks</strong><button class="btn btn-primary update-mariner event-propagation">UPDATE</button></div>
-          <div id="evaluation" class="panel-collapse collapse" aria-expanded="false"> 
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong><!-- REMARKS -->General Remarks</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
+          <div id="evaluation" class="panel-collapse collapse" aria-expanded="false">
+            <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>
             {% include "mariner-profile/ajax-update-sub-profiles/evaluation.html" %}       
           </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->            
 
         <!--Signature
         =================================-->
-       <!--  <div id="step13" class="panel panel-blue">
+        <!-- <div id="step13" class="panel panel-blue">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false"><strong>SIGNATURE</strong></div>
           <div id="signature" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body">
               <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}" width="100%">
               </div>End of Panel Body
           </div>End of Collapse
-        </div>End of Panel Primary     -->
+        </div>End of Panel Primary   -->
+
+        <!--Profile Update History
+        =================================-->
+        <div id="step14" class="panel panel-blue">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false"><strong>Profile Update History</strong></div>
+            <div class="panel-body">
+              {% if histories %}
+                <!-- <a data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false"><p><strong>Profile Update History</strong></p></a> -->
+                <div class ="panel-collapse collapse" aria-expanded="false" id="history-status">
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="table-responsive">
+                        <table class="table table-hover sea-tb main-table">
+                          <thead class="thead">
+                            <tr>
+                              <!-- <th></th> -->
+                              <th>Updated By</th>
+                              <th>Updated On</th>
+                              <th>Principal</th>
+                              <th>Status</th>
+                              <th>Since</th>
+                              <th>Until</th>
+                              <th>Days</th>
+                              <!-- <th>Comments</th> -->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for history in histories %}
+                              <tr>
+                                <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
+                                <td>{% if history.updated_by.code %} {{ history.updated_by.code }} {% else %} {{ history.updated_by }} {% endif %}</td>
+                                <td>{{ history.updated_on }}</td>
+                                <td>{{ history.mariner_principal }}</td>
+                                <td>{{ history.mariner_status }}</td>
+                                <td>{{ history.since }}</td>
+                                <td>{{ history.until }}</td>
+                                <td>{{ history.days }}</td>
+                                <!-- <td><button class="btn btn-warning form-control mariner-history-status-comments" data-comments="{{history.str_mariner_status_comment}}">Comments</button></td> -->
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+        </div><!-- End of Panel Primary   -->
       </div><!--End of Col-9-->          
     <!--End of Sidebar Fixed-->
       
@@ -298,7 +350,7 @@
               {{mariners_picture_form.picture_last_modified}}
             </div>
             {% if mariners_profile.picture_last_modified %}
-              <p style="font-size: 12px;">Last Picture Change: {{mariners_profile.picture_last_modified}}</p>
+              <p style="font-size: 12px;">Last Picture Change: <span class="remove-dot">{{mariners_profile.picture_last_modified}}</span></p>
             {% endif %}
             {% if picture_age_indicator >= 730 and picture_age_indicator != '' %}
               <strong>PICTURE already over two years</strong>
@@ -341,7 +393,7 @@
               <a href="#step3">Referral</a>
             </li>
             <li>
-              <a href="#step13">Scanned Documents</a>
+              <a href="#step13">Documents</a>
             </li>
             <li>
               <a href="#step4">Educational Information</a>
@@ -373,6 +425,9 @@
             <!-- <li>
               <a href="#step13">Signature</a>
             </li> -->
+            <li>
+              <a href="#step14">Profile Update History</a>
+            </li>
             <li>
               <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
             </li>
@@ -428,7 +483,7 @@
         </div>
         <div class="modal-body principal-application-form text-left">
           <div class="panel-blue">
-            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Manship Forms</strong>
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->MANSHIP Forms</strong>
             </div>
           </div>
           <div class="panel-body">
@@ -596,7 +651,7 @@
   <script type="text/javascript">
     $(function(){
       current_principal = $("#id_mariner_principal option:selected").text();
-      $('#id_mariner_principal option:first-child').text("MANSHIP");
+      // $('#id_mariner_principal option:first-child').text("MANSHIP");
 
       $("body").on("change", "#id_mariner_principal", function(){
         text = $('option:selected', this).text();
@@ -722,6 +777,9 @@
         var parent_next = $(this).parent().parent().parent().next().find('tr').first();
         var parent_next_html = $(this).parent().parent().parent().next().find('tr').first().html();
 
+
+        vessel_count = $(this).parent().parent().parent().next().find('tr').first().find(".vessel_count").text()
+
         // parent_next_row_html = $(this).parent().next().find('.adding-row').last().html();
         total_forms = $(this).parent().siblings(".total-forms").find('input').first();
 
@@ -735,6 +793,9 @@
         count_tr.each(function(){
           count++;
         });
+
+        // Increases the vessel count after clicking add
+        $(this).parent().parent().parent().next().find('tr').first().find(".vessel_count").text(parseInt(vessel_count)+1);
 
         parent_next = $(this).parent().parent().parent().next().find('tr').first();
 
@@ -924,6 +985,15 @@
     });
     $("#jumbo-form-modal").click(function(){
       $("#modal-jumbo-application-form").modal("show");
+    });
+    $("body").on("change", "#id_mariner_status", function(){
+      val = $('option:selected', this).text();
+      if(val.toUpperCase() == "ONBOARD"){
+        $("#id_until").parent().removeClass('hide');
+        $("#id_until").val('');
+      }else{
+        $("#id_until").parent().addClass('hide');
+      }
     });
   </script>
 {% endblock %}

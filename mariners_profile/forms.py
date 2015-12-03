@@ -802,25 +802,25 @@ class SeaServiceForm(forms.ModelForm):
 			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
 
 class MarinerStatusForm(forms.ModelForm):
-	mariner_status_comment = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), required=False)
+	# mariner_status_comment = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), required=False)
 	mariner_principal = forms.ModelChoiceField(queryset=Principal.objects.filter(manship_standard=1))
 	class Meta:
 		model = MarinerStatusHistory
 		fields = '__all__'
-		exclude = ('mariner_status_comment', )
+		# exclude = ('mariner_status_comment', )
 
 	# Script create if there is a change otherwise none
 	def save(self, commit=True):
-		mariner_status_comment = self.cleaned_data['mariner_status_comment']
+		# mariner_status_comment = self.cleaned_data['mariner_status_comment']
 		mariner_status_form = super(MarinerStatusForm, self).save(commit=False)
-		_mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
-		if _mariner_status_comment:
-			_mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
-		mariner_status_form.mariner_status_comment = _mariner_status_comment
-		self.cleaned_data['mariner_status_comment'] = _mariner_status_comment
-		value = self.cleaned_data
-		MarinerStatusHistory.objects.get_or_create(**value)
-		# mariner_status_form.save()
+		# _mariner_status_comment = MarinerStatusComment.objects.get_or_create(mariner_status_comment=mariner_status_comment)
+		# if _mariner_status_comment:
+			# _mariner_status_comment = MarinerStatusComment.objects.get(mariner_status_comment=mariner_status_comment)
+		# mariner_status_form.mariner_status_comment = _mariner_status_comment
+		# self.cleaned_data['mariner_status_comment'] = _mariner_status_comment
+		# value = self.cleaned_data
+		# MarinerStatusHistory.objects.get_or_create(**value)
+		mariner_status_form.save()
 
 class ScannedDocumentsForm(forms.ModelForm):
 	pass

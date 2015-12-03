@@ -6,7 +6,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -44,7 +44,7 @@
           {{ sea_service_forms.sea_service_documents }}
           {{ sea_service_forms.id }}
           <tr>
-            <td class="text-center"><!-- <button class="btn btn-danger">DELETE</button> -->{{ forloop.revcounter }}</td>
+            <td class="text-center vessel_count"><!-- <button class="btn btn-danger">DELETE</button> -->{{ forloop.revcounter }}</td>
             <td><input class="input-form autocomplete vTextField autocomplete-light-text-widget required" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/ManshipVesselNameAutocomplete/" data-widget-bootstrap="text" id="id_seaservice_set-{{ forloop.counter0 }}-vessel_name" name="seaservice_set-{{ forloop.counter0 }}-vessel_name" type="text" autocomplete="off" data-widget-ready="1" title="" data-original-title="" value="{{ sea_service_forms.vessel_name.value|get_data:'VesselName' }}"></td>
             <td>{{ sea_service_forms.vessel_type|add_class:"input-form required" }}</td>
             <td>{{ sea_service_forms.flag|add_class:"input-form required" }}</td>

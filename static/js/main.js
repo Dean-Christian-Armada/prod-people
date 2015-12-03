@@ -881,9 +881,9 @@ $(function(){
       $("#modal-mariner-status-notification").modal("show");
     });
 
-    $("#id-send-principal-acknowldegements").click(function(){
-      alert('dean');
-    });
+    // $("#id-send-principal-acknowldegements").click(function(){
+    //   alert('dean');
+    // });
 
     $("body").on("keydown focusout focus", ".12-only", function(e){
       key_code = e.keyCode;
@@ -955,4 +955,8 @@ $(function(){
         $(this).next("ul.without-content").show();
       }
     });
+
+    // Removes dots, used in time
+    dotless = $(".remove-dot").text();
+    $(".remove-dot").text(dotless.replace(/[.]/g, ''));
 }); 

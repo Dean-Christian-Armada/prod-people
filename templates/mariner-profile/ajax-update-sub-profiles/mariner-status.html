@@ -6,7 +6,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -18,7 +18,7 @@
     <div class="col-md-3 col-laptop-6">
       <div class="input-group">
         <label class="input-group-addon input-label">Principal:</label>
-        {{ mariner_status_form.mariner_principal|add_class:"form-control input-form required" }}
+        {{ mariner_status_form.mariner_principal|add_class:"form-control input-form required first-choice" }}
       </div>
     </div>
     <div class="col-md-4 col-laptop-6">
@@ -32,7 +32,7 @@
         <label class="input-group-addon input-label">Since:</label>
         {{ mariner_status_form.since|add_class:"form-control input-form date required" }}
       </div>
-      <div class="input-group">
+      <div class="input-group {{ visibility_parameter }}">
         <label class="input-group-addon input-label">Until:</label>
         {{ mariner_status_form.until|add_class:"form-control input-form date" }}
       </div>
@@ -43,57 +43,14 @@
         <input class="form-control input-form" disabled value="{{ current_history.days }}">
       </div>
     </div>
-    <div class="col-md-12">
+    <!-- <div class="col-md-12">
       <div class="input-group">
         <label class="input-group-addon input-label">Additional Status Comments:</label>
         {{ mariner_status_form.mariner_status_comment|add_class:"form-control input-form" }}
       </div>
-    </div>
+    </div> -->
   </div>
 
   {{ mariner_status_form.updated_by|add_class:"hide" }}
   {{ mariner_status_form.user|add_class:"hide" }}
-
-  {% if histories %}
-    <a data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false"><p><strong>History Status</strong></p></a>
-    <div class ="panel-collapse collapse" aria-expanded="false" id="history-status">
-      <div class="panel-body">
-        <div class="row">
-          <div class="table-responsive">
-            <table class="table table-hover sea-tb main-table">
-              <thead class="thead">
-                <tr>
-                  <!-- <th></th> -->
-                  <th>Updated By</th>
-                  <th>Updated On</th>
-                  <th>Principal</th>
-                  <th>Status</th>
-                  <th>Since</th>
-                  <th>Until</th>
-                  <th>Days</th>
-                  <th>Comments</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for history in histories %}
-                  <tr>
-                    <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
-                    <td>{% if history.updated_by.code %} {{ history.updated_by.code }} {% else %} {{ history.updated_by }} {% endif %}</td>
-                    <td>{{ history.updated_on }}</td>
-                    <td>{{ history.mariner_principal }}</td>
-                    <td>{{ history.mariner_status }}</td>
-                    <td>{{ history.since }}</td>
-                    <td>{{ history.until }}</td>
-                    <td>{{ history.days }}</td>
-                    <td><button class="btn btn-warning form-control mariner-history-status-comments" data-comments="{{history.str_mariner_status_comment}}">Comments</button></td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-
 </div><!--End of Panel Body-->

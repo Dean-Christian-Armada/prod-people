@@ -70,7 +70,8 @@ def filipino_nationality():
 
 def default_mariner_status():
 	try:
-		mariner_status_value = 'NO STATUS YET'
+		# mariner_status_value = 'NO STATUS YET'
+		mariner_principal_value = 'WAITING'
 		mariner_status = MarinerStatus.objects.get_or_create({'mariner_status':mariner_status_value}, mariner_status__iexact=mariner_status_value)
 		mariner_status = MarinerStatus.objects.get(mariner_status__iexact=mariner_status_value)
 		return mariner_status.id
@@ -79,7 +80,8 @@ def default_mariner_status():
 
 def default_mariner_principal():
 	try:
-		mariner_principal_value = 'NO PRINCIPAL YET'
+		# mariner_principal_value = 'NO PRINCIPAL YET'
+		mariner_principal_value = 'MANSHIP'
 		mariner_principal = Principal.objects.get_or_create({'principal':mariner_principal_value}, principal__iexact=mariner_principal_value)
 		mariner_principal = Principal.objects.get(principal__iexact=mariner_principal_value)
 		return mariner_principal.id
@@ -202,7 +204,7 @@ class Relationship(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __unicode__(self):
-		return self.relationship
+		return self.relationship.upper()
 
 class Departments(models.Model):
 	department = models.CharField(max_length=50, default=None)
@@ -327,6 +329,9 @@ class Reasons(models.Model):
 
 class Status(models.Model):
 	status = models.CharField(max_length=50, default=None)
+	action = models.BooleanField(default=False)
+	listed = models.BooleanField(default=False)
+	list_name = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
@@ -873,6 +878,9 @@ class MarinersProfile(models.Model):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
 
+	# def picture_last_modified_without_dot(self):
+	# 	return self.picture_last_modified
+
 	def rank_sea_service_duration(self):
 		sea_service = SeaService.objects.filter(user=self.user.id)
 		rank_sea_service = sea_service.filter(rank=self.position)
@@ -960,10 +968,11 @@ class MarinerStatusHistory(models.Model):
 	updated_by = models.ForeignKey(UserProfile, related_name='updated_by', default=default_user_user_level())
 	updated_on = models.DateField(auto_now_add=True)
 	mariner_principal = models.ForeignKey(Principal, default=default_mariner_principal())
-	mariner_status = models.ForeignKey(MarinerStatus, default=default_mariner_status())
+	# mariner_status = models.ForeignKey(MarinerStatus, default=default_mariner_status())
+	mariner_status = models.ForeignKey(MarinerStatus, default=2)
 	since = models.DateField(null=True, blank=True, default=None)
 	until = models.DateField(null=True, blank=True, default=None)
-	mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
+	# mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
 
 	def __unicode__(self):
 		value = "%s %s %s - %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.mariner_principal, self.mariner_status)
@@ -985,11 +994,11 @@ class MarinerStatusHistory(models.Model):
 			days = ''
 		return days
 
-	def str_mariner_status_comment(self):
-		comment = str(self.mariner_status_comment)
-		if comment == '':
-			comment = "THERE ARE NO COMMENTS"
-		return comment
+	# def str_mariner_status_comment(self):
+	# 	comment = str(self.mariner_status_comment)
+	# 	if comment == '':
+	# 		comment = "THERE ARE NO COMMENTS"
+	# 	return comment
 
 class MarinerStatusHistoryAuthority(models.Model):
 	user = models.ForeignKey(UserProfile)
@@ -1056,12 +1065,20 @@ class Evaluation(models.Model):
 	# evalutation = models.ForeignKey(Evaluations, default=None)
 	evaluation = models.TextField(null=True, blank=True, default=None)
 	evaluated_by = models.ForeignKey(UserProfile, related_name='evaluated_by', default=default_user_user_level())
-	evaluated_on = models.DateField(auto_now_add=True)
+	evaluated_on = models.DateTimeField(auto_now_add=True)
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
 	def __str__(self):
 		return "%s" % (self.evaluation)
+
+	def evaluated_on_date(self):
+		x = self.evaluated_on
+		return x.date()
+
+	def evaluated_on_time(self):
+		x = self.evaluated_on
+		return x.time()
 
 class Dependents(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)

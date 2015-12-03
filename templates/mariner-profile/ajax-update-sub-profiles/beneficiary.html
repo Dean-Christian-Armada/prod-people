@@ -7,7 +7,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -20,7 +20,8 @@
 <div class="panel-body">
   {{ beneficiary_forms.id }}
   {{ beneficiary_forms.user }}                      
-  <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false"><p><strong>{% if beneficiary_forms.beneficiary_first_name.value %}{{ beneficiary_forms.beneficiary_first_name.value|upper }}{% endif %}  {% if beneficiary_forms.beneficiary_middle_name.value %} {{ beneficiary_forms.beneficiary_middle_name.value|upper }} {% endif %} {% if beneficiary_forms.beneficiary_last_name.value %} {{ beneficiary_forms.beneficiary_last_name.value|upper }} {% endif %}</strong></p></a> 
+  <!-- <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false"><p><strong>{% if beneficiary_forms.beneficiary_first_name.value %}{{ beneficiary_forms.beneficiary_first_name.value|upper }}{% endif %}  {% if beneficiary_forms.beneficiary_middle_name.value %} {{ beneficiary_forms.beneficiary_middle_name.value|upper }} {% endif %} {% if beneficiary_forms.beneficiary_last_name.value %} {{ beneficiary_forms.beneficiary_last_name.value|upper }} {% endif %}</strong></p></a> -->
+  <a data-toggle="collapse" data-parent="#accordion" href="#benefit{{forloop.counter}}" aria-expanded="false"><p><strong>Beneficiary # {{ forloop.counter }}</strong></p></a> 
   <div class="panel-body">
     <div id="benefit{{forloop.counter}}" class="panel-collapse collapse in" aria-expanded="false">
       <div class="row adding-row">

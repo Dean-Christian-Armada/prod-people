@@ -6,7 +6,7 @@
   <div class="form-group">
     <div class="errorlist-group panel-msmi-green mariner-profile-updated-padding">
       <!-- <ul class="errorlist"> -->
-        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  UPDATED</h3>  
+        <h3 class="msmi-green-color" style="margin-top:10px;"><img src="{% static 'img/finish.png' %}" width="50px">  SAVED</h3>  
       <!-- </ul> -->
     </div>  
   </div>
@@ -19,7 +19,8 @@
   <div class="panel-body">
   {{ dependents_forms.id }}
   {{ dependents_forms.user }}
-    <p><strong>{{ dependents_forms.dependent_first_name.value|upper }} {{ dependents_forms.dependent_middle_name.value|upper }} {{ dependents_forms.dependent_last_name.value|upper }}</strong></p>
+    <!-- <p><strong>{{ dependents_forms.dependent_first_name.value|upper }} {{ dependents_forms.dependent_middle_name.value|upper }} {{ dependents_forms.dependent_last_name.value|upper }}</strong></p> -->
+    <p><strong>Dependent # {{forloop.counter}}</strong></p>
       <div class="panel-body">
         <div class="row adding-row">
           <div class="col-md-4">

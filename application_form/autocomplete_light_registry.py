@@ -14,7 +14,7 @@ class ReferrerAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ReferrerAutocomplete)
+autocomplete_light.register(ReferrerAutocomplete, attrs={'placeholder': '',})
 
 class FlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
 	# search_fields = ['^flags', ]
@@ -28,7 +28,7 @@ class FlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
    		)
 
 	autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(FlagsAutocomplete)
+autocomplete_light.register(FlagsAutocomplete, attrs={'placeholder': '',})
 
 class CollegeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -40,7 +40,7 @@ class CollegeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(CollegeAutocomplete)
+autocomplete_light.register(CollegeAutocomplete, attrs={'placeholder': '',})
 
 class DegreeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -52,7 +52,7 @@ class DegreeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(DegreeAutocomplete)
+autocomplete_light.register(DegreeAutocomplete, attrs={'placeholder': '',})
 
 class VesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -64,7 +64,7 @@ class VesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(VesselTypeAutocomplete)
+autocomplete_light.register(VesselTypeAutocomplete, attrs={'placeholder': '',})
 
 class PreferredVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -76,7 +76,7 @@ class PreferredVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTempla
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(PreferredVesselTypeAutocomplete)
+autocomplete_light.register(PreferredVesselTypeAutocomplete, attrs={'placeholder': '',})
 
 class EngineTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -88,7 +88,7 @@ class EngineTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(EngineTypeAutocomplete)
+autocomplete_light.register(EngineTypeAutocomplete, attrs={'placeholder': '',})
 
 class ManningAgencyAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -100,7 +100,7 @@ class ManningAgencyAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ManningAgencyAutocomplete)
+autocomplete_light.register(ManningAgencyAutocomplete, attrs={'placeholder': '',})
 
 class RankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -112,7 +112,7 @@ class RankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(RankAutocomplete)
+autocomplete_light.register(RankAutocomplete, attrs={'placeholder': '',})
 
 class COCRankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -124,7 +124,7 @@ class COCRankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(COCRankAutocomplete)
+autocomplete_light.register(COCRankAutocomplete, attrs={'placeholder': '',})
 
 class RelationshipAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -136,7 +136,7 @@ class RelationshipAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(RelationshipAutocomplete)
+autocomplete_light.register(RelationshipAutocomplete, attrs={'placeholder': '',})
 
 class BarangayAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -148,7 +148,7 @@ class BarangayAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(BarangayAutocomplete)
+autocomplete_light.register(BarangayAutocomplete, attrs={'placeholder': '',})
 
 class MunicipalityAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -160,7 +160,7 @@ class MunicipalityAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(MunicipalityAutocomplete)
+autocomplete_light.register(MunicipalityAutocomplete, attrs={'placeholder': '',})
 
 class LandPositionAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -172,7 +172,7 @@ class LandPositionAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(LandPositionAutocomplete)
+autocomplete_light.register(LandPositionAutocomplete, attrs={'placeholder': '',})
 
 class BankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -184,7 +184,7 @@ class BankAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(BankAutocomplete)
+autocomplete_light.register(BankAutocomplete, attrs={'placeholder': '',})
 
 class PassportPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -196,7 +196,7 @@ class PassportPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTempla
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(PassportPlaceIssuedAutocomplete)
+autocomplete_light.register(PassportPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class SBookPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -208,7 +208,7 @@ class SBookPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate)
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(SBookPlaceIssuedAutocomplete)
+autocomplete_light.register(SBookPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class USVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -220,7 +220,7 @@ class USVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(USVisaPlaceIssuedAutocomplete)
+autocomplete_light.register(USVisaPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class SchengenVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -232,7 +232,7 @@ class SchengenVisaPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTe
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(SchengenVisaPlaceIssuedAutocomplete)
+autocomplete_light.register(SchengenVisaPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class YellowFeverPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -244,7 +244,7 @@ class YellowFeverPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTem
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(YellowFeverPlaceIssuedAutocomplete)
+autocomplete_light.register(YellowFeverPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class LicensePlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -256,7 +256,7 @@ class LicensePlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplat
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(LicensePlaceIssuedAutocomplete)
+autocomplete_light.register(LicensePlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class COCPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -268,7 +268,7 @@ class COCPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(COCPlaceIssuedAutocomplete)
+autocomplete_light.register(COCPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class TrainingPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -280,7 +280,7 @@ class TrainingPlaceIssuedAutocomplete(autocomplete_light.AutocompleteModelTempla
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(TrainingPlaceIssuedAutocomplete)
+autocomplete_light.register(TrainingPlaceIssuedAutocomplete, attrs={'placeholder': '',})
 
 class TrainingCenterAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -292,7 +292,7 @@ class TrainingCenterAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(TrainingCenterAutocomplete)
+autocomplete_light.register(TrainingCenterAutocomplete, attrs={'placeholder': '',})
 
 class TradeAreaAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -304,7 +304,7 @@ class TradeAreaAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(TradeAreaAutocomplete)
+autocomplete_light.register(TradeAreaAutocomplete, attrs={'placeholder': '',})
 
 class ManshipVesselNameAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -316,7 +316,7 @@ class ManshipVesselNameAutocomplete(autocomplete_light.AutocompleteModelTemplate
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ManshipVesselNameAutocomplete)
+autocomplete_light.register(ManshipVesselNameAutocomplete, attrs={'placeholder': '',})
 
 class ManshipVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -328,7 +328,7 @@ class ManshipVesselTypeAutocomplete(autocomplete_light.AutocompleteModelTemplate
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ManshipVesselTypeAutocomplete)
+autocomplete_light.register(ManshipVesselTypeAutocomplete, attrs={'placeholder': '',})
 
 class ManshipPrincipalAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -340,7 +340,7 @@ class ManshipPrincipalAutocomplete(autocomplete_light.AutocompleteModelTemplate)
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ManshipPrincipalAutocomplete)
+autocomplete_light.register(ManshipPrincipalAutocomplete, attrs={'placeholder': '',})
 
 class ManshipFlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -352,7 +352,7 @@ class ManshipFlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(ManshipFlagsAutocomplete)
+autocomplete_light.register(ManshipFlagsAutocomplete, attrs={'placeholder': '',})
 
 class DialectAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
@@ -364,4 +364,4 @@ class DialectAutocomplete(autocomplete_light.AutocompleteModelTemplate):
       )
     # Template that removes the "Results not Found"
     autocomplete_template = 'autocomplete_template.html'
-autocomplete_light.register(DialectAutocomplete)
+autocomplete_light.register(DialectAutocomplete, attrs={'placeholder': '',})

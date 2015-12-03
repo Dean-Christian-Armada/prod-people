@@ -44,8 +44,10 @@
   <div id="page-wrapper">
     <div class="container-fluid">
       <div class="col-lg-8 col-lg-offset-1">
+        <!-- Application Status
+        ==========================================-->
         <div class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>APPLICATION STATUS</strong></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>Recruitment Manager</strong></div>
           <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
             <div class="panel-body">
                 <div class="row">
@@ -63,6 +65,23 @@
               </div>
             </div><!--End of Panel Body-->
           </div><!--End of Collapse-->
+        </div><!--End of Panel Primary-->
+
+        <!-- Application Status
+        ==========================================-->
+        <div class="panel panel-blue" style="margin-top: 20px;">
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>Application Status</strong></div>
+          <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
+            <div class="panel-body">
+              <div class="row">
+                {% for x in status_listed %}
+                  <div class="col-lg-2">
+                  <button class="btn btn-default {% if application_form.status == x %}btn-danger{% endif %}">{{ x }}</button>
+                  </div>
+                {% endfor %}
+              </div>
+            </div><!--End of Panel Body-->
+          </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->             
 
         <!--Personal Data
@@ -73,7 +92,7 @@
             <button id="id-application-profile" class="btn btn-success submit-application btn-msmi"><span class="glyphicon glyphicon-pencil"></span><strong>Update <br /> Application</strong></button>
           </p> -->
           <div id="step1" class="panel panel-blue">
-            <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" aria-expanded="true"><strong>PERSONAL DATA</strong></div>
+            <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" aria-expanded="true"><strong><!-- PERSONAL DATA -->Personal Data</strong></div>
             <div id="detail1" class="collapse in" aria-expanded="true">              
               <div class="panel-body">
                 <div class="form-group">  
@@ -214,24 +233,57 @@
                     <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_street }}">
                   </div><!--End of Input Group-->
                 </div><!--End of Col 4-->
-                <div class="col-lg-4">
+                {% if personal_data.permanent_address.permanent_zip.municipality.province_flag %}
+                <div class="col-lg-6">
                   <div class="input-group">
-                    <span class="input-group-addon input-label">Barangay:</span>
-                    <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Municipality:</span>
+                    <span class="input-group-addon input-label">Province:</span>
                     <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.municipality }}">
                   </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
                   <div class="input-group">
-                    <span class="input-group-addon input-label">ZIP Code:</span>
-                    <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
+                    <span class="input-group-addon input-label">City / Municipality:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}">
                   </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="Barangay / Purok / Barrio" aria-describedby="basic-addon1" value="" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% else %}
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Province:</span>
+                    <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="NCR">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">City:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.municipality }}">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip.barangay }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.permanent_address.permanent_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% endif %}
               </div><!--End of Row-->
 
               <p><strong>Current Address</strong></p>
@@ -248,24 +300,57 @@
                     <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_street }}">
                   </div><!--End of Input Group-->
                 </div><!--End of Col 4-->
-                <div class="col-lg-4">
+                {% if personal_data.current_address.current_zip.municipality.province_flag %}
+                <div class="col-lg-6">
                   <div class="input-group">
-                    <span class="input-group-addon input-label">Barangay:</span>
-                    <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Municipality:</span>
+                    <span class="input-group-addon input-label">Province:</span>
                     <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.municipality }}">
                   </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
-                <div class="input-group">
-                  <span class="input-group-addon input-label">ZIP Code:</span>
-                  <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
-                </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">City / Municipality:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="Barangay / Purok / Barrio" aria-describedby="basic-addon1" value="" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% else %}
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Province:</span>
+                    <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="NCR">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">City:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.municipality }}">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip.barangay }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ personal_data.current_address.current_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% endif %}
               </div><!--End of Row-->
 
               <p><strong>Spouse</strong></p>                        
@@ -371,7 +456,7 @@
       <!--Seaferer Seagoing History
       ============================-->            
       <div id="step2" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>SEAFARER'S SEAGOING HISTORY ({{sea_service_num_label}})</strong></a></div>                  
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong><!-- SEAFARER'S SEAGOING HISTORY -->Seafarer's Seagoing History ({{sea_service_num_label}})</strong></a></div>                  
         <div id="detail2" class="collapse in" aria-expanded="false"> 
           <div class="panel-body"> 
             <div class="table-responsive">
@@ -430,7 +515,7 @@
       <!--Educational Information
       ====================================-->
       <div id="step4" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>EDUCATIONAL INFORMATION</strong></div>  
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong><!-- EDUCATIONAL INFORMATION -->Educational Information</strong></div>  
           <div id="detail4" class="panel-collapse collapse in" aria-expanded="false">             
             <div class="panel-body">
               <div class="form-group">
@@ -540,7 +625,7 @@
         <!--Licenses National Certificate
         =========================================-->   
         <div id="step8" class="panel panel-blue" style="margin-top: 10px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong>LICENSES AND NATIONAL CERTIFICATES</strong></div>  
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong><!-- LICENSES AND NATIONAL CERTIFICATES -->Licenses and National Certificates</strong></div>  
           <div id="detail8" class="panel-collapse collapse" aria-expanded="false">             
             <div class="panel-body">  
               <div class="row">
@@ -692,7 +777,7 @@
       <!--Flag Document
       =================================-->            
       <div id="step9" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong>FLAG DOCUMENTS</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail9" aria-expanded="false"><strong><!-- FLAG DOCUMENTS -->Flag Documents</strong></div>
           <div id="detail9" class="panel-collapse collapse" aria-expanded="false">               
             <div class="panel-body"> 
               {% for flag in flags.flags %}
@@ -707,12 +792,12 @@
       <!--Emergency Details
       ==============================-->
       <div id="step10" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>EMERGENCY DETAILS</strong></div>  
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong><!-- EMERGENCY DETAILS -->Emergency Details</strong></div>  
         <div id="detail10" class="panel-collapse collapse" aria-expanded="false">             
           <div class="panel-body">
             <div class="form-group">  
               {% for emergencies in emergency_contact %}                 
-              <p><strong>{{ emergencies|upper }} (<i>{{ emergencies.relationship }}</i>)</strong></p>
+              <p><strong><!-- {{ emergencies|upper }} (<i>{{ emergencies.relationship }}</i>) -->Emergency # {{ forloop.counter }}</strong></p>
               <div class="row">
                 <div class="col-lg-4">
                   <div class="input-group">
@@ -764,24 +849,57 @@
                     <input type="text" class="form-control input-form" placeholder="Street" aria-describedby="basic-addon1" value="{{ emergencies.emergency_street }}">
                   </div><!--End of Input Group-->
                 </div><!--End of Col 4-->
-                <div class="col-lg-4">
+                {% if emergencies.emergency_zip.municipality.province_flag %}
+                <div class="col-lg-6">
                   <div class="input-group">
-                    <span class="input-group-addon input-label">Barangay:</span>
-                    <input type="text" class="form-control input-form" placeholder="Barangay" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Municipality:</span>
+                    <span class="input-group-addon input-label">Province:</span>
                     <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.municipality }}">
                   </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
-                <div class="col-lg-4">
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
                   <div class="input-group">
-                    <span class="input-group-addon input-label">ZIP Code:</span>
-                    <input type="text" class="form-control input-form" placeholder="ZIP Code" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >
+                    <span class="input-group-addon input-label">City / Municipality:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}">
                   </div><!--End of Input Group-->
-                </div><!--End of Col 2-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="Barangay / Purok / Barrio" aria-describedby="basic-addon1" value="" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% else %}
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Province:</span>
+                    <input type="text" class="form-control input-form" placeholder="Municipality" aria-describedby="basic-addon1" value="NCR">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">City:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.municipality }}">
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Barangay:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip.barangay }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                <div class="col-lg-6">
+                  <div class="input-group">
+                    <span class="input-group-addon input-label">Zip Code:</span>
+                    <input type="text" class="form-control input-form" placeholder="" aria-describedby="basic-addon1" value="{{ emergencies.emergency_zip }}" >
+                  </div><!--End of Input Group-->
+                </div><!--End of Col 6-->
+                {% endif %}
               </div><!--End of Row-->
               {% endfor %}
             </div><!--End of Form Group-->
@@ -792,7 +910,7 @@
       <!--National Certificates and Travel Documents
       ================================================-->                                    
       <div  id="step11" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong>TRAININGS / OTHER CERTIFICATES (<i>{{ department }}</i>)</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail11" aria-expanded="false"><strong><!-- TRAININGS / OTHER CERTIFICATES -->Trainings / Other Certificates (<i>{{ department }}</i>)</strong></div>
         <div id="detail11" class="panel-collapse collapse" aria-expanded="false">              
           <div class="panel-body"> 
             {% for certs in trainings_certificates.trainings_certificates %}
@@ -807,7 +925,7 @@
        <!--How did you learn about Manship
       =================================-->
       <div id="step15" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#sources" aria-expanded="false"><strong>HOW DID YOU LEARN ABOUT MANSHIP</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#sources" aria-expanded="false"><strong><!-- HOW DID YOU LEARN ABOUT MANSHIP -->How did you learn about MANSHIP</strong></div>
         <div id="sources" class="panel-collapse collapse" aria-expanded="false"> 
           <div class="panel-body">
             {{ application_form.application_source.source|upper }}{% if application_form.application_source.source|upper != "SEAFARER CENTER" %} - {{ application_form.application_source.specific|upper }}{% endif %}
@@ -818,7 +936,7 @@
       <!--Background Information
       =================================-->
       <div id="step23" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#backgroundinformation" aria-expanded="false"><strong>BACKGROUND INFORMATION</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#backgroundinformation" aria-expanded="false"><strong><!-- BACKGROUND INFORMATION -->Background Information</strong></div>
         <div id="backgroundinformation" class="panel-collapse collapse" aria-expanded="false"> 
           <div class="panel-body">
             <div class="row">
@@ -946,7 +1064,7 @@
       =================================-->
       {% if application_form.essay  %}
         <div id="step22" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false"><strong>ESSAY (<i>{{ count_words }} WORDS</i>)</strong></div>
+          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#essay" aria-expanded="false"><strong><!-- ESSAY -->Essay (<i>{{ count_words }} <!-- WORDS -->Words</i>)</strong></div>
           <div id="essay" class="panel-collapse collapse" aria-expanded="false"> 
             <div class="panel-body">
               <textarea class="form-control input-form" id="essay">{{ application_form.essay }}</textarea>  
@@ -960,21 +1078,21 @@
       =================================-->
       {{ reference_form.management_form }}
       <div id="step13" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false"><strong>REFERENCE</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#reference" aria-expanded="false"><strong><!-- REFERENCE -->Reference</strong></div>
         <div id="reference" class="panel-collapse collapse" aria-expanded="false"> 
-          <div class="panel-body"> 
+          <!-- <div class="panel-body"> 
             <div class="row">
               <div class="col-lg-12">
                 Take note: <i><u><strong>Please complete all the fields to save a personal reference</strong></u></i>
               </div>
             </div>
-          </div>
+          </div> -->
 
           {% for reference_forms in reference_form %}
             {{ reference_forms.id }}
             {{ reference_forms.user }}
             <div class="panel-body "> 
-              <p><strong>Verifier</strong></p>
+              <p><strong>Verifier # {{forloop.counter}}</strong></p>
               <div class="verifier-section">
                 <div class="row">
                   <div class="col-lg-6">
@@ -1061,7 +1179,7 @@
        <!--Signature
       =================================-->
       <div id="step14" class="panel panel-blue">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false"><strong>SIGNATURE</strong></div>
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#signature" aria-expanded="false"><strong><!-- SIGNATURE -->Signature</strong></div>
         <div id="signature" class="panel-collapse collapse" aria-expanded="false"> 
           <div class="panel-body">
             <img src="{{ MEDIA_URL }}{{ mariners_profile.signature }}" width="100%">

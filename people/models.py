@@ -503,7 +503,207 @@ class AbstractSeaService(models.Model):
 			self.grt = ''
 		return self.grt
 
-# Temporary Proxies
-class MainSatus(UserProfile):
+# START Temporary Proxies
+from mariners_profile.models import BirthPlace, Evaluation, PersonReference, Company, Nationality, VesselName, VesselType, CivilStatus, MarinerStatus, Colleges, Degree, HighSchools, Vocationals, PrimarySchools, Relationship, Departments, Rank, COCRank, LandPosition, EngineType, ManningAgency, CauseOfDischarge, Region, Municipality, Barangay, Sources, Specifics, Reasons, Status, English, Dialect, Bank, Branch, PassportPlaceIssued, SBookPlaceIssued, USVisaPlaceIssued, SchengenVisaPlaceIssued, YellowFeverPlaceIssued, LicensePlaceIssued, COCPlaceIssued, TrainingPlaceIssued, IssuingAuthority, Flags, Principal,TrainingCenter, TradeArea, Zip, Propulsion, ReferrersPool
+
+class ListBirthPlace(BirthPlace):
 	class Meta:
-		proxy=True
+		# app_label = ""
+		verbose_name_plural = "Birth Place List"
+		proxy = True
+
+class ListEvaluation(Evaluation):
+	class Meta:
+		verbose_name_plural = "Evaluation List"
+		proxy = True
+
+class ListPersonReference(PersonReference):
+	class Meta:
+		verbose_name_plural = "Person Reference List"
+		proxy = True
+
+class ListCompany(Company):
+	class Meta:
+		verbose_name_plural = "Company List"
+		proxy = True
+class ListNationality(Nationality):
+	class Meta:
+		verbose_name_plural = "Nationality List"
+		proxy = True
+class ListVesselName(VesselName):
+	class Meta:
+		verbose_name_plural = "Vessel Name List"
+		proxy = True
+class ListVesselType(VesselType):
+	class Meta:
+		verbose_name_plural = "Vessel Type List"
+		proxy = True
+class ListCivilStatus(CivilStatus):
+	class Meta:
+		verbose_name_plural = "Civil Status List"
+		proxy = True
+class ListMarinerStatus(MarinerStatus):
+	class Meta:
+		verbose_name_plural = "Mariner Status List"
+		proxy = True
+class ListColleges(Colleges):
+	class Meta:
+		verbose_name_plural = "College List"
+		proxy = True
+class ListDegree(Degree):
+	class Meta:
+		verbose_name_plural = "Degree List"
+		proxy = True
+class ListHighSchools(HighSchools):
+	class Meta:
+		verbose_name_plural = "HighSchool List"
+		proxy = True
+class ListVocationals(Vocationals):
+	class Meta:
+		verbose_name_plural = "Vocational List"
+		proxy = True
+class ListPrimarySchools(PrimarySchools):
+	class Meta:
+		verbose_name_plural = "Primary School List"
+		proxy = True
+class ListRelationship(Relationship):
+	class Meta:
+		verbose_name_plural = "Relationship List"
+		proxy = True
+class ListDepartments(Departments):
+	class Meta:
+		verbose_name_plural = "Department List"
+		proxy = True
+class ListRank(Rank):
+	class Meta:
+		verbose_name_plural = "Rank List"
+		proxy = True
+class ListCOCRank(COCRank):
+	class Meta:
+		verbose_name_plural = "COC Rank List"
+		proxy = True
+class ListLandPosition(LandPosition):
+	class Meta:
+		verbose_name_plural = "Land Position List"
+		proxy = True
+class ListEngineType(EngineType):
+	class Meta:
+		verbose_name_plural = "Engine Type List"
+		proxy = True
+class ListManningAgency(ManningAgency):
+	class Meta:
+		verbose_name_plural = "Manning Agency List"
+		proxy = True
+class ListCauseOfDischarge(CauseOfDischarge):
+	class Meta:
+		verbose_name_plural = "Cause of Discharge List"
+		proxy = True
+class ListRegion(Region):
+	class Meta:
+		verbose_name_plural = "Region List"
+		proxy = True
+class ListMunicipality(Municipality):
+	class Meta:
+		verbose_name_plural = "Municipality List"
+		proxy = True
+class ListBarangay(Barangay):
+	class Meta:
+		verbose_name_plural = "Barangay List"
+		proxy = True
+class ListSources(Sources):
+	class Meta:
+		verbose_name_plural = "Applicant Source List"
+		proxy = True
+class ListSpecifics(Specifics):
+	class Meta:
+		verbose_name_plural = "Applicant Specific Source List"
+		proxy = True
+class ListReasons(Reasons):
+	class Meta:
+		verbose_name_plural = "Reasons List"
+		proxy = True
+class ListStatus(Status):
+	class Meta:
+		verbose_name_plural = "Applicant Status List"
+		proxy = True
+class ListEnglish(English):
+	class Meta:
+		verbose_name_plural = "English Grade List"
+		proxy = True
+class ListDialect(Dialect):
+	class Meta:
+		verbose_name_plural = "Dialect List"
+		proxy = True
+class ListBank(Bank):
+	class Meta:
+		verbose_name_plural = "Bank List"
+		proxy = True
+class ListBranch(Branch):
+	class Meta:
+		verbose_name_plural = "Bank Branch List"
+		proxy = True
+class ListPassportPlaceIssued(PassportPlaceIssued):
+	class Meta:
+		verbose_name_plural = "Passport Place Issued List"
+		proxy = True
+class ListSBookPlaceIssued(SBookPlaceIssued):
+	class Meta:
+		verbose_name_plural = "Seaman's Book Place Issued List"
+		proxy = True
+class ListUSVisaPlaceIssued(USVisaPlaceIssued):
+	class Meta:
+		verbose_name_plural = "US Visa Place Issued List"
+		proxy = True
+class ListSchengenVisaPlaceIssued(SchengenVisaPlaceIssued):
+	class Meta:
+		verbose_name_plural = "Schengen Visa Place Issued List"
+		proxy = True
+class ListYellowFeverPlaceIssued(YellowFeverPlaceIssued):
+	class Meta:
+		verbose_name_plural = "Yellow Fever Place Issued List"
+		proxy = True
+class ListLicensePlaceIssued(LicensePlaceIssued):
+	class Meta:
+		verbose_name_plural = "PRC License Place Issued List"
+		proxy = True
+class ListCOCPlaceIssued(COCPlaceIssued):
+	class Meta:
+		verbose_name_plural = "COC Place Issued List"
+		proxy = True
+class ListTrainingPlaceIssued(TrainingPlaceIssued):
+	class Meta:
+		verbose_name_plural = "Training Place Issued List"
+		proxy = True
+class ListIssuingAuthority(IssuingAuthority):
+	class Meta:
+		verbose_name_plural = "Issuing Authority List"
+		proxy = True
+class ListFlags(Flags):
+	class Meta:
+		verbose_name_plural = "Flags List"
+		proxy = True
+class ListPrincipal(Principal):
+	class Meta:
+		verbose_name_plural = "Principal List"
+		proxy = True
+class ListTrainingCenter(TrainingCenter):
+	class Meta:
+		verbose_name_plural = "Training Center List"
+		proxy = True
+class ListTradeArea(TradeArea):
+	class Meta:
+		verbose_name_plural = "Trade Area List"
+		proxy = True
+class ListZip(Zip):
+	class Meta:
+		verbose_name_plural = "Zip Code List"
+		proxy = True
+class ListPropulsion(Propulsion):
+	class Meta:
+		verbose_name_plural = "Propulsion List"
+		proxy = True
+class ListReferrersPool(ReferrersPool):
+	class Meta:
+		verbose_name_plural = "Temporary Application Source Referrer Pool List"
+		proxy = True
+# END Temporary Proxies

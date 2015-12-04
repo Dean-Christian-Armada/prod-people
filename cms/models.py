@@ -42,6 +42,9 @@ class SubFolder(models.Model):
 	medium_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 	high_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 
+	class Meta:
+		verbose_name_plural = "Subfolders"
+
 	def __unicode__(self):
 		# return "%s / %s" % (str(self.folder), self.name)
 		return "%s" % (self.slug)
@@ -177,6 +180,7 @@ class Fields(models.Model):
 	slug = models.SlugField(null=True, blank=True, default=None)
 
 	class Meta:
+		verbose_name_plural = "Fields"
 		ordering = ['order']
 
 	def label(self):
@@ -310,6 +314,7 @@ class FileFieldValue(models.Model):
 	value = models.CharField(max_length=50, default=None)
 
 	class Meta:
+		verbose_name_plural = "File Field Values"
 		ordering = ['field']
 
 	def __unicode__(self):

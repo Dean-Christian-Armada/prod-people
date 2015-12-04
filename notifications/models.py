@@ -12,6 +12,9 @@ from ckeditor.fields import RichTextField
 class BaseURL(models.Model):
 	base_url = models.CharField(max_length=50, default=None)
 
+	class Meta:
+		verbose_name_plural = "Notification URL"
+
 	def __unicode__(self):
 		return self.base_url
 
@@ -19,6 +22,9 @@ class NotificationStatus(models.Model):
 	base_url = models.ForeignKey(BaseURL, default=None)
 	status = models.CharField(max_length=100, default=None)
 	label = models.TextField(default=None)
+
+	class Meta:
+		verbose_name_plural = "Notification Status"
 
 	def __unicode__(self):
 		return "%s - %s" % (self.status.upper(), self.label)
@@ -28,6 +34,9 @@ class EmailNotification(models.Model):
 	notification_status = models.ForeignKey(NotificationStatus)
 	greetings = RichTextField()
 	message = RichTextField()
+
+	class Meta:
+		verbose_name_plural = "E-mail Notification"
 
 	def __unicode__(self):
 		return self.notification_status.label
@@ -44,6 +53,9 @@ class UserNotificationReceivers(models.Model):
 	status = models.ForeignKey(NotificationStatus)
 	receiver = models.ManyToManyField(UserProfile)
 
+	class Meta:
+		verbose_name_plural = "Notification Receivers"
+
 	def __unicode__(self):
 		return unicode(self.status)
 
@@ -55,6 +67,9 @@ class NotificationHistory(models.Model):
 	received = models.ForeignKey(UserProfile, blank=True, null=True)
 	notification = models.ForeignKey(Notification, blank=True, null=True)
 	boolean = models.BooleanField(default=False)
+
+	class Meta:
+		verbose_name_plural = "Notification History"
 
 	def __unicode__(self):
 		return "%s - %s / %s" % (self.received, self.notification, self.boolean)

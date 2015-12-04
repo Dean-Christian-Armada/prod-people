@@ -316,6 +316,9 @@ class Specifics(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
+	# class Meta:
+	# 	verbose_name = "dean"
+	# 	verbose_name_plural = "deanster"
 	def __unicode__(self):
 		return self.specific
 
@@ -516,6 +519,9 @@ class CurrentAddress(models.Model):
 	current_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
+	class Meta:
+		verbose_name_plural = "Mariner's Current Address"
+
 	def __unicode__(self):
 		return "%s %s %s %s %s" % (self.current_unit, self.current_street, self.current_zip.barangay, self.current_zip.municipality, self.current_zip)
 
@@ -524,6 +530,9 @@ class PermanentAddress(models.Model):
 	permanent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	permanent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	class Meta:
+		verbose_name_plural = "Mariner's Permanent Address"
 
 	def __unicode__(self):
 		return "%s %s %s %s %s" % (self.permanent_unit, self.permanent_street, self.permanent_zip.barangay, self.permanent_zip.municipality, self.permanent_zip)
@@ -536,13 +545,22 @@ class PersonalData(AbstractPersonalData):
 	english = models.ForeignKey(English, default=null_default_foreign_key_value(English, 'english', ''))
 	nationality = models.ForeignKey(Nationality, default=filipino_nationality())
 
+	class Meta:
+		verbose_name_plural = "Mariner's Personal Data"
+
 class Spouse(AbstractSpouseData):
+	class Meta:
+		verbose_name_plural = "Mariner's Spouse"
 	pass
 
 class College(AbstractCollege):
+	class Meta:
+		verbose_name_plural = "Mariner's College/s"
 	pass
 
 class HighSchool(AbstractHighSchool):
+	class Meta:
+		verbose_name_plural = "Mariner's HighSchool"
 	pass
 
 class Vocational(models.Model):
@@ -550,6 +568,9 @@ class Vocational(models.Model):
 	vocational = models.ForeignKey(Vocationals, null=True, blank=True, default=null_default_foreign_key_value(Vocationals, 'vocational_name', ''))
 	vocationalyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	vocationalyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
+
+	class Meta:
+		verbose_name_plural = "Mariner's Vocational"
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
@@ -561,12 +582,17 @@ class PrimarySchool(models.Model):
 	primaryschoolyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	primaryschoolyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Primary School"
+
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
 
 
 class EmergencyContact(AbstractEmergencyContact):
+	class Meta:
+		verbose_name_plural = "Mariner's Emergency Contacts"
 	pass
 
 class VisaApplication(AbstractVisaApplication):
@@ -589,6 +615,9 @@ class Passport(AbstractPassport):
 	passport_date_issued = models.DateField(default=None, null=True, blank=True)
 	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority(), null=True, blank=True)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Passport Details"
+
 	def none_date_issued(self):
 		if not self.passport_date_issued:
 			self.passport_date_issued = ''
@@ -604,6 +633,9 @@ class Sbook(AbstractSbook):
 	sbook_date_issued = models.DateField(default=None, null=True, blank=True)
 	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
 	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
+
+	class Meta:
+		verbose_name_plural = "Mariner's Seaman's Book Details"
 
 	def none_date_issued(self):
 		if not self.sbook_date_issued:
@@ -621,6 +653,9 @@ class COC(AbstractCOC):
 	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=null_default_foreign_key_value(COCPlaceIssued, 'coc_place', ''), blank=True)
 	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
 
+	class Meta:
+		verbose_name_plural = "Mariner's COC Details"
+
 	def none_date_issued(self):
 		if not self.coc_date_issued:
 			self.coc_date_issued = ''
@@ -636,6 +671,9 @@ class License(AbstractLicense):
 	license_expiry = models.DateField(default=None, null=True, blank=True)
 	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
 	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=null_default_foreign_key_value(LicensePlaceIssued, 'license_place', ''), blank=True)
+
+	class Meta:
+		verbose_name_plural = "Mariner's PRC / Marina License Details"
 
 	def none_date_issued(self):
 		if not self.license_date_issued:
@@ -654,6 +692,9 @@ class NTCLicense(models.Model):
 	ntc_license_date_expiry = models.DateField(default=None, null=True, blank=True)
 	ntc_license_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
+	class Meta:
+		verbose_name_plural = "Mariner's NTC License Details"
+
 	def none_date_issued(self):
 		if not self.ntc_license_date_issued:
 			self.ntc_license_date_issued = ''
@@ -667,6 +708,9 @@ class NTCLicense(models.Model):
 class SRC(AbstractSRC):
 	src_date_issued = models.DateField(default=None, null=True, blank=True)
 	src_expiry = models.DateField(default=None, null=True, blank=True)
+
+	class Meta:
+		verbose_name_plural = "Mariner's SRC Details"
 
 	def none_date_issued(self):
 		if not self.src_date_issued:
@@ -692,6 +736,9 @@ class STCWEndorsement(models.Model):
 	stcw_endorsement_date_expiry = models.DateField(default=None, null=True, blank=True)
 	stcw_endorsement_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
+	class Meta:
+		verbose_name_plural = "Mariner's STCW Endorsement Details"
+
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.stcw_endorsement)
@@ -704,6 +751,9 @@ class STCWCertificate(models.Model):
 	stcw_certificate_date_expiry = models.DateField(default=None, null=True, blank=True)
 	stcw_certificate_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
+	class Meta:
+		verbose_name_plural = "Mariner's STCW Certificate Details"
+
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.stcw_certificate)
@@ -712,11 +762,17 @@ class GOC(AbstractGOC):
 	goc_date_issued = models.DateField(default=None, null=True, blank=True)
 	goc_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
 
+	class Meta:
+		verbose_name_plural = "Mariner's GOC Details"
+
 class USVisa(AbstractUSVisa):
 	# pass
 	us_visa_place_issued = models.ForeignKey(USVisaPlaceIssued, blank=True)
 	us_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	us_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
+
+	class Meta:
+		verbose_name_plural = "Mariner's US Visa Details"
 
 	def none_date_issued(self):
 		if not self.us_visa_date_issued:
@@ -734,6 +790,9 @@ class SchengenVisa(AbstractSchengenVisa):
 	schengen_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	schengen_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Schengen Visa Details"
+
 	def none_date_issued(self):
 		if not self.schengen_visa_date_issued:
 			self.schengen_visa_date_issued = ''
@@ -749,6 +808,9 @@ class YellowFever(AbstractYellowFever):
 	yellow_fever_place_issued = models.ForeignKey(YellowFeverPlaceIssued, blank=True)
 	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
 	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority(), null=True, blank=True)
+
+	class Meta:
+		verbose_name_plural = "Mariner's Yellow Fever Details"
 
 	def none_date_issued(self):
 		if not self.yellow_fever_date_issued:
@@ -842,6 +904,9 @@ class SeaService(AbstractSeaService):
 	# pass
 	trade_area = models.ForeignKey(TradeArea, default=null_default_foreign_key_value(TradeArea, 'trade_area', ''))
 	propulsion = models.ForeignKey(Propulsion, default=null_default_foreign_key_value(Propulsion, 'propulsion', ''))
+
+	class Meta:
+		verbose_name_plural = "Mariner's Sea Service Records"
 	
 	def bhp(self):
 		bhp = float(self.kw) * 0.746
@@ -873,6 +938,9 @@ class MarinersProfile(models.Model):
 	signature = models.ImageField(upload_to='signatures/mariners-profile', blank=True, default=None)
 	date_hired = models.DateField(default=None, null=True, blank=True)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
+
+	class Meta:
+		verbose_name_plural = "Mariner's Basic Profile Status"
 
 	def __unicode__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
@@ -974,6 +1042,9 @@ class MarinerStatusHistory(models.Model):
 	until = models.DateField(null=True, blank=True, default=None)
 	# mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
 
+	class Meta:
+		verbose_name_plural = "Mariner's Profile History"
+
 	def __unicode__(self):
 		value = "%s %s %s - %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.mariner_principal, self.mariner_status)
 		return value
@@ -1003,6 +1074,9 @@ class MarinerStatusHistory(models.Model):
 class MarinerStatusHistoryAuthority(models.Model):
 	user = models.ForeignKey(UserProfile)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Principal Change Authorities"
+
 	def __unicode__(self):
 		return str(self.user)
 
@@ -1010,10 +1084,16 @@ class MarinerStatusHistoryPermissionFile(models.Model):
 	history = models.ForeignKey(MarinerStatusHistory)
 	acknowledgement_file = models.FileField(upload_to="mariner-status-history-change-principal-files")
 
+	class Meta:
+		verbose_name_plural = "Mariner's Principal Change Acknowledgement File for Approval"
+
 	def __unicode__(self):
 		return "%s - %s" % (self.history, self.acknowledgement_file)
 
 class MarinerStatusHistoryPermission(models.Model):
+
+	# class Meta:
+	# 	verbose_name_plural = "Mariner's Principal Change Acknowledgement Approval Flag"
 	mariner_history_with_file = models.ForeignKey(MarinerStatusHistoryPermissionFile)
 	user = models.ForeignKey(MarinerStatusHistoryAuthority)
 	flag = models.BooleanField(default=False)
@@ -1092,6 +1172,9 @@ class Dependents(models.Model):
 	dependent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	dependent_birth_date = models.DateField(default=None, null=True, blank=True)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Dependents"
+
 	def __unicode__(self):
 		user = "%s %s %s" % (self.dependent_first_name, self.dependent_middle_name, self.dependent_last_name)
 		return user
@@ -1127,6 +1210,9 @@ class LandEmployment(models.Model):
 	employer_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	employer_zip = models.ForeignKey('mariners_profile.Zip', blank=True, default=None)
 
+	class Meta:
+		verbose_name_plural = "Mariner's Land Employments"
+
 	def __unicode__(self):
 		employer = "%s %s %s" % (self.employer_first_name, self.employer_middle_name, self.employer_last_name)
 		return employer
@@ -1139,6 +1225,9 @@ class Beneficiary(models.Model):
 	beneficiary_relationship = models.ForeignKey(Relationship, default=None)
 	beneficiary_number = models.BigIntegerField(null=True, blank=True, default=None)
 	beneficiary_birth_date = models.DateField(default=None, null=True, blank=True)
+
+	class Meta:
+		verbose_name_plural = "Mariner's Beneficiaries"
 
 	def __unicode__(self):
 		beneficiary = "%s %s %s" % (self.beneficiary_first_name, self.beneficiary_middle_name, self.beneficiary_last_name)
@@ -1158,6 +1247,9 @@ class Allotee(models.Model):
 	branch = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotment_account_number = models.BigIntegerField(null=True, blank=True, default=None)
 	amount = models.PositiveIntegerField(null=True, blank=True, default=None)
+
+	class Meta:
+		verbose_name_plural = "Mariner's Allotees"
 
 	def __unicode__(self):
 		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)

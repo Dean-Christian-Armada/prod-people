@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'import_export',
     'easy_pdf',
     'autocomplete_light',
+    'sample',
     'application_form',
     'mariners_profile',
     'application_profile',

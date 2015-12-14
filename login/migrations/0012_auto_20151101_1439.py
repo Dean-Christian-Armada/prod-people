@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='userprofile',
             name='slug',
-            field=models.SlugField(default=b'Non', null=True, blank=True),
+            field=models.SlugField(default='Non', null=True, blank=True),
         ),
     ]

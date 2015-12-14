@@ -13,6 +13,7 @@ from login.models import UserProfile, Userlevel
 from mariners_profile.models import *
 
 from datetime import date
+from ckeditor.widgets import CKEditorWidget
 
 import os, sys, shutil, autocomplete_light
 
@@ -161,7 +162,7 @@ class PersonalDataForm(forms.ModelForm):
 	tin = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
 	# regex fild for pagibig
 	pagibig = forms.RegexField(widget=forms.NumberInput(attrs={'min':0}), initial=None, regex=r'^([0-9]{12})$', error_messages={'invalid': "Please follow proper format above"}, required=False)
-	age = forms.IntegerField(error_messages={'required': 'Please Fill up your Date of Birth'})
+	age = forms.CharField(error_messages={'required': 'Please Fill up your Date of Birth'})
 
 	# Father Fields custom validation
 	father_last_name = forms.CharField(error_messages={'required': 'Click here if unknown'})
@@ -221,7 +222,7 @@ class SpouseForm(forms.ModelForm):
 		exclude = ('user', )
 
 	def clean(self):
-		print self.cleaned_data
+		print (self.cleaned_data)
 		try:
 			self.cleaned_data['civil_status']
 		except:
@@ -305,7 +306,7 @@ class CollegeForm(forms.ModelForm):
 			value = self.cleaned_data
 			College.objects.create(**value)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
@@ -361,7 +362,7 @@ class EmergencyContactForm(forms.ModelForm):
 			value = self.cleaned_data
 			EmergencyContact.objects.create(**value)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 	# The initialization allows the dynamic request POST values retrieve on unsuccessful validity
 	def __init__(self, province_id, city_id, *args, **kwargs):
@@ -374,7 +375,7 @@ class EmergencyContactForm(forms.ModelForm):
 			city_id = kwargs['data'][y]
 			province_id = kwargs['data'][z]
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		if city_id == '':
 			city_id = 0
 		if province_id == '':
@@ -765,7 +766,7 @@ class DynamicTrainingCertificateForm(forms.Form):
 			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=queryset.order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
 			self.fields['department'] = forms.CharField(widget=forms.HiddenInput(attrs={'disabled':'disabled'}), initial=rank.department.department)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class TrainingCertificateForm(forms.ModelForm):
 	trainings_certificates = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=TrainingCertificates.objects.filter(company_standard=1), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
@@ -798,8 +799,8 @@ class SeaServiceForm(forms.ModelForm):
 	flag = forms.CharField(widget=autocomplete_light.TextWidget('ManshipFlagsAutocomplete'))
 	engine_type = forms.CharField(widget=autocomplete_light.TextWidget('EngineTypeAutocomplete'))
 	manning_agency = forms.CharField(widget=autocomplete_light.TextWidget('ManningAgencyAutocomplete'))
-	# Do not make principal autocomplete
-	principal = forms.CharField()
+	# Do not make principal autocomplete - Changed as per Mike's instruction
+	principal = forms.CharField(widget=autocomplete_light.TextWidget('ManshipPrincipalAutocomplete'))
 	rank = forms.CharField(widget=autocomplete_light.TextWidget('RankAutocomplete'))
 	class Meta:
 		model = ApplicationFormSeaService
@@ -860,7 +861,7 @@ class SeaServiceForm(forms.ModelForm):
 			value = self.cleaned_data
 			SeaService.objects.create(**value)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class ApplicationForm(autocomplete_light.ModelForm):
 	ADVERTISEMENT_CHOICES = (
@@ -886,7 +887,7 @@ class ApplicationForm(autocomplete_light.ModelForm):
 	application_picture = forms.CharField()
 	scheme = forms.CharField()
 	http_host = forms.CharField()
-	essay = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control essay"}))
+	essay = forms.CharField(widget=CKEditorWidget(attrs={'class':"form-control essay"}))
 	class Meta:
 		model = ApplicationForm
 		fields = ('application_date', 'alternative_position', 'position_applied')
@@ -972,7 +973,7 @@ class ApplicationForm(autocomplete_light.ModelForm):
 			shutil.move(tmp_application_picture, application_picture)
 			application_picture = path_application_picture.replace("media/", "")
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 		appsource = AppSource.objects.get_or_create(source=source, specific=specifics)
 		if appsource:

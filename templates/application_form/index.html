@@ -178,7 +178,7 @@
                 {{ personal_data.preferred_vessel_type.errors }}
               </div>
               <div class="col-md-6">
-                {{ personal_data.availability_date|add_class:"form-control date month-only"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Availability" }}
+                {{ personal_data.availability_date|add_class:"form-control date"|attr:"data-toggle:tooltip"|attr:"placeholder:Date of Availability" }}
                 {{ personal_data.availability_date.errors }}
               </div>
             </div>
@@ -625,15 +625,15 @@
             <div class="form-group dynamic-training-certificates-section">  
               <div class="col-md-12">
                 <ul class="errorlist">
-                  <li><h4 style="rgb(175, 17, 28)"><b><a href="#top">Please Select the Position to be Applied for the Certificates and Trainings to show</a></b></h4></li>
+                  <li><span class="h4" style="rgb(175, 17, 28)"><b><a href="#top">Please Select the Position to be Applied for the Certificates and Trainings to show</a></b></h4></li>
                 </ul>
               </div>
             </div>
 
             <h3 id='step-11'>Essay</h3>
             <p>Kindly say something about yourself, your qualifications and any other reasons why we should hire you.</p>
-            <p><b>(Take note: Essay must be at least 50 words)</b></p>
-            <p><b>TOTAL WORD COUNT: <span id="display_count">0</span> words</b></p>
+<!--             <p><b>(Take note: Essay must be at least 50 words)</b></p>
+            <p><b>TOTAL WORD COUNT: <span id="display_count">0</span> words</b></p> -->
             {{ application.essay.errors }}
             <p>{{ application.essay }}</p>
 
@@ -695,7 +695,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-          <h4 class="modal-title" id="seaserviceLabel"><b>SEA SERVICE ON LAST TWO RANKS</b><span class="refresh"></span></h4>
+          <h4 class="modal-title" id="seaserviceLabel"><b>SEA SERVICE ON <!-- LAST TWO RANKS -->LAST 10 YEARS</b><span class="refresh"></span></h4>
       </div>
       <div class="modal-body">
         <div style="padding-left: 15px">
@@ -725,8 +725,8 @@
                 <th>Manning Agency</th>
                 <th>Rank</th>
                 <th>Principal / Shipowner</th>
-                <th>Date Joined</th>
-                <th>Date Left</th>
+                <th><!-- Date Joined -->Sign On</th>
+                <th><!-- Date Left -->Sign Off</th>
                 <th>Cause of Discharge</th>
               </tr>
             </thead>
@@ -738,12 +738,12 @@
                   <td>{{ seaservice.vessel_name|attr:"data-toggle:tooltip"|attr:"Placeholder:Vessel Name" }}</td>
                   <td>{{ seaservice.vessel_type|attr:"data-toggle:tooltip"|attr:"Placeholder:Vessel Type"|add_class:"vtype" }}</td>
                   <td>{{ seaservice.flag|attr:"data-toggle:tooltip"|attr:"Placeholder:Flag"|add_class:"flag" }}</td>
-                  <td>{{ seaservice.grt|attr:"data-toggle:tooltip"|attr:"Placeholder:GRT"|add_class:"grt" }}</td>
-                  <td>{{ seaservice.dwt|attr:"data-toggle:tooltip"|attr:"Placeholder:DWT"|add_class:"dwt" }}</td>
+                  <td>{{ seaservice.grt|attr:"data-toggle:tooltip"|attr:"Placeholder:GRT"|add_class:"grt numerical" }}</td>
+                  <td>{{ seaservice.dwt|attr:"data-toggle:tooltip"|attr:"Placeholder:DWT"|add_class:"dwt numerical" }}</td>
                   <td>{{ seaservice.year_built|attr:"data-toggle:tooltip"|attr:"Placeholder:Year Built" }}</td>
                   <td>{{ seaservice.engine_type|attr:"data-toggle:tooltip"|attr:"Placeholder:Engine Type" }}</td>
-                  <td>{{ seaservice.hp|attr:"data-toggle:tooltip"|attr:"Placeholder:HP"|add_class:"hp" }}</td>
-                  <td>{{ seaservice.kw|attr:"data-toggle:tooltip"|attr:"Placeholder:KW"|add_class:"kw" }}</td>
+                  <td>{{ seaservice.hp|attr:"data-toggle:tooltip"|attr:"Placeholder:HP"|add_class:"hp numerical" }}</td>
+                  <td>{{ seaservice.kw|attr:"data-toggle:tooltip"|attr:"Placeholder:KW"|add_class:"kw numerical" }}</td>
                   <td>{{ seaservice.manning_agency|attr:"data-toggle:tooltip"|attr:"Placeholder:Manning Agency"|add_class:"manning_agency"|add_class:"td-150" }}</td>
                   <td>{{ seaservice.rank|attr:"data-toggle:tooltip"|attr:"Placeholder:Rank"|add_class:"rank" }}</td>
                   <td>{{ seaservice.principal|attr:"data-toggle:tooltip"|attr:"Placeholder:Principal / Shipowner"|add_class:"td-170" }}</td>
@@ -853,6 +853,10 @@
             } );
       } );
     }
+
+    // var BeforeExit = function(){
+    //   return "You are about to leave this page. Proceed?";
+    // }
 
     // End Webcam Scripts
     {% if not request.POST %}

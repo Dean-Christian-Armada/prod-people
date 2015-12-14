@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 from django.core import serializers
 
-from easy_pdf.rendering import render_to_pdf_response
+# from easy_pdf.rendering import render_to_pdf_response
 from functools import partial, wraps
 
 from . forms import *
@@ -80,7 +80,7 @@ def form(request):
 	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host, 'application_date': today})
 
 	if request.method == "POST":
-		# print request.POST
+		# print (request.POST)
 
 		applicant_name = ApplicantNameForm(request.POST)
 		permanent_address = PermanentAddressForm(request.POST['permanent_province'], request.POST['permanent_city_municipality'], request.POST)
@@ -155,32 +155,32 @@ def form(request):
 			for emergency_errors in emergency_contact.errors:
 				if emergency_errors != {}:
 					count_emergency_errors+=1
-			print applicant_name.errors
-			print permanent_address.errors
-			print current_address.errors
-			print personal_data.errors
-			print spouse.errors
-			print college.errors
-			print highschool.errors
-			print emergency_contact.errors
-			print visa_application.errors
-			print detained.errors
-			print disciplinary_action.errors
-			print charged_offense.errors
-			print termination.errors
-			print passport.errors
-			print sbook.errors
-			print coc.errors
-			print license.errors
-			print src.errors
-			print goc.errors
-			print us_visa.errors
-			print schengen_visa.errors
-			print yellow_fever.errors
-			print flags.errors
-			print trainings_certificates.errors
-			print sea_service.errors
-			print application.errors
+			print (applicant_name.errors)
+			print (permanent_address.errors)
+			print (current_address.errors)
+			print (personal_data.errors)
+			print (spouse.errors)
+			print (college.errors)
+			print (highschool.errors)
+			print (emergency_contact.errors)
+			print (visa_application.errors)
+			print (detained.errors)
+			print (disciplinary_action.errors)
+			print (charged_offense.errors)
+			print (termination.errors)
+			print (passport.errors)
+			print (sbook.errors)
+			print (coc.errors)
+			print (license.errors)
+			print (src.errors)
+			print (goc.errors)
+			print (us_visa.errors)
+			print (schengen_visa.errors)
+			print (yellow_fever.errors)
+			print (flags.errors)
+			print (trainings_certificates.errors)
+			print (sea_service.errors)
+			print (application.errors)
 
 
 	template = "application_form/index.html"
@@ -232,7 +232,7 @@ def success(request):
 @login_required
 def tmp_image(request):
 	if request.method == 'POST':
-		tmp_image_name = ''.join(random.choice(string.lowercase) for i in range(10))
+		tmp_image_name = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
 		# request file coming from the webcamjs
 		files = request.FILES['webcam']
 		# Script that convert the inmemoryupload to a file
@@ -264,7 +264,7 @@ def trainings_certificates(request):
 
 @login_required
 def city_municipality(request):
-	# print current_address['current_unit']
+	# print (current_address['current_unit'])
 	id = request.GET['id']
 	requests = request.GET.get('request', '')
 	# ast.literal_eval converts the whole unicode list structure into an actual list
@@ -285,11 +285,11 @@ def auto_zip_code(request):
 	# CITY / MUNICIPALITY for Non-NCRs and BARANGAY for NCRs 
 	second_choice = request.GET['second_choice']
 	name = request.GET['zip_name']
-	print first_choice
-	print second_choice
+	print (first_choice)
+	print (second_choice)
 	zip = Zip.objects.get(municipality=first_choice, barangay=second_choice)
-	print zip
-	print zip.id
+	print (zip)
+	print (zip.id)
 	html = " <input type='text' id='%s' class='form-control' value='%s' disabled> <select class='form-control hide' id='id_%s' name='%s' style='color:#000'><option value='%s'>%s</option></select>" % (name, zip, name, name, zip.id, zip)
 	return HttpResponse(html) 
 
@@ -1063,8 +1063,8 @@ def pdf_fleet_application_form(request, principal, id):
 
 
 		try:
-			print "------------"
-			print trainings_certificate_document.id
+			print ("------------")
+			print (trainings_certificate_document.id)
 			btoc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=btoc))
 		except:
 			btoc_documents = ""

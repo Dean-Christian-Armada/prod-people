@@ -97,28 +97,28 @@ class PersonReference(models.Model):
 	person_reference = models.CharField(max_length=100, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.person_reference
 
 class Company(models.Model):
 	company = models.CharField(max_length=100, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.company
 
 class BirthPlace(models.Model):
 	birth_place = models.CharField(max_length=50, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.birth_place
 
 class Nationality(models.Model):
 	nationality = models.CharField(max_length=50, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.nationality
 
 
@@ -128,7 +128,7 @@ class VesselName(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.vessel_name
 
 class VesselType(models.Model):
@@ -138,21 +138,21 @@ class VesselType(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.vessel_type.upper()
 
 class CivilStatus(models.Model):
 	civil_status = models.CharField(max_length=50, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.civil_status
 
 class MarinerStatus(models.Model):
 	mariner_status = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.mariner_status
 
 class Colleges(models.Model):
@@ -161,7 +161,7 @@ class Colleges(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.college_name.upper()
 
 class Degree(models.Model):
@@ -170,7 +170,7 @@ class Degree(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.degree
 
 class HighSchools(models.Model):
@@ -178,7 +178,7 @@ class HighSchools(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.highschool_name
 
 class Vocationals(models.Model):
@@ -186,7 +186,7 @@ class Vocationals(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
 	# full_name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.vocational_name
 
 class PrimarySchools(models.Model):
@@ -194,7 +194,7 @@ class PrimarySchools(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	# full_name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.primaryschool_name
 
 class Relationship(models.Model):
@@ -203,7 +203,7 @@ class Relationship(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.relationship.upper()
 
 class Departments(models.Model):
@@ -211,7 +211,7 @@ class Departments(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s" % (self.id, self.department)
 
 class Rank(models.Model):
@@ -224,7 +224,7 @@ class Rank(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.rank.upper()
 
 class COCRank(models.Model):
@@ -233,7 +233,7 @@ class COCRank(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.coc_rank.upper()
 
 class LandPosition(models.Model):
@@ -242,7 +242,7 @@ class LandPosition(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.land_position
 
 class EngineType(models.Model):
@@ -251,7 +251,7 @@ class EngineType(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.engine_type.upper()
 
 class ManningAgency(models.Model):
@@ -260,7 +260,7 @@ class ManningAgency(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.manning_agency.upper()
 
 class CauseOfDischarge(models.Model):
@@ -269,13 +269,13 @@ class CauseOfDischarge(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.cause_of_discharge
 
 class Region(models.Model):
 	region = models.CharField(max_length=50, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.region
 
 # This is now the model for "Province"
@@ -287,7 +287,7 @@ class Municipality(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.municipality.upper()
 
 # This is the model for barangay or municipality
@@ -300,7 +300,7 @@ class Barangay(models.Model):
 	class Meta:
 		ordering = ['barangay']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.barangay.upper()
 
 class Sources(models.Model):
@@ -308,7 +308,7 @@ class Sources(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.source
 
 class Specifics(models.Model):
@@ -319,7 +319,7 @@ class Specifics(models.Model):
 	# class Meta:
 	# 	verbose_name = "dean"
 	# 	verbose_name_plural = "deanster"
-	def __unicode__(self):
+	def __str__(self):
 		return self.specific
 
 class Reasons(models.Model):
@@ -327,7 +327,7 @@ class Reasons(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.reason
 
 class Status(models.Model):
@@ -338,13 +338,13 @@ class Status(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.status
 
 class English(models.Model):
 	english = models.CharField(max_length=50, default=None, null=True, blank=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.english
 
 class Dialect(models.Model):
@@ -353,7 +353,7 @@ class Dialect(models.Model):
 	class Meta:
 		ordering = ['dialect']
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.dialect
 
 # class Position(models.Model):
@@ -363,77 +363,77 @@ class Bank(models.Model):
 	bank = models.CharField(max_length=50, default=None,)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.bank
 
 class Branch(models.Model):
 	branch = models.CharField(max_length=50, default=None,)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.branch
 
 class PassportPlaceIssued(models.Model):
 	passport_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.passport_place
 
 class SBookPlaceIssued(models.Model):
 	sbook_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.sbook_place
 
 class USVisaPlaceIssued(models.Model):
 	us_visa_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.us_visa_place
 
 class SchengenVisaPlaceIssued(models.Model):
 	schengen_visa_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.schengen_visa_place
 
 class YellowFeverPlaceIssued(models.Model):
 	yellow_fever_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.yellow_fever_place
 
 class LicensePlaceIssued(models.Model):
 	license_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.license_place
 
 class COCPlaceIssued(models.Model):
 	coc_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.coc_place
 
 class TrainingPlaceIssued(models.Model):
 	training_place = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.training_place
 
 class IssuingAuthority(models.Model):
 	issuing_authority = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.issuing_authority
 
 class Zip(models.Model):
@@ -443,8 +443,8 @@ class Zip(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
-		return unicode(self.zip)
+	def __str__(self):
+		return str(self.zip)
 
 class Flags(models.Model):
 	flags = models.CharField(max_length=50, default=None)
@@ -453,7 +453,7 @@ class Flags(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.flags.capitalize()
 
 class TrainingCertificates(models.Model):
@@ -466,7 +466,7 @@ class TrainingCertificates(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.trainings_certificates
 
 	def get_departments(self):
@@ -489,28 +489,28 @@ class Principal(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.principal.upper()
 
 class TrainingCenter(models.Model):
 	training_center = models.CharField(max_length=50, default=None, blank=True)
 	company_standard = models.NullBooleanField(default=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.training_center
 
 class TradeArea(models.Model):
 	trade_area = models.CharField(max_length=50, default=None, null=True, blank=True)
 	company_standard = models.NullBooleanField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.trade_area
 
 class Propulsion(models.Model):
 	propulsion = models.CharField(max_length=50, default=None, null=True, blank=True)
 	company_standard = models.NullBooleanField()
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.propulsion
 
 class CurrentAddress(models.Model):
@@ -519,10 +519,9 @@ class CurrentAddress(models.Model):
 	current_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	class Meta:
-		verbose_name_plural = "Mariner's Current Address"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s %s %s %s %s" % (self.current_unit, self.current_street, self.current_zip.barangay, self.current_zip.municipality, self.current_zip)
 
 class PermanentAddress(models.Model):
@@ -531,10 +530,9 @@ class PermanentAddress(models.Model):
 	permanent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	class Meta:
-		verbose_name_plural = "Mariner's Permanent Address"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s %s %s %s %s" % (self.permanent_unit, self.permanent_street, self.permanent_zip.barangay, self.permanent_zip.municipality, self.permanent_zip)
 
 class PersonalData(AbstractPersonalData):
@@ -545,22 +543,18 @@ class PersonalData(AbstractPersonalData):
 	english = models.ForeignKey(English, default=null_default_foreign_key_value(English, 'english', ''))
 	nationality = models.ForeignKey(Nationality, default=filipino_nationality())
 
-	class Meta:
-		verbose_name_plural = "Mariner's Personal Data"
+	
 
 class Spouse(AbstractSpouseData):
-	class Meta:
-		verbose_name_plural = "Mariner's Spouse"
+	
 	pass
 
 class College(AbstractCollege):
-	class Meta:
-		verbose_name_plural = "Mariner's College/s"
+	
 	pass
 
 class HighSchool(AbstractHighSchool):
-	class Meta:
-		verbose_name_plural = "Mariner's HighSchool"
+	
 	pass
 
 class Vocational(models.Model):
@@ -569,10 +563,9 @@ class Vocational(models.Model):
 	vocationalyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	vocationalyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Vocational"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s / %s-%s" % (user, self.vocational, self.vocationalyear_from, self.vocationalyear_to)
 
@@ -582,17 +575,15 @@ class PrimarySchool(models.Model):
 	primaryschoolyear_from = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 	primaryschoolyear_to = models.PositiveSmallIntegerField(null=True, blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Primary School"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s / %s-%s" % (user, self.primaryschool, self.primaryschoolyear_from, self.primaryschoolyear_to)
 
 
 class EmergencyContact(AbstractEmergencyContact):
-	class Meta:
-		verbose_name_plural = "Mariner's Emergency Contacts"
+	
 	pass
 
 class VisaApplication(AbstractVisaApplication):
@@ -615,8 +606,7 @@ class Passport(AbstractPassport):
 	passport_date_issued = models.DateField(default=None, null=True, blank=True)
 	passport_issuing_authority = models.ForeignKey(IssuingAuthority, default=dfa_issuing_authority(), null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Passport Details"
+	
 
 	def none_date_issued(self):
 		if not self.passport_date_issued:
@@ -634,8 +624,7 @@ class Sbook(AbstractSbook):
 	sbook_date_expiry = models.DateField(default=None, null=True, blank=True)
 	sbook_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Seaman's Book Details"
+	
 
 	def none_date_issued(self):
 		if not self.sbook_date_issued:
@@ -653,8 +642,7 @@ class COC(AbstractCOC):
 	coc_place_issued = models.ForeignKey(COCPlaceIssued, default=null_default_foreign_key_value(COCPlaceIssued, 'coc_place', ''), blank=True)
 	coc_issuing_authority = models.ForeignKey(IssuingAuthority, default=marina_issuing_authority(), null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's COC Details"
+	
 
 	def none_date_issued(self):
 		if not self.coc_date_issued:
@@ -672,8 +660,7 @@ class License(AbstractLicense):
 	license_grade = models.CharField(max_length=50, default=None, null=True, blank=True)
 	license_place_issued = models.ForeignKey(LicensePlaceIssued, default=null_default_foreign_key_value(LicensePlaceIssued, 'license_place', ''), blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's PRC / Marina License Details"
+	
 
 	def none_date_issued(self):
 		if not self.license_date_issued:
@@ -692,8 +679,7 @@ class NTCLicense(models.Model):
 	ntc_license_date_expiry = models.DateField(default=None, null=True, blank=True)
 	ntc_license_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's NTC License Details"
+	
 
 	def none_date_issued(self):
 		if not self.ntc_license_date_issued:
@@ -709,8 +695,7 @@ class SRC(AbstractSRC):
 	src_date_issued = models.DateField(default=None, null=True, blank=True)
 	src_expiry = models.DateField(default=None, null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's SRC Details"
+	
 
 	def none_date_issued(self):
 		if not self.src_date_issued:
@@ -736,10 +721,9 @@ class STCWEndorsement(models.Model):
 	stcw_endorsement_date_expiry = models.DateField(default=None, null=True, blank=True)
 	stcw_endorsement_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's STCW Endorsement Details"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.stcw_endorsement)
 
@@ -751,10 +735,9 @@ class STCWCertificate(models.Model):
 	stcw_certificate_date_expiry = models.DateField(default=None, null=True, blank=True)
 	stcw_certificate_rank = models.ForeignKey(Rank, default=null_default_foreign_key_value(Rank, 'rank', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's STCW Certificate Details"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.stcw_certificate)
 
@@ -762,8 +745,7 @@ class GOC(AbstractGOC):
 	goc_date_issued = models.DateField(default=None, null=True, blank=True)
 	goc_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's GOC Details"
+	
 
 class USVisa(AbstractUSVisa):
 	# pass
@@ -771,8 +753,7 @@ class USVisa(AbstractUSVisa):
 	us_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	us_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Mariner's US Visa Details"
+	
 
 	def none_date_issued(self):
 		if not self.us_visa_date_issued:
@@ -790,8 +771,7 @@ class SchengenVisa(AbstractSchengenVisa):
 	schengen_visa_date_issued = models.DateField(default=None, null=True, blank=True)
 	schengen_visa_number = models.PositiveIntegerField(null=True, blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Schengen Visa Details"
+	
 
 	def none_date_issued(self):
 		if not self.schengen_visa_date_issued:
@@ -809,8 +789,7 @@ class YellowFever(AbstractYellowFever):
 	yellow_fever_date_issued = models.DateField(default=None, null=True, blank=True)
 	yellow_fever_issuing_authority = models.ForeignKey(IssuingAuthority, default=yellow_fever_issuing_authority(), null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Yellow Fever Details"
+	
 
 	def none_date_issued(self):
 		if not self.yellow_fever_date_issued:
@@ -835,7 +814,7 @@ class FlagDocumentsDetailed(models.Model):
 	flags_rank = models.ForeignKey('mariners_profile.Rank', default=null_default_foreign_key_value(Rank, 'rank', ''))
 	flags_boolean = models.BooleanField(default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.flags_documents.user.first_name, self.flags_documents.user.middle_name, self.flags_documents.user.last_name)
 		return "%s - %s" % (user, self.flags.flags)
 
@@ -872,7 +851,7 @@ class TrainingCertificateDocumentsDetailed(models.Model):
 	training_place_issued = models.ForeignKey(TrainingPlaceIssued, default=null_default_foreign_key_value(TrainingPlaceIssued, 'training_place', ''))
 	trainings_certificates_boolean = models.BooleanField(default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.trainings_certificate_documents.user.first_name, self.trainings_certificate_documents.user.middle_name, self.trainings_certificate_documents.user.last_name)
 		return "%s - %s" % (user, self.trainings_certificates.trainings_certificates)
 
@@ -897,7 +876,7 @@ class PrincipalVesselType(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.principal.principal
 
 class SeaService(AbstractSeaService):
@@ -905,8 +884,7 @@ class SeaService(AbstractSeaService):
 	trade_area = models.ForeignKey(TradeArea, default=null_default_foreign_key_value(TradeArea, 'trade_area', ''))
 	propulsion = models.ForeignKey(Propulsion, default=null_default_foreign_key_value(Propulsion, 'propulsion', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's Sea Service Records"
+	
 	
 	def bhp(self):
 		bhp = float(self.kw) * 0.746
@@ -919,7 +897,7 @@ class ReferrersPool(models.Model):
 	# last_name = models.CharField(max_length=30, default=None)
 	name = models.CharField(max_length=100, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 	# def name(self):
@@ -939,10 +917,9 @@ class MarinersProfile(models.Model):
 	date_hired = models.DateField(default=None, null=True, blank=True)
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	class Meta:
-		verbose_name_plural = "Mariner's Basic Profile Status"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
 
@@ -1028,7 +1005,7 @@ class MarinerStatusComment(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True, )
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.mariner_status_comment
 
 class MarinerStatusHistory(models.Model):
@@ -1042,10 +1019,9 @@ class MarinerStatusHistory(models.Model):
 	until = models.DateField(null=True, blank=True, default=None)
 	# mariner_status_comment = models.ForeignKey(MarinerStatusComment, default=null_default_foreign_key_value(MarinerStatusComment, 'mariner_status_comment', ''))
 
-	class Meta:
-		verbose_name_plural = "Mariner's Profile History"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		value = "%s %s %s - %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.mariner_principal, self.mariner_status)
 		return value
 
@@ -1074,20 +1050,18 @@ class MarinerStatusHistory(models.Model):
 class MarinerStatusHistoryAuthority(models.Model):
 	user = models.ForeignKey(UserProfile)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Principal Change Authorities"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return str(self.user)
 
 class MarinerStatusHistoryPermissionFile(models.Model):
 	history = models.ForeignKey(MarinerStatusHistory)
 	acknowledgement_file = models.FileField(upload_to="mariner-status-history-change-principal-files")
 
-	class Meta:
-		verbose_name_plural = "Mariner's Principal Change Acknowledgement File for Approval"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s" % (self.history, self.acknowledgement_file)
 
 class MarinerStatusHistoryPermission(models.Model):
@@ -1098,7 +1072,7 @@ class MarinerStatusHistoryPermission(models.Model):
 	user = models.ForeignKey(MarinerStatusHistoryAuthority)
 	flag = models.BooleanField(default=False)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s - %s" % (self.mariner_history_with_file, self.user, self.flag)
 # END MARINER STATUS HISTORY PROCESS AND VALIDATIONS
 
@@ -1106,7 +1080,7 @@ class NonConformingSeafarerReason(models.Model):
 	user = models.ForeignKey(UserProfile, default=None)
 	non_conforming_reason = models.TextField(default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		value = "%s %s %s - %s" % (self.user.first_name, self.user.middle_name, self.user.last_name, self.non_conforming_reason)	
 
 # Used in Reference in failed cases
@@ -1136,8 +1110,8 @@ class Reference(models.Model):
 	character = models.TextField(null=True, blank=True, default=None)
 	comments = models.TextField(null=True, blank=True, default=None)
 
-	def __unicode__(self):
-		return unicode(self.verified_by)
+	def __str__(self):
+		return str(self.verified_by)
 
 # Same as remarks
 class Evaluation(models.Model):
@@ -1172,10 +1146,9 @@ class Dependents(models.Model):
 	dependent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	dependent_birth_date = models.DateField(default=None, null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Dependents"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.dependent_first_name, self.dependent_middle_name, self.dependent_last_name)
 		return user
 
@@ -1210,10 +1183,9 @@ class LandEmployment(models.Model):
 	employer_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 	employer_zip = models.ForeignKey('mariners_profile.Zip', blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Land Employments"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		employer = "%s %s %s" % (self.employer_first_name, self.employer_middle_name, self.employer_last_name)
 		return employer
 
@@ -1226,10 +1198,9 @@ class Beneficiary(models.Model):
 	beneficiary_number = models.BigIntegerField(null=True, blank=True, default=None)
 	beneficiary_birth_date = models.DateField(default=None, null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Beneficiaries"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		beneficiary = "%s %s %s" % (self.beneficiary_first_name, self.beneficiary_middle_name, self.beneficiary_last_name)
 		return beneficiary
 
@@ -1246,19 +1217,18 @@ class Allotee(models.Model):
 	bank = models.ForeignKey(Bank, blank=True, default=None)
 	branch = models.CharField(max_length=50, null=True, blank=True, default=None)
 	allotment_account_number = models.BigIntegerField(null=True, blank=True, default=None)
-	amount = models.PositiveIntegerField(null=True, blank=True, default=None)
+	amount = models.DecimalField(decimal_places=2, max_digits=10, default=None, null=True, blank=True)
 
-	class Meta:
-		verbose_name_plural = "Mariner's Allotees"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)
 		return allotee
 
 # class DynamicPathFolders(models.Model):
 # 	name = models.CharField(max_length=100, null=True, blank=True, default=None)
 
-# 	def __unicode__(self):
+# 	def __str__(self):
 # 		return self.name
 
 # A scipt used for dynamic folders in picture file upload

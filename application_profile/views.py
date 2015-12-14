@@ -6,14 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms.formsets import formset_factory
-from django.template.loader import render_to_string
-from django.template import Context, Template
+from django.template.loader import render_to_string, get_template
+from django.template import Context, Template, RequestContext
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 
-from easy_pdf.rendering import render_to_pdf_response
+# from easy_pdf.rendering import render_to_pdf_response
 
 from mariners_profile.models import *
 from mariners_profile.forms import *
@@ -28,7 +28,11 @@ from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalV
 
 from datetime import datetime as now
 
-import sys, urllib, cStringIO, base64
+from wkhtmltopdf.views import PDFTemplateView
+from markdown import markdown
+from weasyprint import HTML, CSS
+
+import sys, urllib, base64, pdfkit
 
 now = now.now()
 
@@ -54,7 +58,7 @@ def xyz(request, method):
 @login_required()
 def index(request):
 	crew_on_table = 10
-	per_page_list = [2, 1, 3, 4]
+	per_page_list = [10, 25, 50, 100]
 	param_connector = "?"
 	count = 0
 
@@ -132,7 +136,7 @@ def index(request):
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches))
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
@@ -159,10 +163,10 @@ def index(request):
 	for x, y, z, xx, zz in zipped_data:
 		count += 1
 		age.add(y.age)
-		vessel_type.add(y.preferred_vessel_type)
+		vessel_type.add(y.preferred_vessel_type.vessel_type)
 		# barangay.add(y.current_address.current_zip.barangay)
-		municipality.add(y.current_address.current_zip.municipality)
-		rank.add(x.position)
+		municipality.add(y.current_address.current_zip.municipality.municipality)
+		rank.add(x.position.rank)
 		status_choices.add(zz.status)
 		num.add(count)
 
@@ -192,13 +196,13 @@ def index(request):
 		next_next_page = mariners_profile.next_page_number()+1
 		next_next_page_try = paginator.page(next_next_page)
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		next_next_page = ''
 	try:
 		previous_previous_page = mariners_profile.previous_page_number()-1
 		previous_previous_page_try = paginator.page(previous_previous_page)
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		previous_previous_page = ''
 	# END Script to paginate the query and retrieve all the parameters to the URL
 
@@ -206,19 +210,22 @@ def index(request):
 	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, sorted(num, reverse=True))
 
 	try:
+		# print ("----------")
+		# print ("dean")
+		# print (vessel_type)
 		context_dict['personaldata'] = personal_data
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['name'] = name
 		context_dict['user'] = user
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
-		context_dict['age'] = sorted(age)
+		# context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
 		# context_dict['barangay'] = sorted(barangay)
 		context_dict['municipality'] = sorted(municipality)
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 	# used for dynamic choices in us visa
 	context_dict['us_visa'] = us_visa_choices
@@ -277,7 +284,7 @@ def profile(request, slug):
 			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
 		try:
 			reference = Reference.objects.filter(user=id)
-			# print len(reference)
+			# print (len(reference))
 			if len(reference) == 1:
 				num_extra = 1
 			elif len(reference) < 1:
@@ -289,7 +296,7 @@ def profile(request, slug):
 			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		try:
 			evaluation = Evaluation.objects.get(user=id)
 			evaluation_form = EvaluationForm(request.POST or None, instance=evaluation, initial={'evaluation':evaluation.evaluation})
@@ -349,14 +356,14 @@ def profile(request, slug):
 				reference.save()
 			return HttpResponseRedirect('')
 		else:
-			print vocational_form.errors
-			print primaryschool_form.errors
+			print (vocational_form.errors)
+			print (primaryschool_form.errors)
 			# Used for management form error in status request
 			try:
-				print reference_form.errors
+				print (reference_form.errors)
 			except:
 				pass
-			print evaluation_form.errors
+			print (evaluation_form.errors)
 
 		# START, script to change the status and code 
 		if request.GET and 'status' in request.GET:
@@ -450,7 +457,7 @@ def profile(request, slug):
 					email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
 				# send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
-				print "dean"
+				print ("dean")
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -576,7 +583,7 @@ def pdf(request, id):
 		flags_all = Flags.objects.filter(company_standard=1)
 		for flags in flags_all:
 			_flags_all.add(flags.flags)
-		flags_all_by_3 = zip(*(iter(_flags_all),) * 3)
+		flags_all_by_3 = list(zip(*(iter(_flags_all),) * 3))
 		count_flags_all_by_3 = range(len(flags_all_by_3))
 		
 		# Script for parsing and returning a multi-dimensioned array of the flags filter in a 3x3 matrix
@@ -597,7 +604,7 @@ def pdf(request, id):
 		certificates_all = TrainingCertificates.objects.filter(departments=department)
 		for certificates in certificates_all:
 			_certificates_all.add(certificates.trainings_certificates)
-		certificates_all_by_3 = zip(*(iter(_certificates_all),) * 3)
+		certificates_all_by_3 = list(zip(*(iter(_certificates_all),) * 3))
 		count_certificates_all_by_3 = range(len(certificates_all_by_3))
 
 		# Script for parsing and returning a multi-dimensioned array of the certificates filtered with department in a 3x3 matrix
@@ -615,7 +622,7 @@ def pdf(request, id):
 		else:
 			partner = "Spouse"
 
-		template = "application_form/pdf-report.html"
+		template = get_template('application_form/pdf-report.html')
 		context_dict = { "appform":application_form, "personaldata":personal_data, "emergency":emergency_contact, "domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo, "count_words":count_words}
 		context_dict['user_profile'] = user_profile
 		context_dict['spouse'] = spouse
@@ -645,8 +652,13 @@ def pdf(request, id):
 		context_dict['department'] = department.department
 
 
-		return render_to_pdf_response(request, template, context_dict)
-		# return render(request, template, context_dict)
+		# return render_to_pdf_response(request, template, context_dict)
+		rendered_html = template.render(RequestContext(request, context_dict)).encode(encoding="UTF-8")
+		pdf_file = HTML(string=rendered_html).write_pdf()
+		http_response = HttpResponse(pdf_file, content_type='application/pdf')
+		http_response['Content-Disposition'] = 'filename="report.pdf"'
+		return http_response
+
 	else:
 		raise Http404("System Error.")
 

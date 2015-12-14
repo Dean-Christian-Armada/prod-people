@@ -141,6 +141,10 @@ $(function(){
         }
       });
     }
+
+    // var BeforeExit = function(){
+    //   return "You are about to leave this page. Proceed?";
+    // }
     // End Variables
 
     $("input[name='source']").click(function(e){
@@ -514,7 +518,7 @@ $(function(){
             }else{
               var age = ''
             }
-            $(".age").val(age);
+            $(".age").val("You are "+age+" years old");
             $(this).parent().parent().next().find('age').val(age);
           }
           if($(this).hasClass('date-joined') || $(this).hasClass('date-left')){
@@ -680,14 +684,16 @@ $(function(){
     $(".sea-services").on("keyup", ".hp", function(){
       val = $(this).val();
       kw = val * .746;
-      kw = Math.round( kw * 10 ) / 10;
+      // kw = Math.round( kw * 10 ) / 10;
+      kw = Math.round(kw);
       $(this).parent().next("td").children().val(kw);
       $(this).parent().next("td").children().prop("required", false);
     });
     $(".sea-services").on("keyup", ".kw", function(){
       val = $(this).val();
       hp = val * 1.340;
-      hp = Math.round( hp * 10 ) / 10;
+      // hp = Math.round( hp * 10 ) / 10;
+      hp = Math.round(hp);
       $(this).parent().prev("td").children().val(hp);
       $(this).parent().prev("td").children().prop("required", false);
     });
@@ -957,6 +963,6 @@ $(function(){
     });
 
     // Removes dots, used in time
-    dotless = $(".remove-dot").text();
-    $(".remove-dot").text(dotless.replace(/[.]/g, ''));
+    // dotless = $(".remove-dot").text();
+    // $(".remove-dot").text(dotless.replace(/[.]/g, ''));
 }); 

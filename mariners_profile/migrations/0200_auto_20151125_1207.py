@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             name='MarinerStatusHistoryPermissionFile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('acknowledgement_file', models.FileField(upload_to=b'mariner-status-history-change-principal-files')),
+                ('acknowledgement_file', models.FileField(upload_to='mariner-status-history-change-principal-files')),
                 ('history', models.ForeignKey(to='mariners_profile.MarinerStatusHistory')),
             ],
         ),

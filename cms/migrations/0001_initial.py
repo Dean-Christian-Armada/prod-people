@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(default=None, max_length=50)),
-                ('type', models.CharField(default=b'text', max_length=10)),
-                ('classes', models.CharField(default=b'form-control input-form', max_length=75)),
+                ('type', models.CharField(default='text', max_length=10)),
+                ('classes', models.CharField(default='form-control input-form', max_length=75)),
             ],
         ),
         migrations.CreateModel(

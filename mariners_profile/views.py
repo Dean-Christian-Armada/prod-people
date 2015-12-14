@@ -45,7 +45,7 @@ def xyz(request, method):
 @login_required()
 def index(request):
 	crew_on_table = 10
-	per_page_list = [2, 1, 3, 4]
+	per_page_list = [10, 25, 50, 100]
 	param_connector = "?"
 	count = 0
 
@@ -135,7 +135,7 @@ def index(request):
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches) | Q(code__iexact=searches))
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
@@ -144,11 +144,11 @@ def index(request):
 	# Change in age filtering synatx because age is now a custom model method
 	# if 'age' in request.GET:
 	# 	age = request.GET['age']
-	# 	print age
+	# 	print (age)
 	# 	personal_data = PersonalData.objects.filter()
 	# 	personal_data_ids = [o.id for o in personal_data if o.age() == age]
 	# 	personal_data = PersonalData.objects.filter(id__in=personal_data_ids).order_by('-id')
-	# 	print personal_data
+	# 	print (personal_data)
 	
 	# US Visa Dynamic Filtering
 	us_visa_choices_values = USVisa.objects.filter(user__in=mariners_profile.values('user')).values_list('us_visa', flat=True).distinct().order_by('us_visa')
@@ -177,10 +177,10 @@ def index(request):
 	for x, y, z, xx in zipped_data:
 		count += 1
 		age.add(y.age)
-		vessel_type.add(y.preferred_vessel_type)
-		barangay.add(y.current_address.current_zip.barangay)
-		municipality.add(y.current_address.current_zip.municipality)
-		rank.add(x.position)
+		vessel_type.add(y.preferred_vessel_type.vessel_type)
+		# barangay.add(y.current_address.current_zip.barangay.barangay)
+		municipality.add(y.current_address.current_zip.municipality.municipality)
+		rank.add(x.position.rank)
 		num.add(count)
 
 	# START Script to paginate the query and retrieve all the parameters to the URL
@@ -209,13 +209,13 @@ def index(request):
 		next_next_page = mariners_profile.next_page_number()+1
 		next_next_page_try = paginator.page(next_next_page)
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		next_next_page = ''
 	try:
 		previous_previous_page = mariners_profile.previous_page_number()-1
 		previous_previous_page_try = paginator.page(previous_previous_page)
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		previous_previous_page = ''
 
 	# END Script to paginate the query and retrieve all the parameters to the URL
@@ -232,14 +232,14 @@ def index(request):
 		context_dict['user'] = user
 		context_dict['zipped_data'] = zipped_data
 		context_dict['search'] = search
-		context_dict['age'] = sorted(age)
+		# context_dict['age'] = sorted(age)
 		context_dict['vessel_type'] = sorted(vessel_type)
 		context_dict['rank'] = sorted(rank)
 		# context_dict['barangay'] = sorted(barangay)
 		context_dict['municipality'] = sorted(municipality)
 		
 	except:
-		print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 	# used for dynamic choices in us visa
 	context_dict['us_visa'] = us_visa_choices
@@ -612,7 +612,7 @@ def profile(request, slug):
 			try:
 				# dict is used to enable the for loop x
 				request.POST = dict(request.POST)
-				print request.POST
+				print (request.POST)
 				_file = request.FILES['scan-file']
 				location = request.POST['folder-location'][0]
 				location = SubFolder.objects.get(id=location)
@@ -631,7 +631,7 @@ def profile(request, slug):
 					field = Fields.objects.get(slug=x)
 					FileFieldValue.objects.create(file=_file, field=field, value=value)
 			except:
-				print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+				print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		# Script conditional on filtering via archive and unarchive
@@ -772,7 +772,7 @@ def profile(request, slug):
 			land_employment_form = LandEmploymentFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 
 		try:
@@ -791,7 +791,7 @@ def profile(request, slug):
 			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 		try:
 			allotee = Allotee.objects.filter(user=id)
@@ -805,7 +805,7 @@ def profile(request, slug):
 			allotee_form = AlloteeFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 		highschool_form = HighSchoolForm(request.POST or None, instance=highschool, initial={'highschool':highschool.highschool})
 
@@ -949,30 +949,30 @@ def profile(request, slug):
 			return HttpResponseRedirect('/application-profile/'+user_profile.slug)
 
 		if request.method == "POST":
-			print request.POST
-			print request.FILES
+			print (request.POST)
+			print (request.FILES)
 
 			if 'highschool' in request.POST and 'vocational' in request.POST and 'primaryschool' in request.POST:
 				if vocational_form.is_valid():
 					vocational_form.save()
 				else:
-					print vocational_form.errors
+					print (vocational_form.errors)
 
 				if highschool_form.is_valid():
 					highschool_form.save()
 				else:
-					print highschool_form.errors
+					print (highschool_form.errors)
 
 				if primaryschool_form.is_valid():
 					primaryschool_form.save()
 				else:
-					print primaryschool_form.errors
+					print (primaryschool_form.errors)
 
 				if college_form.is_valid():
 					for college in college_form:
 						college.save()
 				else:
-					print college_form.errors
+					print (college_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/educational-information.html"
 				return render(request, template, context_dict)
@@ -982,7 +982,7 @@ def profile(request, slug):
 					for land_employment in land_employment_form:
 						land_employment.save()
 				else:
-					print land_employment_form.errors
+					print (land_employment_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/land-employment.html"
 				return render(request, template, context_dict)
@@ -992,7 +992,7 @@ def profile(request, slug):
 					for beneficiary in beneficiary_form:
 						beneficiary.save()
 				else:
-					print beneficiary_form.errors
+					print (beneficiary_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/beneficiary.html"
 				return render(request, template, context_dict)
@@ -1002,7 +1002,7 @@ def profile(request, slug):
 					for allotee in allotee_form:
 						allotee.save()
 				else:
-					print allotee_form.errors
+					print (allotee_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/allotment.html"
 				return render(request, template, context_dict)
@@ -1011,7 +1011,7 @@ def profile(request, slug):
 				if evaluation_form.is_valid():
 					evaluation_form.save()
 				else:
-					print evaluation_form.errors
+					print (evaluation_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/evaluation.html"
 				return render(request, template, context_dict)
@@ -1020,7 +1020,7 @@ def profile(request, slug):
 				if mariner_status_form.is_valid():
 					mariner_status_form.save()
 				else:
-					print mariner_status_form.errors
+					print (mariner_status_form.errors)
 				mariner_status = request.POST['mariner_status']
 				x = MarinerStatus.objects.get(id=mariner_status)
 				context_dict['ajax_submit_flag'] = 1
@@ -1037,7 +1037,7 @@ def profile(request, slug):
 					for flag in flag_form:
 						flag.save()
 				else:
-					print flag_form.errors
+					print (flag_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/flags.html"
 				return render(request, template, context_dict)
@@ -1046,46 +1046,46 @@ def profile(request, slug):
 				if passport_form.is_valid():
 					passport_form.save()
 				else:
-					print passport_form.errors
+					print (passport_form.errors)
 				if sbook_form.is_valid():
 					sbook_form.save()
 				else:
-					print sbook_form.errors
+					print (sbook_form.errors)
 
 				if yellow_fever_form.is_valid():
 					yellow_fever_form.save()
 				else:
-					print yellow_fever_form.errors
+					print (yellow_fever_form.errors)
 
 				if license_form.is_valid():
 					license_form.save()
 				else:
-					print license_form.errors
+					print (license_form.errors)
 
 				if ntc_license_form.is_valid():
 					ntc_license_form.save()
 				else:
-					print ntc_license_form.errors	
+					print (ntc_license_form.errors	)
 
 				if goc_form.is_valid():
 					goc_form.save()
 				else:
-					print goc_form.errors	
+					print (goc_form.errors	)
 
 				if src_form.is_valid():
 					src_form.save()
 				else:
-					print src_form.errors	
+					print (src_form.errors	)
 
 				if stcw_endorsement_form.is_valid():
 					stcw_endorsement_form.save()
 				else:
-					print stcw_endorsement_form.errors
+					print (stcw_endorsement_form.errors)
 
 				if stcw_certificate_form.is_valid():
 					stcw_certificate_form.save()
 				else:
-					print stcw_certificate_form.errors
+					print (stcw_certificate_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/licenses.html"
 				return render(request, template, context_dict)
@@ -1094,17 +1094,17 @@ def profile(request, slug):
 				if us_visa_form.is_valid():
 					us_visa_form.save()		
 				else:
-					print us_visa_form.errors
+					print (us_visa_form.errors)
 
 				if schengen_visa_form.is_valid():
 					schengen_visa_form.save()
 				else:
-					print schengen_visa_form.errors
+					print (schengen_visa_form.errors)
 
 				if coc_form.is_valid():
 					coc_form.save()
 				else:
-					print coc_form.errors
+					print (coc_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/coc_visas.html"
 				return render(request, template, context_dict)
@@ -1117,14 +1117,14 @@ def profile(request, slug):
 							for national_trainings_certificate in national_trainings_certificate_form:
 								national_trainings_certificate.save()
 						else:
-							print national_trainings_certificate_form.errors
+							print (national_trainings_certificate_form.errors)
 					else:
 						html = 'certificates'
 						if trainings_certificate_form.is_valid():
 							for trainings_certificate in trainings_certificate_form:
 								trainings_certificate.save()
 						else:
-							print trainings_certificate_form.errors
+							print (trainings_certificate_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
 				return render(request, template, context_dict)
@@ -1133,7 +1133,7 @@ def profile(request, slug):
 				if personal_data_form.is_valid():
 					personal_data_form.save()
 				else:
-					print personal_data_form.errors
+					print (personal_data_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1143,7 +1143,7 @@ def profile(request, slug):
 				if permanent_address_form.is_valid():
 					permanent_address_form.save()
 				else:
-					print permanent_address_form.errors
+					print (permanent_address_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1153,7 +1153,7 @@ def profile(request, slug):
 				if current_address_form.is_valid():
 					current_address_form.save()
 				else:
-					print current_address_form.errors
+					print (current_address_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1164,7 +1164,7 @@ def profile(request, slug):
 				if personal_data_father_form.is_valid():
 					personal_data_father_form.save()
 				else:
-					print personal_data_father_form.errors
+					print (personal_data_father_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1174,7 +1174,7 @@ def profile(request, slug):
 				if personal_data_mother_form.is_valid():
 					personal_data_mother_form.save()
 				else:
-					print personal_data_mother_form.errors
+					print (personal_data_mother_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1185,8 +1185,8 @@ def profile(request, slug):
 					spouse_form.save()
 					personal_data_civil_status_form.save()
 				else:
-					print spouse_form.errors
-					print personal_data_civil_status_form.errors
+					print (spouse_form.errors)
+					print (personal_data_civil_status_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1197,7 +1197,7 @@ def profile(request, slug):
 					for dependents in dependents_form:
 						dependents.save()
 				else:
-					print dependents_form.errors
+					print (dependents_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = request.POST['param']
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1208,7 +1208,7 @@ def profile(request, slug):
 					for emergency_contact in emergency_contact_form:
 						emergency_contact.save()
 				else:
-					print emergency_contact_form.errors
+					print (emergency_contact_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = 'emergency'
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1219,7 +1219,7 @@ def profile(request, slug):
 					for sea_service in sea_service_form:
 						sea_service.save()
 				else:
-					print sea_service_form.errors
+					print (sea_service_form.errors)
 				context_dict['ajax_submit_flag'] = 1
 				html = 'sea-service'
 				template = "mariner-profile/ajax-update-sub-profiles/%s.html" % html
@@ -1229,7 +1229,7 @@ def profile(request, slug):
 				if mariners_picture_form.is_valid():
 					mariners_picture_form.save()
 				else:
-					print mariners_picture_form.errors
+					print (mariners_picture_form.errors)
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 			else:
@@ -1240,7 +1240,7 @@ def profile(request, slug):
 			# if applicant_name_form.is_valid():
 			# 	applicant_name_form.save()
 			# else:
-			# 	print applicant_name_form.errors
+			# 	print (applicant_name_form.errors)
 
 		return render(request, template, context_dict)
 

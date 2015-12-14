@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='userprofile',
             name='code',
-            field=models.CharField(blank=True, max_length=4, unique=True, null=True, validators=[django.core.validators.RegexValidator(regex=b'^([a-z]{4})$', message=b'Please follow code format')]),
+            field=models.CharField(blank=True, max_length=4, unique=True, null=True, validators=[django.core.validators.RegexValidator(regex='^([a-z]{4})$', message='Please follow code format')]),
         ),
     ]

@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
             name='ApplicationForm',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('picture', models.ImageField(default=None, upload_to=b'photos/application-form', blank=True)),
-                ('signatures', models.ImageField(default=None, upload_to=b'signatures/application-form', blank=True)),
+                ('picture', models.ImageField(default=None, upload_to='photos/application-form', blank=True)),
+                ('signatures', models.ImageField(default=None, upload_to='signatures/application-form', blank=True)),
                 ('application_date', models.DateField(default=None)),
                 ('essay', models.TextField(default=None, null=True, blank=True)),
                 ('alternative_position', models.ForeignKey(related_name='alternative_position', default=None, to='mariners_profile.Rank')),

@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('status', models.NullBooleanField(default=0)),
-                ('picture', models.ImageField(default=None, upload_to=b'photos/mariners-profile', blank=True)),
-                ('signatures', models.ImageField(default=None, upload_to=b'signatures/mariners-profile', blank=True)),
+                ('picture', models.ImageField(default=None, upload_to='photos/mariners-profile', blank=True)),
+                ('signatures', models.ImageField(default=None, upload_to='signatures/mariners-profile', blank=True)),
                 ('position', models.ForeignKey(to='mariners_profile.Rank')),
             ],
         ),

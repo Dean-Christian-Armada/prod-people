@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
+import os, logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -42,22 +42,27 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'session_security',
     'jsignature',
     'widget_tweaks',
     'ckeditor',
+    'wkhtmltopdf',
+    'report_builder',
+    'defender',
     # 'swampdragon',
     'login',
     'import_export',
-    'easy_pdf',
+    # 'easy_pdf',
     'autocomplete_light',
-    'sample',
+    # 'sample',
     'application_form',
     'mariners_profile',
     'application_profile',
     'cms',
     'notifications',
     'company_staffs',
-    'people',
+    # 'people',
+    
 )
 
 MIDDLEWARE_CLASSES = (
@@ -66,10 +71,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'people.middlewares.MethodMiddleWare',
+    'defender.middleware.FailedLoginMiddleware'
+    # 'people.middlewares.MethodMiddleWare',
 )
 
 ROOT_URLCONF = 'people.urls'
@@ -87,6 +94,7 @@ TEMPLATES = [
                 'django.core.context_processors.media',
                 'django.core.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },
@@ -122,7 +130,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True
+# Set to False because of pytz conflict on django-defender package
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,7 +160,7 @@ EMAIL_HOST_PASSWORD = 'd3@narmada13'
 DEFAULT_FROM_EMAIL = 'deanarmada@gmail.com'
 DEFAULT_TO_EMAIL = 'deanarmada@gmail.com'
 
-LOGIN_URL = '/?error=Please login First'
+LOGIN_URL = '/?error=Session Expired, Please login again'
 
 # SwampDragon settings
 # try:
@@ -162,4 +172,83 @@ LOGIN_URL = '/?error=Please login First'
 # Used in date formats
 FORMAT_MODULE_PATH = [ 'formats', ]
 
-# DATE_INPUT_FORMATS = ["%Y/%m/%d", ]
+# To enable complete toolbar capabilities of ckeditor
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': None,
+#     },
+# }
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+                        ["Format", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
+                        ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"], ['Undo', 'Redo'],
+                    ],
+    },
+}
+
+# SESSION SECURITY SETTINGS
+# SESSION_SECURITY_WARN_AFTER = 10
+# SESSION_SECURITY_EXPIRE_AFTER = 20
+SESSION_SECURITY_WARN_AFTER = 900
+SESSION_SECURITY_EXPIRE_AFTER = 910
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_SECURITY_ACTIVE_URLS = [ "/application-form/", ]
+
+# START Log every CRUD query on a logfile named db.log
+# Source: http://stackoverflow.com/questions/5739830/simple-log-to-file-example-for-django-1-3
+
+# Filter Object custom Class
+# Source: http://www.lexev.org/en/2013/django-logging-settings/
+class CustomQueryFilter(logging.Filter):
+    def filter(self, record):
+        for action in ['INSERT', 'UPDATE', 'DELETE']:
+            if action in getattr(record, 'sql', ''):
+                return True
+        return False
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format' : "[%(asctime)s] [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'filters': {
+        'db_query_filter':{
+            '()': CustomQueryFilter,
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':'logs/db.log',
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'standard',
+            'filters': ['db_query_filter'],
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
+# END Log every CRUD query on a logfile named db.log
+
+
+# START django-defender settings
+DEFENDER_USERNAME_FORM_FIELD = "username"
+# END django-defender settings

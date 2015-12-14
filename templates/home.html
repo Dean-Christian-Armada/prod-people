@@ -23,7 +23,7 @@
             <div class="form-row">
               <input id="id_password" class="form-control" type="password" name="password">  
               <div id = "passwordsubmit" /></div>
-              <input type="hidden" name="next" value="" />
+              <input type="hidden" name="next" value="{% if next_redirect  %}{{ next_redirect }}{% endif %}" />
             </div>
             <div class="password-reset-link">
               <a href="/admin/password_reset/">Forgotten your password or username?</a>

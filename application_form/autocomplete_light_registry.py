@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from mariners_profile.models import *
 import autocomplete_light
 
@@ -17,17 +19,15 @@ class ReferrerAutocomplete(autocomplete_light.AutocompleteModelTemplate):
 autocomplete_light.register(ReferrerAutocomplete, attrs={'placeholder': '',})
 
 class FlagsAutocomplete(autocomplete_light.AutocompleteModelTemplate):
-	# search_fields = ['^flags', ]
-	# model = Flags
-	choices = (
-    	Flags.objects.filter(company_standard=1)
-    	)
+    choices = (
+      Flags.objects.filter(company_standard=1)
+      )
 
-   	search_fields = (
-   		('flags'), 
-   		)
+    search_fields = (
+      ('flags'), 
+      )
 
-	autocomplete_template = 'autocomplete_template.html'
+    autocomplete_template = 'autocomplete_template.html'
 autocomplete_light.register(FlagsAutocomplete, attrs={'placeholder': '',})
 
 class CollegeAutocomplete(autocomplete_light.AutocompleteModelTemplate):
@@ -332,7 +332,7 @@ autocomplete_light.register(ManshipVesselTypeAutocomplete, attrs={'placeholder':
 
 class ManshipPrincipalAutocomplete(autocomplete_light.AutocompleteModelTemplate):
     choices = (
-      Principal.objects.filter(manship_standard=1)
+      Principal.objects.filter(manship_standard=True).filter(~Q(principal__iexact="manship"))
       )
 
     search_fields = (

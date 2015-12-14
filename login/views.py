@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from jsignature.utils import draw_signature
+from defender.decorators import watch_login
 
 from notifications.models import NotificationHistory
 
@@ -23,6 +24,10 @@ def home(request):
 	userprofile = ''
 	template = "home.html"
 	context_dict = {"title": "MANSHIP People"}
+	next_redirect = ""
+	# Next URL to be redirected
+	if "next" in request.GET:
+		next_redirect = request.GET['next']
 	if user.is_authenticated():
 		user = User.objects.get(username=user)
 		try:
@@ -40,6 +45,9 @@ def home(request):
 		else:
 			# return HttpResponse("HELLO This is the crew level!<a href='/logout/'>Log Out</a>")
 			# return HttpResponseRedirect('/mariners-profile/')
+			# print ("----------")
+			# if "next" in request.POST:
+			# 	return HttpResponseRedirect(request.POST['next'])
 			template = "login-landing/crewing_profiles.html"
 			notifications = NotificationHistory.objects.filter(received=userprofile, boolean=False).order_by('-notification__date_time_created')[:5]
 			notifications_all = NotificationHistory.objects.filter(received=userprofile)
@@ -56,8 +64,11 @@ def home(request):
 		# 	print type(userlevel)
 		# 	return HttpResponse("DEFAULT<a href='/logout/'>Log Out</a>")
 	context_dict['user_profile'] = userprofile
+	# Next URL to be redirected variable
+	context_dict['next_redirect'] = next_redirect
 	return render(request, template, context_dict)
 
+@watch_login
 def validation(request):
 	username = ''
 	password = ''
@@ -68,6 +79,13 @@ def validation(request):
 			user = authenticate(username=username, password=password)
 			if user:
 				login(request, user)
+				# if "next" in request.POST:
+				# 	return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+				print (request.POST)
+				if request.POST['next']:
+					_next_base_param = request.POST['next'].split('/')
+					if _next_base_param[1] != 'application-form':
+						return HttpResponseRedirect(request.POST['next'])
 				return HttpResponseRedirect('/')
 			else:
 				return HttpResponseRedirect('/?error=Invalid Username or Password')
@@ -76,6 +94,9 @@ def validation(request):
 	else:
 		# raise Http404
 		return HttpResponseRedirect('/?error=Invalid LogIn Attempt')
+
+def validation_next(request):
+	return HttpResponse("DEANDSA")
 
 def user_logout(request):
 	logout(request)

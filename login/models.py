@@ -40,7 +40,7 @@ def default_user_user_level():
 
 class Userlevel(models.Model):
 	userlevel = models.CharField(max_length=50, unique=True, null=True, )
-	def __unicode__(self):
+	def __str__(self):
 		return self.userlevel
 
 class UserProfile(models.Model):
@@ -61,10 +61,10 @@ class UserProfile(models.Model):
 	date_modified = models.DateTimeField(auto_now=True, blank=True, )
 	departmental_email = models.EmailField(blank=True, null=True, default=None)
 
-	# def __unicode__(self):
-	# 	return unicode(self.code)
+	# def __str__(self):
+	# 	return str(self.code)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s %s %s" % (self.first_name.upper(), self.middle_name.upper(), self.last_name.upper())
 
 	def save(self, *args, **kwargs):

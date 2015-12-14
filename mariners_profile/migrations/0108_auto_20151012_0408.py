@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='stcwendorsement',
             name='stcw_endorsement_rank',
-            field=models.ForeignKey(default={b'rank': b'asdasdas'}, to='mariners_profile.Rank'),
+            field=models.ForeignKey(default={'rank': 'asdasdas'}, to='mariners_profile.Rank'),
         ),
     ]

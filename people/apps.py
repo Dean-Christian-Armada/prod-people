@@ -1,5 +1,5 @@
-from django.apps import AppConfig
+# from django.apps import AppConfig
 
-class YourAppConfig(AppConfig):
-    name = 'people'
-    verbose_name = '1NF Splitted Tables'
+# class YourAppConfig(AppConfig):
+#     name = 'people'
+#     verbose_name = 'Redundancy Eliminator Tables'

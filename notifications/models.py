@@ -12,10 +12,9 @@ from ckeditor.fields import RichTextField
 class BaseURL(models.Model):
 	base_url = models.CharField(max_length=50, default=None)
 
-	class Meta:
-		verbose_name_plural = "Notification URL"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.base_url
 
 class NotificationStatus(models.Model):
@@ -23,10 +22,9 @@ class NotificationStatus(models.Model):
 	status = models.CharField(max_length=100, default=None)
 	label = models.TextField(default=None)
 
-	class Meta:
-		verbose_name_plural = "Notification Status"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s" % (self.status.upper(), self.label)
 
 # Creates the Notification Email
@@ -35,10 +33,9 @@ class EmailNotification(models.Model):
 	greetings = RichTextField()
 	message = RichTextField()
 
-	class Meta:
-		verbose_name_plural = "E-mail Notification"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.notification_status.label
 
 class Notification(models.Model):
@@ -46,18 +43,17 @@ class Notification(models.Model):
 	status = models.ForeignKey(NotificationStatus)
 	date_time_created = models.DateTimeField(auto_now_add=True)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s %s" % (self.user, self.status, self.date_time_created)
 
 class UserNotificationReceivers(models.Model):
 	status = models.ForeignKey(NotificationStatus)
 	receiver = models.ManyToManyField(UserProfile)
 
-	class Meta:
-		verbose_name_plural = "Notification Receivers"
+	
 
-	def __unicode__(self):
-		return unicode(self.status)
+	def __str__(self):
+		return str(self.status)
 
 	def get_receivers(self):
 		# return self.receiver.all()
@@ -68,10 +64,9 @@ class NotificationHistory(models.Model):
 	notification = models.ForeignKey(Notification, blank=True, null=True)
 	boolean = models.BooleanField(default=False)
 
-	class Meta:
-		verbose_name_plural = "Notification History"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s / %s" % (self.received, self.notification, self.boolean)
 
 # class NotificationHistory(SelfPublishModel, models.Model):
@@ -80,7 +75,7 @@ class NotificationHistory(models.Model):
 # 	notification = models.ForeignKey(Notification, blank=True, null=True)
 # 	boolean = models.BooleanField(default=False)
 
-# 	def __unicode__(self):
+# 	def __str__(self):
 # 		return "%s - %s / %s" % (self.received, self.notification, self.boolean)
 
 	# The save algorithm for the NotificationHistory

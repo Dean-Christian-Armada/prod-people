@@ -21,11 +21,12 @@ from django.contrib import admin
 from django.conf import settings
 
 from login.views import welcome, home, validation, user_logout
-# from application_form.views import form
+from application_form.views import form
 
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/defender/', include('defender.urls')), # django-defender url
     # url(r'^admin/logout/$', 'django.contrib.auth.views.logout',
     #                       {'next_page': '/'}),
     url(r'^admin/password_reset/$', auth_views.password_reset, name='admin_password_reset'),
@@ -45,11 +46,15 @@ urlpatterns = [
     url(r'^application-profile/', include('application_profile.urls')),
     url(r'^notifications/', include('notifications.urls')),
 
+    # Real Time delete on a formset
+    # url(r'^delete-on-form-set/', 'mariners_profile.views.delete_on_form_set', name='delete_on_form_set'),
+
+
+    # Third Party URLS
     # Django autocomplete
     url(r'^autocomplete/', include('autocomplete_light.urls')),
-
-    # Real Time delete on a formset
-    url(r'^delete-on-form-set/', 'mariners_profile.views.delete_on_form_set', name='delete_on_form_set'),
+    url(r'session_security/', include('session_security.urls')),
+    url(r'^report_builder/', include('report_builder.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

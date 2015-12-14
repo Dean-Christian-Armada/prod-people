@@ -3,13 +3,13 @@ from django.contrib import admin
 from . models import *
 
 class FolderAdmin(admin.ModelAdmin):
-	list_display = ['__unicode__', 'order']
+	list_display = ['__str__', 'order']
 
 class SubFolderAdmin(admin.ModelAdmin):
-	list_display = ['__unicode__', 'extra_sub_folder', 'upload', 'order']
+	list_display = ['__str__', 'extra_sub_folder', 'upload', 'order']
 
 class FieldAdmin(admin.ModelAdmin):
-	list_display = ['__unicode__', 'id', 'location', 'name', 'order']
+	list_display = ['__str__', 'id', 'location', 'name', 'order']
 
 
 # Register your models here.

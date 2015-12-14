@@ -27,7 +27,7 @@ class Folder(models.Model):
 	def slug_name(self):
 		return slugify(self.name)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name.capitalize()
 
 class SubFolder(models.Model):
@@ -42,10 +42,9 @@ class SubFolder(models.Model):
 	medium_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 	high_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 
-	class Meta:
-		verbose_name_plural = "Subfolders"
+	
 
-	def __unicode__(self):
+	def __str__(self):
 		# return "%s / %s" % (str(self.folder), self.name)
 		return "%s" % (self.slug)
 
@@ -96,7 +95,7 @@ class SubFolder(models.Model):
 			# 	print b
 			expiry_date = b.value
 			_expiry_date = expiry_date.split('-')
-			_expiry_date = map(int, _expiry_date)
+			_expiry_date = list(map(int, _expiry_date))
 			_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
 			_day = _expiry_date - timedelta(days=_day_notifier)
 			# if self.id == 71:
@@ -158,7 +157,7 @@ class File(models.Model):
 		num = len(file_name) - 1 
 		return file_name[num]
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s /%s/ %s" % (str(self.user.code).upper(), str(self.location).upper(), str(self.name))
 
 	def delete(self):
@@ -168,7 +167,7 @@ class File(models.Model):
 class Label(models.Model):
 	name = models.CharField(max_length=50, default=None)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 class Fields(models.Model):
@@ -180,7 +179,6 @@ class Fields(models.Model):
 	slug = models.SlugField(null=True, blank=True, default=None)
 
 	class Meta:
-		verbose_name_plural = "Fields"
 		ordering = ['order']
 
 	def label(self):
@@ -189,7 +187,7 @@ class Fields(models.Model):
 		label = "<label for='%s' class='input-group-addon input-label'>%s:<label>" % (id, self.name)
 		return label
 
-	def __unicode__(self):
+	def __str__(self):
 		location = str(self.location).replace("/", "-").lower()
 		id = "id-%s-%s" % (self.slug, location)
 		input_name = "%s" % (self.slug)
@@ -213,7 +211,7 @@ class Fields(models.Model):
 		z = File.objects.filter(id__in=y.values('file')).filter(archive=0)
 		# a = File.objects.get(id=46)
 		for s in z:
-			name = unicode(s.name).split('/')
+			name = str(s.name).split('/')
 			name = name[len(name)-1]
 			notifier_count = 0
 			unset_list_return_len = len(unset_list_return)
@@ -274,7 +272,7 @@ class Fields(models.Model):
 			b = FileFieldValue.objects.filter(file=s).get(field__name__icontains="Expir")
 			expiry_date = b.value
 			_expiry_date = expiry_date.split('-')
-			_expiry_date = map(int, _expiry_date)
+			_expiry_date = list(map(int, _expiry_date))
 			_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
 			_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
 			location = s.location.slug.replace('-', '->').upper()
@@ -305,7 +303,7 @@ class Fields(models.Model):
 					except:
 						break
 					notifier_count += 1
-		print unset_list_return
+		print (unset_list_return)
 		return (_notifier_count, list_return, unset_list_return)
 
 class FileFieldValue(models.Model):
@@ -314,9 +312,8 @@ class FileFieldValue(models.Model):
 	value = models.CharField(max_length=50, default=None)
 
 	class Meta:
-		verbose_name_plural = "File Field Values"
 		ordering = ['field']
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s - %s" % (self.id, self.value)
 # END Used for SCANNED DOCUMENTS on the Mariners Profile

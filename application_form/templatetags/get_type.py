@@ -1,5 +1,7 @@
 from django import template
-import urllib, cStringIO, base64
+import urllib, base64
+
+from io import StringIO
 
 register = template.Library()
 

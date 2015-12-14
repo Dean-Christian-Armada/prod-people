@@ -2,7 +2,9 @@ from django import template
 
 from mariners_profile.models import *
 
-import urllib, cStringIO, base64
+from io import StringIO
+
+import urllib, base64
 
 register = template.Library()
 

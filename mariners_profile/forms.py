@@ -26,7 +26,7 @@ class MarinersChangePosition(forms.ModelForm):
 			queryset = Rank.objects.filter(department=rank.department)
 			self.fields['position'] = forms.ModelChoiceField(queryset)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class MarinersChangePicture(forms.ModelForm):
 	class Meta:
@@ -117,7 +117,7 @@ class PersonalDataForm(forms.ModelForm):
 		exclude = ('name', 'birth_place','permanent_address', 'current_address', 'dialect', 'availability_date',  'father_last_name', 'father_first_name', 'father_middle_name', 'mother_last_name', 'civil_status', 'mother_first_name', 'nationality', 'mother_middle_name')
 
 	def save(self, commit=True):
-		print self.cleaned_data
+		print (self.cleaned_data)
 		birthplace = self.cleaned_data['birth_place']
 		dialects = self.cleaned_data['dialect']
 		# permanent_address = ApplicationFormPermanentAddress.objects.latest('id')
@@ -166,7 +166,7 @@ class CollegeForm(forms.ModelForm):
 		try:
 			college.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
@@ -217,7 +217,7 @@ class PrimarySchoolForm(forms.ModelForm):
 			primaryschool.primaryschool = primaryschools
 			primaryschool.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class ReferenceForm(forms.ModelForm):
 	company = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Company"}), required=False)
@@ -256,7 +256,7 @@ class ReferenceForm(forms.ModelForm):
 			reference.person_contacted = person_contacted
 			reference.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class LandEmploymentForm(forms.ModelForm):
 	land_position = forms.CharField(widget=autocomplete_light.TextWidget('LandPositionAutocomplete'), required=False)
@@ -295,7 +295,7 @@ class LandEmploymentForm(forms.ModelForm):
 				_municipality = Municipality.objects.get(municipality__iexact=municipality)
 			self.cleaned_data['employer_municipality'] = _municipality
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 	def save(self, commit=True):
 		try:
@@ -316,13 +316,13 @@ class LandEmploymentForm(forms.ModelForm):
 			except:
 				zip = Zip.objects.get(zip=employer_zip)
 
-			print "armada"
+			print ("armada")
 			land_employment.employer_zip = zip
 			land_employment.land_position = land_position
 
 			land_employment.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class BeneficiaryForm(forms.ModelForm):
 	class Meta:
@@ -345,7 +345,7 @@ class BeneficiaryForm(forms.ModelForm):
 			# beneficiary.beneficiary_relationship = relationship
 			beneficiary.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class AlloteeForm(forms.ModelForm):
 	allotee_zip = forms.IntegerField(widget=forms.TextInput(attrs={'min':0}), required=False)
@@ -358,7 +358,7 @@ class AlloteeForm(forms.ModelForm):
 
 	def clean(self):
 
-		print self.cleaned_data
+		print (self.cleaned_data)
 		barangay = self.cleaned_data['allotee_barangay']
 		_barangay = Barangay.objects.get_or_create({'barangay':barangay}, barangay__iexact=barangay)
 		if _barangay:
@@ -369,14 +369,14 @@ class AlloteeForm(forms.ModelForm):
 		if _municipality:
 			_municipality = Municipality.objects.get(municipality__iexact=municipality)
 		
-		print "--------------"
+		print ("--------------")
 		zip = self.cleaned_data['allotee_zip']
 		try:
 			_zip = Zip.objects.get_or_create(zip=zip, barangay=_barangay, municipality=_municipality)[0]
 		except:
 			_zip = Zip.objects.get(zip=zip)
 		self.cleaned_data['allotee_zip'] = _zip
-		print self.cleaned_data['allotee_zip']
+		print (self.cleaned_data['allotee_zip'])
 
 		
 	def save(self, commit=True):
@@ -391,7 +391,7 @@ class AlloteeForm(forms.ModelForm):
 			allotee.zip = zip
 			allotee.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class EmergencyContactForm(forms.ModelForm):
 	# relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
@@ -438,7 +438,7 @@ class EmergencyContactForm(forms.ModelForm):
 			emergency.zip = zip
 			emergency.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class EvaluationForm(forms.ModelForm):
 	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)
@@ -683,7 +683,7 @@ class FlagForm(forms.ModelForm):
 			flags = super(FlagForm, self).save(commit=False)
 			flags.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class TrainingCertificateForm(forms.ModelForm):
 	place_trained = forms.CharField(widget=autocomplete_light.TextWidget('TrainingCenterAutocomplete'), required=False)
@@ -716,7 +716,7 @@ class TrainingCertificateForm(forms.ModelForm):
 			trainings_certificates.training_place_issued = training_place_issued
 			trainings_certificates.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class DependentsForm(forms.ModelForm):
 	# dependent_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
@@ -757,7 +757,7 @@ class DependentsForm(forms.ModelForm):
 			dependent.zip = zip
 			dependent.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) 
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]) )
 
 class SeaServiceForm(forms.ModelForm):
 	vessel_name = forms.CharField(widget=autocomplete_light.TextWidget('ManshipVesselNameAutocomplete'))
@@ -799,7 +799,7 @@ class SeaServiceForm(forms.ModelForm):
 			sea_services.principal = principal
 			sea_services.save()
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
 class MarinerStatusForm(forms.ModelForm):
 	# mariner_status_comment = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), required=False)

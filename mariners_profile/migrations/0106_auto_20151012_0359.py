@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('stcw_endorsement', models.CharField(default=None, unique=True, max_length=100)),
                 ('stcw_endorsement_date_issued', models.DateField(default=None, null=True, blank=True)),
                 ('stcw_endorsement_date_expiry', models.DateField(default=None, null=True, blank=True)),
-                ('stcw_endorsement_rank', models.ForeignKey(default={b'rank': b''}, to='mariners_profile.Rank')),
+                ('stcw_endorsement_rank', models.ForeignKey(default={'rank': ''}, to='mariners_profile.Rank')),
             ],
         ),
         migrations.RenameField(

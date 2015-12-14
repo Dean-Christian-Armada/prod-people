@@ -11,6 +11,8 @@ from django_date_extensions.fields import ApproximateDateField
 from datetime import date
 from dateutil import relativedelta as rdelta
 
+today = date.today()
+
 class AbstractPersonalData(models.Model):
 	name = models.ForeignKey(UserProfile, default=None)
 
@@ -56,7 +58,7 @@ class AbstractPersonalData(models.Model):
 	# DateFields
 	birth_date = models.DateField(default=None)
 
-	availability_date = models.CharField(max_length=15, default=None)
+	availability_date = models.DateField(default=None)
 	
 	class Meta:
 		abstract = True
@@ -65,7 +67,7 @@ class AbstractPersonalData(models.Model):
 		x = self.availability_date
 		return x[:-3]
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s %s %s" % (self.name.first_name, self.name.middle_name, self.name.last_name)
 
 	# Do not remove to avoid ValueError
@@ -127,7 +129,7 @@ class AbstractPersonalData(models.Model):
 		age = today - birthday
 		age = age.days
 		age = age / 365
-		return age
+		return round(age)
 
 
 
@@ -151,7 +153,7 @@ class AbstractSpouseData(models.Model):
 			self.spouse_contact = None
 		super(AbstractSpouseData, self).save(*args, **kwargs)
 
-	def __unicode__(self):
+	def __str__(self):
 		return "%s %s %s" % (self.spouse_first_name, self.spouse_middle_name, self.spouse_last_name)
 
 	def prefix_spouse_contact(self):
@@ -179,7 +181,7 @@ class AbstractCollege(models.Model):
 	class Meta:
 		abstract = True
 	
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s / %s-%s" % (user, self.college, self.collegeyear_from, self.collegeyear_to)
 
@@ -192,7 +194,7 @@ class AbstractHighSchool(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s / %s-%s" % (user, self.highschool, self.schoolyear_from, self.schoolyear_to)
 
@@ -210,7 +212,7 @@ class AbstractEmergencyContact(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.emergency_first_name, self.emergency_middle_name, self.emergency_last_name)
 		return user
 
@@ -229,7 +231,7 @@ class AbstractVisaApplication(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.visa_application)
 	
@@ -251,7 +253,7 @@ class AbstractDisciplinaryAction(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.disciplinary_action)
 
@@ -263,7 +265,7 @@ class AbstractChargedOffense(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.charged_offense)
 
@@ -276,7 +278,7 @@ class AbstractTermination(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.termination)
 
@@ -290,7 +292,7 @@ class AbstractPassport(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.passport)
 
@@ -302,7 +304,7 @@ class AbstractSbook(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.sbook)
 	
@@ -315,7 +317,7 @@ class AbstractCOC(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.coc)
 	
@@ -327,7 +329,7 @@ class AbstractLicense(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.license)
 	
@@ -339,7 +341,7 @@ class AbstractSRC(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.src)
 	
@@ -351,7 +353,7 @@ class AbstractGOC(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.goc)
 	
@@ -363,7 +365,7 @@ class AbstractUSVisa(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.us_visa)
 
@@ -383,7 +385,7 @@ class AbstractSchengenVisa(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.schengen_visa)
 
@@ -402,7 +404,7 @@ class AbstractYellowFever(models.Model):
 	class Meta:
 		abstract = True
 	
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s %s" % (user, self.yellow_fever)
 
@@ -413,7 +415,7 @@ class AbstractFlagDocuments(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
 
@@ -423,7 +425,7 @@ class AbstractTrainingCertificateDocuments(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
 
@@ -449,8 +451,8 @@ class AbstractSeaService(models.Model):
 	# duration = models.PositiveSmallIntegerField(default=None, blank=True)
 
 	# Decimal Fields
-	hp = models.DecimalField(decimal_places=1, max_digits=10, default=None, null=True, blank=True)
-	kw = models.DecimalField(decimal_places=1, max_digits=10, default=None, null=True, blank=True)
+	hp = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
+	kw = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
 
 	# Date Fields
 	date_joined = models.DateField(default=None)
@@ -459,7 +461,7 @@ class AbstractSeaService(models.Model):
 	class Meta:
 		abstract = True
 
-	def __unicode__(self):
+	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return "%s - %s" % (user, self.vessel_name)
 
@@ -483,7 +485,8 @@ class AbstractSeaService(models.Model):
 		months = duration.months
 		if duration.years:
 			months = months + (duration.years*12)
-		return "%s month/s and %s day/s" % (months, duration.days)
+		# return "%s month/s and %s day/s" % (months, duration.days)
+		return "%sM and %sD" % (months, duration.days)
 
 	def duration_years_months_days(self):
 		date_joined = self.date_joined
@@ -491,7 +494,8 @@ class AbstractSeaService(models.Model):
 		duration = rdelta.relativedelta(date_left, date_joined)
 		months = duration.months
 		years = duration.years
-		return "%s year/s %s month/s and %s day/s" % (years, months, duration.days)
+		# return "%s year/s %s month/s and %s day/s" % (years, months, duration.days)
+		return "%sY %sM and %sD" % (years, months, duration.days)
 
 	def none_dwt(self):
 		if not self.dwt:
@@ -502,208 +506,3 @@ class AbstractSeaService(models.Model):
 		if not self.grt:
 			self.grt = ''
 		return self.grt
-
-# START Temporary Proxies
-from mariners_profile.models import BirthPlace, Evaluation, PersonReference, Company, Nationality, VesselName, VesselType, CivilStatus, MarinerStatus, Colleges, Degree, HighSchools, Vocationals, PrimarySchools, Relationship, Departments, Rank, COCRank, LandPosition, EngineType, ManningAgency, CauseOfDischarge, Region, Municipality, Barangay, Sources, Specifics, Reasons, Status, English, Dialect, Bank, Branch, PassportPlaceIssued, SBookPlaceIssued, USVisaPlaceIssued, SchengenVisaPlaceIssued, YellowFeverPlaceIssued, LicensePlaceIssued, COCPlaceIssued, TrainingPlaceIssued, IssuingAuthority, Flags, Principal,TrainingCenter, TradeArea, Zip, Propulsion, ReferrersPool
-
-class ListBirthPlace(BirthPlace):
-	class Meta:
-		# app_label = ""
-		verbose_name_plural = "Birth Place List"
-		proxy = True
-
-class ListEvaluation(Evaluation):
-	class Meta:
-		verbose_name_plural = "Evaluation List"
-		proxy = True
-
-class ListPersonReference(PersonReference):
-	class Meta:
-		verbose_name_plural = "Person Reference List"
-		proxy = True
-
-class ListCompany(Company):
-	class Meta:
-		verbose_name_plural = "Company List"
-		proxy = True
-class ListNationality(Nationality):
-	class Meta:
-		verbose_name_plural = "Nationality List"
-		proxy = True
-class ListVesselName(VesselName):
-	class Meta:
-		verbose_name_plural = "Vessel Name List"
-		proxy = True
-class ListVesselType(VesselType):
-	class Meta:
-		verbose_name_plural = "Vessel Type List"
-		proxy = True
-class ListCivilStatus(CivilStatus):
-	class Meta:
-		verbose_name_plural = "Civil Status List"
-		proxy = True
-class ListMarinerStatus(MarinerStatus):
-	class Meta:
-		verbose_name_plural = "Mariner Status List"
-		proxy = True
-class ListColleges(Colleges):
-	class Meta:
-		verbose_name_plural = "College List"
-		proxy = True
-class ListDegree(Degree):
-	class Meta:
-		verbose_name_plural = "Degree List"
-		proxy = True
-class ListHighSchools(HighSchools):
-	class Meta:
-		verbose_name_plural = "HighSchool List"
-		proxy = True
-class ListVocationals(Vocationals):
-	class Meta:
-		verbose_name_plural = "Vocational List"
-		proxy = True
-class ListPrimarySchools(PrimarySchools):
-	class Meta:
-		verbose_name_plural = "Primary School List"
-		proxy = True
-class ListRelationship(Relationship):
-	class Meta:
-		verbose_name_plural = "Relationship List"
-		proxy = True
-class ListDepartments(Departments):
-	class Meta:
-		verbose_name_plural = "Department List"
-		proxy = True
-class ListRank(Rank):
-	class Meta:
-		verbose_name_plural = "Rank List"
-		proxy = True
-class ListCOCRank(COCRank):
-	class Meta:
-		verbose_name_plural = "COC Rank List"
-		proxy = True
-class ListLandPosition(LandPosition):
-	class Meta:
-		verbose_name_plural = "Land Position List"
-		proxy = True
-class ListEngineType(EngineType):
-	class Meta:
-		verbose_name_plural = "Engine Type List"
-		proxy = True
-class ListManningAgency(ManningAgency):
-	class Meta:
-		verbose_name_plural = "Manning Agency List"
-		proxy = True
-class ListCauseOfDischarge(CauseOfDischarge):
-	class Meta:
-		verbose_name_plural = "Cause of Discharge List"
-		proxy = True
-class ListRegion(Region):
-	class Meta:
-		verbose_name_plural = "Region List"
-		proxy = True
-class ListMunicipality(Municipality):
-	class Meta:
-		verbose_name_plural = "Municipality List"
-		proxy = True
-class ListBarangay(Barangay):
-	class Meta:
-		verbose_name_plural = "Barangay List"
-		proxy = True
-class ListSources(Sources):
-	class Meta:
-		verbose_name_plural = "Applicant Source List"
-		proxy = True
-class ListSpecifics(Specifics):
-	class Meta:
-		verbose_name_plural = "Applicant Specific Source List"
-		proxy = True
-class ListReasons(Reasons):
-	class Meta:
-		verbose_name_plural = "Reasons List"
-		proxy = True
-class ListStatus(Status):
-	class Meta:
-		verbose_name_plural = "Applicant Status List"
-		proxy = True
-class ListEnglish(English):
-	class Meta:
-		verbose_name_plural = "English Grade List"
-		proxy = True
-class ListDialect(Dialect):
-	class Meta:
-		verbose_name_plural = "Dialect List"
-		proxy = True
-class ListBank(Bank):
-	class Meta:
-		verbose_name_plural = "Bank List"
-		proxy = True
-class ListBranch(Branch):
-	class Meta:
-		verbose_name_plural = "Bank Branch List"
-		proxy = True
-class ListPassportPlaceIssued(PassportPlaceIssued):
-	class Meta:
-		verbose_name_plural = "Passport Place Issued List"
-		proxy = True
-class ListSBookPlaceIssued(SBookPlaceIssued):
-	class Meta:
-		verbose_name_plural = "Seaman's Book Place Issued List"
-		proxy = True
-class ListUSVisaPlaceIssued(USVisaPlaceIssued):
-	class Meta:
-		verbose_name_plural = "US Visa Place Issued List"
-		proxy = True
-class ListSchengenVisaPlaceIssued(SchengenVisaPlaceIssued):
-	class Meta:
-		verbose_name_plural = "Schengen Visa Place Issued List"
-		proxy = True
-class ListYellowFeverPlaceIssued(YellowFeverPlaceIssued):
-	class Meta:
-		verbose_name_plural = "Yellow Fever Place Issued List"
-		proxy = True
-class ListLicensePlaceIssued(LicensePlaceIssued):
-	class Meta:
-		verbose_name_plural = "PRC License Place Issued List"
-		proxy = True
-class ListCOCPlaceIssued(COCPlaceIssued):
-	class Meta:
-		verbose_name_plural = "COC Place Issued List"
-		proxy = True
-class ListTrainingPlaceIssued(TrainingPlaceIssued):
-	class Meta:
-		verbose_name_plural = "Training Place Issued List"
-		proxy = True
-class ListIssuingAuthority(IssuingAuthority):
-	class Meta:
-		verbose_name_plural = "Issuing Authority List"
-		proxy = True
-class ListFlags(Flags):
-	class Meta:
-		verbose_name_plural = "Flags List"
-		proxy = True
-class ListPrincipal(Principal):
-	class Meta:
-		verbose_name_plural = "Principal List"
-		proxy = True
-class ListTrainingCenter(TrainingCenter):
-	class Meta:
-		verbose_name_plural = "Training Center List"
-		proxy = True
-class ListTradeArea(TradeArea):
-	class Meta:
-		verbose_name_plural = "Trade Area List"
-		proxy = True
-class ListZip(Zip):
-	class Meta:
-		verbose_name_plural = "Zip Code List"
-		proxy = True
-class ListPropulsion(Propulsion):
-	class Meta:
-		verbose_name_plural = "Propulsion List"
-		proxy = True
-class ListReferrersPool(ReferrersPool):
-	class Meta:
-		verbose_name_plural = "Temporary Application Source Referrer Pool List"
-		proxy = True
-# END Temporary Proxies

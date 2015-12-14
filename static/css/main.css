@@ -449,6 +449,10 @@ table.sea-services input{
   width: 110px;
 }
 
+table.sea-services input.numerical{
+  width: 50px;
+}
+
 table.sea-services .year_built, table.sea-services .duration{
   width: 100px;
 }

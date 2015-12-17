@@ -2,8 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
-from django.forms.formsets import formset_factory, BaseFormSet
-from django.forms.models import modelformset_factory, inlineformset_factory
+from django.forms.formsets import formset_factory
 from django.db.models import Sum, Q
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
@@ -13,36 +12,22 @@ from django.core import serializers
 # from easy_pdf.rendering import render_to_pdf_response
 from functools import partial, wraps
 
-from . forms import *
-from . templatetags.pdf_image import get64
+from application_form.forms import *
+from application_form.templatetags.pdf_image import get64
+from application_form.models import ApplicationForm as UserApplicationForm
 
-import os, shutil, datetime, random, string, urllib, ast
+from globals_declarations.classes import FirstRequiredFormSet
+from globals_declarations.variables import today
 
-
+import os, shutil, random, string, urllib, ast
 
 # Create your views here.
 # Take notes Logic of form save is in the forms.py save method of own FormObjects
-
-
-# Enables field required on formset even without filling up a singlefield
-# class RequiredFormSet(BaseFormSet):
-#     def __init__(self, *args, **kwargs):
-#         super(RequiredFormSet, self).__init__(*args, **kwargs)
-#         for form in self.forms:
-#             form.empty_permitted = False
-
-# Enables field required on the first form
-class FirstRequiredFormSet(BaseFormSet):
-    def __init__(self, *args, **kwargs):
-        super(FirstRequiredFormSet, self).__init__(*args, **kwargs)
-        self.forms[0].empty_permitted = False
 
 @login_required()
 def form(request):
 	scheme = request.scheme
 	http_host = request.META['HTTP_HOST']
-	today = date.today()
-	today = today.strftime("%Y-%m-%d")
 	count_college_errors = 0
 	count_emergency_errors = 0
 	request_training_certificates = ''
@@ -80,8 +65,6 @@ def form(request):
 	application = ApplicationForm(initial={'scheme': scheme, 'http_host': http_host, 'application_date': today})
 
 	if request.method == "POST":
-		# print (request.POST)
-
 		applicant_name = ApplicantNameForm(request.POST)
 		permanent_address = PermanentAddressForm(request.POST['permanent_province'], request.POST['permanent_city_municipality'], request.POST)
 		current_address = CurrentAddressForm(request.POST['current_province'], request.POST['current_city_municipality'], request.POST)
@@ -221,7 +204,6 @@ def form(request):
 
 	return render(request, template, context_dict)
 
-
 @login_required
 def success(request):
 	template = "application_form/success.html"
@@ -264,7 +246,6 @@ def trainings_certificates(request):
 
 @login_required
 def city_municipality(request):
-	# print (current_address['current_unit'])
 	id = request.GET['id']
 	requests = request.GET.get('request', '')
 	# ast.literal_eval converts the whole unicode list structure into an actual list
@@ -285,11 +266,7 @@ def auto_zip_code(request):
 	# CITY / MUNICIPALITY for Non-NCRs and BARANGAY for NCRs 
 	second_choice = request.GET['second_choice']
 	name = request.GET['zip_name']
-	print (first_choice)
-	print (second_choice)
 	zip = Zip.objects.get(municipality=first_choice, barangay=second_choice)
-	print (zip)
-	print (zip.id)
 	html = " <input type='text' id='%s' class='form-control' value='%s' disabled> <select class='form-control hide' id='id_%s' name='%s' style='color:#000'><option value='%s'>%s</option></select>" % (name, zip, name, name, zip.id, zip)
 	return HttpResponse(html) 
 
@@ -305,11 +282,10 @@ def ncr_barangay(request):
 # def fleet_application_form(request, principal, vessel_type):
 @login_required
 def fleet_application_form(request, principal, id):
-	from application_form.models import ApplicationForm
 	if id:
 		user_profile = UserProfile.objects.get(id=id)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
-		application_form = ApplicationForm.objects.get(user=user_profile)
+		application_form = UserApplicationForm.objects.get(user=user_profile)
 		personal_data = PersonalData.objects.get(name=id)
 		current_address = CurrentAddress.objects.get(personaldata=personal_data.id)
 		permanent_address = PermanentAddress.objects.get(personaldata=personal_data.id)
@@ -352,61 +328,6 @@ def fleet_application_form(request, principal, id):
 		for flag_document in flag_documents_valid:
 			flag_books.append(flag_document.flags.flags)
 		flag_books = ', '.join(flag_books)
-
-		# Script to get the duration of the current rank via year with conditional of days if less than
-		# Used for Ionic application form
-		rank_sea_service_duration = []
-		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
-		for rank_sea_services in rank_sea_service:
-			duration = rank_sea_services.date_left - rank_sea_services.date_joined
-			rank_sea_service_duration.append(duration.days)
-		rank_sea_service_duration = sum(rank_sea_service_duration)
-		rank_sea_duration = rank_sea_service_duration / 365
-		rank_sea_duration_days_remainder = rank_sea_service_duration % 365
-		if rank_sea_duration:
-			if rank_sea_duration_days_remainder:
-				rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
-			else:
-				rank_sea_duration_days_remainder = ""
-			rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
-		else:
-			rank_sea_service_duration = "%s days" % rank_sea_service_duration
-
-		sea_service_duration = []
-		for sea_services in sea_service:
-			duration = sea_services.date_left - sea_services.date_joined
-			sea_service_duration.append(duration.days)
-		sea_service_duration = sum(sea_service_duration)
-		sea_duration = sea_service_duration / 365
-		sea_duration_days_remainder = sea_service_duration % 365
-		if sea_duration:
-			if sea_duration_days_remainder:
-				sea_duration_days_remainder = "and %s days" % sea_duration_days_remainder
-			else:
-				sea_duration_days_remainder = ""
-			sea_service_duration = "%s year %s" % (sea_duration, sea_duration_days_remainder)
-		else:
-			sea_service_duration = "%s days" % sea_service_duration
-
-		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
-		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
-		dry_vessel_types_duration = []
-		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)
-
-		for dry_vessel_type_sea_services in dry_vessel_type_sea_service:
-			duration = dry_vessel_type_sea_services.date_left - dry_vessel_type_sea_services.date_joined
-			dry_vessel_types_duration.append(duration.days)
-		dry_vessel_types_duration = sum(dry_vessel_types_duration)
-		dry_vessel_duration = dry_vessel_types_duration / 365
-		dry_vessel_types_duration_days_remainder = dry_vessel_types_duration % 365
-		if dry_vessel_duration:
-			if dry_vessel_types_duration_days_remainder:
-				dry_vessel_types_duration_days_remainder = "and %s days" % dry_vessel_types_duration_days_remainder
-			else:
-				dry_vessel_types_duration_days_remainder = ""
-			dry_vessel_types_duration = "%s year %s" % (dry_vessel_duration, dry_vessel_types_duration_days_remainder)
-		else:
-			dry_vessel_types_duration = "%s days" % dry_vessel_types_duration
 
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -577,9 +498,9 @@ def fleet_application_form(request, principal, id):
 
 		context_dict['application_received_form'] = application_received_form
 
-		context_dict['sea_service_duration'] = sea_service_duration
-		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
-		context_dict['dry_vessel_types_duration'] = dry_vessel_types_duration
+		context_dict['sea_service_duration'] = mariners_profile.sea_service_duration()
+		context_dict['rank_sea_service_duration'] = mariners_profile.rank_sea_service_duration()
+		context_dict['dry_vessel_types_duration'] = mariners_profile.dry_vessel_type_duration()
 		context_dict['flag_books'] = flag_books
 
 		# START ATHENIAN TRAINING CERTIFICATES
@@ -620,7 +541,6 @@ def manship_form(request, id):
 @login_required()
 def pdf_complete_manship_form(request, id):
 	if id:
-		from application_form.models import ApplicationForm
 		flags_html = ""
 		certificates_html = ""
 
@@ -666,7 +586,7 @@ def pdf_complete_manship_form(request, id):
 		yellow_fever = YellowFever.objects.get(user=id)
 
 		# Variables for application form object
-		application_form = ApplicationForm.objects.get(user=id)
+		application_form = UserApplicationForm.objects.get(user=id)
 		picture = media+str(application_form.picture)
 		signature = media+str(application_form.signature)
 		# count essay words
@@ -787,7 +707,6 @@ def blank_pdf_manship_sea_services_form(request, id):
 
 @login_required
 def blank_pdf_complete_manship_form(request, id):
-	from application_form.models import ApplicationForm
 	_flags_all = set()
 	_certificates_all = set()
 	flags_html = ""
@@ -850,8 +769,6 @@ def blank_pdf_complete_manship_form(request, id):
 @login_required
 def pdf_fleet_application_form(request, principal, id):
 	if id:
-		from application_form.models import ApplicationForm
-		
 		domain = request.scheme
 		domain += "://"
 		# returns domain name
@@ -866,7 +783,7 @@ def pdf_fleet_application_form(request, principal, id):
 
 		user_profile = UserProfile.objects.get(id=id)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
-		application_form = ApplicationForm.objects.get(user=user_profile)
+		application_form = UserApplicationForm.objects.get(user=user_profile)
 		picture = media+str(application_form.picture)
 		signature = media+str(application_form.signature)
 		personal_data = PersonalData.objects.get(name=id)
@@ -915,64 +832,6 @@ def pdf_fleet_application_form(request, principal, id):
 		for flag_document in flag_documents_valid:
 			flag_books.append(flag_document.flags.flags)
 		flag_books = ', '.join(flag_books)
-
-		# Script to get the duration of the current rank via year with conditional of days if less than
-		# Used for Ionic application form
-		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
-		rank_sea_service_duration = []
-		rank_sea_service = sea_service.filter(rank=mariners_profile.position)
-		for rank_sea_services in rank_sea_service:
-			duration = rank_sea_services.date_left - rank_sea_services.date_joined
-			rank_sea_service_duration.append(duration.days)
-		rank_sea_service_duration = sum(rank_sea_service_duration)
-		rank_sea_duration = rank_sea_service_duration / 365
-		rank_sea_duration_days_remainder = rank_sea_service_duration % 365
-		if rank_sea_duration:
-			if rank_sea_duration_days_remainder:
-				rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
-			else:
-				rank_sea_duration_days_remainder = ""
-			rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
-		else:
-			rank_sea_service_duration = "%s days" % rank_sea_service_duration
-
-		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
-		sea_service_duration = []
-		for sea_services in sea_service:
-			duration = sea_services.date_left - sea_services.date_joined
-			sea_service_duration.append(duration.days)
-		sea_service_duration = sum(sea_service_duration)
-		sea_duration = sea_service_duration / 365
-		sea_duration_days_remainder = sea_service_duration % 365
-		if sea_duration:
-			if sea_duration_days_remainder:
-				sea_duration_days_remainder = "and %s days" % sea_duration_days_remainder
-			else:
-				sea_duration_days_remainder = ""
-			sea_service_duration = "%s year %s" % (sea_duration, sea_duration_days_remainder)
-		else:
-			sea_service_duration = "%s days" % sea_service_duration
-
-		# Script to get the duration of in dry cargo carriers via year with conditional of days if less than
-		# WILL BE REMOVED, already made a custom method in marinersprofile object for this
-		dry_vessel_types = VesselType.objects.filter(Q(vessel_type__iexact='Bulk') | Q(vessel_type__iexact='Container') | Q(vessel_type__iexact='Log Bulk'))
-		dry_vessel_types_duration = []
-		dry_vessel_type_sea_service = sea_service.filter(vessel_type__in=dry_vessel_types)
-
-		for dry_vessel_type_sea_services in dry_vessel_type_sea_service:
-			duration = dry_vessel_type_sea_services.date_left - dry_vessel_type_sea_services.date_joined
-			dry_vessel_types_duration.append(duration.days)
-		dry_vessel_types_duration = sum(dry_vessel_types_duration)
-		dry_vessel_duration = dry_vessel_types_duration / 365
-		dry_vessel_types_duration_days_remainder = dry_vessel_types_duration % 365
-		if dry_vessel_duration:
-			if dry_vessel_types_duration_days_remainder:
-				dry_vessel_types_duration_days_remainder = "and %s days" % dry_vessel_types_duration_days_remainder
-			else:
-				dry_vessel_types_duration_days_remainder = ""
-			dry_vessel_types_duration = "%s year %s" % (dry_vessel_duration, dry_vessel_types_duration_days_remainder)
-		else:
-			dry_vessel_types_duration = "%s days" % dry_vessel_types_duration
 
 		try:
 			spouse = Spouse.objects.get(user=id)
@@ -1063,8 +922,6 @@ def pdf_fleet_application_form(request, principal, id):
 
 
 		try:
-			print ("------------")
-			print (trainings_certificate_document.id)
 			btoc_documents = TrainingCertificateDocumentsDetailed.objects.get(Q(trainings_certificate_documents=trainings_certificate_document) & Q(trainings_certificates=btoc))
 		except:
 			btoc_documents = ""
@@ -1247,9 +1104,9 @@ def pdf_fleet_application_form(request, principal, id):
 
 		context_dict['application_received_form'] = application_received_form
 
-		context_dict['sea_service_duration'] = sea_service_duration
-		context_dict['rank_sea_service_duration'] = rank_sea_service_duration
-		context_dict['dry_vessel_types_duration'] = dry_vessel_types_duration
+		context_dict['sea_service_duration'] = mariners_profile.sea_service_duration()
+		context_dict['rank_sea_service_duration'] = mariners_profile.rank_sea_service_duration()
+		context_dict['dry_vessel_types_duration'] = mariners_profile.dry_vessel_type_duration()
 		context_dict['flag_books'] = flag_books
 
 		# START ATHENIAN TRAINING CERTIFICATES

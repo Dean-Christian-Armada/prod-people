@@ -1,0 +1,5 @@
+IMPORTANT NOTES
+
+/people/asynchronous_mail.py
+- source: http://ui.co.id/blog/asynchronous-send_mail-in-django
+- script used to avoid the delay user experience on Email messaging

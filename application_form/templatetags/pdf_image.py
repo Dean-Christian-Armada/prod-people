@@ -4,13 +4,14 @@ from io import BytesIO
 
 register = template.Library()
 
+# Used in the pdf form templates, /templates/principals-application-form/pdf/*
+# Used in the pdf form templates, /templates/application_form/pdf-xxxxxxxxx.html/*
 @register.filter
 def get64(value, url):
     """
     Method returning base64 image data instead of URL for PDF output
     """
     if url.startswith("http"):
-    	# print (urllib.request.urlopen(url).read())
     	image = BytesIO(urllib.request.urlopen(url).read())
     	return 'data:image/jpg;base64,' + str(base64.b64encode(image.read()))
     return url

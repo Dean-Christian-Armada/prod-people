@@ -13,6 +13,13 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+# START Searchable Sections
+    # Admin
+    # Django apps
+    # Third Party apps
+    # Login server-side
+# END Searchable Sectons
+
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
@@ -25,6 +32,7 @@ from application_form.views import form
 
 
 urlpatterns = [
+    # START Admin related URLS
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/defender/', include('defender.urls')), # django-defender url
     # url(r'^admin/logout/$', 'django.contrib.auth.views.logout',
@@ -33,29 +41,29 @@ urlpatterns = [
     url(r'^admin/password_reset/done/$', auth_views.password_reset_done, name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
-    
-    url(r'^welcome/$', welcome, name='welcome'),
-    url(r'^$', home, name='home'),
-    url(r'^validate/$', validation, name='validate'),
-    url(r'^logout/$', user_logout, name='logout'),
+    # END Admin related URLS
 
-    # Django apps URLS
-    # url(r'^application-form/$', form, name='application_form'),
+    # START Django apps Base URLS
     url(r'^application-form/', include('application_form.urls')),
     url(r'^mariners-profile/', include('mariners_profile.urls')),
     url(r'^application-profile/', include('application_profile.urls')),
     url(r'^notifications/', include('notifications.urls')),
+    # END Django apps Base URLS
 
-    # Real Time delete on a formset
-    # url(r'^delete-on-form-set/', 'mariners_profile.views.delete_on_form_set', name='delete_on_form_set'),
-
-
-    # Third Party URLS
-    # Django autocomplete
+    # START Third Party apps URLS
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'session_security/', include('session_security.urls')),
     url(r'^report_builder/', include('report_builder.urls')),
+    # END Third Party URLS
+
+    # START Login server-side execution/redirect vews
+    url(r'^welcome/$', welcome, name='welcome'),
+    url(r'^$', home, name='home'),
+    url(r'^validate/$', validation, name='validate'),
+    url(r'^logout/$', user_logout, name='logout'),
+    # END Login server-side execution/redirect views
 ]
 
+# activating media urls
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

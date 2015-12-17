@@ -4,13 +4,15 @@ from django.template.defaultfilters import slugify
 from django.db.models import Q
 from django.db import models
 
-from django_date_extensions.fields import ApproximateDateField
+# from django_date_extensions.fields import ApproximateDateField
 
 from login.models import UserProfile, default_user_user_level
 from people.models import *
+from globals_declarations.variables import _today
 
-import datetime, os
 from dateutil import relativedelta as rdelta
+
+import os
 
 # START Default Methods
 # These Methods are used for Foreign Keys filling up creating default value
@@ -1029,7 +1031,7 @@ class MarinerStatusHistory(models.Model):
 		since = self.since
 		until = self.until
 		if not self.until:
-			until = datetime.date.today()
+			until = _today
 		try:
 			days = until - since
 			if days:
@@ -1224,16 +1226,3 @@ class Allotee(models.Model):
 	def __str__(self):
 		allotee = "%s %s %s" % (self.allotee_first_name, self.allotee_middle_name, self.allotee_last_name)
 		return allotee
-
-# class DynamicPathFolders(models.Model):
-# 	name = models.CharField(max_length=100, null=True, blank=True, default=None)
-
-# 	def __str__(self):
-# 		return self.name
-
-# A scipt used for dynamic folders in picture file upload
-def content_file_name(instance, filename):
-    upload_dir = os.path.join('scanned',instance.folder_path.name)
-    # if not os.path.exists(upload_dir):
-    #     os.makedirs(upload_dir)
-    return os.path.join(upload_dir, filename)

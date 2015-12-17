@@ -23,18 +23,14 @@ from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm
 from application_form.templatetags.pdf_image import get64
 
 from notifications.models import *
+from application_profile.forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
+from globals_declarations.variables import now, today
 
-from . forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
+# from wkhtmltopdf.views import PDFTemplateView
+# from markdown import markdown
+# from weasyprint import HTML, CSS
 
-from datetime import datetime as now
-
-from wkhtmltopdf.views import PDFTemplateView
-from markdown import markdown
-from weasyprint import HTML, CSS
-
-import sys, urllib, base64, pdfkit
-
-now = now.now()
+import sys, urllib, base64
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -55,10 +51,9 @@ def xyz(request, method):
 
 	return (params, url)
 
-@login_required()
+# @login_required()
 def index(request):
-	crew_on_table = 10
-	per_page_list = [10, 25, 50, 100]
+	from globals_declarations.variables import crew_on_table, per_page_list # global declaration on pages
 	param_connector = "?"
 	count = 0
 
@@ -66,19 +61,16 @@ def index(request):
 	name = "%s %s %s" % (user.first_name, user.middle_name, user.last_name )
 	mariners_profile = MarinersProfile.objects.filter(status=0)
 	search = ApplicantsDataTables
-	# Sets are used for dynamic value filtering
-	age = set()
+	# START Sets are used for dynamic value filtering
 	vessel_type = set()
 	rank = set()
 	barangay = set()
 	municipality = set()
 	status_choices = set()
 	num = set()
-	params = {}
-	params2 = {}
-
-	template = "application-profile/index.html"
-	context_dict = {"title": "MANSHIP Applicants"}
+	# END Sets are used for dynamic value filtering
+	params = {} # Used for doing the primary filters
+	params2 = {} # Used for extra filters
 
 	if request.method == 'POST':
 		# used for multiple returns
@@ -95,19 +87,12 @@ def index(request):
 			per_page_list.pop(remove)
 			per_page_list.insert(0, crew_on_table)
 		
-		# if 'age' in request.GET:
-		# 	params['age'] = request.GET['age']
 		if 'vessel_type' in request.GET:
 			_vessel_type = VesselType.objects.get(vessel_type__iexact=request.GET['vessel_type'])
 			params['preferred_vessel_type'] = _vessel_type
 		if 'rank' in request.GET:
 			_rank = Rank.objects.get(rank__iexact=request.GET['rank'])
 			params2['position'] = _rank
-		# if 'barangay' in request.GET:
-		# 	_barangay = Barangay.objects.get(barangay__iexact=request.GET['barangay'])
-		# 	_barangay = Zip.objects.filter(barangay=_barangay)
-		# 	_barangay = CurrentAddress.objects.filter(current_zip=_barangay)
-			# params['current_address__in'] = _barangay
 		if 'municipality' in request.GET:
 			_municipality = Municipality.objects.get(municipality__iexact=request.GET['municipality'])
 			_municipality = Zip.objects.filter(municipality=_municipality)
@@ -138,7 +123,6 @@ def index(request):
 		except:
 			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
-	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
 	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
 	
@@ -155,16 +139,12 @@ def index(request):
 	# Applicant Status Dynamic Filtering
 	status = ApplicationForm.objects.filter(user__in=mariners_profile.values('user')).order_by('-id')
 
-
-
 	# Zipped is used for the table data
 	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, status)
 
 	for x, y, z, xx, zz in zipped_data:
 		count += 1
-		age.add(y.age)
 		vessel_type.add(y.preferred_vessel_type.vessel_type)
-		# barangay.add(y.current_address.current_zip.barangay)
 		municipality.add(y.current_address.current_zip.municipality.municipality)
 		rank.add(x.position.rank)
 		status_choices.add(zz.status)
@@ -209,28 +189,21 @@ def index(request):
 	# Zipped is used for the table data
 	zipped_data = zip(mariners_profile, personal_data, us_visa, schengen_visa, sorted(num, reverse=True))
 
-	try:
-		# print ("----------")
-		# print ("dean")
-		# print (vessel_type)
-		context_dict['personaldata'] = personal_data
-		context_dict['mariners_profile'] = mariners_profile
-		context_dict['name'] = name
-		context_dict['user'] = user
-		context_dict['zipped_data'] = zipped_data
-		context_dict['search'] = search
-		# context_dict['age'] = sorted(age)
-		context_dict['vessel_type'] = sorted(vessel_type)
-		context_dict['rank'] = sorted(rank)
-		# context_dict['barangay'] = sorted(barangay)
-		context_dict['municipality'] = sorted(municipality)
-	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+	template = "application-profile/index.html"
 
-	# used for dynamic choices in us visa
+	context_dict = {"title": "MANSHIP Applicants"}
+	context_dict['personaldata'] = personal_data
+	context_dict['mariners_profile'] = mariners_profile
+	context_dict['name'] = name
+	context_dict['user'] = user
+	context_dict['zipped_data'] = zipped_data
+	context_dict['search'] = search
+	context_dict['vessel_type'] = sorted(vessel_type)
+	context_dict['rank'] = sorted(rank)
+	context_dict['municipality'] = sorted(municipality)
+
+	# used for dynamic choices in us visa and schengen visa
 	context_dict['us_visa'] = us_visa_choices
-
-	# used for dynamic choices in us visa
 	context_dict['schengen_visa'] = schengen_visa_choices
 
 	# used for dynamic choices in us visa
@@ -244,9 +217,7 @@ def index(request):
 	context_dict['next_next_page'] = next_next_page
 	context_dict['previous_previous_page'] = previous_previous_page
 	
-
 	return render(request, template, context_dict)
-
 
 @login_required()
 def profile(request, slug):
@@ -260,7 +231,6 @@ def profile(request, slug):
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)
 		num_extra = 0 # Used in evaluation for controlling inline formset
 		principal_select_form = PrincipalSelectForm()
-		today = date.today()
 
 		try:
 			spouse = ApplicationFormSpouse.objects.get(user=id)
@@ -282,9 +252,9 @@ def profile(request, slug):
 		except:
 			primaryschool = ''
 			primaryschool_form = PrimarySchoolForm(request.POST or None, initial={'user': personal_data.name} )
+		
 		try:
 			reference = Reference.objects.filter(user=id)
-			# print (len(reference))
 			if len(reference) == 1:
 				num_extra = 1
 			elif len(reference) < 1:
@@ -292,11 +262,10 @@ def profile(request, slug):
 			elif len(reference) > 1:
 				num_extra = 0
 			ReferenceFormSet = inlineformset_factory(UserProfile, Reference, fk_name='user', extra=num_extra, can_delete=True, form=ReferenceForm )
-			# reference_form = ReferenceFormSet(request.POST or None, )
 			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile )
-
 		except:
 			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		
 		try:
 			evaluation = Evaluation.objects.get(user=id)
 			evaluation_form = EvaluationForm(request.POST or None, instance=evaluation, initial={'evaluation':evaluation.evaluation})
@@ -321,12 +290,12 @@ def profile(request, slug):
 		us_visa = ApplicationFormUSVisa.objects.get(user=id)
 		schengen_visa = ApplicationFormSchengenVisa.objects.get(user=id)
 		yellow_fever = ApplicationFormYellowFever.objects.get(user=id)
-		sea_service = ApplicationFormSeaService.objects.filter(user=id).order_by('-date_left')
-		sea_service_num_label = len(sea_service)
+		sea_service = ApplicationFormSeaService.objects.filter(user=id)
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
-		status_listed = Status.objects.filter(listed=True) 
+		status_listed = Status.objects.filter(listed=True)
+		status = StatusForm(initial={'status':str(application_form.status.id)})
 
 		# Queries out the list of flags
 		try:
@@ -376,6 +345,7 @@ def profile(request, slug):
 
 			if str(application_form.status).upper() == 'PASSED' or str(application_form.status).upper() == 'PASS':
 				#  START, Script to update the code
+				# [0] is used to make it a string
 				first_name = user_profile.first_name[0].lower()
 				middle_name = user_profile.middle_name[0].lower()
 				last_name = user_profile.last_name[0].lower()
@@ -410,25 +380,7 @@ def profile(request, slug):
 				email_notification = EmailNotification.objects.get(notification_status=notification_status)
 				mariners_count = MarinersProfile.objects.filter(status=1).count()
 
-				# START rank_sea_service_duration will soon be removed here | created a custom method on MarinersProfile object
-				rank_sea_service_duration = []
-				rank_sea_service = sea_service.filter(rank=mariners_profile.position)
-				for rank_sea_services in rank_sea_service:
-					duration = rank_sea_services.date_left - rank_sea_services.date_joined
-					rank_sea_service_duration.append(duration.days)
-				rank_sea_service_duration = sum(rank_sea_service_duration)
-				rank_sea_duration = rank_sea_service_duration / 365
-				rank_sea_duration_days_remainder = rank_sea_service_duration % 365
-				if rank_sea_duration:
-					if rank_sea_duration_days_remainder:
-						rank_sea_duration_days_remainder = "and %s days" % rank_sea_duration_days_remainder
-					else:
-						rank_sea_duration_days_remainder = ""
-					rank_sea_service_duration = "%s year %s" % (rank_sea_duration, rank_sea_duration_days_remainder)
-				else:
-					rank_sea_service_duration = "%s days" % rank_sea_service_duration
-				# END rank_sea_service_duration will soon be removed here | created a custom method on MarinersProfile object
-
+				# START HTML rendering from the database to email
 				status_template = Template(email_notification.notification_status.label)
 				status = Context({})
 				status = status_template.render(status)
@@ -438,40 +390,33 @@ def profile(request, slug):
 				message_template = Template(email_notification.message)
 				message = Context({'code':user_profile.code, 'mobile':personal_data.prefix_mobile_1(), 'landline':personal_data.landline_1, 'rank_duration':mariners_profile.rank_sea_service_duration(), 'position':mariners_profile.position, 'application_source':application_form.application_source, 'us_visa':us_visa.determine_us_visa(), 'schengen_visa':schengen_visa.determine_schengen_visa(), 'vessel_type':personal_data.preferred_vessel_type, 'age':personal_data.age()})
 				message = message_template.render(message)
-
+				
 				email_data = {}
 				email_data['email_title'] = status
 				email_data['email_greetings'] = greetings
 				email_data['email_body'] = message
 				# email_data serves as a dictionary with key value pairs to be used to store data fetched from the database
 				msg_html = render_to_string('email-templates/notifications.html', email_data)
+				# END HTML rendering from the database to email
 
 				email_receievers = ['adgc@manship.com']
-
 				
-				# END SEND EMAIL SCRIPT
-
 				for x in receivers:
 					NotificationHistory.objects.create(notification=notification, received=x)
 					email_receievers.append(x.departmental_email)
 					email_receievers.append(x.user.email)
 				# SEND EMAIL SYNTAX
 				# send_mail(email_notification.notification_status.label, '', settings.EMAIL_HOST_USER, email_receievers, fail_silently=False, html_message=msg_html)
-				print ("dean")
+				# END SEND EMAIL SCRIPT
 				return HttpResponseRedirect('/mariners-profile/'+user_profile.slug)
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 		# END, script to change the status and code 
 
-		status = StatusForm(initial={'status':str(application_form.status.id)})
-		
-		# Script used to count essay words
-		count_words = ''.join(c if c.isalnum() else ' ' for c in application_form.essay.essay).split()
-		count_words = len(count_words)
-
 		template = "application-profile/profile.html"
 
 		context_dict = {}
+		context_dict['title'] = "Applicant's Profile - "+str(personal_data).upper()
 		context_dict['user_profile'] = user_profile
 		context_dict['personal_data'] = personal_data
 		context_dict['spouse'] = spouse
@@ -491,27 +436,22 @@ def profile(request, slug):
 		context_dict['goc'] = goc
 		context_dict['us_visa'] = us_visa
 		context_dict['schengen_visa'] = schengen_visa
-		context_dict['yellow_fever'] = yellow_fever
-		
+		context_dict['yellow_fever'] = yellow_fever		
 		context_dict['vocational_form'] = vocational_form
 		context_dict['primaryschool_form'] = primaryschool_form
 		context_dict['evaluation_form'] = evaluation_form
 		context_dict['reference_form'] = reference_form
 		context_dict['principal_select_form'] = principal_select_form
-
-		context_dict['title'] = "Applicant's Profile - "+str(personal_data).upper()
 		context_dict['sea_service'] = sea_service
-		context_dict['sea_service_num_label'] = sea_service_num_label
+		context_dict['sea_service_num_label'] = sea_service.count()
 		context_dict['application_form'] = application_form
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['department'] = department.department
-
 		context_dict['flags'] = flags
 		context_dict['trainings_certificates'] = trainings_certificates
 		context_dict['status'] = status
 		context_dict['status_listed'] = status_listed
-
-		context_dict['count_words'] = count_words
+		context_dict['count_words'] = application_form.essay_count()
 
 		return render(request, template, context_dict)
 
@@ -520,7 +460,6 @@ def pdf(request, id):
 	if id:
 		flags_html = ""
 		certificates_html = ""
-
 		domain = request.scheme
 		domain += "://"
 		# returns domain name
@@ -566,15 +505,11 @@ def pdf(request, id):
 		application_form = ApplicationForm.objects.get(user=id)
 		picture = media+str(application_form.picture)
 		signature = media+str(application_form.signature)
-		# count essay words
-		count_words = ''.join(c if c.isalnum() else ' ' for c in application_form.essay.essay).split()
-		count_words = len(count_words)
-		department = application_form.position_applied.department
 
+		department = application_form.position_applied.department
 
 		flags = ApplicationFormFlagDocuments.objects.get(user=user_profile)
 		certificates_documents = ApplicationFormTrainingCertificateDocuments.objects.get(user=user_profile)
-
 		
 		flags = flags.flags.filter()
 		for flag in flags:
@@ -595,7 +530,6 @@ def pdf(request, id):
 					checkbox = get64('', check)
 				flags_html += '<td style="padding-bottom:5px;"><img src = "%s"> %s</td>' % (checkbox, flags_all_by_3[k-1][l-1])
 			flags_html += '</table></td></tr>' 
-
 
 		certificates = certificates_documents.trainings_certificates.filter(departments=department)
 		for certificate in certificates:
@@ -623,7 +557,7 @@ def pdf(request, id):
 			partner = "Spouse"
 
 		template = get_template('application_form/pdf-report.html')
-		context_dict = { "appform":application_form, "personaldata":personal_data, "emergency":emergency_contact, "domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo, "count_words":count_words}
+		context_dict = { "appform":application_form, "personaldata":personal_data, "emergency":emergency_contact, "domain":domain, "picture":picture , "signature":signature, "check":check, "uncheck":uncheck, "logo":logo, "count_words":application_form.essay_count()}
 		context_dict['user_profile'] = user_profile
 		context_dict['spouse'] = spouse
 		context_dict['college'] = college
@@ -653,11 +587,12 @@ def pdf(request, id):
 
 
 		# return render_to_pdf_response(request, template, context_dict)
-		rendered_html = template.render(RequestContext(request, context_dict)).encode(encoding="UTF-8")
-		pdf_file = HTML(string=rendered_html).write_pdf()
-		http_response = HttpResponse(pdf_file, content_type='application/pdf')
-		http_response['Content-Disposition'] = 'filename="report.pdf"'
-		return http_response
+		# rendered_html = template.render(RequestContext(request, context_dict)).encode(encoding="UTF-8")
+		# pdf_file = HTML(string=rendered_html).write_pdf()
+		# http_response = HttpResponse(pdf_file, content_type='application/pdf')
+		# http_response['Content-Disposition'] = 'filename="report.pdf"'
+		# return http_response
+		return HttpResponse("Temporarily waiting for xhtml2pdf compatibility")
 
 	else:
 		raise Http404("System Error.")

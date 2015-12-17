@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import mariners_profile.models
+# from globals_declarations.methods import content_file_name
+import cms.models
 
 
 class Migration(migrations.Migration):
@@ -17,7 +18,7 @@ class Migration(migrations.Migration):
             name='ScannedDocuments',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('scan', models.ImageField(upload_to=mariners_profile.models.content_file_name, blank=True)),
+                ('scan', models.ImageField(upload_to=cms.models.content_file_name, blank=True)),
                 ('uploaded_date', models.DateTimeField(auto_now_add=True)),
                 ('archive', models.BooleanField(default=False)),
                 ('folder_path', models.ForeignKey(default=None, to='mariners_profile.DynamicPathFolders')),

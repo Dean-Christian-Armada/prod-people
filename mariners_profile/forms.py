@@ -1,9 +1,9 @@
-from django.db.models.signals import post_save
 from django import forms
 
 import autocomplete_light
 
 from application_form.forms import *
+from globals_declarations.classes import HorizontalRadioRenderer
 
 from mariners_profile.models import *
 
@@ -117,7 +117,6 @@ class PersonalDataForm(forms.ModelForm):
 		exclude = ('name', 'birth_place','permanent_address', 'current_address', 'dialect', 'availability_date',  'father_last_name', 'father_first_name', 'father_middle_name', 'mother_last_name', 'civil_status', 'mother_first_name', 'nationality', 'mother_middle_name')
 
 	def save(self, commit=True):
-		print (self.cleaned_data)
 		birthplace = self.cleaned_data['birth_place']
 		dialects = self.cleaned_data['dialect']
 		# permanent_address = ApplicationFormPermanentAddress.objects.latest('id')
@@ -316,7 +315,6 @@ class LandEmploymentForm(forms.ModelForm):
 			except:
 				zip = Zip.objects.get(zip=employer_zip)
 
-			print ("armada")
 			land_employment.employer_zip = zip
 			land_employment.land_position = land_position
 

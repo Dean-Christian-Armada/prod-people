@@ -5,19 +5,18 @@ from django.utils.safestring import mark_safe
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from datetime import datetime as now
 
 from login.models import UserProfile
 from cms.models import Folder, SubFolder, File, Fields, FileFieldValue
 from . models import *
+from globals_declarations.variables import now
+from globals_declarations.methods import overall_converted_notifier
 
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm, DynamicTrainingCertificateForm
 
 from mariners_profile.forms import *
 
 import sys
-
-now = now.now()
 
 def xyz(request, method):
 	if method == "POST": request_method = request.POST
@@ -447,7 +446,7 @@ def profile(request, slug):
 
 		for folders in scanned_folders:
 			scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder__name=' ')).order_by('order')
-			scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong></p>' % (folders.slug_name().lower(), folders)
+			scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong> <span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span> </p>' % (folders.slug_name().lower(), folders, folders.converted_notifier('high', user_profile), folders.converted_notifier('medium', user_profile), folders.converted_notifier('low', user_profile))
 			scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % folders.slug_name() # START of Class PANEL
 			scanned_document_html += '<div class="panel-body padding-top-bottom-negator">'
 			for sub_folders in scanned_sub_folders: # START of Class PANEL-BODY
@@ -781,12 +780,6 @@ def profile(request, slug):
 				num_extra = 1
 			else:
 				num_extra = 0
-			# if len(beneficiary) == 1:
-			# 	num_extra = 1
-			# elif len(beneficiary) < 1:
-			# 	num_extra = 2
-			# elif len(beneficiary) == 2:
-			# 	num_extra = 0
 			BeneficiaryFormSet = inlineformset_factory(UserProfile, Beneficiary, fk_name='user', extra=num_extra, can_delete=True, form=BeneficiaryForm )
 			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
@@ -934,7 +927,8 @@ def profile(request, slug):
 		# START ScannedVariables
 		context_dict['scanned_document_html'] = mark_safe(scanned_document_html)
 		context_dict['scanned_js'] = mark_safe(scanned_js)
-
+		_overall_converted_notifier = '<span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span>' % ( overall_converted_notifier('high', user_profile), overall_converted_notifier('medium', user_profile), overall_converted_notifier('low', user_profile))
+		context_dict['overall_converted_notifier'] = mark_safe(_overall_converted_notifier)
 		# END ScannedVariables
 
 		if request.GET and 'status' in request.GET:
@@ -949,8 +943,6 @@ def profile(request, slug):
 			return HttpResponseRedirect('/application-profile/'+user_profile.slug)
 
 		if request.method == "POST":
-			print (request.POST)
-			print (request.FILES)
 
 			if 'highschool' in request.POST and 'vocational' in request.POST and 'primaryschool' in request.POST:
 				if vocational_form.is_valid():

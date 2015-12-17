@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.utils.safestring import mark_safe
 from django.db.models import Q
 from django.conf import settings
 from django import forms
@@ -8,29 +7,15 @@ from jsignature.forms import JSignatureField
 from jsignature.widgets import JSignatureWidget
 from jsignature.utils import draw_signature
 
-from .models import *
+from application_form.models import *
 from login.models import UserProfile, Userlevel
 from mariners_profile.models import *
+from globals_declarations.classes import HorizontalRadioRenderer, HorizontalCheckboxRenderer
 
-from datetime import date
 from ckeditor.widgets import CKEditorWidget
+from autocomplete_light import shortcuts as autocomplete_light
 
-import os, sys, shutil, autocomplete_light
-
-# All data input processes are located here
-# def clean processes the insert data on the mariners profile
-
-count = 0
-
-# Renders manually made for horizontal selections
-class HorizontalRadioRenderer(forms.RadioSelect.renderer):
-  def render(self):
-    return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
-
-class HorizontalCheckboxRenderer(forms.CheckboxSelectMultiple.renderer):
-  def render(self):
-    return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
-
+import os, sys, shutil
 
 class ApplicantNameForm(forms.ModelForm):
 	last_name = forms.CharField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Last Name", 'data-toggle':'tooltip'}))
@@ -633,8 +618,6 @@ class SRCForm(forms.ModelForm):
 		src.save()
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['src_rank'] = src_rank
-		# self.cleaned_data['src_expiry'] = None
-		# self.cleaned_data['src_date_issued'] = None
 		value = self.cleaned_data
 		SRC.objects.create(**value)
 
@@ -863,7 +846,7 @@ class SeaServiceForm(forms.ModelForm):
 		except:
 			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 
-class ApplicationForm(autocomplete_light.ModelForm):
+class ApplicationForm(forms.ModelForm):
 	ADVERTISEMENT_CHOICES = (
 			('SEAWAY', 'SEAWAY'),
 			('BUHAY MARINO', 'BUHAY MARINO'),
@@ -876,7 +859,6 @@ class ApplicationForm(autocomplete_light.ModelForm):
 			('www.pinoyseaman.com', 'www.pinoyseaman.com'),
 			('www.crewtoo.com', 'www.crewtoo.com'),
 		)
-	# application_date = forms.DateField(widget=forms.TextInput(attrs={'class':"form-control", 'placeholder':"Date of Application", 'data-toggle':'tooltip', 'readonly':'readonly', 'value':today}))
 	signature = JSignatureField(widget=JSignatureWidget(jsignature_attrs={'color': '#000'}))
 	alternative_position = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
 	position_applied = forms.ModelChoiceField(widget=forms.Select, queryset=Rank.objects.filter(hiring=1).order_by('order'))
@@ -1068,8 +1050,6 @@ class LicenseForm(forms.ModelForm):
 			place_issued = LicensePlaceIssued.objects.get(license_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['license_rank'] = license_rank
-		# self.cleaned_data['license_expiry'] = None
-		# self.cleaned_data['license_date_issued'] = None
 		self.cleaned_data['license_place_issued'] = place_issued
 		value = self.cleaned_data
 		self.cleaned_data.pop("position_applied")
@@ -1126,7 +1106,6 @@ class COCForm(forms.ModelForm):
 			place_issued = COCPlaceIssued.objects.get(coc_place='')
 		self.cleaned_data['user'] = userprofile
 		self.cleaned_data['coc_rank'] = coc_rank
-		# self.cleaned_data['coc_date_issued'] = None
 		self.cleaned_data['coc_place_issued'] = place_issued
 		value = self.cleaned_data
 		self.cleaned_data.pop("position_applied")

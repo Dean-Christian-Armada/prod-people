@@ -1,6 +1,6 @@
 from django import forms
 
-import autocomplete_light
+from autocomplete_light import shortcuts as autocomplete_light
 
 from mariners_profile.models import MarinersProfile, Principal, PrincipalVesselType
 

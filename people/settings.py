@@ -10,8 +10,24 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
+# START Searchable Sections
+# Use control+f and type these words below
+    # INSTALLED_APPS
+    # MIDDLEWARE
+    # TEMPLATES
+    # DATABASES
+    # STATIC
+    # MEDIA
+    # CKEDITOR
+    # DJANGO SESSION SECURITY
+    # LOG
+    # DJANGO DEFENDER
+# END Searchable Sectons
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os, logging
+import os
+# Enables logging and used as to database Insert, Update and Delete logs in the project
+import logging
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,25 +39,22 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_7ev-nc(c*@j605%5r7*mtzw)o2&refw(u7qkm72@#-rz535!w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Please take note that 'session_security' app forces this as False on the server
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# DEBUG = False
-
-# ALLOWED_HOSTS = ['http://127.0.0.1:8000']
-
-
 # Application definition
-
 INSTALLED_APPS = (
+    # START django built-in apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # END django built-in apps
+    # START third-party packages app
     'session_security',
     'jsignature',
     'widget_tweaks',
@@ -49,23 +62,28 @@ INSTALLED_APPS = (
     'wkhtmltopdf',
     'report_builder',
     'defender',
-    # 'swampdragon',
-    'login',
     'import_export',
-    # 'easy_pdf',
     'autocomplete_light',
-    # 'sample',
+    # 'swampdragon', # django real-time app using redis, currently not used for priority and implementation reasons
+    # END third-party packages app
+    # START django manage.py built apps
+    'login',
     'application_form',
     'mariners_profile',
     'application_profile',
     'cms',
     'notifications',
     'company_staffs',
-    # 'people',
+    # 'people', # this was used during database presentation with Mike Kennedy separating the redundancy tables
+    # END django manage.py built apps
+    # START extra-apps
+    'globals_declarations',
+    # END extra-apps
     
 )
 
 MIDDLEWARE_CLASSES = (
+    # START django built-in middlewares
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,8 +93,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # END django built-in middlewares
+    # START third-party middlewares
     'defender.middleware.FailedLoginMiddleware'
-    # 'people.middlewares.MethodMiddleWare',
+    # END third-party middlewares
+    # START custom-built middlewares
+    # END custom-built middlewares
 )
 
 ROOT_URLCONF = 'people.urls'
@@ -130,7 +152,6 @@ USE_I18N = True
 
 USE_L10N = True
 
-# USE_TZ = True
 # Set to False because of pytz conflict on django-defender package
 USE_TZ = False
 
@@ -138,6 +159,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+# collectstatic is used when deploying in sub-domain server of Manship like people.manship.com to enable the css of admin and others that are defined bia module
 # UNCOMMENT STATIC ROOT to run collectstatic
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -151,7 +173,7 @@ MEDIA_URL = '/media/'
 # COMMENT STATICFIELS_DIRS to run collecstatic
 STATICFILES_DIRS = (STATIC_PATH, )
 
-# DEFAULT EMAILS
+# START CUSTOM EMAIL CONFIGURATIONS
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -161,23 +183,28 @@ DEFAULT_FROM_EMAIL = 'deanarmada@gmail.com'
 DEFAULT_TO_EMAIL = 'deanarmada@gmail.com'
 
 LOGIN_URL = '/?error=Session Expired, Please login again'
+# END CUSTOM EMAIL CONFIGURATIONS
 
-# SwampDragon settings
+# START SwampDragon settings
 # try:
 #     SWAMP_DRAGON_CONNECTION = ('swampdragon.connections.sockjs_connection.DjangoSubscriberConnection', '/data')
 #     DRAGON_URL = 'http://localhost:9999/'
 # except:
 #     pass
+# END SwampDragon settings
 
-# Used in date formats
+# Used in defining date formats
+# Syntax tells that the defined date formats file is in /formats/en/formats.py 
 FORMAT_MODULE_PATH = [ 'formats', ]
 
+# START CKEDITOR Configurations
 # To enable complete toolbar capabilities of ckeditor
 # CKEDITOR_CONFIGS = {
 #     'default': {
 #         'toolbar': None,
 #     },
 # }
+
 
 CKEDITOR_CONFIGS = {
     'default': {
@@ -188,16 +215,18 @@ CKEDITOR_CONFIGS = {
                     ],
     },
 }
+# END CKEDITOR Configurations
 
-# SESSION SECURITY SETTINGS
+# START DJANGO SESSION SECURITY SETTINGS
 # SESSION_SECURITY_WARN_AFTER = 10
 # SESSION_SECURITY_EXPIRE_AFTER = 20
 SESSION_SECURITY_WARN_AFTER = 900
 SESSION_SECURITY_EXPIRE_AFTER = 910
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_SECURITY_ACTIVE_URLS = [ "/application-form/", ]
+# END DJANGO SESSION SECURITY SETTINGS
 
-# START Log every CRUD query on a logfile named db.log
+# START LOG every CRUD query on a logfile named db.log
 # Source: http://stackoverflow.com/questions/5739830/simple-log-to-file-example-for-django-1-3
 
 # Filter Object custom Class
@@ -224,10 +253,11 @@ LOGGING = {
         },
     },
     'handlers': {
-        'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler',
-        },
+        # Nulled because it produces in Django1.9 
+        # 'null': {
+        #     'level':'DEBUG',
+        #     'class':'django.utils.log.NullHandler',
+        # },
         'logfile': {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
@@ -246,9 +276,9 @@ LOGGING = {
         },
     }
 }
-# END Log every CRUD query on a logfile named db.log
+# END LOG every CRUD query on a logfile named db.log
 
 
-# START django-defender settings
-DEFENDER_USERNAME_FORM_FIELD = "username"
-# END django-defender settings
+# START DJANGO-DEFENDER settings
+# DEFENDER_USERNAME_FORM_FIELD = "username"
+# END DJANGO-DEFENDER settings

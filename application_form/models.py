@@ -23,8 +23,6 @@ class ApplicationFormCurrentAddress(models.Model):
 	current_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	current_street = models.CharField(max_length=50, null=True, blank=True, default=None)
 
-	
-
 	def __str__(self):
 		return "%s %s %s %s %s" % (self.current_unit, self.current_street, self.current_zip.barangay, self.current_zip.municipality, self.current_zip)
 
@@ -32,8 +30,6 @@ class ApplicationFormPermanentAddress(models.Model):
 	permanent_zip = models.ForeignKey(Zip, default=None)
 	permanent_unit = models.CharField(max_length=50, null=True, blank=True, default=None)
 	permanent_street = models.CharField(max_length=50, null=True, blank=True, default=None)
-
-	
 
 	def __str__(self):
 		return "%s %s %s %s %s" % (self.permanent_unit, self.permanent_street, self.permanent_zip.barangay, self.permanent_zip.municipality, self.permanent_zip)
@@ -131,8 +127,6 @@ class AppSource(models.Model):
 	specific = models.ForeignKey(Specifics, default=None)
 	date_created = models.DateTimeField(auto_now_add=True, )
 
-	
-
 	def __str__(self):
 		x = str(self.source)
 		if str(self.specific):
@@ -142,7 +136,6 @@ class AppSource(models.Model):
 class Essay(models.Model):
 	essay = models.TextField(null=True, blank=True, default=None)
 	
-
 	def __str__(self):
 		return self.essay
 
@@ -167,8 +160,12 @@ class ApplicationForm(models.Model):
 	# Text Field
 	essay = models.ForeignKey(Essay, default=None)
 
-	
-
 	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
 		return user
+
+	def essay_count(self):
+		essay = self.essay.essay
+		count_words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
+		count_words = len(count_words)
+		return count_words

@@ -4,14 +4,10 @@ from django.db import models
 from django.db.models.fields.related import ManyToManyField
 
 from login.models import UserProfile
-# from mariners_profile.models import BirthPlace, VesselType, CivilStatus
-
-from django_date_extensions.fields import ApproximateDateField	
+from globals_declarations.variables import _today
 
 from datetime import date
 from dateutil import relativedelta as rdelta
-
-today = date.today()
 
 class AbstractPersonalData(models.Model):
 	name = models.ForeignKey(UserProfile, default=None)
@@ -30,7 +26,6 @@ class AbstractPersonalData(models.Model):
 	mother_last_name = models.CharField(max_length=50, null=True, default=None)
 
 	# Integer Fields
-	# age = models.PositiveIntegerField(default=None)
 	landline_1 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	landline_2 = models.PositiveIntegerField(null=True, blank=True, default=None)
 	mobile_1 = models.PositiveIntegerField(null=True, default=None)
@@ -124,9 +119,8 @@ class AbstractPersonalData(models.Model):
 		return self.landline_2
 
 	def age(self):
-		today = date.today()
 		birthday = self.birth_date
-		age = today - birthday
+		age = _today - birthday
 		age = age.days
 		age = age / 365
 		return round(age)
@@ -460,6 +454,7 @@ class AbstractSeaService(models.Model):
 
 	class Meta:
 		abstract = True
+		ordering = ['-date_left']
 
 	def __str__(self):
 		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
@@ -485,7 +480,7 @@ class AbstractSeaService(models.Model):
 		months = duration.months
 		if duration.years:
 			months = months + (duration.years*12)
-		# return "%s month/s and %s day/s" % (months, duration.days)
+		# M for months and D for days as instructed by Kennedy
 		return "%sM and %sD" % (months, duration.days)
 
 	def duration_years_months_days(self):
@@ -494,7 +489,7 @@ class AbstractSeaService(models.Model):
 		duration = rdelta.relativedelta(date_left, date_joined)
 		months = duration.months
 		years = duration.years
-		# return "%s year/s %s month/s and %s day/s" % (years, months, duration.days)
+		# M for months and D for days as instructed by Kennedy
 		return "%sY %sM and %sD" % (years, months, duration.days)
 
 	def none_dwt(self):

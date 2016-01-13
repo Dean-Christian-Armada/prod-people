@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^mariners-profile/', include('mariners_profile.urls')),
     url(r'^application-profile/', include('application_profile.urls')),
     url(r'^notifications/', include('notifications.urls')),
+    url(r'^cms/', include('cms.urls')),
     # END Django apps Base URLS
 
     # START Third Party apps URLS
@@ -61,6 +62,7 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^validate/$', validation, name='validate'),
     url(r'^logout/$', user_logout, name='logout'),
+    
     # END Login server-side execution/redirect views
 ]
 

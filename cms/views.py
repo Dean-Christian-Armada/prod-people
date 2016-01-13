@@ -2,11 +2,17 @@ from django.shortcuts import render
 from django.middleware.csrf import get_token
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.conf import settings
+
+from io import StringIO, BytesIO
 
 from login.models import UserProfile
 from cms.models import Folder, SubFolder, File, Fields, FileFieldValue
+from globals_declarations.variables import fileformat_today
 
-import sys
+from datetime import date
+
+import sys, os, zipfile, tarfile
 
 # Create your views here.
 def scanned_documents(request, user_profile):
@@ -274,7 +280,6 @@ def scanned_documents(request, user_profile):
 		try:
 			# dict is used to enable the for loop x
 			request.POST = dict(request.POST)
-			print request.POST
 			_file = request.FILES['scan-file']
 			location = request.POST['folder-location'][0]
 			location = SubFolder.objects.get(name=location)
@@ -293,7 +298,7 @@ def scanned_documents(request, user_profile):
 				field = Fields.objects.get(slug=x)
 				FileFieldValue.objects.create(file=_file, field=field, value=value)
 		except:
-			print "%s - %s" % (sys.exc_info()[0], sys.exc_info()[1])
+			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 	# Script conditional on filtering via archive and unarchive
@@ -363,3 +368,101 @@ def scanned_documents(request, user_profile):
 
 	return (scanned_document_html, scanned_js)
 	# END Objects for scanning documents
+
+# method to compress file downloads in a zip file
+def zipped(request):
+	# Source: http://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+	list_files = []
+	# START Comment below for testing purposes
+	get_request = request.GET['x']
+	request_ids = get_request.split(',')
+	
+	file_ids = File.objects.filter(id__in=request_ids)
+	location_name = file_ids[0].location.name.lower()
+	for x in file_ids:
+		list_files.append("%s%s" % (settings.MEDIA_URL[1:], str(x.name)))
+	# END Comment above for testing purposes
+	# filenames = ["media/scanned/SRC/Selection_006.png", "media/scanned/SRC/mascot.png"] # Used for test purposes Uncomment this
+	zip_subdir = "%s%s%s" % (fileformat_today, location_name, request.user) # the name of the zip file, comment this in testing
+	# zip_subdir = "test" # Used for test purposes Uncomment this
+	zip_filename = "%s.zip" % zip_subdir
+
+	s = BytesIO()
+
+	zf = zipfile.ZipFile(s, "w")
+
+	# for fpath in filenames: # Used for test purposes Uncomment this
+	for fpath in list_files: # Comment this when testing
+		# START removes the folder hierarchy like "media", "scanned", "SRC"
+		fdir, fname = os.path.split(fpath)
+		zip_path = os.path.join(zip_subdir, fname)
+		# END removes the folder hierarchy like "media", "scanned", "SRC"
+		zf.write(fpath, arcname=zip_path)
+	zf.close()
+	resp = HttpResponse(s.getvalue(), content_type="application/zip-compressed")
+	resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+	return resp
+
+# method to compress file downloads in a tar gz file
+def targz(request):
+	# Source: http://stackoverflow.com/questions/908258/generating-file-to-download-with-django
+	list_files = []
+	# START Comment below for testing purposes
+	get_request = request.GET['x']
+	request_ids = get_request.split(',')
+	file_ids = File.objects.filter(id__in=request_ids)
+	location_name = file_ids[0].location.name.lower()
+	for x in file_ids:
+		list_files.append("%s%s" % (settings.MEDIA_URL[1:], str(x.name)))
+	# END Comment above for testing purposes
+	# filenames = ["media/scanned/SRC/Selection_006.png", "media/scanned/SRC/mascot.png"] # Used for test purposes Uncomment this
+	tar_subdir = "%s%s%s" % (fileformat_today, location_name, request.user) # the name of the tar file, comment this in testing
+	# tar_subdir = "test" # Used for test purposes Uncomment this
+	tar_filename = "%s.tar.gz" % tar_subdir
+
+	resp = HttpResponse(content_type="application/x-gzip")
+	resp['Content-Disposition'] = 'attachment; filename=%s' % tar_filename
+	tf = tarfile.open(fileobj=resp, mode="w:gz")
+
+	# for fpath in filenames: # Used for test purposes Uncomment this
+	for fpath in list_files: # Comment this when testing
+		# START removes the folder hierarchy like "media", "scanned", "SRC"
+		fdir, fname = os.path.split(fpath)
+		tar_path = os.path.join(tar_subdir, fname)
+		# END removes the folder hierarchy like "media", "scanned", "SRC"
+		tf.add(fpath, arcname=tar_path)
+	tf.close()
+	
+	return resp
+
+# method to compress file downloads in a tar bz2 file
+def tarbz2(request):
+	# Source: http://stackoverflow.com/questions/27512635/python-tarfile-not-creating-valid-tar-gz-file
+	list_files = []
+	# START Comment below for testing purposes
+	get_request = request.GET['x']
+	request_ids = get_request.split(',')
+	file_ids = File.objects.filter(id__in=request_ids)
+	location_name = file_ids[0].location.name.lower()
+	for x in file_ids:
+		list_files.append("%s%s" % (settings.MEDIA_URL[1:], str(x.name)))
+	# END Comment above for testing purposes
+	# filenames = ["media/scanned/SRC/Selection_006.png", "media/scanned/SRC/mascot.png"] # Used for test purposes Uncomment this
+	tar_subdir = "%s%s%s" % (fileformat_today, location_name, request.user) # the name of the tar file, comment this in testing
+	# tar_subdir = "test" # Used for test purposes Uncomment this
+	tar_filename = "%s.tar.bz2" % tar_subdir
+
+	resp = HttpResponse(content_type="application/x-gzip")
+	resp['Content-Disposition'] = 'attachment; filename=%s' % tar_filename
+	tf = tarfile.open(fileobj=resp, mode="w:bz2")
+
+	# for fpath in filenames: # Used for test purposes Uncomment this
+	for fpath in list_files: # Comment this when testing
+		# START removes the folder hierarchy like "media", "scanned", "SRC"
+		fdir, fname = os.path.split(fpath)
+		tar_path = os.path.join(tar_subdir, fname)
+		# END removes the folder hierarchy like "media", "scanned", "SRC"
+		tf.add(fpath, arcname=tar_path)
+	tf.close()
+	
+	return resp

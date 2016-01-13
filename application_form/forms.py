@@ -291,7 +291,7 @@ class CollegeForm(forms.ModelForm):
 			value = self.cleaned_data
 			College.objects.create(**value)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
@@ -347,7 +347,7 @@ class EmergencyContactForm(forms.ModelForm):
 			value = self.cleaned_data
 			EmergencyContact.objects.create(**value)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 	# The initialization allows the dynamic request POST values retrieve on unsuccessful validity
 	def __init__(self, province_id, city_id, *args, **kwargs):
@@ -360,7 +360,7 @@ class EmergencyContactForm(forms.ModelForm):
 			city_id = kwargs['data'][y]
 			province_id = kwargs['data'][z]
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		if city_id == '':
 			city_id = 0
 		if province_id == '':
@@ -749,7 +749,7 @@ class DynamicTrainingCertificateForm(forms.Form):
 			self.fields['trainings_certificates'] = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=queryset.order_by('id'), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
 			self.fields['department'] = forms.CharField(widget=forms.HiddenInput(attrs={'disabled':'disabled'}), initial=rank.department.department)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class TrainingCertificateForm(forms.ModelForm):
 	trainings_certificates = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(renderer=HorizontalCheckboxRenderer), queryset=TrainingCertificates.objects.filter(company_standard=1), error_messages={'required': 'Please do not forget to select among the trainings and certificates'})
@@ -844,7 +844,7 @@ class SeaServiceForm(forms.ModelForm):
 			value = self.cleaned_data
 			SeaService.objects.create(**value)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class ApplicationForm(forms.ModelForm):
 	ADVERTISEMENT_CHOICES = (
@@ -955,7 +955,7 @@ class ApplicationForm(forms.ModelForm):
 			shutil.move(tmp_application_picture, application_picture)
 			application_picture = path_application_picture.replace("media/", "")
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 		appsource = AppSource.objects.get_or_create(source=source, specific=specifics)
 		if appsource:

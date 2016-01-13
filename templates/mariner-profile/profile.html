@@ -40,63 +40,132 @@
 -->
 
 <body class="crewing-profile">
+  {{ scanned_css }}
   <div id="wrapper">
-    <div id="header">
+    {% include "nav.html" %}
+    <!-- <div id="header">
       <div class="container profile-container">
             <h1 class="margin-left-150"><strong>Mariner's Profile</strong></h1>
             <h4 class="margin-left-150">Your Mariner Information Guide</h4>
               <div class="pull-left"><img class="margin-left-negator" src="{% static 'img/mascot-mariners-profile.png' %}" width="120" height="200"></div>
-      </div><!---End of Container-->
-    </div><!--End of Header-->
+      </div> --><!---End of Container-->
+    <!-- </div> --><!--End of Header-->
   </div>
 
 
   <div id="page-wrapper">
-    <div class="container-fluid">
-      <div class="col-md-2">
-        <div class="row"> 
-          <div class="sidebar sidebar-no-border text-center form-sidebar"> 
-            <label class="input-label">Forms</label>
-            <div class="col-md-12">
-              <a id="manship-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-msmi.png' %}" title="MANSHIP" data-toggle="tooltip" data-placement="right" >
-              </a>
-            </div><!--End of Column-->
-            <div class="col-md-12">
-              <a id="hsm-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-hsm.png' %}" title="Hellespont Ship Management GmbH & Co. KG" data-toggle="tooltip"data-placement="right" >
-              </a>
-            </div><!--End of Column-->
-            <div class="col-md-12">
-              <a id="isi-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-ionic.png' %}" title="Ionic Shippping (Mgt) Inc." data-toggle="tooltip" data-placement="right">
-              </a>
-            </div><!--End of Column-->
-            <div class="col-md-12">
-              <a id="nsl-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-enesel.png' %}" title="Enesel S.A." data-toggle="tooltip" data-placement="right">
-              </a>
-            </div><!--End of Column-->
-            <div class="col-md-12">
-              <a id="athe-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-athenian.png' %}" title="Athenian Sea Carriers Ltd." data-toggle="tooltip" data-placement="right">
-              </a>
-            </div><!--End of Column-->
-            <div class="col-md-12">
-              <a id="jumbo-form-modal" class="img-responsive cursor-pointer">
-                <img src="{% static 'img/btn-jumbo.png' %}" title="Jumbo Maritime" data-toggle="tooltip" data-placement="right">
-              </a>
-            </div><!--End of Column-->
-          </div><!--End of Sidebar-->
-        </div><!--End of Row-->
-      </div>
+    <div class="container-fluid main profile-main">
+      <div class="col-md-2 laptop-padding-left-negator">
+        <div class="sidebar right-sidebar">
+          {% if mariners_profile_last_picture_modified_date %}
+            <p style="font-size: 10px; margin-bottom:2px;" class="text-center">Last Picture Change: <span class="remove-dot">{{mariners_profile_last_picture_modified_date}}</span></p>
+          {% endif %}
+          <div class="text-center">
+            &nbsp;<img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}" class="profile-picture" >
+            <label for="change-picture"><img src="{% static 'img/camcon.png' %}" class="camcon" data-toggle="tooltip" title="Change Picture"></label>
+          </div>
+          <!-- <label for="change-picture" type="file" class="btn background-msmi-blue form-control btn-primary input-group">Change Picture</label> -->
+          <form id="form-change-picture" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- <input type="file" class="hide" id="change-picture"> -->
+            <div class="hide">
+              {{mariners_picture_form.picture|attr:"id:change-picture"|add_class:"on-submit-class"}}
+              {{mariners_picture_form.picture_last_modified}}
+            </div>
+            {% if picture_age_indicator >= 730 and picture_age_indicator != '' %}
+              <strong>PICTURE already over two years</strong>
+            {% endif %}
+          </form>
+         <!--  <div class="input-group">
+            <input type="text" class="form-control input-form"  value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" readonly="">
+          </div> --><!--End of Input Group-->
+          <div class="col-centered input-group">
+            <!-- <div class="input-group"> -->
+              <!-- <label class="input-group-addon input-label">Code:</label> -->
+              <strong><input type="text" class="form-control input-form text-center" value="{{ user_profile.code }}" readonly="" data-toggle="tooltip" title="{{ user_profile.first_name|upper }} {{ user_profile.middle_name|upper }} {{ user_profile.last_name|upper }}"></strong>
+            <!-- </div> -->
+            <!-- <div class="input-group"> -->
+              <!-- <label class="input-group-addon input-label">Position:</label> -->
+              {# mariners_position_form.position|add_class:"form-control input-form" #}
+              <strong><input type="text" class="form-control input-form text-center" value="{{ mariners_profile.position }}" readonly="" ></strong>
+            <!-- </div> -->
+          </div><!--End of Input Group-->
+      <!--             <div class="input-group" style="width:100%; text-align: center;">
+                    <label class="input-group-addon input-label">Qualified Principal:</label>
+                    {# principal_select_form.principal #}
+                 </div>
+                <div id="qualified-principals-vessel-type"></div>
+                <div id="qualified-principals-optional-button"></div> -->
+                <!-- <div class="input-group" style="width:100%; text-align: center;">
+                      <a href="#" class="btn btn-msmi" target="_blank"><label class="glyphicon glyphicon-print"><strong>Export</strong></label></a>
+                      <a href="#" class="btn btn-msmi"><label class="glyphicon glyphicon-export"><strong>Interview Form</strong></label></a>
+                  </div> --><!--End of Input Group-->
+          <ul class="nav sidenav profile-sidebar">
+            <li>
+              <a href="#step0">Mariner Status</a>
+            </li>
+            <li>
+              <a href="#step1" style="text-decoration:underline; font-weight:700;">Personal Information</a>
+            </li>
+            <li>
+              <a href="#step2">Seaferer's Seagoing History</a>
+            </li>
+            <li>
+              <a href="#step3">Referral</a>
+            </li>
+            <li>
+              <a href="#step13">Documents</a>
+            </li>
+            <li>
+              <a href="#step4">Educational Information</a>
+            </li>
+            <li>
+              <a href="#step5">Land Employment Details</a>
+            </li>
+            <li>
+              <a href="#step6">Beneficiary Details</a>
+            </li>
+            <li>
+              <a href="#step7">Allotment Details</a>
+            </li>
+           <!--  <li>
+              <a href="#step8">Licenses and National Certificates</a>
+            </li> -->
+            <!-- <li>
+              <a href="#step9">Flag Documents</a>
+            </li> -->
+            <li>
+              <a href="#step10">Emergency Details</a>
+            </li>
+            <!-- <li>
+              <a href="#step11">Training Certificates</a>
+            </li> -->
+            <li>
+              <a href="#step12">General Remarks</a>
+            </li>
+            <!-- <li>
+              <a href="#step13">Signature</a>
+            </li> -->
+            <li>
+              <a href="#step14">Profile Update History</a>
+            </li>
+            <li>
+              <a href="#step15">Forms</a>
+            </li>
+            <!-- <li>
+              <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
+            </li> -->
+          </ul>
+        </div><!--End of Sidebar-->
+      </div><!--End of Col-3-->
 
-      <div class="col-md-8">
-      <!--Application Status
+      <div class="col-md-10">
+      <div class="panel-heading title-header"><h1><strong>Mariner's Profile</strong> <span class="small">Your Mariners Information Guide</h1></div>
+      <!--Mariner Status
       =================================-->
-        <div id="step0" class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#mariner-status" aria-expanded="false"><strong><!-- MARINER STATUS -->Mariner's Status</strong> <!-- <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">Save</button> --> <a onclick="href_override('?status');" class="btn btn-danger event-propagation hide">RETURN TO APPLICATION PROFILE</a></div>
-          <div id="mariner-status" class="panel-collapse collapse in panel-body" aria-expanded="true">
+        <div id="step0" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- MARINER STATUS -->Mariner's Status</strong> <!-- <button class="btn btn-primary background-msmi-green event-propagation update-mariner-status" disabled="">Save</button> --> <a onclick="href_override('?status');" class="btn btn-danger event-propagation hide">RETURN TO APPLICATION PROFILE</a></div>
+          <div id="mariner-status" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary event-propagation update-mariner-status" disabled="" style="background-color: #337ab7">Save</button></p>
            {% include "mariner-profile/ajax-update-sub-profiles/mariner-status.html" %}        
           </div><!--End of Collapse-->
@@ -105,8 +174,8 @@
         <!--Personal Data
         ==========================================-->
         <div id="step1" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->Personal Information</strong></div>
-          <div id="detail1" class="panel-collapse collapse in" aria-expanded="true">              
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- PERSONAL DATA -->Personal Information</strong></div>
+          <div id="detail1" class="panel-collapse collapse in" aria-expanded="false">              
             <div class="panel-body">
               <p><strong><!-- Personal Info -->Biodata</strong> <button class="btn btn-primary update-mariner background-msmi-blue event-propagation" data-params="personal-info">Save</button></p>
               <!-- <div class="form-group in">   -->
@@ -148,19 +217,21 @@
                     
         <!--Seaferer Seagoing History
         ============================-->            
-        <div id="step2" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail2"   aria-expanded="true"><strong>Seafarer's Seagoing History ({{sea_service_num_label}})</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
+        <div id="step2" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong>Seafarer's Seagoing History ({{sea_service_num_label}})</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
           <div id="detail2" class="panel-collapse collapse in" aria-expanded="false">
-            <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>
-            {% include "mariner-profile/ajax-update-sub-profiles/sea-service.html" %}
+            <div class="panel-body">
+              <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>
+              {% include "mariner-profile/ajax-update-sub-profiles/sea-service.html" %}
+            </div>
           </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->
                 
         <!--Reference
         ============================-->            
-        <div id="step3" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail3"   aria-expanded="false"><strong><!-- REFERRAL -->Referrals</strong></div>                  
-            <div id="detail3" class="panel-collapse collapse" aria-expanded="false"> 
+        <div id="step3" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- REFERRAL -->Referrals</strong></div>                  
+            <div id="detail3" class="panel-collapse collapse in" aria-expanded="false"> 
               <div class="panel-body"> 
                 <!-- <b>THIS PERSON HAS NOT MADE ANY REFERRALS YET AT THE MOMENT</b> -->
                 <b>None</b>
@@ -168,9 +239,9 @@
             </div><!--End of Collapse-->
         </div><!--End of Panel Primary-->
 
-        <div id="step13" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#scanned-documents"   aria-expanded="false"><strong><!-- SCANNED DOCUMENTS -->Documents</strong> {{ overall_converted_notifier }} </div>                  
-          <div id="scanned-documents" class="panel-collapse collapse" aria-expanded="false"> 
+        <div id="step13" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- SCANNED DOCUMENTS -->Documents</strong> {{ overall_converted_notifier }} </div>                  
+          <div id="scanned-documents" class="panel-collapse collapse in" aria-expanded="false"> 
             <div class="panel-body"> 
               <div class="form-group">
                 {# scanned_documents_html #}
@@ -183,9 +254,9 @@
                     
         <!--Educational Information
         ====================================-->
-        <div id="step4" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail4" class="" aria-expanded="true"><strong>Educational Information</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
-          <div id="detail4" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div id="step4" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" class="" aria-expanded="false"><strong>Educational Information</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
+          <div id="detail4" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>      
             {% include "mariner-profile/ajax-update-sub-profiles/educational-information.html" %}           
           </div><!--End of Collapse-->
@@ -193,9 +264,9 @@
                     
         <!--Land Employment
         ==================================-->                
-        <div id="step5" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail5" aria-expanded="false"><strong><!-- LAND EMPLOYMENT DETAILS (if any) -->Land Employment</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
-          <div id="detail5" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div id="step5" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- LAND EMPLOYMENT DETAILS (if any) -->Land Employment</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
+          <div id="detail5" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>      
             {% include "mariner-profile/ajax-update-sub-profiles/land-employment.html" %}       
           </div><!--End of Collapse-->
@@ -203,9 +274,9 @@
                     
         <!--Beneficiary Details
         ================================= -->
-        <div  id="step6" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail6" aria-expanded="false"><strong><!-- BENEFICIARY DETAILS (In case of Death/Disability) -->Beneficiaries</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
-          <div id="detail6" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div  id="step6" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- BENEFICIARY DETAILS (In case of Death/Disability) -->Beneficiaries</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
+          <div id="detail6" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button><span class="total-forms">{{ beneficiary_form.management_form }}</span><button class="btn btn-warning add-mariner add-more-fields-2">ADD</button></p>             
             {% include "mariner-profile/ajax-update-sub-profiles/beneficiary.html" %}       
           </div><!--End of Collapse-->
@@ -213,9 +284,9 @@
                 
         <!--Allotment Details
         ===================================-->            
-        <div id="step7" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail7" aria-expanded="false"><strong>Allotment Details</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
-          <div id="detail7" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div id="step7" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong>Allotment Details</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
+          <div id="detail7" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>              
             {% include "mariner-profile/ajax-update-sub-profiles/allotment.html" %}       
           </div><!--End of Collapse-->
@@ -256,9 +327,9 @@
         
         <!--Emergency Details
         ==============================-->
-        <div id="step10" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail10" aria-expanded="false"><strong>Emergency Details</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
-          <div id="detail10" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div id="step10" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong>Emergency Details</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>  
+          <div id="detail10" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button><span class="total-forms">{{ emergency_contact_form.management_form }}</span><button class="btn btn-warning add-mariner add-more-fields-2">ADD</button></p>          
             {% include "mariner-profile/ajax-update-sub-profiles/emergency.html" %}
           </div><!--End of Collapse-->
@@ -275,9 +346,9 @@
                 
         <!--Evaluation
         =================================-->
-        <div id="step12" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#evaluation" aria-expanded="false"><strong><!-- REMARKS -->General Remarks</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
-          <div id="evaluation" class="panel-collapse collapse panel-body" aria-expanded="false">
+        <div id="step12" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong><!-- REMARKS -->General Remarks</strong><!-- <button class="btn btn-primary update-mariner event-propagation">Save</button> --></div>
+          <div id="evaluation" class="panel-collapse collapse in panel-body" aria-expanded="false">
             <p class="panel-arrangement"><strong>Title Here</strong> <button class="btn btn-primary update-mariner background-msmi-blue" data-params="permanent-address event-propagation">Save</button></p>
             {% include "mariner-profile/ajax-update-sub-profiles/evaluation.html" %}       
           </div><!--End of Collapse-->
@@ -296,151 +367,85 @@
 
         <!--Profile Update History
         =================================-->
-        <div id="step14" class="panel panel-blue">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false"><strong>Profile Update History</strong></div>
+        <div id="step14" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong>Profile Update History</strong></div>
             <div class="panel-body">
               {% if histories %}
-                <!-- <a data-toggle="collapse" data-parent="#accordion" href="#history-status" aria-expanded="false"><p><strong>Profile Update History</strong></p></a> -->
-                <div class ="panel-collapse collapse" aria-expanded="false" id="history-status">
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="table-responsive">
-                        <table class="table table-hover sea-tb main-table">
-                          <thead class="thead">
-                            <tr>
-                              <!-- <th></th> -->
-                              <th>Updated By</th>
-                              <th>Updated On</th>
-                              <th>Principal</th>
-                              <th>Status</th>
-                              <th>Since</th>
-                              <th>Until</th>
-                              <th>Days</th>
-                              <!-- <th>Comments</th> -->
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for history in histories %}
-                              <tr>
-                                <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
-                                <td>{% if history.updated_by.code %} {{ history.updated_by.code }} {% else %} {{ history.updated_by }} {% endif %}</td>
-                                <td>{{ history.updated_on }}</td>
-                                <td>{{ history.mariner_principal }}</td>
-                                <td>{{ history.mariner_status }}</td>
-                                <td>{{ history.since }}</td>
-                                <td>{{ history.until }}</td>
-                                <td>{{ history.days }}</td>
-                                <!-- <td><button class="btn btn-warning form-control mariner-history-status-comments" data-comments="{{history.str_mariner_status_comment}}">Comments</button></td> -->
-                              </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
+                <div class="table-responsive">
+                  <table class="table table-hover sea-tb main-table">
+                    <thead class="thead">
+                      <tr>
+                        <!-- <th></th> -->
+                        <th>Updated By</th>
+                        <th>Updated On</th>
+                        <th>Principal</th>
+                        <th>Status</th>
+                        <th>Since</th>
+                        <th>Until</th>
+                        <th>Days</th>
+                        <!-- <th>Comments</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for history in histories %}
+                        <tr>
+                          <!-- <td><button class="btn btn-danger form-control">Delete</button></td> -->
+                          <td>{% if history.updated_by.code %} {{ history.updated_by.code }} {% else %} {{ history.updated_by }} {% endif %}</td>
+                          <td>{{ history.updated_on }}</td>
+                          <td>{{ history.mariner_principal }}</td>
+                          <td>{{ history.mariner_status }}</td>
+                          <td>{{ history.since }}</td>
+                          <td>{{ history.until }}</td>
+                          <td>{{ history.days }}</td>
+                          <!-- <td><button class="btn btn-warning form-control mariner-history-status-comments" data-comments="{{history.str_mariner_status_comment}}">Comments</button></td> -->
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
               {% endif %}
             </div>
         </div><!-- End of Panel Primary   -->
+
+        <!--Forms
+        =================================-->
+        <div id="step15" class="panel panel-blue hide">
+          <div class="panel-heading" data-parent="#accordion" aria-expanded="false"><strong>Forms</strong></div>
+            <div class="panel-body">
+              <div class="col-md-1">
+                <a id="manship-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-msmi.png' %}" title="MANSHIP" data-toggle="tooltip" data-placement="top" >
+                </a>
+              </div><!--End of Column-->
+              <div class="col-md-1">
+                <a id="hsm-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-hsm.png' %}" title="Hellespont Ship Management GmbH & Co. KG" data-toggle="tooltip"data-placement="top" >
+                </a>
+              </div><!--End of Column-->
+              <div class="col-md-1">
+                <a id="isi-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-ionic.png' %}" title="Ionic Shippping (Mgt) Inc." data-toggle="tooltip" data-placement="top">
+                </a>
+              </div><!--End of Column-->
+              <div class="col-md-1">
+                <a id="nsl-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-enesel.png' %}" title="Enesel S.A." data-toggle="tooltip" data-placement="top">
+                </a>
+              </div><!--End of Column-->
+              <div class="col-md-1"> 
+                <a id="athe-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-athenian.png' %}" title="Athenian Sea Carriers Ltd." data-toggle="tooltip" data-placement="top">
+                </a>
+              </div><!--End of Column-->
+              <div class="col-md-1">
+                <a id="jumbo-form-modal" class="img-responsive cursor-pointer">
+                  <img src="{% static 'img/btn-jumbo.png' %}" title="Jumbo Maritime" data-toggle="tooltip" data-placement="top">
+                </a>
+              </div><!--End of Column-->
+            </div>
+        </div><!-- End of Panel Primary   -->
       </div><!--End of Col-9-->          
     <!--End of Sidebar Fixed-->
-      
-      <div class="col-md-2 laptop-padding-left-negator">
-        <div class="sidebar right-sidebar">
-          <div class="text-center"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"></div>
-          <label for="change-picture" type="file" class="btn background-msmi-blue form-control btn-primary input-group">Change Picture</label>
-          <form id="form-change-picture" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <!-- <input type="file" class="hide" id="change-picture"> -->
-            <div class="hide">
-              {{mariners_picture_form.picture|attr:"id:change-picture"|add_class:"on-submit-class"}}
-              {{mariners_picture_form.picture_last_modified}}
-            </div>
-            {% if mariners_profile.picture_last_modified %}
-              <p style="font-size: 12px;">Last Picture Change: <span class="remove-dot">{{mariners_profile.picture_last_modified}}</span></p>
-            {% endif %}
-            {% if picture_age_indicator >= 730 and picture_age_indicator != '' %}
-              <strong>PICTURE already over two years</strong>
-            {% endif %}
-          </form>
-          <div class="input-group">
-            <input type="text" class="form-control input-form"  value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}" readonly="">
-          </div><!--End of Input Group-->
-          <div class="input-group">
-            <div class="input-group">
-              <label class="input-group-addon input-label">Code:</label>
-              <input type="text" class="form-control input-form" value="{{ user_profile.code }}" readonly="" >
-            </div>
-            <div class="input-group">
-              <label class="input-group-addon input-label">Position:</label>
-              {{mariners_position_form.position|add_class:"form-control input-form"}}
-            </div>
-          </div><!--End of Input Group-->
-      <!--             <div class="input-group" style="width:100%; text-align: center;">
-                    <label class="input-group-addon input-label">Qualified Principal:</label>
-                    {# principal_select_form.principal #}
-                 </div>
-                <div id="qualified-principals-vessel-type"></div>
-                <div id="qualified-principals-optional-button"></div> -->
-                <!-- <div class="input-group" style="width:100%; text-align: center;">
-                      <a href="#" class="btn btn-msmi" target="_blank"><label class="glyphicon glyphicon-print"><strong>Export</strong></label></a>
-                      <a href="#" class="btn btn-msmi"><label class="glyphicon glyphicon-export"><strong>Interview Form</strong></label></a>
-                  </div> --><!--End of Input Group-->
-          <ul class="nav bs-docs-sidenav profile-sidebar">
-            <li>
-              <a href="#step0">Mariner Status</a>
-            </li>
-            <li>
-              <a href="#step1">Personal Data</a>
-            </li>
-            <li>
-              <a href="#step2">Seaferer's Seagoing History</a>
-            </li>
-            <li>
-              <a href="#step3">Referral</a>
-            </li>
-            <li>
-              <a href="#step13">Documents</a>
-            </li>
-            <li>
-              <a href="#step4">Educational Information</a>
-            </li>
-            <li>
-              <a href="#step5">Land Employment Details</a>
-            </li>
-            <li>
-              <a href="#step6">Beneficiary Details</a>
-            </li>
-            <li>
-              <a href="#step7">Allotment Details</a>
-            </li>
-            <li>
-              <a href="#step8">Licenses and National Certificates</a>
-            </li>
-            <li>
-              <a href="#step9">Flag Documents</a>
-            </li>
-            <li>
-              <a href="#step10">Emergency Details</a>
-            </li>
-            <li>
-              <a href="#step11">Training Certificates</a>
-            </li>
-            <li>
-              <a href="#step12">Evaluation</a>
-            </li>
-            <!-- <li>
-              <a href="#step13">Signature</a>
-            </li> -->
-            <li>
-              <a href="#step14">Profile Update History</a>
-            </li>
-            <li>
-              <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
-            </li>
-          </ul>
-        </div><!--End of Sidebar-->
-      </div><!--End of Col-3-->
     </div><!--End of Container-->
   </div><!--End of Page Wrapper-->
 </div><!--End of Wrapper-->
@@ -486,13 +491,15 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="signatureLabel"><!-- MANSHIP FORMS  --> &nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4>
-        </div>
-        <div class="modal-body principal-application-form text-left">
+          <!-- <h4 class="modal-title" id="signatureLabel">&nbsp;<button type="button" class="close" data-dismiss="modal">&times;</button></h4> -->
           <div class="panel-blue">
-            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false"><strong><!-- PERSONAL DATA -->MANSHIP Forms</strong>
+            <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail1" aria-expanded="false">
+              <strong><!-- PERSONAL DATA -->MANSHIP Forms</strong>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
           </div>
+        </div>
+        <div class="modal-body principal-application-form text-left">
           <div class="panel-body">
             <a href="{% url 'pdf_complete_manship_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Application Form</strong></a>
           
@@ -503,9 +510,9 @@
             <a href="{% url 'blank_pdf_manship_sea_services_form' id=user_profile.id %}" target="_blank" class="btn btn-msmi form-control margin-left-negator"><span class="glyphicon glyphicon-print"></span><strong> Blank Sea Service Application Form</strong></a>
           </div>
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+        </div> -->
       </div>
     </div> 
   </div>
@@ -681,12 +688,20 @@
 
       $(".sidebar a").click(function(){
         href = $(this).attr("href");
-        href = href.replace("#", "");
-        aria_expanded = $("#"+href).children().attr("aria-expanded");
-        if(aria_expanded == 'false'){
-          $("#"+href).children().click();
-        }
+        $(this).parent().siblings().each(function(){
+          x = $(this).find("a");
+          y = x.attr("href");
+          $(y).addClass("hide");
+          x.css("text-decoration", "none").css("font-weight", 400);
+        });
+        $(this).css("text-decoration", "underline").css("font-weight", 700);
+        $(href).removeClass("hide");
       });
+      if(window.location.hash){
+        var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+        $(".sidebar a[href='#"+hash+"']").trigger("click");
+        // $("#"+hash).trigger("click");
+      }
       // Currently not in use
       // $(".mariner-principal-status").change(function(){
       //   x = $('option:selected', this).text();
@@ -992,7 +1007,7 @@
         $(this).parent().next().next().children().val(duration);
       });
 
-      {# scanned_js #}
+      // Embedded file system javascripts
       {{ scanned_js }}
     });
 
@@ -1022,6 +1037,14 @@
       }else{
         $("#id_until").parent().addClass('hide');
       }
+    });
+
+    $(document).on("click", "a#FileZipDownload", function () {
+      $.fileDownload($(this).prop('href'), {
+        preparingMessageHtml: "We are preparing your report, please wait...",
+        failMessageHtml: "There was a problem generating your report, please try again."
+      });
+      return false; //this is critical to stop the click event which will trigger a normal file download!
     });
   </script>
 {% endblock %}

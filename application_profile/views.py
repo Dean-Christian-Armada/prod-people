@@ -25,6 +25,7 @@ from application_form.templatetags.pdf_image import get64
 from notifications.models import *
 from application_profile.forms import ApplicantsDataTables, PrincipalSelectForm, DynamicPrincipalVesselTypeSelectForm
 from globals_declarations.variables import now, today
+from globals_declarations.methods import crew_retrieve_manipulation
 
 # from wkhtmltopdf.views import PDFTemplateView
 # from markdown import markdown
@@ -32,26 +33,7 @@ from globals_declarations.variables import now, today
 
 import sys, urllib, base64
 
-def xyz(request, method):
-	if method == "POST": request_method = request.POST
-	elif method == "GET": request_method = request.GET
-
-	# returns full url
-	url = request.scheme
-	url += "://"
-	url += request.META['HTTP_HOST']
-	url += request.get_full_path()
-
-	params = "?"
-
-	for x in request_method:
-		if x != 'csrfmiddlewaretoken' and x != 'submit' and x != 'page':
-			if request_method[x]:
-				params += "&"+x+"="+request_method[x]
-
-	return (params, url)
-
-# @login_required()
+@login_required()
 def index(request):
 	from globals_declarations.variables import crew_on_table, per_page_list # global declaration on pages
 	param_connector = "?"
@@ -74,7 +56,7 @@ def index(request):
 
 	if request.method == 'POST':
 		# used for multiple returns
-		params, url = xyz(request, "POST")
+		params, url = crew_retrieve_manipulation(request, "POST")
 		params = params.replace(" ", "+")
 		return HttpResponseRedirect(url+params)
 
@@ -121,7 +103,7 @@ def index(request):
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches))
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
 	mariners_profile = MarinersProfile.objects.filter(user__in=personal_data.values('name')).filter(**params2).order_by('-id')
@@ -152,7 +134,7 @@ def index(request):
 
 	# START Script to paginate the query and retrieve all the parameters to the URL
 	# Script to retrieve all the parameters to a variable
-	params, url = xyz(request, "GET")
+	params, url = crew_retrieve_manipulation(request, "GET")
 
 	# Script to paginate the query
 	paginator = Paginator(mariners_profile, crew_on_table)
@@ -176,13 +158,13 @@ def index(request):
 		next_next_page = mariners_profile.next_page_number()+1
 		next_next_page_try = paginator.page(next_next_page)
 	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		next_next_page = ''
 	try:
 		previous_previous_page = mariners_profile.previous_page_number()-1
 		previous_previous_page_try = paginator.page(previous_previous_page)
 	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		previous_previous_page = ''
 	# END Script to paginate the query and retrieve all the parameters to the URL
 
@@ -227,6 +209,7 @@ def profile(request, slug):
 		domain_url += request.META['HTTP_HOST']
 
 		user_profile = UserProfile.objects.get(slug=slug)
+		current_user = UserProfile.objects.get(user=request.user)
 		id = user_profile.id
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)
 		num_extra = 0 # Used in evaluation for controlling inline formset
@@ -264,7 +247,7 @@ def profile(request, slug):
 			ReferenceFormSet = inlineformset_factory(UserProfile, Reference, fk_name='user', extra=num_extra, can_delete=True, form=ReferenceForm )
 			reference_form = ReferenceFormSet(request.POST or None, instance=user_profile )
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		
 		try:
 			evaluation = Evaluation.objects.get(user=id)
@@ -294,6 +277,8 @@ def profile(request, slug):
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
+		application_form_last_status = ApplicationFormStatusLog.objects.filter(application_form=application_form)[0]
+		current_status = application_form.status
 		status_listed = Status.objects.filter(listed=True)
 		status = StatusForm(initial={'status':str(application_form.status.id)})
 
@@ -339,9 +324,10 @@ def profile(request, slug):
 			_status = request.GET['status']
 			_status = Status.objects.get(id=_status)
 			application_form.status = _status
-			mariners_profile.status_last_modified = now
+			# mariners_profile.status_last_modified = now
 			mariners_profile.save()
 			application_form.save()
+			ApplicationFormStatusLog.objects.create(application_form=application_form, user=current_user, old_status=current_status, new_status=_status.status)
 
 			if str(application_form.status).upper() == 'PASSED' or str(application_form.status).upper() == 'PASS':
 				#  START, Script to update the code
@@ -418,6 +404,7 @@ def profile(request, slug):
 		context_dict = {}
 		context_dict['title'] = "Applicant's Profile - "+str(personal_data).upper()
 		context_dict['user_profile'] = user_profile
+		context_dict['user'] = current_user
 		context_dict['personal_data'] = personal_data
 		context_dict['spouse'] = spouse
 		context_dict['college'] = college
@@ -445,6 +432,7 @@ def profile(request, slug):
 		context_dict['sea_service'] = sea_service
 		context_dict['sea_service_num_label'] = sea_service.count()
 		context_dict['application_form'] = application_form
+		context_dict['application_form_last_status'] = application_form_last_status
 		context_dict['mariners_profile'] = mariners_profile
 		context_dict['department'] = department.department
 		context_dict['flags'] = flags

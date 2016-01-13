@@ -169,3 +169,14 @@ class ApplicationForm(models.Model):
 		count_words = ''.join(c if c.isalnum() else ' ' for c in essay).split()
 		count_words = len(count_words)
 		return count_words
+
+class ApplicationFormStatusLog(models.Model):
+	application_form = models.ForeignKey(ApplicationForm)
+	user = models.ForeignKey(UserProfile)
+	old_status = models.CharField(max_length=75, null=True, blank=True)
+	new_status = models.CharField(max_length=75, null=True, blank=True)
+	date_time = models.DateTimeField(auto_now_add=True, editable=True)
+
+	def __str__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s, %s, %s, %s" % (self.application_form, user, old_status, new_status)

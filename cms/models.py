@@ -93,7 +93,7 @@ class SubFolder(models.Model):
 	name = models.CharField(max_length=100, null=True, blank=True, default=None)
 	order = models.SmallIntegerField(null=True, blank=True, default=None)
 	upload = models.BooleanField(default=True)
-	slug = models.SlugField(null=True, blank=True, default=None)
+	slug = models.SlugField(max_length=100, null=True, blank=True, default=None)
 	# These three notifiers are generally optionals
 	low_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
 	medium_notifier = models.CharField(max_length=50, null=True, blank=True, default=None)
@@ -116,58 +116,85 @@ class SubFolder(models.Model):
 	# Dynamic and accurate notifier script via level and date
 	def converted_notifier(self, notifier, user):
 		_return = 0
-		_list = [ self.low_notifier, self.medium_notifier, self.high_notifier ]
-		if notifier == "high":
-			_notifier = self.high_notifier
-			_index = _list.index(self.high_notifier)
-		elif notifier == "medium":
-			_notifier = self.medium_notifier
-			_index = _list.index(self.medium_notifier)
-		else:
-			_notifier = self.low_notifier
-			_index = _list.index(self.low_notifier)
-		try:
-			_day_notifier = int(re.search(r'\d+', _notifier).group())
-			if 'month' in _notifier:
-				_day_notifier = 30 * _day_notifier
-			elif 'week' in _notifier:
-				_day_notifier = 7 * _day_notifier
-			elif 'year' in _notifier:
-				_day_notifier = 365 * _day_notifier
-		except:
-			_day_notifier = _notifier
 		x = SubFolder.objects.get(id=self.id)
-		y = File.objects.filter(location=x).filter(user=user).filter(archive=False)
-		z = Fields.objects.filter(location=x).filter(name__icontains="expir")
-		a = FileFieldValue.objects.filter(field=z).filter(file=y)
-
-		for b in a:
-			expiry_date = b.value
-			_expiry_date = expiry_date.split('-')
-			_expiry_date = list(map(int, _expiry_date))
-			_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
-			_day = _expiry_date - timedelta(days=_day_notifier)
-			if _day < _today:
-				_return += 1
+		m = range(0,1)
+		_sub_folder = SubFolder.objects.filter(extra_sub_folder=x)
+		if _sub_folder.count():
+			m = _sub_folder		
+		for s in m:
+			if _sub_folder.count():
+				x = s
+				_list = [ x.low_notifier, x.medium_notifier, x.high_notifier ]
+				if notifier == "high":
+					_notifier = x.high_notifier
+					_index = _list.index(x.high_notifier)
+				elif notifier == "medium":
+					_notifier = x.medium_notifier
+					_index = _list.index(x.medium_notifier)
+				else:
+					_notifier = x.low_notifier
+					_index = _list.index(x.low_notifier)
 				try:
-					z = _list[_index+1]
-					try:
-						s_day_notifier = int(re.search(r'\d+', z).group())
-						if 'month' in z:
-							s_day_notifier = 30 *s_day_notifier
-						elif 'week' in z:
-							s_day_notifier = 7 * s_day_notifier
-						elif 'year' in z:
-							s_day_notifier = 365 * s_day_notifier
-					except:
-						s_day_notifier = z
-					s_day = _expiry_date - timedelta(days=s_day_notifier)
-					if s_day < _today:
-						_return -= 1
+					_day_notifier = int(re.search(r'\d+', _notifier).group())
+					if 'month' in _notifier:
+						_day_notifier = 30 * _day_notifier
+					elif 'week' in _notifier:
+						_day_notifier = 7 * _day_notifier
+					elif 'year' in _notifier:
+						_day_notifier = 365 * _day_notifier
 				except:
-					pass
+					_day_notifier = _notifier
 			else:
-				_return += 0
+				_list = [ self.low_notifier, self.medium_notifier, self.high_notifier ]
+				if notifier == "high":
+					_notifier = self.high_notifier
+					_index = _list.index(self.high_notifier)
+				elif notifier == "medium":
+					_notifier = self.medium_notifier
+					_index = _list.index(self.medium_notifier)
+				else:
+					_notifier = self.low_notifier
+					_index = _list.index(self.low_notifier)
+				try:
+					_day_notifier = int(re.search(r'\d+', _notifier).group())
+					if 'month' in _notifier:
+						_day_notifier = 30 * _day_notifier
+					elif 'week' in _notifier:
+						_day_notifier = 7 * _day_notifier
+					elif 'year' in _notifier:
+						_day_notifier = 365 * _day_notifier
+				except:
+					_day_notifier = _notifier
+			y = File.objects.filter(location=x).filter(user=user).filter(archive=False)
+			z = Fields.objects.filter(location=x).filter(name__icontains="expir")
+			a = FileFieldValue.objects.filter(field=z).filter(file=y)
+			for b in a:
+				expiry_date = b.value
+				_expiry_date = expiry_date.split('-')
+				_expiry_date = list(map(int, _expiry_date))
+				_expiry_date = date( _expiry_date[0], _expiry_date[1], _expiry_date[2] )
+				_day = _expiry_date - timedelta(days=_day_notifier)
+				if _day < _today:
+					_return += 1
+					try:
+						z = _list[_index+1]
+						try:
+							s_day_notifier = int(re.search(r'\d+', z).group())
+							if 'month' in z:
+								s_day_notifier = 30 *s_day_notifier
+							elif 'week' in z:
+								s_day_notifier = 7 * s_day_notifier
+							elif 'year' in z:
+								s_day_notifier = 365 * s_day_notifier
+						except:
+							s_day_notifier = z
+						s_day = _expiry_date - timedelta(days=s_day_notifier)
+						if s_day < _today:
+							_return -= 1
+					except:
+						pass
+				else:
+					_return += 0
 		return _return
 
 	def save(self, *args, **kwargs):
@@ -175,7 +202,7 @@ class SubFolder(models.Model):
 		super(SubFolder, self).save(*args, **kwargs)
 
 def content_file_name(instance, filename):
-    upload_dir = os.path.join('scanned',instance.folder_path.name)
+    upload_dir = os.path.join('scanned',instance.location.name)
     return os.path.join(upload_dir, filename)
 
 class File(models.Model):
@@ -334,11 +361,13 @@ class Fields(models.Model):
 						_notifier_count += 1
 				else:
 					_notifier_count += 1
-					list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _expiry_date))
-					break
+					if _expiry_date < _today:
+						list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s is already expired since %s</a>"% (user.slug, picture, user.code, location, name, _expiry_date))
+					else:
+						list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _expiry_date))
 			else:
+				notifier_count = 1
 				while(_day > _today):
-					
 					try:
 						_day = _expiry_date - timedelta(days=_list_notifier[notifier_count])
 						if int(re.search(r'\d+', list_notifier[notifier_count]).group()) == 0:
@@ -346,13 +375,15 @@ class Fields(models.Model):
 							if len(unset_list_return) != unset_list_return_len:
 								_notifier_count += 1
 						else:
-							_notifier_count += 1
-							list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _expiry_date))
-							break
+							if _day < _today:
+								_notifier_count += 1
+								list_return.append("<a class='border-bottom-top-1-white' href='/mariners-profile/%s/' target='_blank'><img src='/media/%s' height='50px' width='50px'> %s - %s->%s will expire in %s at %s</a>"% (user.slug, picture, user.code, location, name, list_notifier[notifier_count], _expiry_date))
+								# break is used for non-repeating from high notif to low notif
+								break
 					except:
 						break
 					notifier_count += 1
-		print (unset_list_return)
+		# print (unset_list_return)
 		return (_notifier_count, list_return, unset_list_return)
 
 class FileFieldValue(models.Model):
@@ -365,4 +396,26 @@ class FileFieldValue(models.Model):
 
 	def __str__(self):
 		return "%s - %s" % (self.id, self.value)
+
+	# def expiry_indicator(self):
+	# 	return "DEAN"
+
+	# def __init__(self, *args, **kwargs):
+	# 	super(models.Model, self).__init__(self, *args, **kwargs)
+	# 	print ("DSADASDASDASDA")
+
 # END Used for SCANNED DOCUMENTS on the Mariners Profile
+
+class UpdateFileInfoLog(models.Model):
+	file = models.ForeignKey(File)
+	user = models.ForeignKey(UserProfile)
+	date = models.DateField(auto_now_add=True, editable=True)
+	old_value = models.CharField(max_length=100, null=True, blank=True)
+	new_value = models.CharField(max_length=100, null=True, blank=True)
+	field = models.CharField(max_length=100, null=True, blank=True)
+
+	class Meta:
+		ordering = ['-id']
+
+	def __str__(self):
+		return "%s, %s, %s" % (self.file, self.user, self.field)

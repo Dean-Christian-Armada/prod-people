@@ -1001,6 +1001,17 @@ class MarinersProfile(models.Model):
 			month = month % 12
 		return "%s year/s, %s month/s, %s day/s" % (year, month, day)
 
+class MarinersProfilePictureLog(models.Model):
+	mariners_profile = models.ForeignKey(MarinersProfile)
+	user = models.ForeignKey(UserProfile)
+	old_picture = models.ImageField(max_length=75, null=True, blank=True)
+	new_picture = models.ImageField(max_length=75, null=True, blank=True)
+	date_time = models.DateTimeField(auto_now_add=True, editable=True)
+
+	def __str__(self):
+		user = "%s %s %s" % (self.user.first_name, self.user.middle_name, self.user.last_name)
+		return "%s, %s, %s, %s" % (self.mariners_profile, user, old_picture, new_picture)
+
 # START MARINER STATUS HISTORY PROCESS AND VALIDATIONS
 class MarinerStatusComment(models.Model):
 	mariner_status_comment = models.TextField(default=None, null=True, blank=True)

@@ -72,3 +72,26 @@ def overall_converted_notifier(notifier, user):
 				else:
 					_return += 0
 	return _return
+
+# Custom method for page manipulation used on the index of mariners-profile and applications-profile app
+def crew_retrieve_manipulation(request, method):
+	if method == "POST": request_method = request.POST
+	elif method == "GET": request_method = request.GET
+
+	# returns full url
+	url = request.scheme
+	url += "://"
+	url += request.META['HTTP_HOST']
+	url += request.get_full_path()
+
+	params = "?"
+
+	if 'page' in request.GET and len(request.GET) > 0:
+		params = ""
+
+	for x in request_method:
+		if x != 'csrfmiddlewaretoken' and x != 'submit' and x != 'page':
+			if request_method[x]:
+				params += "&"+x+"="+request_method[x]
+
+	return (params, url)

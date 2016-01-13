@@ -2,15 +2,16 @@ from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory, inlineformset_factory
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.middleware.csrf import get_token
 from django.db.models import Q
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from login.models import UserProfile
-from cms.models import Folder, SubFolder, File, Fields, FileFieldValue
+from cms.models import Folder, SubFolder, File, Fields, FileFieldValue, UpdateFileInfoLog
 from . models import *
 from globals_declarations.variables import now
-from globals_declarations.methods import overall_converted_notifier
+from globals_declarations.methods import overall_converted_notifier, crew_retrieve_manipulation
 
 from application_form.forms import FlagForm, TrainingCertificateForm, StatusForm, DynamicTrainingCertificateForm
 
@@ -18,33 +19,10 @@ from mariners_profile.forms import *
 
 import sys
 
-def xyz(request, method):
-	if method == "POST": request_method = request.POST
-	elif method == "GET": request_method = request.GET
-
-	# returns full url
-	url = request.scheme
-	url += "://"
-	url += request.META['HTTP_HOST']
-	url += request.get_full_path()
-
-	params = "?"
-
-	if 'page' in request.GET and len(request.GET) > 0:
-		params = ""
-
-	for x in request_method:
-		if x != 'csrfmiddlewaretoken' and x != 'submit' and x != 'page':
-			if request_method[x]:
-				params += "&"+x+"="+request_method[x]
-
-	return (params, url)
-
 # Create your views here.
 @login_required()
 def index(request):
-	crew_on_table = 10
-	per_page_list = [10, 25, 50, 100]
+	from globals_declarations.variables import crew_on_table, per_page_list # global declaration on pages
 	param_connector = "?"
 	count = 0
 
@@ -73,7 +51,7 @@ def index(request):
 
 	if request.method == 'POST':
 		# used for multiple returns
-		params, url = xyz(request, "POST")
+		params, url = crew_retrieve_manipulation(request, "POST")
 		params = params.replace(" ", "+")
 		return HttpResponseRedirect(url+params)
 
@@ -134,7 +112,7 @@ def index(request):
 			x = UserProfile.objects.filter(Q(first_name__icontains=searches) | Q(last_name__icontains=searches) | Q(middle_name__icontains=searches) | Q(code__iexact=searches))
 			mariners_profile = MarinersProfile.objects.filter(user__in=x)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 	
 	personal_data = PersonalData.objects.filter(name__in=mariners_profile.values('user')).filter(**params).order_by('-id')
@@ -184,7 +162,7 @@ def index(request):
 
 	# START Script to paginate the query and retrieve all the parameters to the URL
 	# Script to retrieve all the parameters to a variable
-	params, url = xyz(request, "GET")
+	params, url = crew_retrieve_manipulation(request, "GET")
 
 	# Script to paginate the query
 	paginator = Paginator(mariners_profile, crew_on_table)
@@ -208,13 +186,13 @@ def index(request):
 		next_next_page = mariners_profile.next_page_number()+1
 		next_next_page_try = paginator.page(next_next_page)
 	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		next_next_page = ''
 	try:
 		previous_previous_page = mariners_profile.previous_page_number()-1
 		previous_previous_page_try = paginator.page(previous_previous_page)
 	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 		previous_previous_page = ''
 
 	# END Script to paginate the query and retrieve all the parameters to the URL
@@ -238,7 +216,7 @@ def index(request):
 		context_dict['municipality'] = sorted(municipality)
 		
 	except:
-		print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+		print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 	# used for dynamic choices in us visa
 	context_dict['us_visa'] = us_visa_choices
@@ -274,9 +252,11 @@ def profile(request, slug):
 		id = user_profile.id
 		current_user = UserProfile.objects.get(user=request.user)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)
+		current_picture = mariners_profile.picture
 		personal_data = PersonalData.objects.get(name=id)
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
 		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
+		mariners_profile_last_picture_modified_date = MarinersProfilePictureLog.objects.filter(mariners_profile=mariners_profile)[0].date_time
 		visibility_parameter = "hide"
 
 		# START, variables used to prepopulate inlineformset for flags
@@ -328,11 +308,11 @@ def profile(request, slug):
 		goc = GOC.objects.get(user=id)
 
 		# START Objects for scanning documents
-		from django.middleware.csrf import get_token
-		scanned_document_html = ''
+		scanned_css = ''
+		scanned_css += '<style> .scanned-td-width-sm{ width: 250px; } </style>'
 		scanned_document_html = ''
 		scanned_js = ''
-		scanned_js += 'img="/static/img/updating.gif";'
+		scanned_js += 'img="/static/img/loading-x.gif";'
 		scanned_js += 'url = window.location;'
 		scanned_js += 'var check_count = 0;' # Used to check if the delete button should be shown
 		scanned_js += 'var value_list = [];'
@@ -345,11 +325,16 @@ def profile(request, slug):
 		scanned_js += 'check_count--;'
 		scanned_js += 'value_list.splice(value_list.indexOf($(this).val()),1);'
 		scanned_js += '}'
-		scanned_js += '$(this).parent().parent().siblings($(".delete-id-list")).val(value_list);'
+		scanned_js += '$(this).parent().parent().parent().parent().siblings($(".delete-id-list")).val(value_list);'
 		scanned_js += 'if(check_count > 0){'
 		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-delete-process-button").removeClass("hide");'
+		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".download-process-button").removeClass("hide");'
+		# scanned_js += 'link = $(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".download-process-button").prop("href");'
+		# scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".download-process-button").attr("href", link+"?x=1,2,3");'
 		scanned_js += '}else{'
 		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".archive-delete-process-button").addClass("hide");'
+		scanned_js += '$(this).closest(".panel-collapse").siblings("p.cursor-pointer").find(".download-process-button").addClass("hide");'
+		scanned_js += '$(this).parent().parent().siblings().first().find("input:checkbox").prop("checked", false);'
 		scanned_js += '}'
 		scanned_js += '});' # END of checkboxchange event
 		scanned_js += '$(".scanned-document-modal-show-id-based").on("click", function(){' # START of scanned-document-modal-show-id-based
@@ -416,8 +401,16 @@ def profile(request, slug):
 		scanned_js += '$(this).next().focus();'
 		scanned_js += '$(this).remove();'
 		scanned_js += '});' # END scanned-document-editables click event
-		scanned_js += '$("body").on("focusout", ".scanned-document-editing", function(){' # START scanned-document-editing focustout event
+		scanned_js += '$("body").on("focusin", ".scanned-document-editing", function(){'
+		scanned_js += 'old_val=$(this).val();'
+		scanned_js += '})'
+		scanned_js += '.on("focusout", ".scanned-document-editing", function(){' # START scanned-document-editing focustout event
 		scanned_js += '_this = $(this);'
+		# START get label value
+		scanned_js += 'this_parent = $(this).parent().html();'
+		scanned_js += 'regex = /(.*):/;'
+		scanned_js += 'field = this_parent.match(regex)[1];'
+		# END get label value
 		scanned_js += 'type = $(this).attr("type");'
 		scanned_js += 'data_classes = $(this).attr("data-classes");'
 		scanned_js += 'data_id = $(this).attr("data-id");'
@@ -431,18 +424,40 @@ def profile(request, slug):
 		scanned_js += 'get_value = {csrfmiddlewaretoken: "%s"};' % get_token(request)
 		scanned_js += 'get_value["update_value_id"] = data_id;'
 		scanned_js += 'get_value["update_value"] = val;'
+		scanned_js += 'get_value["old_val"] = old_val;'
+		scanned_js += 'get_value["field"] = field;'
 		scanned_js += '$.post(url, get_value, function(result){'
 		scanned_js += '$("#updated-modal").modal("show");'
 		scanned_js += '});'
 		scanned_js += '}else{'
 		scanned_js += '};'
-		scanned_js += '}, 300);'
+		scanned_js += '}, 100);'
 		scanned_js += '});' # END scanned-document-editing focustout event
 		scanned_js += '$(".scanned-document-hide-event").on("hidden.bs.modal", function(){' # START scanned-document-hide-event
 		# scanned_js += 'alert("dean");'
 		scanned_js += '});' # END scanned-document-hide-event
+		scanned_js += '$("body").on("change", ".checkall", function(){' # START checkall
+		scanned_js += '$(this).parent().parent().siblings().find("input:checkbox").trigger("click");'
+		scanned_js += '});' # END checkall
+		scanned_js += '$(".download-process-button").click(function(){' # START download zip button
+		scanned_js += '_compress_type="zipped";'
+		scanned_js += 'compress_type = $(this).attr("data-compress-type");'
+		scanned_js += 'file_ids = $(this).parent().next().find(".delete-id-list").val();'
+		scanned_js += 'if(file_ids){'
+		# START compress type value conditionals
+		scanned_js += 'if(compress_type=="targz"){'
+		scanned_js += '_compress_type="targz";'
+		scanned_js += '}'
+		scanned_js += 'else if(compress_type=="tarbz2"){'
+		scanned_js += '_compress_type="tarbz2";'
+		scanned_js += '}'
+		# END compress type value conditionals
+		scanned_js += 'window.location.href="/cms/"+_compress_type+"/?x="+file_ids;'
+		scanned_js += '}'
+		scanned_js += '});' # END download zip button
 		
 		scanned_folders = Folder.objects.filter(~Q(name=''))
+
 
 		for folders in scanned_folders:
 			scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder__name=' ')).order_by('order')
@@ -460,27 +475,68 @@ def profile(request, slug):
 				if archives:
 					archive_button = '<button class="btn btn-warning event-propagation archive-show-button document-button-margin" data-location="%s" data-params="True">ARCHIVES</button> <button class="btn btn-success event-propagation archive-show-button hide document-button-margin" data-location="%s" data-params="False">UNARCHIVED</button>' % (sub_folders.id, sub_folders.id )
 				scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START class.panel-body
-				scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> <button class="btn btn-danger event-propagation archive-delete-process-button hide document-button-margin">ARCHIVE SELECTED FILES</button> %s &nbsp; %s &nbsp; <span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, archive_button, scanned_upload_button, sub_folders.converted_notifier('high', user_profile), sub_folders.converted_notifier('medium', user_profile), sub_folders.converted_notifier('low', user_profile))
+				scanned_document_html += '<p class="cursor-pointer document-sub-menu" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong> <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="tarbz2">TAR BZ2 SELECTED FILES</button>  <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="targz">TAR GZ SELECTED FILES</button> <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="zip">ZIP SELECTED FILES</button> <button class="btn btn-danger event-propagation archive-delete-process-button hide document-button-margin">ARCHIVE SELECTED FILES</button> %s &nbsp; %s &nbsp; <span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, archive_button, scanned_upload_button, sub_folders.converted_notifier('high', user_profile), sub_folders.converted_notifier('medium', user_profile), sub_folders.converted_notifier('low', user_profile))
 				# scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#006400"><strong>%s</strong> %s %s <button class="btn btn-danger event-propagation delete-process-button hide" data-process="delete">DELETED SELECTED FILES</button> </p>' % ( sub_folders.slug_name().lower(), sub_folders.name, scanned_upload_button, archive_button)
 				if uploads:
 					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % sub_folders.slug_name() # START class.panel-collapse
+					scanned_document_html += '<table class="table">'
+					scanned_document_html += '<tr>'
+					scanned_document_html += '<th><input type="checkbox" class="checkall"></th>'
+					scanned_document_html += '<th>Thumbnail</th>'
+					scanned_document_html += '<th>Filename</th>'
+					scanned_document_html += '<th>Actions</th>'
+					scanned_document_html += '<th>Fields</th>'
+					scanned_document_html += '<th>Uploaded By</th>'
+					scanned_document_html += '<th>Uploaded Date</th>'
+					scanned_document_html += '<th>Last Updated By</th>'
+					scanned_document_html += '<th>Last Update</th>'
+					scanned_document_html += '</tr>'
 					scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 					# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 					for upload in uploads:
-						scanned_document_html += '<div class="col-md-3 text-center">'
-						scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
-						scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'	
-						scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
-						scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive form-control input-group" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
-						scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
-						scanned_document_html += '<h5 class="break-word">Filename: <b>%s</b></h5>' % upload.file_name()
+						# START update scripts for determining the latest updates of a file for the sub menus
+						try:
+							update = UpdateFileInfoLog.objects.filter(file=upload)[0]
+							updated_by = update.user
+							updated_date = update.date
+						except:
+							updated_by = ""
+							updated_date = ""
+						# END update scripts for determining the latest updates of a file for the sub menus
+						# scanned_document_html += '<div class="col-md-3 text-center">'
+						# scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
+						# scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'	
+						# scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
+						# scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive form-control input-group" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
+						# scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
+						# scanned_document_html += '<h5 class="break-word">Filename: <b>%s</b></h5>' % upload.file_name()
+						# file_infos = FileFieldValue.objects.filter(file=upload)
+						# for file_info in file_infos:
+						# 	scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+						# scanned_document_html += '<h5>Uploaded By: %s</h5>' % upload.uploaded_by.code
+						# scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
+						# scanned_document_html += '</div>'
+						# scanned_document_html += '</div>'
+						
+						scanned_document_html += '<tr>'
+						scanned_document_html += '<td><input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"></td>' % (upload.id, upload.id)
+						scanned_document_html += '<td><img src="%s" height="50" width="50"></td>' % upload.logo()
+						scanned_document_html += '<td class="scanned-td-width-sm"><h5 class="break-word"><b>%s</b></h5></td>' % upload.file_name()
+						scanned_document_html += '<td>'
+						scanned_document_html += '<a class="btn btn-primary" href="%s" target="_blank" download>Download</a> ' % upload.download_link()
+						scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
+						scanned_document_html += '</td>'
+						scanned_document_html += '<td>'
 						file_infos = FileFieldValue.objects.filter(file=upload)
 						for file_info in file_infos:
 							scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
-						scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
-						scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
-						scanned_document_html += '</div>'
-						scanned_document_html += '</div>'
+						scanned_document_html += '</td>'
+						scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_by.code
+						scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_date
+						scanned_document_html += '<td><h5>%s</h5></td>' % updated_by
+						scanned_document_html += '<td><h5>%s</h5></td>' % updated_date
+						scanned_document_html += '</tr>'
+					scanned_document_html += '</table>'
 					scanned_document_html += '</div>' # END class.panel-collapse
 				scanned_document_html += '<div class="modal fade modal-size-500 scanned-document-hide-event" id="modal-%s-upload" tabindex="-1" role="dialog">' % sub_folders.slug_name()  # START MODAL UPLOAD
 				scanned_document_html += '<div class="modal-dialog" role="document">' # START modal-dialog
@@ -527,30 +583,78 @@ def profile(request, slug):
 				# START EXTRA SUB FOLDERS SECTION
 				_scanned_sub_folders = SubFolder.objects.filter(Q(folder=folders) & Q(extra_sub_folder=sub_folders)).order_by('order')
 				if _scanned_sub_folders:
-					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % (sub_folders.slug_name()) # START panel on _scanned_sub_folders variable
+					scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse panel-body" aria-expanded="false">' % (sub_folders.slug_name()) # START panel on _scanned_sub_folders variable
 					for _sub_folders in _scanned_sub_folders:
+						scanned_upload_button = ""
+						uploads = ""
+						archive_button = ""
+						scanned_upload_button = '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based document-button-margin background-msmi-green" id="%s-upload">UPLOAD</button>' % _sub_folders.slug_name()
 						uploads = File.objects.filter(user=user_profile).filter(location=_sub_folders).filter(archive=False)
+						archives = File.objects.filter(user=user_profile).filter(location=_sub_folders).filter(archive=True)
+						if archives:
+							archive_button = '<button class="btn btn-warning event-propagation archive-show-button document-button-margin" data-location="%s" data-params="True">ARCHIVES</button> <button class="btn btn-success event-propagation archive-show-button hide document-button-margin" data-location="%s" data-params="False">UNARCHIVED</button>' % (_sub_folders.id, _sub_folders.id )
 						scanned_document_html += '<div class="panel-body padding-top-bottom-negator">' # START panel-body on _scanned_sub_folders variable
-						scanned_document_html += '<p class="cursor-pointer" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false" style="background:#00BFFF"><strong>%s</strong> <button class="btn btn-primary scanned-document-modal-show-id-based" id="%s-upload">UPLOAD</button></p>' % (_sub_folders.slug_name(), str(_sub_folders.name), _sub_folders.slug_name())
+						scanned_document_html += '<p class="cursor-pointer document-sub-sub-menu" data-toggle="collapse" data-parent="#accordion" href="#scanned-%s" aria-expanded="false"><strong>%s</strong> <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="tarbz2">TAR BZ2 SELECTED FILES</button>  <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="targz">TAR GZ SELECTED FILES</button> <button class="btn btn-success event-propagation download-process-button hide document-button-margin" data-compress-type="zip">ZIP SELECTED FILES</button> <button class="btn btn-danger event-propagation archive-delete-process-button hide document-button-margin">ARCHIVE SELECTED FILES</button> %s &nbsp; %s &nbsp; <span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span> </p>' % ( _sub_folders.slug_name().lower(), _sub_folders.name, archive_button, scanned_upload_button, _sub_folders.converted_notifier('high', user_profile), _sub_folders.converted_notifier('medium', user_profile), _sub_folders.converted_notifier('low', user_profile))
 						if uploads:
 							scanned_document_html += '<div id="scanned-%s" class="panel-collapse collapse" aria-expanded="false">' % _sub_folders.slug_name() # START class.panel-collapse
+							scanned_document_html += '<table class="table">'
+							scanned_document_html += '<tr>'
+							scanned_document_html += '<th><input type="checkbox" class="checkall"></th>'
+							scanned_document_html += '<th>Thumbnail</th>'
+							scanned_document_html += '<th>Filename</th>'
+							scanned_document_html += '<th>Actions</th>'
+							scanned_document_html += '<th>Fields</th>'
+							scanned_document_html += '<th>Uploaded By</th>'
+							scanned_document_html += '<th>Uploaded Date</th>'
+							scanned_document_html += '<th>Last Updated By</th>'
+							scanned_document_html += '<th>Last Update</th>'
+							scanned_document_html += '</tr>'
 							scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 							# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 							for upload in uploads:
-								scanned_document_html += '<div class="col-md-3 text-center">'
-								scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
-								scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'	
-								scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
-								scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive form-control input-group" id="%s-upload" data-file-id="%s">Replace</button>' % (_sub_folders.slug_name(), upload.id)
-								scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
-								scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+								# START update scripts for determining the latest updates of a file for the sub-sub menus
+								try:
+									update = UpdateFileInfoLog.objects.filter(file=upload)[0]
+									updated_by = update.user
+									updated_date = update.date
+								except:
+									updated_by = ""
+									updated_date = ""
+								# END update scripts for determining the latest updates of a file for the sub-sub menus
+								# scanned_document_html += '<div class="col-md-3 text-center">'
+								# scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
+								# scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'	
+								# scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank" download>Download</a>' % upload.download_link()
+								# scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive form-control input-group" id="%s-upload" data-file-id="%s">Replace</button>' % (_sub_folders.slug_name(), upload.id)
+								# scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
+								# scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+								# file_infos = FileFieldValue.objects.filter(file=upload)
+								# scanned_document_html += '<h5 class="break-word">Filename: <b>%s</b></h5>' % upload.file_name()
+								# for file_info in file_infos:
+								# 	scanned_document_html += '<h5><b>%s</b>: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+								# scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
+								# scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
+								# scanned_document_html += '</div>'
+								# scanned_document_html += '</div>'
+								scanned_document_html += '<tr>'
+								scanned_document_html += '<td><input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"></td>' % (upload.id, upload.id)
+								scanned_document_html += '<td><img src="%s" height="50" width="50"></td>' % upload.logo()
+								scanned_document_html += '<td class="scanned-td-width-sm"><h5 class="break-word"><b>%s</b></h5></td>' % upload.file_name()
+								scanned_document_html += '<td>'
+								scanned_document_html += '<a class="btn btn-primary" href="%s" target="_blank" download>Download</a> ' % upload.download_link()
+								scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
+								scanned_document_html += '</td>'
+								scanned_document_html += '<td>'
 								file_infos = FileFieldValue.objects.filter(file=upload)
 								for file_info in file_infos:
-									scanned_document_html += '<h5>Filename: <b>%s</b>: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
-								scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
-								scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
-								scanned_document_html += '</div>'
-								scanned_document_html += '</div>'
+									scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+								scanned_document_html += '</td>'
+								scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_by.code
+								scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_date
+								scanned_document_html += '<td><h5>%s</h5></td>' % updated_by
+								scanned_document_html += '<td><h5>%s</h5></td>' % updated_date
+								scanned_document_html += '</tr>'
+							scanned_document_html += '</table>'
 							scanned_document_html += '</div>' # END class.panel-collapse
 						scanned_document_html += '</div>' # END panel-body on _scanned_sub_folders variable
 						scanned_document_html += '<div class="modal fade modal-size-500 scanned-document-hide-event" id="modal-%s-upload" tabindex="-1" role="dialog">' % _sub_folders.slug_name()  # START MODAL UPLOAD
@@ -602,16 +706,25 @@ def profile(request, slug):
 
 		# Script conditional on AJAX update scanned document request
 		if 'update_value_id' in request.POST and 'update_value' in request.POST:
-			update_value = FileFieldValue.objects.get(id=request.POST['update_value_id'])
-			update_value.value = request.POST['update_value']
-			update_value.save()
+			try:
+				print (request.POST)
+				update_value_id = request.POST['update_value_id']
+				old_val = request.POST['old_val']
+				update_value_request = request.POST['update_value']
+				field = request.POST['field']
+				update_value = FileFieldValue.objects.get(id=update_value_id)
+				update_value.value = update_value_request
+				update_value.save()
+				UpdateFileInfoLog.objects.create(file=update_value.file, user=current_user, old_value=old_val, new_value=update_value_request, field=field)
+			except:
+				print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
+
 
 		# Script conditional on adding scanned document
 		if 'scan-submit' in request.POST and 'scan-file' in request.FILES:
 			try:
 				# dict is used to enable the for loop x
 				request.POST = dict(request.POST)
-				print (request.POST)
 				_file = request.FILES['scan-file']
 				location = request.POST['folder-location'][0]
 				location = SubFolder.objects.get(id=location)
@@ -630,7 +743,7 @@ def profile(request, slug):
 					field = Fields.objects.get(slug=x)
 					FileFieldValue.objects.create(file=_file, field=field, value=value)
 			except:
-				print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+				print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 		# Script conditional on filtering via archive and unarchive
@@ -639,30 +752,71 @@ def profile(request, slug):
 			condition = condition in ['True']
 			uploads = File.objects.filter(user=user_profile).filter(location=request.GET['location']).filter(archive=condition)
 			scanned_document_html = '<div class="form-group">' # START class.form-group
+			scanned_document_html += '<table class="table">'
+			scanned_document_html += '<tr>'
+			scanned_document_html += '<th><input type="checkbox" class="checkall"></th>'
+			scanned_document_html += '<th>Thumbnail</th>'
+			scanned_document_html += '<th>Filename</th>'
+			scanned_document_html += '<th>Actions</th>'
+			scanned_document_html += '<th>Fields</th>'
+			scanned_document_html += '<th>Uploaded By</th>'
+			scanned_document_html += '<th>Uploaded Date</th>'
+			scanned_document_html += '<th>Last Updated By</th>'
+			scanned_document_html += '<th>Last Update</th>'
+			scanned_document_html += '</tr>'
 			scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 			if not condition:
 				pass
 				# scanned_document_html += '<h4 style="color:#00aeef;">NOTE: <i>To update simply click the underlined value</i></h4>'
 			for upload in uploads:
-				scanned_document_html += '<div class="col-md-3 text-center">'
-				scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
-				scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
-				scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
-				if not condition:
-					scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
-				else:
-					scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">DELETE</label>' % (upload.id, upload.id, upload.id)
-				scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+				# START update scripts for determining the latest updates of a file for the archive and unarchived transitions
+				try:
+					update = UpdateFileInfoLog.objects.filter(file=upload)[0]
+					updated_by = update.user
+					updated_date = update.date
+				except:
+					updated_by = ""
+					updated_date = ""
+				# END update scripts for determining the latest updates of a file for the archive and unarchived transitions
+
+				# scanned_document_html += '<div class="col-md-3 text-center">'
+				# scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
+				# scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
+				# scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
+				# if not condition:
+				# 	scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
+				# else:
+				# 	scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">DELETE</label>' % (upload.id, upload.id, upload.id)
+				# scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+				# file_infos = FileFieldValue.objects.filter(file=upload)
+				# for file_info in file_infos:
+				# 	if condition:
+				# 		scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
+				# 	else:
+				# 		scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+				# scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
+				# scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
+				# scanned_document_html += '</div>'
+				# scanned_document_html += '</div>'
+				scanned_document_html += '<tr>'
+				scanned_document_html += '<td><input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"></td>' % (upload.id, upload.id)
+				scanned_document_html += '<td><img src="%s" height="50" width="50"></td>' % upload.logo()
+				scanned_document_html += '<td class="scanned-td-width-sm"><h5 class="break-word"><b>%s</b></h5></td>' % upload.file_name()
+				scanned_document_html += '<td>'
+				scanned_document_html += '<a class="btn btn-primary" href="%s" target="_blank" download>Download</a> ' % upload.download_link()
+				scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
+				scanned_document_html += '</td>'
+				scanned_document_html += '<td>'
 				file_infos = FileFieldValue.objects.filter(file=upload)
 				for file_info in file_infos:
-					if condition:
-						scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
-					else:
-						scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
-				scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
-				scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
-				scanned_document_html += '</div>'
-				scanned_document_html += '</div>'
+					scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+				scanned_document_html += '</td>'
+				scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_by.code
+				scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_date
+				scanned_document_html += '<td><h5>%s</h5></td>' % updated_by
+				scanned_document_html += '<td><h5>%s</h5></td>' % updated_date
+				scanned_document_html += '</tr>'
+			scanned_document_html += '</table>'
 			scanned_document_html += '</div>' # END class.form-group
 			return HttpResponse(scanned_document_html)
 
@@ -681,21 +835,61 @@ def profile(request, slug):
 					x.save()
 			uploads = File.objects.filter(user=user_profile).filter(location=location).filter(archive=condition)
 			scanned_document_html = '<div class="form-group">' # START class.form-group
+			scanned_document_html += '<table class="table">'
+			scanned_document_html += '<tr>'
+			scanned_document_html += '<th><input type="checkbox" class="checkall"></th>'
+			scanned_document_html += '<th>Thumbnail</th>'
+			scanned_document_html += '<th>Filename</th>'
+			scanned_document_html += '<th>Actions</th>'
+			scanned_document_html += '<th>Fields</th>'
+			scanned_document_html += '<th>Uploaded By</th>'
+			scanned_document_html += '<th>Uploaded Date</th>'
+			scanned_document_html += '<th>Last Updated By</th>'
+			scanned_document_html += '<th>Last Update</th>'
+			scanned_document_html += '</tr>'
 			scanned_document_html += '<input type="text" class="delete-id-list hide">' # Stores the delete ids
 			for upload in uploads:
-				scanned_document_html += '<div class="col-md-3 text-center">'
-				scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
-				scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
-				scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
-				scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
-				scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+				# START update scripts for determining the latest updates of a file after deletion action
+				try:
+					update = UpdateFileInfoLog.objects.filter(file=upload)[0]
+					updated_by = update.user
+					updated_date = update.date
+				except:
+					updated_by = ""
+					updated_date = ""
+				# END update scripts for determining the latest updates of a file after deletion action
+				# scanned_document_html += '<div class="col-md-3 text-center">'
+				# scanned_document_html += '<img src="%s" height="150" width="150">' % upload.logo()
+				# scanned_document_html += '<div class="text-left col-centered" style="width: 200px">'
+				# scanned_document_html += '<a class="btn btn-primary form-control input-group" href="%s" target="_blank">View & Download</a>' % upload.download_link()
+				# scanned_document_html += '<input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"> <label for="id_%s">Archive</label>' % (upload.id, upload.id, upload.id)
+				# scanned_document_html += '<h5 class="break-word">%s</h5>' % upload.file_name()
+				# file_infos = FileFieldValue.objects.filter(file=upload)
+				# for file_info in file_infos:
+				# 	scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
+				# scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
+				# scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
+				# scanned_document_html += '</div>'
+				# scanned_document_html += '</div>'
+				scanned_document_html += '<tr>'
+				scanned_document_html += '<td><input id="id_%s" type="checkbox" class="scanned_delete_checkbox" value="%s"></td>' % (upload.id, upload.id)
+				scanned_document_html += '<td><img src="%s" height="50" width="50"></td>' % upload.logo()
+				scanned_document_html += '<td class="scanned-td-width-sm"><h5 class="break-word"><b>%s</b></h5></td>' % upload.file_name()
+				scanned_document_html += '<td>'
+				scanned_document_html += '<a class="btn btn-primary" href="%s" target="_blank" download>Download</a> ' % upload.download_link()
+				scanned_document_html += '<button class="btn btn-primary event-propagation scanned-document-modal-show-id-based upload-archive" id="%s-upload" data-file-id="%s">Replace</button>' % (sub_folders.slug_name(), upload.id)
+				scanned_document_html += '</td>'
+				scanned_document_html += '<td>'
 				file_infos = FileFieldValue.objects.filter(file=upload)
 				for file_info in file_infos:
-					scanned_document_html += '<h5>%s: %s</h5>' % (file_info.field.name, file_info.value)
-				scanned_document_html += '<h5>Updated By: %s</h5>' % upload.uploaded_by.code
-				scanned_document_html += '<h5>Uploaded Date:%s</h5>' % upload.uploaded_date
-				scanned_document_html += '</div>'
-				scanned_document_html += '</div>'
+					scanned_document_html += '<h5>%s: <u class="scanned-document-editables" data-toggle="tooltip" title="Click to Update" data-id="%s" data-classes="%s" data-type="%s">%s</u></h5>' % (file_info.field.name, file_info.id, file_info.field.classes, file_info.field.type, file_info.value)
+				scanned_document_html += '</td>'
+				scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_by.code
+				scanned_document_html += '<td><h5>%s</h5></td>' % upload.uploaded_date
+				scanned_document_html += '<td><h5>%s</h5></td>' % updated_by
+				scanned_document_html += '<td><h5>%s</h5></td>' % updated_date
+				scanned_document_html += '</tr>'
+			scanned_document_html += '</table>'
 			scanned_document_html += '</div>' # END class.form-group
 			return HttpResponse(scanned_document_html)
 
@@ -771,7 +965,7 @@ def profile(request, slug):
 			land_employment_form = LandEmploymentFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 
 		try:
@@ -784,7 +978,7 @@ def profile(request, slug):
 			beneficiary_form = BeneficiaryFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 		try:
 			allotee = Allotee.objects.filter(user=id)
@@ -798,7 +992,7 @@ def profile(request, slug):
 			allotee_form = AlloteeFormSet(request.POST or None, instance=user_profile )
 
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 		highschool_form = HighSchoolForm(request.POST or None, instance=highschool, initial={'highschool':highschool.highschool})
 
@@ -917,16 +1111,19 @@ def profile(request, slug):
 		context_dict['evaluations'] = evaluations
 		context_dict['spouse'] = spouse
 		context_dict['dependents'] = dependents
+		context_dict['mariners_profile_last_picture_modified_date'] = mariners_profile_last_picture_modified_date
 
 		context_dict['title'] = "Mariner's Profile - "+str(personal_data).upper()
 		context_dict['dependents_num_label'] = dependents_num_label
 		context_dict['sea_service_num_label'] = sea_service_num_label
 
 		context_dict['personal_data'] = personal_data
+		context_dict['user'] = current_user
 
 		# START ScannedVariables
 		context_dict['scanned_document_html'] = mark_safe(scanned_document_html)
 		context_dict['scanned_js'] = mark_safe(scanned_js)
+		context_dict['scanned_css'] = mark_safe(scanned_css)
 		_overall_converted_notifier = '<span class="high-notif-borders">%s</span></strong> <span class="medium-notif-borders">%s</span> <span class="low-notif-borders">%s</span>' % ( overall_converted_notifier('high', user_profile), overall_converted_notifier('medium', user_profile), overall_converted_notifier('low', user_profile))
 		context_dict['overall_converted_notifier'] = mark_safe(_overall_converted_notifier)
 		# END ScannedVariables
@@ -1220,6 +1417,7 @@ def profile(request, slug):
 			if 'picture' in request.FILES:
 				if mariners_picture_form.is_valid():
 					mariners_picture_form.save()
+					MarinersProfilePictureLog.objects.create(mariners_profile=mariners_profile, user=current_user, old_picture=current_picture, new_picture=mariners_profile.picture)
 				else:
 					print (mariners_picture_form.errors)
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -75,13 +75,13 @@
         <div class="col-md-3 col-laptop-4">
           <div class="input-group">
             <label class="input-group-addon input-label">Barangay:</label>
-            <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_barangay" name="allotee_set-{{ forloop.counter0 }}-allotee_barangay" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{ allotee_forms.allotee_zip.value|get_data_field:'Zip,barangay' }}">                    
+            <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/BarangayAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_barangay" name="allotee_set-{{ forloop.counter0 }}-allotee_barangay" type="text" autocomplete="off" data-widget-ready="1" value="{{ allotee_forms.allotee_zip.value|get_data_field:'Zip,barangay' }}">                    
           </div><!--End of Input Group-->
         </div><!--End of Col 2-->
         <div class="col-md-3 col-laptop-4">
           <div class="input-group">
             <label class="input-group-addon input-label">Municipality:</label>
-            <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_municipality" name="allotee_set-{{ forloop.counter0 }}-allotee_municipality" placeholder="Type some text to search in this autocomplete" type="text" autocomplete="off" data-widget-ready="1" value="{{allotee_forms.allotee_zip.value|get_data_field:'Zip,municipality' }}">
+            <input class="form-control input-form autocomplete vTextField autocomplete-light-text-widget" data-autocomplete-choice-selector="[data-value]" data-autocomplete-url="/autocomplete/MunicipalityAutocomplete/" data-widget-bootstrap="text" id="id_allotee_set-{{ forloop.counter0 }}-allotee_municipality" name="allotee_set-{{ forloop.counter0 }}-allotee_municipality" type="text" autocomplete="off" data-widget-ready="1" value="{{allotee_forms.allotee_zip.value|get_data_field:'Zip,municipality' }}">
           </div><!--End of Input Group-->
         </div><!--End of Col 2-->
         <div class="col-md-2 col-laptop-4">

@@ -1,4 +1,4 @@
-!function(a){"use strict";a(function(){var b=a(window),c=a(document.body);c.scrollspy({target:".sidebar"}),b.on("load",function(){c.scrollspy("refresh")}),a(".bs-docs-container [href=#]").click(function(a){a.preventDefault()}),setTimeout(function(){var b=a(".sidebar");b.affix({offset:{top:function(){var c=b.offset().top,d=parseInt(b.children(0).css("margin-top"),10),e=a(".bs-docs-nav").height();return this.top=c-e-d},bottom:function(){return this.bottom=a(".bs-docs-footer")}}})},100);})}(jQuery);
+!function(a){"use strict";a(function(){var b=a(window),c=a(document.body);c.scrollspy({target:".scrollspy-sidebar"}),b.on("load",function(){c.scrollspy("refresh")}),a(".bs-docs-container [href=#]").click(function(a){a.preventDefault()}),setTimeout(function(){var b=a(".sidebar");b.affix({offset:{top:function(){var c=b.offset().top,d=parseInt(b.children(0).css("margin-top"),10),e=a(".bs-docs-nav").height();return this.top=c-e-d},bottom:function(){return this.bottom=a(".bs-docs-footer")}}})},100);})}(jQuery);
 
 // Overriding within a toggle href
 // Will not work if inside function
@@ -25,10 +25,6 @@ $(function(){
                       middle_name = $("#id_middle_name").val();
                       full_name = $("#full_name").val(first_name+' '+middle_name+' '+last_name);
                     };
-
-        
-
-
 
     // auto title tooltip if text is typed
     var tooltip = function(){
@@ -572,7 +568,7 @@ $(function(){
         x = 0;
       }
       if ($(this).find("li.active").text().trim() == 'Sea Service' && x == 1){
-        $(sea_service).click();
+        $(sea_service).trigger("click");
       }
       // position_applied = $("#id_position_applied option:selected").text();
       // alternative_position = $("#id_alternative_position option:selected").text();
@@ -960,6 +956,12 @@ $(function(){
       if(key_code == 8){
         $(this).next("ul.without-content").show();
       }
+    });
+
+    $(".on-submit-class").change(function(){
+      id = $(this).prop("id");
+      form = "#form-"+id;
+      $(form).submit();
     });
 
     // Removes dots, used in time

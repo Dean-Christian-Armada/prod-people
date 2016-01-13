@@ -34,49 +34,128 @@
 
 <body class="crewing-profile">
   <div id="wrapper">
-    <div id="header">
+    {% include 'nav.html' %}
+    <!-- <div id="header">
       <div class="container profile-container">
         <h1><strong>Applicant's Profile</strong></h1>
         <h4>Your Applicant Information Guide</h4>
         <div class="pull-left"><img src="{% static 'img/mascot-mariners-profile.png' %}" width="120" height="200"></div>
-      </div><!---End of Container-->
-    </div><!--End of Header-->
+      </div> --><!---End of Container-->
+    <!-- </div> --><!--End of Header-->
+  </div>
   <div id="page-wrapper">
-    <div class="container-fluid">
-      <div class="col-lg-8 col-lg-offset-1">
+    <div class="container-fluid main profile-main">
+      <div class="col-lg-2">
+        <div class="sidebar right-sidebar scrollspy-sidebar">
+          <div class="text-center">
+            <img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}" class="profile-picture">
+          </div>
+          <div class="col-centered input-group">
+            <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Form</strong></a>
+            <a href="{% url 'pdf_sea_services' id=application_form.user.id %}" class="btn btn-msmi form-control margin-left-negator" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Sea Service</strong></a>
+           <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
+          </div><!--End of Input Group-->
 
-        <!-- Application Status
-        ==========================================-->
-        <div class="panel panel-blue" style="margin-top: 20px;">
-          <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>Application Status</strong></div>
-          <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-md-12"><h1 class="text-center"><b>{{application_form.status.list_name|upper}}</b></h1></div>
-              </div>
-            </div><!--End of Panel Body-->
-          </div><!--End of Collapse-->
-        </div><!--End of Panel Primary--> 
+          <ul class="nav sidenav profile-sidebar">
+            <li>
+              <a href="#step1">Personal Data</a>
+            </li>
+            <li>
+              <a href="#step2">Seaferer's Seagoing History</a>
+            </li>
+            <li>
+              <a href="#step4">Educational Information</a>
+            </li>
+            <li>
+              <a href="#step8">Licenses and National Certificates</a>
+            </li>
+            <li>
+              <a href="#step9">Flag Documents</a>
+            </li>
+            <li>
+              <a href="#step10">Emergency Details</a>
+            </li>
+            <li>
+              <a href="#step11">Trainings / Other Certificates</a>
+            </li>
+            <li>
+              <a href="#step15">How did you learn about Manship?</a>
+            </li>
+            <li>
+              <a href="#step23">Background Information</a>
+            </li>
+            <li>
+              <a href="#step22">Essay</a>
+            </li>
+            <li>
+              <a href="#step13">Reference</a>
+            </li>
+            <li>
+              <a href="#step14">Signature</a>
+            </li>
+            <li>
+              <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
+            </li>
+          </ul>
+        </div><!--End of Sidebar--> 
+      </div><!--End of Col-3-->
+      <div class="col-lg-10">
+      <div class="panel-heading title-header"><h1><strong>Applicant's Profile</strong> <span class="small">Your Applicant Information Guide</h1></div>
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="input-group">
+            <span class="input-group-addon input-label">Full Name:</span>
+            <strong><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}"></strong>
+          </div><!--End of Input Group-->
+        </div><!--End of Col 4-->
+        <div class="col-lg-3">
+          <div class="input-group">
+            <span class="input-group-addon input-label">Position Applied:</span>
+            <strong><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"></strong>
+          </div><!--End of Input Group-->
+        </div><!--End of Col 4-->
+        <div class="col-lg-3">
+          <div class="input-group">
+            <span class="input-group-addon input-label">Application Date:</span>
+            <strong><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.application_date }}"></strong>
+          </div><!--End of Input Group-->
+        </div><!--End of Col 4-->
+      </div>
+      <!-- Application Status
+      ==========================================-->
+      <div class="panel panel-blue">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>Application Status</strong></div>
+        <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-12"><h1 class="text-center"><b>{{application_form.status.list_name|upper}}</b></h1></div>
+            </div>
+          </div><!--End of Panel Body-->
+        </div><!--End of Collapse-->
+      </div><!--End of Panel Primary--> 
 
 
         <!-- Recruitment Manager
         ==========================================-->
-        <div class="panel panel-blue" style="margin-top: 20px;">
+        <div class="panel panel-blue">
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="" aria-expanded="false"><strong>Recruitment Manager</strong></div>
           <div id="" class="panel-collapse collapse-in" aria-expanded="true"> 
             <div class="panel-body">
-                <div class="row">
-                  <form method="GET" id="status">
-                    {% csrf_token %}
-                    {% if mariners_profile.status_last_modified %}
-                      <p><i>Status Last Modified</i>: <b>{{ mariners_profile.status_last_modified }}</b> </p>
-                    {% endif %}
-                    {% for statii in status.status %}
-                      <div class="col-lg-2 button-label-status btn btn-default" style="margin-left: 5px; margin-right: 5px;">
-                        {{ statii }}
-                      </div>
-                    {% endfor %}
-                  </form>
+              <div class="row">
+                <form method="GET" id="status">
+                  {% csrf_token %}
+                  {% if application_form_last_status %}
+                    <p id="application-form-status-modification">
+                      <i>Status Last Modified</i>: <b>{{ application_form_last_status.date_time }}</b>
+                      <i>Modified By:</i> <b>{{ application_form_last_status.user.code }}</b>
+                    </p>
+                  {% endif %}
+                  {% for statii in status.status %}
+                    <div class="col-lg-2 button-label-status btn btn-default" style="margin-left: 5px; margin-right: 5px;">
+                      {{ statii }}
+                    </div>
+                  {% endfor %}
+                </form>
               </div>
             </div><!--End of Panel Body-->
           </div><!--End of Collapse-->
@@ -92,9 +171,9 @@
           <div id="step1" class="panel panel-blue">
             <div class="panel-heading" data-toggle="collapse"  data-target="#detail1" aria-expanded="true"><strong><!-- PERSONAL DATA -->Personal Data</strong></div>
             <div id="detail1" class="collapse in" aria-expanded="true">              
-              <div class="panel-body">
+              <!-- <div class="panel-body"> -->
                 <div class="form-group">  
-                  <div class="row">
+                  <div class="row panel-body">
                     <div class="col-lg-4">
                       <div class="input-group">
                         <span class="input-group-addon input-label">Last Name:</span>
@@ -218,7 +297,7 @@
               </div><!--End of Row-->
 
               <p><strong>Permanent Address</strong></p>
-              <div class="row">
+              <div class="row panel-body">
                 <div class="col-lg-6 padding-right-negator">
                   <div class="input-group">
                     <span class="input-group-addon input-label">Unit / Lot / House:</span>
@@ -285,7 +364,7 @@
               </div><!--End of Row-->
 
               <p><strong>Current Address</strong></p>
-              <div class="row">
+              <div class="row panel-body">
                 <div class="col-lg-6 padding-right-negator">
                   <div class="input-group">
                     <span class="input-group-addon input-label">Unit / Lot / House:</span>
@@ -351,58 +430,60 @@
                 {% endif %}
               </div><!--End of Row-->
 
-              <p><strong>Spouse</strong></p>                        
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Civil Status:</span>
-                    <input type="text" class="form-control input-form" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ personal_data.civil_status }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 4-->
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Date of Marriage:</span>
-                    <input type="text" class="form-control input-form" placeholder="Date of Marriage" aria-describedby="basic-addon1" value="{{ spouse.married_date }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 6-->
-              </div><!--End of Row-->
+              <p><strong>Spouse</strong></p>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Civil Status:</span>
+                      <input type="text" class="form-control input-form" placeholder="Civil Status" aria-describedby="basic-addon1" value="{{ personal_data.civil_status }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 4-->
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Date of Marriage:</span>
+                      <input type="text" class="form-control input-form" placeholder="Date of Marriage" aria-describedby="basic-addon1" value="{{ spouse.married_date }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 6-->
+                </div><!--End of Row-->
 
-              <div class="row">
-                <div class="col-lg-4 col-laptop-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Maiden Last Name:</span>
-                    <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Last Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 4-->
-                <div class="col-lg-4 col-laptop-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">First Name:</span>
-                    <input type="text" class="form-control input-form" placeholder="Spouse's Maiden First Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 4-->
-                <div class="col-lg-4 col-laptop-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Maiden Middle Name:</span>
-                    <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 4-->
-             
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Birthday:</span>
-                    <input type="text" class="form-control input-form" placeholder="Spouse's Birthday" aria-describedby="basic-addon1" value="{{ spouse.birthdate }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 4-->
-                <div class="col-lg-6">
-                  <div class="input-group">
-                    <span class="input-group-addon input-label">Contact No.:</span>
-                    <input type="text" class="form-control input-form" placeholder="Spouse's Contact No." aria-describedby="basic-addon1" value="{{ spouse.spouse_contact }}">
-                  </div><!--End of Input Group-->
-                </div><!--End of Col 6-->
-              </div><!--End of Row-->
+                <div class="row">
+                  <div class="col-lg-4 col-laptop-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Maiden Last Name:</span>
+                      <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Last Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_last_name }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 4-->
+                  <div class="col-lg-4 col-laptop-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">First Name:</span>
+                      <input type="text" class="form-control input-form" placeholder="Spouse's Maiden First Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_first_name }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 4-->
+                  <div class="col-lg-4 col-laptop-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Maiden Middle Name:</span>
+                      <input type="text" class="form-control input-form" placeholder="Spouse's Maiden Middle Name" aria-describedby="basic-addon1" value="{{ spouse.spouse_middle_name }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 4-->
+               
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Birthday:</span>
+                      <input type="text" class="form-control input-form" placeholder="Spouse's Birthday" aria-describedby="basic-addon1" value="{{ spouse.birthdate }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 4-->
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <span class="input-group-addon input-label">Contact No.:</span>
+                      <input type="text" class="form-control input-form" placeholder="Spouse's Contact No." aria-describedby="basic-addon1" value="{{ spouse.spouse_contact }}">
+                    </div><!--End of Input Group-->
+                  </div><!--End of Col 6-->
+                </div><!--End of Row-->
+              </div>
               
               <p><strong>Father</strong></p>         
-              <div class="row">
+              <div class="row panel-body">
                 <div class="col-lg-4 col-laptop-6">
                   <div class="input-group">
                     <span class="input-group-addon input-label">Father's Last Name:</span>
@@ -424,7 +505,7 @@
               </div><!--End of Row-->
               
               <p><strong>Mother</strong></p>         
-                <div class="row">
+                <div class="row panel-body">
                 <div class="col-lg-4 col-laptop-6">
                   <div class="input-group">
                     <span class="input-group-addon input-label">Mother's Maiden Last Name:</span>
@@ -447,7 +528,7 @@
 
 
             </div><!--End of Form Group-->
-          </div><!--End of Panel Body-->
+          <!-- </div> --><!--End of Panel Body-->
         </div><!--End of Collapse-->
       </div><!--End of Panel Primary-->
                 
@@ -517,9 +598,9 @@
           <div id="detail4" class="panel-collapse collapse in" aria-expanded="false">             
             <div class="panel-body">
               <div class="form-group">
-                <p><strong>College</strong></p>                
+                <p><b>College</b></p>                
                 {% for colleges in college %}
-                  <div class="row">
+                  <div class="row panel-body">
                     <div class="col-lg-5 col-laptop-12">
                       <div class="input-group">
                         <span class="input-group-addon input-label">College:</span>
@@ -547,8 +628,8 @@
                   </div><!--End of Row--> 
                 {% endfor %}
                 
-                <p><strong>Vocational</strong></p>                            
-                <div class="row vocational-row">
+                <p><b>Vocational</b></p>                            
+                <div class="row vocational-row panel-body">
                   <div class="col-lg-8 col-laptop-5">
                     <div class="input-group">
                       <span class="input-group-addon input-label">Vocational:</span>
@@ -571,8 +652,8 @@
                   </div><!--End of Col 3-->
                 </div><!--End of Row--> 
                 
-                <p><strong>Highschool</strong></p>                            
-                <div class="row">
+                <p><b>Highschool</b></p>                            
+                <div class="row panel-body">
                   <div class="col-lg-8 col-laptop-5">
                     <div class="input-group">
                       <span class="input-group-addon input-label">Highschool:</span>
@@ -593,7 +674,7 @@
                   </div><!--End of Col 3-->
                 </div><!--End of Row-->
                 
-                <p><strong>Elementary</strong></p>
+                <p><b>Elementary</b></p>
                 <div class="row primary-row">
                   <div class="col-lg-8 col-laptop-5">
                     <div class="input-group">
@@ -622,7 +703,7 @@
                 
         <!--Licenses National Certificate
         =========================================-->   
-        <div id="step8" class="panel panel-blue" style="margin-top: 10px;">
+        <div id="step8" class="panel panel-blue" >
           <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#detail8"  aria-expanded="false"><strong><!-- LICENSES AND NATIONAL CERTIFICATES -->Licenses and National Certificates</strong></div>  
           <div id="detail8" class="panel-collapse collapse" aria-expanded="false">             
             <div class="panel-body">  
@@ -795,7 +876,7 @@
           <div class="panel-body">
             <div class="form-group">  
               {% for emergencies in emergency_contact %}                 
-              <p><strong><!-- {{ emergencies|upper }} (<i>{{ emergencies.relationship }}</i>) -->Emergency # {{ forloop.counter }}</strong></p>
+              <p><b><!-- {{ emergencies|upper }} (<i>{{ emergencies.relationship }}</i>) -->Emergency # {{ forloop.counter }}</b></p>
               <div class="row">
                 <div class="col-lg-4">
                   <div class="input-group">
@@ -1090,7 +1171,7 @@
             {{ reference_forms.id }}
             {{ reference_forms.user }}
             <div class="panel-body "> 
-              <p><strong>Verifier # {{forloop.counter}}</strong></p>
+              <p><b>Verifier # {{forloop.counter}}</b></p>
               <div class="verifier-section">
                 <div class="row">
                   <div class="col-lg-6">
@@ -1223,75 +1304,9 @@
 
     </form>
   </div><!--End of Col-9-->          
-        <div class="col-lg-3">
-          <div class="sidebar">
-            <div class="text-center"><img src="{{ MEDIA_URL }}{{ mariners_profile.picture }}"  width="215px" height="215px"></div>
-              <div class="input-group">
-              <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ user_profile.first_name }} {{ user_profile.middle_name }} {{ user_profile.last_name }}">
-            </div><!--End of Input Group-->
-            <div class="input-group">
-              <!-- <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}"> -->
-              <div class="input-group">
-                <span class="input-group-addon input-label">Position Applied:</span><input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ mariners_profile.position }}">
-              </div>
-              <div class="input-group">
-                <span class="input-group-addon input-label">Application Date:</span>
-                <input type="text" class="form-control input-form" placeholder="Name of the Seaferer" value="{{ application_form.application_date }}">
-              </div>
-            </div><!--End of Input Group-->
-            <div class="input-group">
-              <a href="{% url 'pdf_profile' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Form</strong></a>
-              <a href="{% url 'pdf_sea_services' id=application_form.user.id %}" class="btn btn-msmi form-control" target="_blank"><span class="glyphicon glyphicon-print"></span><strong> Print Sea Service</strong></a>
-             <!--  <a href="#" class="btn btn-msmi"><span class="glyphicon glyphicon-export"><strong> Export</strong></span></a> -->
-            </div><!--End of Input Group-->
-            <br />
-
-            <ul class="nav bs-docs-sidenav profile-sidebar">
-              <li>
-                <a href="#step1">Personal Data</a>
-              </li>
-              <li>
-                <a href="#step2">Seaferer's Seagoing History</a>
-              </li>
-              <li>
-                <a href="#step4">Educational Information</a>
-              </li>
-              <li>
-                <a href="#step8">Licenses and National Certificates</a>
-              </li>
-              <li>
-                <a href="#step9">Flag Documents</a>
-              </li>
-              <li>
-                <a href="#step10">Emergency Details</a>
-              </li>
-              <li>
-                <a href="#step11">Trainings / Other Certificates</a>
-              </li>
-              <li>
-                <a href="#step15">How did you learn about Manship?</a>
-              </li>
-              <li>
-                <a href="#step23">Background Information</a>
-              </li>
-              <li>
-                <a href="#step22">Essay</a>
-              </li>
-              <li>
-                <a href="#step13">Reference</a>
-              </li>
-              <li>
-                <a href="#step14">Signature</a>
-              </li>
-              <li>
-                <a class="back-to-top" href="#top"><strong>Back to top</strong></a>
-              </li>
-            </ul>
-          </div><!--End of Sidebar--> 
-        </div><!--End of Col-3-->
+        
       </div><!--End of Container-->
     </div><!--End of Page Wrapper-->
-  </div><!--End of Wrapper-->
 {% endblock %}
 {% block extra_scripts %}
   <script type="text/javascript">

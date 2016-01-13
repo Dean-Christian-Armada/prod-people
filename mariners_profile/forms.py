@@ -26,7 +26,7 @@ class MarinersChangePosition(forms.ModelForm):
 			queryset = Rank.objects.filter(department=rank.department)
 			self.fields['position'] = forms.ModelChoiceField(queryset)
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class MarinersChangePicture(forms.ModelForm):
 	class Meta:
@@ -165,7 +165,7 @@ class CollegeForm(forms.ModelForm):
 		try:
 			college.save()
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class HighSchoolForm(forms.ModelForm):
 	highschool = forms.CharField()
@@ -436,7 +436,7 @@ class EmergencyContactForm(forms.ModelForm):
 			emergency.zip = zip
 			emergency.save()
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class EvaluationForm(forms.ModelForm):
 	evaluation = forms.CharField(widget=forms.Textarea(attrs={'class':"form-control", 'placeholder':"Evaluation"}), required=False)
@@ -681,7 +681,7 @@ class FlagForm(forms.ModelForm):
 			flags = super(FlagForm, self).save(commit=False)
 			flags.save()
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class TrainingCertificateForm(forms.ModelForm):
 	place_trained = forms.CharField(widget=autocomplete_light.TextWidget('TrainingCenterAutocomplete'), required=False)
@@ -714,7 +714,7 @@ class TrainingCertificateForm(forms.ModelForm):
 			trainings_certificates.training_place_issued = training_place_issued
 			trainings_certificates.save()
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class DependentsForm(forms.ModelForm):
 	# dependent_relationship = forms.CharField(widget=autocomplete_light.TextWidget('RelationshipAutocomplete'), required=False)
@@ -797,7 +797,7 @@ class SeaServiceForm(forms.ModelForm):
 			sea_services.principal = principal
 			sea_services.save()
 		except:
-			print ("%s - %s" % (sys.exc_info()[0], sys.exc_info()[1]))
+			print ("%s - %s at line: %s" % (sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2].tb_lineno))
 
 class MarinerStatusForm(forms.ModelForm):
 	# mariner_status_comment = forms.CharField(widget=forms.Textarea(attrs={'rows':3}), required=False)

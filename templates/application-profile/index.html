@@ -6,37 +6,7 @@
 
 <body class="crewing-index">
   <div id="wrapper">
-  	<nav class="navbar navbar-fixed-top">
-  		<div class="container-fluid">
-  			<div class="navbar-header extra-margin-navbar-header">
-  				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-  							<span class="sr-only">Toggle navigation</span>
-  							<span class="icon-bar"></span>
-  							<span class="icon-bar"></span>
-  							<span class="icon-bar"></span>
-  				</button>
-          <a class="navbar-brand" href="{% url 'home' %}"><img src="/static/img/main.png" width="125" height="60"></a>          		
-        </div><!--End of Navbar Header-->
-                
-  			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  				<ul class="nav navbar-nav navbar-right extra-margin-navbar-right">
-  					<li>
-              <a href="#" class="margin-top-negator account-landing-picture-identifier"><!-- Username -->{% if user.nick_name %} {{ user.nick_name }}{% else %} {{ name }} ({{ request.user }}) {% endif %}</a>
-            </li>
-  					<li class="dropdown">
-              <a href="#" class="dropdown-toggle nav-dropdown padding-top-negator" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{% if user.picture %}{{MEDIA_URL}}{{user.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" width="50" height="50"> <span class="caret"></span></a>
-        		  <ul class="dropdown-menu navmenu ">
-  							<li><a href="#"><span class="msmi-logout"> Manage Account</span></a></li>
-  							<li><a href="#">Setting</a></li>
-  							<li role="separator" class="divider"></li>
-  							<li><a href="{% url 'logout' %}">Logout</a></li>
-    					</ul>
-  					</li>
-  			  </ul>
-    		</div><!--End of Navbar Collapse-->
-  		</div><!--End of Container Fluid-->
-  	</nav>
-
+  	{% include "nav.html" %}
     <div class="row">
     	<div class="col-sm-3 col-md-2 sidebar laptop-sidebar">
     		<div class="sidebar-search">

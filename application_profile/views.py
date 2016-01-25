@@ -277,7 +277,10 @@ def profile(request, slug):
 		mariners_profile = MarinersProfile.objects.get(user=id)
 		department = mariners_profile.position.department
 		application_form = ApplicationForm.objects.get(user=id)
-		application_form_last_status = ApplicationFormStatusLog.objects.filter(application_form=application_form)[0]
+		try:
+			application_form_last_status = ApplicationFormStatusLog.objects.filter(application_form=application_form)[0]
+		except:
+			application_form_last_status = ''
 		current_status = application_form.status
 		status_listed = Status.objects.filter(listed=True)
 		status = StatusForm(initial={'status':str(application_form.status.id)})

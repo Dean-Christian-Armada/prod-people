@@ -256,7 +256,10 @@ def profile(request, slug):
 		personal_data = PersonalData.objects.get(name=id)
 		flag_documents = FlagDocuments.objects.get(user=user_profile)
 		trainings_certificate_documents = TrainingCertificateDocuments.objects.get(user=user_profile)
-		mariners_profile_last_picture_modified_date = MarinersProfilePictureLog.objects.filter(mariners_profile=mariners_profile)[0].date_time
+		try:
+			mariners_profile_last_picture_modified_date = MarinersProfilePictureLog.objects.filter(mariners_profile=mariners_profile)[0].date_time
+		except:
+			mariners_profile_last_picture_modified_date = ''
 		visibility_parameter = "hide"
 
 		# START, variables used to prepopulate inlineformset for flags

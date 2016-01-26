@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <body>
+  <div id="mainstream">
+    <div class="container text-center error-container">
+      <h1><strong>Sorry, this page isn't available</strong></h1>
+      <h4>The link you followed may be broken or may have been removed.</h4>
+      <img src="{% static 'img/errors/icon.png' %}">
+      <p><a class="go-back">Go back to the previous page</a> <a>|</a> <a href="{% url 'home' %}">Go to the Homepage</a></p>
+    </div>
+  </div>
+{% endblock %}

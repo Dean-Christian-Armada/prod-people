@@ -40,6 +40,7 @@ def default_user_user_level():
 
 class Userlevel(models.Model):
 	userlevel = models.CharField(max_length=50, unique=True, null=True, )
+	date_created = models.DateTimeField(auto_now_add=True, )
 	def __str__(self):
 		return self.userlevel
 

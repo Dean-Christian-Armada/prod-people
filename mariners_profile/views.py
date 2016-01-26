@@ -248,7 +248,12 @@ def index(request):
 @login_required()
 def profile(request, slug):
 	if slug:
-		user_profile = UserProfile.objects.get(slug=slug)
+		try:
+			user_profile = UserProfile.objects.get(slug=slug)
+		except:
+			template = "errors/profiles.html"
+			context_dict = {'profile':'mariner', 'title':"Mariner Doesn't Exist"}
+			return render(request, template, context_dict)
 		id = user_profile.id
 		current_user = UserProfile.objects.get(user=request.user)
 		mariners_profile = MarinersProfile.objects.get(user=user_profile)

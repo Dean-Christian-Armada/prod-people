@@ -208,7 +208,12 @@ def profile(request, slug):
 		domain_url += "://"
 		domain_url += request.META['HTTP_HOST']
 
-		user_profile = UserProfile.objects.get(slug=slug)
+		try:
+			user_profile = UserProfile.objects.get(slug=slug)
+		except:
+			template = "errors/profiles.html"
+			context_dict = {'profile':'applicant', 'title':"Applicant Doesn't Exist"}
+			return render(request, template, context_dict)
 		current_user = UserProfile.objects.get(user=request.user)
 		id = user_profile.id
 		personal_data = ApplicationFormPersonalData.objects.get(name=id)

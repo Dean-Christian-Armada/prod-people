@@ -1,0 +1,32 @@
+{% load static %}
+<nav class="navbar navbar-default navbar-static-top account-landing">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="{% url 'home' %}"><img width='200' height="100" src="{% static 'img/main.png' %}"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin: 23px;">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" class="navbar-link account-landing-picture-identifier">{% if user_profile.nick_name %}{{user_profile.nick_name}}{% else %}{{ request.user }}{% endif %}</a></li>
+       
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle background-msmi-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="margin-top-landing" src="{% if user_profile.picture %}{{MEDIA_URL}}{{user_profile.picture}}{% else %}{% static 'img/user.png' %}{% endif %}" height="50px" width="50px"><span class="caret"></span></a>
+          <ul class="dropdown-menu account-landing-dropdown-menu">
+            <li><a href="">Change password</a></li>
+            <li><a href="" target="_blank">Manage Accounts</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+          </ul>
+        </li>
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

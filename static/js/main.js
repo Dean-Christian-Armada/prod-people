@@ -964,6 +964,11 @@ $(function(){
       $(form).submit();
     });
 
+    // Previous page class
+    $(".go-back").click(function(){
+      window.history.back();
+    });
+
     // Removes dots, used in time
     // dotless = $(".remove-dot").text();
     // $(".remove-dot").text(dotless.replace(/[.]/g, ''));

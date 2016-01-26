@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <body>
+  <div id="mainstream">
+    <div class="container text-center error-container">
+      <h1><strong>Sorry, {{ profile }} doesn't exist</strong></h1>
+      <img src="{% static 'img/errors/icon.png' %}">
+      <p><a class="go-back">Go back to the previous page</a> <a>|</a> <a href="{% url 'home' %}">Go to the Homepage</a></p>
+    </div>
+  </div>
+{% endblock %}

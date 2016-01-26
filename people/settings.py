@@ -41,8 +41,10 @@ SECRET_KEY = '_7ev-nc(c*@j605%5r7*mtzw)o2&refw(u7qkm72@#-rz535!w'
 # SECURITY WARNING: don't run with debug turned on in production!
 # Please take note that 'session_security' app forces this as False on the server
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['192.168.0.50' ]
 
 # Application definition
 INSTALLED_APPS = (
@@ -64,6 +66,7 @@ INSTALLED_APPS = (
     'defender',
     'import_export',
     'autocomplete_light',
+    'rest_framework',
     # 'swampdragon', # django real-time app using redis, currently not used for priority and implementation reasons
     # END third-party packages app
     # START django manage.py built apps
@@ -81,6 +84,11 @@ INSTALLED_APPS = (
     # END extra-apps
     
 )
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    # 'PAGE_SIZE': 10
+}
 
 MIDDLEWARE_CLASSES = (
     # START django built-in middlewares
@@ -153,7 +161,7 @@ USE_I18N = True
 USE_L10N = True
 
 # Set to False because of pytz conflict on django-defender package
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)

@@ -23,13 +23,17 @@ Including another URLconf
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.models import User
 from django.conf.urls import include, url
+from django.conf.urls import handler404, handler500
 from django.contrib import admin
 from django.conf import settings
 
+from . import errors
 from login.views import welcome, home, validation, user_logout
 from application_form.views import form
 
+from rest_framework import routers, serializers, viewsets
 
 urlpatterns = [
     # START Admin related URLS
@@ -55,6 +59,8 @@ urlpatterns = [
     url(r'^autocomplete/', include('autocomplete_light.urls')),
     url(r'session_security/', include('session_security.urls')),
     url(r'^report_builder/', include('report_builder.urls')),
+    url(r'^api/', include('api.urls')),
+    # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # END Third Party URLS
 
     # START Login server-side execution/redirect vews
@@ -69,3 +75,5 @@ urlpatterns = [
 # activating media urls
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = errors.error404

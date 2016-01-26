@@ -548,15 +548,12 @@ class PersonalData(AbstractPersonalData):
 	
 
 class Spouse(AbstractSpouseData):
-	
 	pass
 
 class College(AbstractCollege):
-	
 	pass
 
 class HighSchool(AbstractHighSchool):
-	
 	pass
 
 class Vocational(models.Model):
